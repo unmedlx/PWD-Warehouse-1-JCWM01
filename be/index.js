@@ -13,12 +13,8 @@ app.use(cors());
 app.use(express.json()); //body-parser
 app.use(bearerToken()); //Bearer-Token
 
-//test
-app.get("/", (req, res) => {
-  res.status(200).send("Berhasil Terhubung Ke Api Warehouse");
-});
-
 //USE ROUTER
 app.use("/users", userRouter);
 
+// Launch API
 app.listen(PORT, () => console.log("Warehouse1 Api Running on Port", PORT));
