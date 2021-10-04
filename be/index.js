@@ -2,7 +2,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors"); //give access
-const PORT = 6000;
+const PORT = 3001;
 const bearerToken = require("express-bearer-token"); //read header from frontend
 
 // USING API

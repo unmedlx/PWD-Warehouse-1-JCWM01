@@ -4,8 +4,7 @@
   box-sizing: border-box;
 }
 
-body {
-  background: #f6f5f7;
+div .body {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,8 +44,8 @@ a {
 
 button {
   border-radius: 20px;
-  border: 1px solid #ff4b2b;
-  background-color: #ff4b2b;
+  border: 1px solid #32b280;
+  background-color: #32b280;
   color: #ffffff;
   font-size: 12px;
   font-weight: bold;
@@ -70,6 +69,17 @@ button.ghost {
 }
 
 form {
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
+}
+
+.form {
   background-color: #ffffff;
   display: flex;
   align-items: center;

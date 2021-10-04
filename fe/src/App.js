@@ -9,7 +9,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 function App() {
   return (
     <BrowserRouter>
-      {/* <NavBar /> */}
+      <NavBar />
       <Switch>
         <Route component={Auth} path="/register" />
         <Route component={Verification} path="/verification/:token" />
