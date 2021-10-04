@@ -2,6 +2,7 @@ const { db } = require("../database/index"); //mysql
 const Crypto = require("crypto"); // for hashing
 //Middleware
 const { createToken } = require("../helper/createToken");
+const nodemailer = require("../helper/nodemailer");
 
 module.exports = {
   // REGISTER //
@@ -55,14 +56,41 @@ module.exports = {
           });
 
           //Send Verify Email
-          res.status(200).send({
-            nama: `Hello ${username}`,
-            messege: "Registration success",
-            success: true,
-            TokenMu: Token,
+          let mail = {
+            from: `Admin <ayyasluthfi@gmail.com>`,
+            to: `${email}`,
+            subject: `Acount Verification`,
+            html: `<a href="http://localhost:6000/verification/${Token}"> Hello ${username}, Click here to verify your account</a>`,
+          };
+          nodemailer.sendMail(mail, (errMail, restMail) => {
+            if (errMail) {
+              console.log(errMail);
+              res.status(500).send({
+                messege: "Registration failed",
+                success: false,
+              });
+            }
+            res.status(200).send({
+              messege: "Registration success, check your email",
+              success: true,
+            });
           });
         });
       }
+    });
+  },
+
+  // VERIFICATION //
+  verification: (req, res) => {
+    console.log(req.user);
+    //update isverified: 1
+    let verifyQuery = `UPDATE users SET isVerified = 1 WHERE idUser = ${req.user.idUser};`;
+    db.query(verifyQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send({ messege: "acount unverified", success: false });
+      }
+      res.status(200).send({ messege: "acount verified", success: true });
     });
   },
 };
