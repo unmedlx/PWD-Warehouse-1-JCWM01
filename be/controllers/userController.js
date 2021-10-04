@@ -60,7 +60,7 @@ module.exports = {
             from: `Admin <ayyasluthfi@gmail.com>`,
             to: `${email}`,
             subject: `Acount Verification`,
-            html: `<a href="http://localhost:6000/verification/${Token}"> Hello ${username}, Click here to verify your account</a>`,
+            html: `<a href="http://localhost:3000/verification/${Token}"> Hello ${username}, Click here to verify your account</a>`,
           };
           nodemailer.sendMail(mail, (errMail, restMail) => {
             if (errMail) {
