@@ -7,6 +7,9 @@ const app = express()
 
 app.use(cors())
 app.use(express.json())
+//Mengakses file picture dari backend public
+//http://localhost:3001/images/IMG1633323280976.png
+app.use(express.static("public"))
 
 const { userRouter, uploaderRouter } = require('./routers/index')
 

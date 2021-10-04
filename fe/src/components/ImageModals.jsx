@@ -2,6 +2,7 @@ import { Modal, Button } from 'react-bootstrap'
 import Axios from 'axios'
 
 import React, { useEffect, useState } from 'react'
+import { API_URL } from '../helper'
 
 const ImageModals = ({ show, handleClose }) => {
     const [file, setFile] = useState()
@@ -22,7 +23,7 @@ const ImageModals = ({ show, handleClose }) => {
         data.append("file", file[0])
         console.log(data);
 
-        Axios.patch("http://localhost:3001/profile/upload", data)
+        Axios.patch(`${API_URL}/profile/upload`, data)
             .then(res => {
                 console.log(res);
                 handleClose()
@@ -58,6 +59,7 @@ const ImageModals = ({ show, handleClose }) => {
                 </Modal.Header>
                 <Modal.Body>
                     <img id="imgpreview" width="100%" />
+                    {/* <img src={"http://localhost:3001/images/IMG1633323280976.png"} /> */}
                     <form action="">
                         <label htmlFor="file">File</label>
                         <input type="file" id="file" onChange={event => {
