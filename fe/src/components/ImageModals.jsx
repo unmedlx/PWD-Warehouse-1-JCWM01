@@ -55,7 +55,7 @@ const ImageModals = ({ show, handleClose }) => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
+                    <Modal.Title>Choose Your Profile Picture</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <img id="imgpreview" width="100%" />
@@ -69,7 +69,7 @@ const ImageModals = ({ show, handleClose }) => {
                             preview.src = URL.createObjectURL(file[0])
                         }} />
                     </form>
-                    <button onClick={send}>Send</button>
+                    <button className="btn btn-warning mt-2" onClick={send}>Send</button>
 
                 </Modal.Body>
 
