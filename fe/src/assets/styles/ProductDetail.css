@@ -1,10 +1,12 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 * {
   box-sizing: border-box;
 }
 
 body {
   background: #f7f7f7;
-  font-family: "Raleway";
+  font-family: "Montserrat", sans-serif;
 }
 body .card {
   width: 1200px;

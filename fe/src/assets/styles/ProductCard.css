@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 body,
 html {
   height: 100%;
@@ -175,14 +177,14 @@ body {
 }
 
 .info-inner .p-name {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 18px;
   color: #252525;
   text-decoration: none;
 }
 
 .info-inner .p-company {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 12px;
   text-transform: uppercase;
   color: #8c8c8c;
@@ -202,7 +204,7 @@ body {
   position: absolute;
   width: 100%;
   bottom: -20px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #828282;
   opacity: 0;
 }
@@ -218,7 +220,7 @@ body {
   height: 100%;
   top: 0;
   left: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-weight: 700;
 }
 
