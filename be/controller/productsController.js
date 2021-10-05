@@ -15,7 +15,7 @@ module.exports = {
     let previousPage
 
     let scriptQuery = `SELECT * FROM db_warehouse1.products;`
-
+    console.log(page)
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
         res.status(500).send({
@@ -44,7 +44,10 @@ module.exports = {
         }
       })
 
-      if (endIndex < filteredResults.length) {
+      let productsCount = filteredResults.length
+      let maxPage = Math.ceil(productsCount / limit)
+
+      if (endIndex < productsCount) {
         nextPage = page + 1
       }
       if (startIndex > 0) {
@@ -85,6 +88,8 @@ module.exports = {
         data: paginatedResults,
         next_page: nextPage,
         previous_page: previousPage,
+        products_count: productsCount,
+        max_page: maxPage,
       })
     })
   },

@@ -2,7 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const bodyParser = require("body-parser")
 const { productsRouter } = require("./router")
-const PORT = 8000
+const PORT = 3001
 
 const app = express()
 app.use(express.json())
