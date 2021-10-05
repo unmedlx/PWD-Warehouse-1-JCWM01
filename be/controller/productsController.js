@@ -14,7 +14,7 @@ module.exports = {
     let nextPage
     let previousPage
 
-    let scriptQuery = `SELECT * FROM db_warehouse1.products;`
+    let scriptQuery = `SELECT idProduct, productName, price, productImage, description, category FROM products p JOIN categories c on p.idCategory = c.idCategory;`
     console.log(page)
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
@@ -95,7 +95,7 @@ module.exports = {
   },
 
   getDataById: (req, res) => {
-    let scriptQuery = `SELECT * FROM db_warehouse1.products WHERE idProduct = ${db.escape(
+    let scriptQuery = `SELECT idProduct, productName, price, productImage, description, category FROM products p JOIN categories c on p.idCategory = c.idCategory WHERE idProduct = ${db.escape(
       req.params.idProduct
     )};`
 

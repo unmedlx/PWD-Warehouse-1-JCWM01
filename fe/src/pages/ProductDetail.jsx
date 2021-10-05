@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 
 import axios from "axios"
 import { API_URL } from "../constants/API"
 import "bootstrap/dist/css/bootstrap.css"
+import "../assets/styles/ProductDetail.css"
 
 export default function ProductDetail(props) {
   const [productDetail, setProductDetail] = useState([])
@@ -45,45 +47,64 @@ export default function ProductDetail(props) {
   }
 
   return (
-    <div className="container">
+    <div
+      style={{ height: 650 }}
+      className="container d-flex justify-content-center align-items-center"
+    >
       {additionalInfo.productNotFound ? (
-        <div>Product with ID {props.params.idProduct} does not exist</div>
-      ) : (
-        <div className="row mt-3">
-          <div className="col-6">
-            <img
-              style={{ width: "100%" }}
-              src={productDetail.productImage}
-              alt=""
-            />
+        <div className="d-flex flex-column align-items-center justify-content-center">
+          <div className="my-4 display-6">
+            Product with ID {props.match.params.idProduct} does not exist
           </div>
-          <div className="col-6 d-flex flex-column justify-content-center">
-            <h4>{productDetail.productName}</h4>
-            <h5>Rp. {productDetail.price}</h5>
-            <p>{productDetail.description}</p>
-            <div className="d-flex flex-row align-items-center">
-              <button
-                onClick={() => qtyButtonHandler("decrement")}
-                className="btn btn-outline-primary me-4"
-              >
-                -
-              </button>
-
-              {additionalInfo.quantity}
-
-              <button
-                onClick={() => qtyButtonHandler("increment")}
-                className="btn btn-outline-primary ms-4"
-              >
-                +
-              </button>
-            </div>
-            <button
-              onClick={addToCartHandler}
-              className="btn btn-outline-success mt-3"
-            >
-              Add to cart
+          <Link to="/product-list">
+            <button className="btn btn-success">
+              Click here to return to products list
             </button>
+          </Link>
+        </div>
+      ) : (
+        <div>
+          <div className="card d-flex flex-row justify content evenly align-items-center">
+            <div className="d-flex align-self-start justify-content-start">
+              <Link
+                style={{ textDecoration: "none", color: "#32b28080" }}
+                className="h2 mt-3 ms-4"
+                to="/product-list"
+              >
+                {"❮"}
+              </Link>
+            </div>
+            <div class="photo">
+              <img src={productDetail.productImage} alt="productImage" />
+            </div>
+            <div class="description">
+              <h2>{productDetail.productName}</h2>
+              <h4>{productDetail.category}</h4>
+              <h1>Rp. {productDetail.price}</h1>
+              <p>{productDetail.description}</p>
+
+              <div className="d-flex flex-row align-items-center">
+                <span
+                  style={{ marginTop: -30 }}
+                  className="d-flex flex-row align-items-center"
+                >
+                  <button
+                    onClick={() => qtyButtonHandler("decrement")}
+                    className="btn btn-outline-success me-4"
+                  >
+                    -
+                  </button>
+                  {additionalInfo.quantity}
+                  <button
+                    onClick={() => qtyButtonHandler("increment")}
+                    className="btn btn-outline-success ms-4"
+                  >
+                    +
+                  </button>
+                </span>
+                <button className="button-cart">Add to Cart</button>
+              </div>
+            </div>
           </div>
         </div>
       )}

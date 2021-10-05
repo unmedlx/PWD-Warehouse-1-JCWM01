@@ -48,6 +48,7 @@ export default function ProductsList() {
           productImage={val.productImage}
           description={val.description}
           idCategory={val.idCategory}
+          category={val.category}
         />
       )
     })
