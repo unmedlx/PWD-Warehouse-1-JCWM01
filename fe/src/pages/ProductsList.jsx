@@ -9,7 +9,7 @@ import ProductCard from "../components/ProductCard"
 export default function ProductsList() {
   const [products, setProducts] = useState([])
 
-  const [paging, setpPaging] = useState({
+  const [paging, setPaging] = useState({
     previousPage: 0,
     nextPage: 0,
     currentPage: 1,
@@ -23,7 +23,7 @@ export default function ProductsList() {
       .then((response) => {
         setProducts(response.data.data)
 
-        setpPaging({
+        setPaging({
           ...paging,
           nextPage: response.data.next_page || paging.nextPage,
           previousPage: response.data.previous_page || paging.previousPage,
@@ -59,13 +59,13 @@ export default function ProductsList() {
   }, [paging.currentPage])
 
   const nextPageHandler = () => {
-    setpPaging({
+    setPaging({
       currentPage: paging.currentPage + 1,
     })
   }
 
   const prevPageHandler = () => {
-    setpPaging({
+    setPaging({
       currentPage: paging.currentPage - 1,
     })
   }

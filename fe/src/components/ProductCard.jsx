@@ -33,9 +33,6 @@ export default function ProductCard(props) {
                     {props.description}
                   </Link>
                 </div>
-                {/* <div class="a-size">
-                      Available sizes : <span class="size">S , M , L , XL</span>
-                    </div> */}
               </div>
             </div>
 
