@@ -1,15 +1,36 @@
-import React, { useState } from 'react'
+import axios from 'axios';
+import React, { useState, useEffect } from 'react'
 
 
 import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
+import ProfileAddress from '../components/ProfileAddress';
+import ProfileData from '../components/ProfileData';
+import ProfileNavbar from '../components/ProfileNavbar';
+import { API_URL } from '../helper';
 
 
 const Profile = () => {
     const [show, setShow] = useState(false);
+    const [profileNav, setProfileNav] = useState(1)
+
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const fetchDataUser = () => {
+        axios.get(`${API_URL}/users/1`)
+            .then(res => {
+                console.log(res.data[0]);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        fetchDataUser() //data sama alamat
+    }, [])
 
     return (
         <>
@@ -29,40 +50,20 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-main">
-                        <div className="profile-tab">
-                            <div><p>PROFILE</p></div>
-                            <div><p>HISTORY</p></div>
-                            <div><p>ADDRESS</p></div>
-                            <div><p>TRANSACTION</p></div>
-                        </div>
-
+                        <ProfileNavbar profileNav={profileNav} setProfileNav={setProfileNav} />
                         <div className="profile-main-detail">
                             <h1><strong>Hello, Nadhif Rafifaiz</strong></h1>
                             <h6><strong>nadhifrafifaiz@gmail.com</strong></h6>
                             <hr />
-                            <p><strong>Biodata Diri</strong></p>
-                            <div className="profile-main-data">
-                                <div className="input-container">
-                                    <input type="text" className="input-field" placeholder="Username" value={"nadhif_rafifaiz"} disabled />
-                                </div>
-                                <div className="input-container">
-                                    <input type="text" className="input-field" placeholder="Date of Birth" />
-                                </div>
-                                <div className="input-container">
-                                    <input type="text" className="input-field" placeholder="Email" />
-                                </div>
-                                <div className="input-container">
-                                    <input type="text" className="input-field" placeholder="Gender" />
-                                </div>
-                                <div className="input-container">
-                                    <input type="text" className="input-field" placeholder="Fullname" />
-                                </div>
-                            </div>
-
-                            <button className="btn btn-warning">Edit Data</button>
-
-
-
+                            {profileNav == 1 ?
+                                <ProfileData />
+                                : profileNav == 2 ?
+                                    <>
+                                        <ProfileAddress />
+                                        <ProfileData />
+                                    </>
+                                    : null
+                            }
 
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 .container{
     box-sizing: border-box;
+    margin-bottom: 20vh;
 }
 
 .profile-tab{
@@ -12,12 +13,21 @@
     /* margin: 0 0 0 10px; */
 }
 
-.profile-tab p{
-    margin:0 20px 0 0
+.profile-tab a{
+    margin:0 20px 0 0;
 }
+
+.profile-tab a:hover{
+    cursor:pointer
+}
+
+
+
+
 
 .profile-container{
     display: flex;
+    align-items: flex-start;
 }
 
 .profile-sidebar{

@@ -13,6 +13,18 @@ module.exports = {
             if (err) res.status(500).send({ message: "Gagal mengambil data di database", success: false, err })
             res.status(200).send(results)
         })
+    },
+
+    getUser: (req, res) => {
+        let idUser = req.params.id
+
+        // res.status(200).send(req.body)
+        let scriptQuery = `SELECT * FROM users WHERE idUser=${db.escape(idUser)}`
+        db.query(scriptQuery, (err, results) => {
+            // err = true
+            if (err) res.status(500).send({ message: "Gagal mengambil data di database", success: false, err })
+            res.status(200).send(results)
+        })
     }
 
 }
