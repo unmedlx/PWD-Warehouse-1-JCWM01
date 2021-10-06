@@ -1,8 +1,9 @@
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import Axios from 'axios'
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { API_URL } from '../helper';
 
 
 
@@ -22,15 +23,32 @@ const ProfileData = () => {
 
     const profileDataValidationSchema = Yup.object().shape({
         username: Yup.string().required("Username is required"),
-        dateOfBirth: Yup.string().required("Date of birth is required"),
+        // dateOfBirth: Yup.string().required("Date of birth is required"),
         email: Yup.string().email("Email must be a valid email").required("Email is required"),
         gender: Yup.number(),
         fullName: Yup.string().required("Full name is required")
     })
 
+    //Mauskkan data ke database
     const onSubmit = (data) => {
-        //PATCH ke database
         console.log(data);
+        const userLocalStorage = localStorage.getItem("token_shutter")
+        axios.patch(`${API_URL}/users/tes`,
+            data,
+            {
+                headers: {
+                    authorization: `Bearer ${userLocalStorage}`,
+                }
+            }
+
+        )
+            .then((res) => {
+                console.log(res);
+                alert("Berhasil Update Data")
+            })
+            .catch((err) => {
+                console.log(err);
+            })
     }
 
     return (

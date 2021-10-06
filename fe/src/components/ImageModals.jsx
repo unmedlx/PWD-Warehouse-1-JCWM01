@@ -5,8 +5,11 @@ import '../assets/styles/ImageModals.css'
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../helper'
 
-const ImageModals = ({ show, handleClose }) => {
+
+
+const ImageModals = ({ show, handleClose, userImage }) => {
     const [file, setFile] = useState()
+
 
 
     const send = event => {
@@ -14,6 +17,7 @@ const ImageModals = ({ show, handleClose }) => {
         if (file[0].size > 5000000) {
             return alert("Photo must be under 5MB")
         }
+
         //membuat data form
         const data = new FormData()
 
@@ -27,36 +31,22 @@ const ImageModals = ({ show, handleClose }) => {
         data.append("data", JSON.stringify(obj))
         data.append("file", file[0])
 
-        // Axios.patch(`${API_URL}/profile/upload`, data)
-        //     .then(res => {
-        //         console.log(res);
-        //         handleClose()
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
+        Axios.patch(`${API_URL}/profile/upload`, data)
+            .then(res => {
+                console.log(res);
+                handleClose()
+            })
+            .catch(err => {
+                console.log(err);
+            })
 
-        // Axios.patch("http://localhost:3001/profile/upload", data, {
-        //     headers: {
-        //         'Authorization': `Bearer wadidaw`
-        //     }
-        // })
-        //     .then(res => {
-        //         console.log(res);
-        //         handleClose()
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
+
 
     }
 
 
-
-
     return (
         <>
-
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Choose Your Profile Picture</Modal.Title>
@@ -64,7 +54,7 @@ const ImageModals = ({ show, handleClose }) => {
                 <Modal.Body>
                     <div className="image-modals-container">
                         <div className="image-modals-preview-container">
-                            <img id="imgpreview" src={"http://localhost:3001/images/profile-default.png"} width="50%" />
+                            <img id="imgpreview" src={"http://localhost:3001/" + userImage} width="50%" />
                         </div>
                         <form action="">
                             <input type="file" id="file" onChange={event => {

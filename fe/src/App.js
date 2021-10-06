@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
-  const { idUser } = userGlobal;
+  const { idUser, isUpload } = userGlobal;
   const dispatch = useDispatch()
   const [idUserActive, setIdUserActive] = useState(idUser)
 
@@ -44,7 +44,7 @@ function App() {
           console.log(err);
         });
     };
-  }, [])
+  }, [isUpload])
 
 
   return (
