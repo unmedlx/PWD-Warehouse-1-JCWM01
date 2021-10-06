@@ -7,49 +7,51 @@ import Axios from 'axios'
 
 const ProfileData = () => {
 
-    const initialValues = {
+    const profileDataInitialValues = {
+        //diisi dari redux
         username: "",
         dateOfBirth: "",
         email: "",
         gender: 3,
         fullName: ""
     }
-    const validationScheme = Yup.object().shape({
-        username: Yup.string(),
-        dateOfBirth: Yup.string().required(),
-        email: Yup.string().min(3).required(),
-        gender: Yup.string(),
-        fullName: Yup.string().required()
+    const profileDataValidationSchema = Yup.object().shape({
+        username: Yup.string().required("Username is required"),
+        dateOfBirth: Yup.string().required("Date of birth is required"),
+        email: Yup.string().email("Email must be a valid email").required("Email is required"),
+        gender: Yup.number(),
+        fullName: Yup.string().required("Full name is required")
     })
 
     const onSubmit = (data) => {
+        //PATCH ke database
         console.log(data);
     }
 
     return (
         <>
             <p><strong>Biodata Diri</strong></p>
-            <Formik initialValues={initialValues}
+            <Formik initialValues={profileDataInitialValues}
                 onSubmit={onSubmit}
-                validationSchema={validationScheme}
+                validationSchema={profileDataValidationSchema}
             >
                 <Form>
                     <div className="profile-main-data">
 
                         <div className="input-container">
-                            <ErrorMessage name="username" component="span" />
+                            <ErrorMessage name="username" component="span" className="error-message" />
                             <Field type="text" autocomplete="off" className="input-field" name="username" placeholder="Username" disabled />
                         </div>
                         <div className="input-container">
-                            <ErrorMessage name="dateOfBirth" component="span" />
+                            <ErrorMessage name="dateOfBirth" component="span" className="error-message" />
                             <Field type="date" autocomplete="off" className="input-field" name="dateOfBirth" placeholder="Date of Birth" />
                         </div>
                         <div className="input-container">
-                            <ErrorMessage name="email" component="span" />
+                            <ErrorMessage name="email" component="span" className="error-message" />
                             <Field type="text" autocomplete="off" className="input-field" name="email" placeholder="Email" />
                         </div>
                         <div className="input-container">
-                            <ErrorMessage name="gender" component="span" />
+                            <ErrorMessage name="gender" component="span" className="error-message" />
                             <Field as="select" autocomplete="off" className="input-field" name="gender" placeholder="Gender">
                                 <option value="1">Male</option>
                                 <option value="2" selected>Female</option>
@@ -57,7 +59,7 @@ const ProfileData = () => {
                             </Field>
                         </div>
                         <div className="input-container">
-                            <ErrorMessage name="fullName" component="span" />
+                            <ErrorMessage name="fullName" component="span" className="error-message" />
                             <Field type="text" autocomplete="off" className="input-field" name="fullName" placeholder="Fullname" />
                         </div>
                     </div>
