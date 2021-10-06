@@ -6,16 +6,20 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { API_URL } from '../helper'
 
+
+
 const ImageModals = ({ show, handleClose, userImage }) => {
     const [file, setFile] = useState()
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
 
 
+
     const send = event => {
         if (file[0].size > 5000000) {
             return alert("Photo must be under 5MB")
         }
+
         //membuat data form
         const data = new FormData()
 
@@ -41,6 +45,7 @@ const ImageModals = ({ show, handleClose, userImage }) => {
             }
 
         )
+        Axios.patch(`${API_URL}/profile/upload`, data)
             .then(res => {
                 console.log(res);
                 handleClose()
@@ -51,14 +56,13 @@ const ImageModals = ({ show, handleClose, userImage }) => {
 
 
 
+
+
     }
-
-
 
 
     return (
         <>
-
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Choose Your Profile Picture</Modal.Title>

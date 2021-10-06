@@ -13,12 +13,15 @@ import { API_URL } from '../helper';
 
 const Profile = () => {
     const userGlobal = useSelector((state) => state.users);
-    const { idUser, fullName, username, email, password, userImage, idRole, gender, dateOfBirth } = userGlobal
+    const { idUser, fullName, username, email, password, userImage } = userGlobal
     const [show, setShow] = useState(false);
     const [profileNav, setProfileNav] = useState(1)
+    const reload = () => window.location.reload();
 
-
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        setShow(false);
+        reload()
+    }
     const handleShow = () => setShow(true);
 
     const fetchDataUser = () => {
