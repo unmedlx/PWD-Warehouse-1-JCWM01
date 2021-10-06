@@ -32,6 +32,13 @@ module.exports = {
         console.log(err);
         res.status(500).send(err);
       }
+      //Check Register Data
+      if (results.length === 0) {
+        res
+          .status(200)
+          .send({ messege: "Data Form Not Complete", success: false });
+        return;
+      }
       //If Inject Data Success//
       if (results) {
         //get user data
@@ -97,7 +104,7 @@ module.exports = {
     req.body.password = Crypto.createHmac("sha1", "hash123")
       .update(req.body.password)
       .digest("hex");
-    //query
+    //QUERY USER DATA
     let loginQuery = `SELECT * FROM users WHERE email=${db.escape(
       req.body.email
     )} AND password =${db.escape(req.body.password)} ;`;
@@ -105,6 +112,13 @@ module.exports = {
     db.query(loginQuery, (err, results) => {
       //if error
       if (err) res.status(500).send(err);
+      //Check USER Data
+      if (results.length === 0) {
+        res
+          .status(200)
+          .send({ messege: "Account Is Not Registered", success: false });
+        return;
+      }
       //if not error create token n check status
       if (results[0]) {
         //user data
@@ -119,7 +133,7 @@ module.exports = {
         } = results[0];
         //check verified
         if (isVerified != 1) {
-          res
+          return res
             .status(200)
             .send({ messege: "account not verified", success: false });
         } else {
@@ -133,7 +147,7 @@ module.exports = {
             idRole,
             isVerified,
           });
-          res.status(200).send({
+          return res.status(200).send({
             messege: "Login Success",
             success: true,
             token: Token,

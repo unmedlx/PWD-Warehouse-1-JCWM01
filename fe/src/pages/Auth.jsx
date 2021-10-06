@@ -1,169 +1,218 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
 import { URL_API } from "../helper";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 
 function Auth() {
+  // State //
   const [state, setState] = useState({
-    btnClick: "",
+    btnClick: "signIn",
+    redirect: false,
+  });
+
+  // Redux //
+  const dispatch = useDispatch();
+
+  // FORMIK REGISTER //
+  const registerInitialValues = {
     fullName: "",
     username: "",
     email: "",
     password: "",
-    loginEmail: "",
-    loginPassword: "",
+  };
+  const registerValidationSchema = Yup.object().shape({
+    fullName: Yup.string().required(),
+    username: Yup.string().required(),
+    email: Yup.string().email("Format Email Salah").min(3).required(),
+    password: Yup.string().min(3).required(),
   });
 
+  // FORMIK LOGIN //
+  const loginInitialValues = {
+    email: "",
+    password: "",
+  };
+  const loginValidationSchema = Yup.object().shape({
+    email: Yup.string().email("Format Email Salah").min(3).required(),
+    password: Yup.string().min(3).required(),
+  });
+
+  // Change Form //
   const signInPage = () => {
     setState({ btnClick: "signUp" });
     console.log(state.btnClick);
   };
-
   const signUpPage = () => {
     setState({ btnClick: null });
     console.log(state.btnClick);
   };
 
-  const handleChange = (input) => {
-    const value = input.target.value;
-    // console.log(value);
-    setState({
-      ...state,
-      [input.target.name]: value,
-    });
-  };
-
-  const register = () => {
+  // REGISTER //
+  const register = (data) => {
     //Data Register
-    let { fullName, username, email, password } = state;
-    //Check The Form
-    if (
-      fullName == undefined ||
-      username == undefined ||
-      email == undefined ||
-      password == undefined
-    ) {
-      alert("Fill in all the form");
-      return;
-    } else {
-      //Execute register
-      axios
-        .post(URL_API + "/users/register", {
-          fullName,
-          username,
-          email,
-          password,
-        })
-        .then((res) => {
-          alert("Register success  ✔ , check your email to verify");
-        })
-        .catch((err) => console.log(err));
-    }
+    let { fullName, username, email, password } = data;
+    //Execute register
+    axios
+      .post(URL_API + "/users/register", {
+        fullName,
+        username,
+        email,
+        password,
+      })
+      .then((res) => {
+        alert("Register success  ✔ , check your email to verify");
+        return <Redirect to="/" />;
+      })
+      .catch((err) => console.log(err));
   };
 
-  const login = () => {
+  // LOGIN //
+  const login = (data) => {
     //Data Login
-    let { loginEmail, loginPassword } = state;
-    //Check Form
-    if (loginEmail == undefined || loginPassword == undefined) {
-      alert("Fill in all the form");
-      return;
-    } else {
-      //Execute Login
-      axios
-        .post(URL_API + `/users/login`, {
-          email: loginEmail,
-          password: loginPassword,
-        })
-        .then((res) => {
+    let { email, password } = data;
+    //Execute Login
+    console.log("axios jalan");
+    axios
+      .post(URL_API + `/users/login`, {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        // console.log(res);
+        if (res.data.success) {
+          delete res.data.dataLogin.password;
           localStorage.setItem("token_shutter", res.data.token);
+          dispatch({
+            type: "USER_LOGIN",
+            payload: res.data.dataLogin,
+          });
           alert("Login Success ✔");
-          setState({ ...state, loginEmail: "", loginPassword: "" });
-        })
-        .catch((err) => console.log(err));
-    }
+          setState({ redirect: true });
+        } else {
+          alert(res.data.messege);
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
+  // REDIRECT //
+  if (state.redirect) {
+    return <Redirect to="/" />;
+  }
+
+  // RENDER //
   return (
+    /* Change Form */
     <div
-      className={`container ${state.btnClick ? "" : "right-panel-active"}`}
+      className={`container body ${state.btnClick ? "" : "right-panel-active"}`}
       id="container"
     >
-      <div className="form-container sign-up-container">
-        <div className="form">
-          <h1>Create Account</h1>
-          <span>Enter your personal details and start journey with us</span>
-          <input
-            name="fullName"
-            value={state.fullName}
-            onChange={handleChange}
-            type="text"
-            placeholder="Name"
-          />
-          <input
-            name="username"
-            value={state.username}
-            onChange={handleChange}
-            type="text"
-            placeholder="Username"
-          />
-          <input
-            name="email"
-            value={state.email}
-            onChange={handleChange}
-            type="email"
-            placeholder="Email"
-          />
-          <input
-            name="password"
-            value={state.password}
-            onChange={handleChange}
-            type="password"
-            placeholder="Password"
-          />
-          <button onClick={register}>Sign Up</button>
+      {/* SIGN UP FORM */}
+      <Formik
+        initialValues={registerInitialValues}
+        onSubmit={register}
+        validationSchema={registerValidationSchema}
+      >
+        <div className="form-container sign-up-container">
+          <Form className="form">
+            <h1 className="h1">Create Account</h1>
+            <span className="span">
+              Enter your personal details and start journey with us
+            </span>
+            <ErrorMessage name="fullName" component="span" className="error" />
+            <Field
+              name="fullName"
+              type="text"
+              placeholder="Name"
+              autoComplete="off"
+            />
+            <ErrorMessage name="username" component="span" className="error" />
+            <Field
+              name="username"
+              type="text"
+              placeholder="Username"
+              autoComplete="off"
+            />
+            <ErrorMessage name="email" component="span" className="error" />
+            <Field
+              name="email"
+              type="email"
+              placeholder="Email"
+              autoComplete="off"
+            />
+            <ErrorMessage name="password" component="span" className="error" />
+            <Field
+              name="password"
+              type="password"
+              placeholder="Password"
+              autoComplete="off"
+            />
+            <button className="button" type="submit">
+              Sign Up
+            </button>
+          </Form>
         </div>
-      </div>
+      </Formik>
 
-      <div className="form-container sign-in-container">
-        <div className="form">
-          <h1>Sign in</h1>
-          <span>login with your account info</span>
-          <input
-            name="loginEmail"
-            value={state.loginEmail}
-            onChange={handleChange}
-            type="email"
-            placeholder="Email"
-          />
-          <input
-            name="loginPassword"
-            value={state.loginPassword}
-            onChange={handleChange}
-            type="password"
-            placeholder="Password"
-          />
-          <a href="#">Forgot your password?</a>
-          <button onClick={login}>Sign In</button>
+      {/* SIGN IN FORM */}
+      <Formik
+        initialValues={loginInitialValues}
+        onSubmit={login}
+        validationSchema={loginValidationSchema}
+      >
+        <div className="form-container sign-in-container">
+          <Form className="form">
+            <h1 className="h1">Sign in</h1>
+            <span className="span">login with your account info</span>
+            <ErrorMessage name="email" component="span" className="error" />
+            <Field
+              name="email"
+              type="email"
+              placeholder="Email"
+              autoComplete="off"
+            />
+            <ErrorMessage name="password" component="span" className="error" />
+            <Field
+              name="password"
+              type="password"
+              placeholder="Password"
+              autoComplete="off"
+            />
+            {/* FORGOT PASSWORD BTN */}
+            <a className="a" href="#">
+              Forgot your password?
+            </a>
+            {/*  */}
+            <button className="button" type="submit">
+              Sign In
+            </button>
+          </Form>
         </div>
-      </div>
+      </Formik>
 
+      {/* OVERLAY PANEL */}
       <div className="overlay-container">
         <div className="overlay">
           <div className="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>
+            <h1 className="h1">Welcome Back!</h1>
+            <p className="p">
               To keep connected with us please login with your personal info
             </p>
-            <button onClick={signInPage} className="ghost" id="signIn">
+            <button onClick={signInPage} className="ghost button" id="signIn">
               Sign In
             </button>
           </div>
 
           <div className="overlay-panel overlay-right">
-            <h1>Hello, Friend!</h1>
-            <p>Enter your personal details and start journey with us</p>
-            <button onClick={signUpPage} className="ghost" id="signUp">
+            <h1 className="h1">Hello, Friend!</h1>
+            <p className="p">
+              Enter your personal details and start journey with us
+            </p>
+            <button onClick={signUpPage} className="ghost button" id="signUp">
               Sign Up
             </button>
           </div>

@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function Verification() {
-  const [message, setMessage] = useState("Loading...");
+  const [message, setMessage] = useState(
+    "We Verify Your Account, Please Wait..."
+  );
   const [redirect, setRedirect] = useState(false);
   //Get Token From url
   const params = useParams();
@@ -23,8 +25,8 @@ function Verification() {
         }
       )
       .then((res) => {
-        setMessage("Your Account Verified ✔");
-        setTimeout(() => setMessage("redirecting to home page.."), 1500);
+        setTimeout(() => setMessage("Your Account Verified ✔"), 1500);
+        setTimeout(() => setMessage("redirecting to home page.."), 2500);
         setTimeout(() => setRedirect(true), 3000);
       })
       .catch((err) => {
@@ -41,9 +43,8 @@ function Verification() {
   }
 
   return (
-    <div className="container p-5">
+    <div className="container p-5 justify-content-center">
       <h2>{message}</h2>
-      <p>{params.token}</p>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -12,10 +12,8 @@ function Home() {
         eum nobis, ea quis.
       </p>
 
-      <Link to="/register">
-        <button className="btn btn-success">
-          Ayok Kita Login/Register dulu
-        </button>
+      <Link to="/authentication">
+        <button className="btn btn-success">Ayok Kita signUp dulu</button>
       </Link>
     </div>
   );
