@@ -1,16 +1,19 @@
-const express = require("express")
-const cors = require("cors")
-const bodyParser = require("body-parser")
-const { productsRouter } = require("./router")
-const PORT = 3001
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const { productsRouter, userRouter } = require("./router");
+const bearerToken = require("express-bearer-token");
+const PORT = 3001;
+const app = express();
 
-const app = express()
-app.use(express.json())
-app.use(cors())
-app.use(bodyParser())
+app.use(express.json());
+app.use(cors());
+app.use(bodyParser());
+app.use(bearerToken());
 
-app.use("/products", productsRouter)
+app.use("/users", userRouter);
+app.use("/products", productsRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is Listening on ${PORT}`)
-})
+  console.log(`Server is Listening on ${PORT}`);
+});
