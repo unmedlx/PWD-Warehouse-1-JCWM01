@@ -28,7 +28,7 @@ function Auth() {
     fullName: Yup.string().required(),
     username: Yup.string().required(),
     email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(3).required(),
+    password: Yup.string().min(6).required(),
   });
 
   // FORMIK LOGIN //
@@ -38,7 +38,7 @@ function Auth() {
   };
   const loginValidationSchema = Yup.object().shape({
     email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(3).required(),
+    password: Yup.string().min(6).required(),
   });
 
   // Change Form //
@@ -65,7 +65,7 @@ function Auth() {
       })
       .then((res) => {
         alert("Register success  ✔ , check your email to verify");
-        return <Redirect to="/" />;
+        setState({ redirect: true });
       })
       .catch((err) => console.log(err));
   };
