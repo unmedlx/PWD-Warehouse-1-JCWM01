@@ -11,33 +11,19 @@ export default function ProductCard(props) {
       <div class="page-inner">
         <div class="row">
           <div class="el-wrapper">
-            <div class="box-up">
-              <img
-                class="img"
-                src={props.productImage}
-                alt="productImage"
-              ></img>
+            <Link to={`/product-detail/${props.idProduct}`} class="p-name">
+              <div class="box-up">
+                <img
+                  class="img"
+                  src={props.productImage}
+                  alt="productImage"
+                ></img>
 
-              <div class="img-info">
-                <div class="info-inner">
-                  <Link
-                    to={`/product-detail/${props.idProduct}`}
-                    class="p-name"
-                  >
-                    {props.productName}
-                  </Link>
-                  <Link
-                    to={`/product-detail/${props.idProduct}`}
-                    class="p-company"
-                  >
-                    {props.description}
-                  </Link>
+                <div class="img-info">
+                  <div class="info-inner">{props.productName}</div>
                 </div>
-                {/* <div class="a-size">
-                      Available sizes : <span class="size">S , M , L , XL</span>
-                    </div> */}
               </div>
-            </div>
+            </Link>
 
             <div class="box-down">
               <div class="h-bg">
