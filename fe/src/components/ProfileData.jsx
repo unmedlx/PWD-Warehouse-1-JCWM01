@@ -2,19 +2,24 @@ import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Axios from 'axios'
+import { useSelector } from 'react-redux';
 
 
 
 const ProfileData = () => {
+    const userGlobal = useSelector((state) => state.users);
+    const { idUser, fullName, username, email, userImage, idRole, gender, dateOfBirth } = userGlobal
+
 
     const profileDataInitialValues = {
         //diisi dari redux
-        username: "",
-        dateOfBirth: "",
-        email: "",
-        gender: 3,
-        fullName: ""
+        username: username,
+        dateOfBirth: dateOfBirth,
+        email: email,
+        gender: gender,
+        fullName: fullName
     }
+
     const profileDataValidationSchema = Yup.object().shape({
         username: Yup.string().required("Username is required"),
         dateOfBirth: Yup.string().required("Date of birth is required"),
@@ -34,6 +39,7 @@ const ProfileData = () => {
             <Formik initialValues={profileDataInitialValues}
                 onSubmit={onSubmit}
                 validationSchema={profileDataValidationSchema}
+                enableReinitialize={true}
             >
                 <Form>
                     <div className="profile-main-data">

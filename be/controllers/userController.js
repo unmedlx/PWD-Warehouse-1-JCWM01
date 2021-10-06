@@ -20,9 +20,9 @@ module.exports = {
           ${db.escape(email)},
           ${db.escape(password)},
           3,
-          "profile.png",
+          "/images/profile-default.png",
           0,
-          null,
+          3,
           null 
           );
         `;
@@ -157,7 +157,17 @@ module.exports = {
       }
     });
   },
-  //EDIT DATA USER
+  //GET DATA CHECK LOGIN
+  getDataUser: (req, res) => {
+    let scriptQuery = `SELECT *  FROM users WHERE idUser=${req.user.idUser}`
+    db.query(scriptQuery, (err, results) => {
+      return res
+        .status(200)
+        .send(results);
+    })
+
+  },
+  //EDIT DATA USER PROFILE//
   editData: (req, res) => {
     let { id, fullName, username, email, gender, dateOfBirth } = req.body
 

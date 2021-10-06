@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux';
 
 
 import '../assets/styles/Profile.css'
@@ -11,6 +12,8 @@ import { API_URL } from '../helper';
 
 
 const Profile = () => {
+    const userGlobal = useSelector((state) => state.users);
+    const { idUser, fullName, username, email, password, userImage, idRole, gender, dateOfBirth } = userGlobal
     const [show, setShow] = useState(false);
     const [profileNav, setProfileNav] = useState(1)
 
@@ -19,13 +22,13 @@ const Profile = () => {
     const handleShow = () => setShow(true);
 
     const fetchDataUser = () => {
-        axios.get(`${API_URL}/users/1`)
-            .then(res => {
-                console.log(res.data[0]);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        // axios.get(`${API_URL}/users/1`)
+        //     .then(res => {
+        //         console.log(res.data[0]);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
     }
 
     useEffect(() => {
@@ -40,7 +43,7 @@ const Profile = () => {
 
                     <div className="profile-sidebar">
                         <div className="profile-picture-container">
-                            <img src="http://localhost:3001/images/IMG1633498957809.jpeg" alt="Trulli" className="profilePicture" />
+                            <img src={"http://localhost:3001/" + userImage} alt="Trulli" className="profilePicture" />
                         </div>
                         <button className="btn btn-dark mt-3" onClick={handleShow}>Change Photo Profile</button>
                         <div className="profile-photo-desc mt-3">

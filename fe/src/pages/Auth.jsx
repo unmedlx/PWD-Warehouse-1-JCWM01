@@ -86,11 +86,11 @@ function Auth() {
         if (res.data.success) {
           delete res.data.dataLogin.password;
           localStorage.setItem("token_shutter", res.data.token);
+          alert("Login Success ✔");
           dispatch({
             type: "USER_LOGIN",
             payload: res.data.dataLogin,
           });
-          alert("Login Success ✔");
           setState({ redirect: true });
         } else {
           alert(res.data.messege);

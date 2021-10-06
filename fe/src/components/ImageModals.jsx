@@ -10,6 +10,7 @@ const ImageModals = ({ show, handleClose }) => {
 
 
     const send = event => {
+        console.log(file[0].size);
         if (file[0].size > 5000000) {
             return alert("Photo must be under 5MB")
         }
@@ -26,14 +27,14 @@ const ImageModals = ({ show, handleClose }) => {
         data.append("data", JSON.stringify(obj))
         data.append("file", file[0])
 
-        Axios.patch(`${API_URL}/profile/upload`, data)
-            .then(res => {
-                console.log(res);
-                handleClose()
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        // Axios.patch(`${API_URL}/profile/upload`, data)
+        //     .then(res => {
+        //         console.log(res);
+        //         handleClose()
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
 
         // Axios.patch("http://localhost:3001/profile/upload", data, {
         //     headers: {
