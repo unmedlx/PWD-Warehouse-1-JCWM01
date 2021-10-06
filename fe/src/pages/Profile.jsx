@@ -75,7 +75,7 @@ const Profile = () => {
             </div>
 
 
-            <ImageModals show={show} handleClose={handleClose} />
+            <ImageModals show={show} handleClose={handleClose} userImage={userImage} />
 
 
 

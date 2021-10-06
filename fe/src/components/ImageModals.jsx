@@ -1,16 +1,18 @@
 import { Modal, Button } from 'react-bootstrap'
-import Axios from 'axios'
+import axios from 'axios'
 import '../assets/styles/ImageModals.css'
 
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { API_URL } from '../helper'
 
-const ImageModals = ({ show, handleClose }) => {
+const ImageModals = ({ show, handleClose, userImage }) => {
     const [file, setFile] = useState()
+    const userGlobal = useSelector((state) => state.users);
+    const { idUser } = userGlobal
 
 
     const send = event => {
-        console.log(file[0].size);
         if (file[0].size > 5000000) {
             return alert("Photo must be under 5MB")
         }
@@ -20,34 +22,34 @@ const ImageModals = ({ show, handleClose }) => {
         //ini akan ngirim token yang nantinya akan di auth
         //untuk mendapatkan idUser di backend
         let obj = {
-            idUser: 1
+            idUser: idUser
         }
+
+        const userLocalStorage = localStorage.getItem("token_shutter")
 
         //data token dan juga file photo
         data.append("data", JSON.stringify(obj))
         data.append("file", file[0])
 
-        // Axios.patch(`${API_URL}/profile/upload`, data)
-        //     .then(res => {
-        //         console.log(res);
-        //         handleClose()
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
+        console.log(data);
+        axios.patch(`http://localhost:3001/profile/${idUser}`,
+            data,
+            {
+                headers: {
+                    authorization: `Bearer ${userLocalStorage}`,
+                },
+            }
 
-        // Axios.patch("http://localhost:3001/profile/upload", data, {
-        //     headers: {
-        //         'Authorization': `Bearer wadidaw`
-        //     }
-        // })
-        //     .then(res => {
-        //         console.log(res);
-        //         handleClose()
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
+        )
+            .then(res => {
+                console.log(res);
+                handleClose()
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+
 
     }
 
@@ -64,7 +66,7 @@ const ImageModals = ({ show, handleClose }) => {
                 <Modal.Body>
                     <div className="image-modals-container">
                         <div className="image-modals-preview-container">
-                            <img id="imgpreview" src={"http://localhost:3001/images/profile-default.png"} width="50%" />
+                            <img id="imgpreview" src={"http://localhost:3001/" + userImage} width="50%" />
                         </div>
                         <form action="">
                             <input type="file" id="file" onChange={event => {

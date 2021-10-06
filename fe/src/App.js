@@ -17,12 +17,11 @@ function App() {
 
 
   useEffect(() => {
-    // console.log(idUser);
+
     setIdUserActive(idUser)
     const userLocalStorage = localStorage.getItem("token_shutter")
-    // console.log(userLocalStorage);
+
     if (userLocalStorage) {
-      console.log(idUserActive);
       axios
         .patch(
           `http://localhost:3001/users/`,
