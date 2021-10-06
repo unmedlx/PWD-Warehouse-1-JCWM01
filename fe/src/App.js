@@ -5,6 +5,7 @@ import ProductsList from "./pages/ProductsList";
 import ProductDetail from "./pages/ProductDetail";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
+import Verification from "./pages/Verification";
 
 export default function App() {
   return (
