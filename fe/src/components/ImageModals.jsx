@@ -1,5 +1,6 @@
 import { Modal, Button } from 'react-bootstrap'
 import Axios from 'axios'
+import '../assets/styles/ImageModals.css'
 
 import React, { useEffect, useState } from 'react'
 import { API_URL } from '../helper'
@@ -9,6 +10,9 @@ const ImageModals = ({ show, handleClose }) => {
 
 
     const send = event => {
+        if (file[0].size > 5000000) {
+            return alert("Photo must be under 5MB")
+        }
         //membuat data form
         const data = new FormData()
 
@@ -21,7 +25,6 @@ const ImageModals = ({ show, handleClose }) => {
         //data token dan juga file photo
         data.append("data", JSON.stringify(obj))
         data.append("file", file[0])
-        console.log(data);
 
         Axios.patch(`${API_URL}/profile/upload`, data)
             .then(res => {
@@ -58,18 +61,20 @@ const ImageModals = ({ show, handleClose }) => {
                     <Modal.Title>Choose Your Profile Picture</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <img id="imgpreview" width="100%" />
-                    {/* <img src={"http://localhost:3001/images/IMG1633323280976.png"} /> */}
-                    <form action="">
-                        <label htmlFor="file">File</label>
-                        <input type="file" id="file" onChange={event => {
-                            const file = event.target.files
-                            setFile(file)
-                            let preview = document.getElementById("imgpreview")
-                            preview.src = URL.createObjectURL(file[0])
-                        }} />
-                    </form>
-                    <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                    <div className="image-modals-container">
+                        <div className="image-modals-preview-container">
+                            <img id="imgpreview" src={"http://localhost:3001/images/profile-default.png"} width="50%" />
+                        </div>
+                        <form action="">
+                            <input type="file" id="file" onChange={event => {
+                                const file = event.target.files
+                                setFile(file)
+                                let preview = document.getElementById("imgpreview")
+                                preview.src = URL.createObjectURL(file[0])
+                            }} />
+                        </form>
+                        <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                    </div>
 
                 </Modal.Body>
 

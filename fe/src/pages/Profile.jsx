@@ -39,12 +39,12 @@ const Profile = () => {
                 <div className="profile-container">
 
                     <div className="profile-sidebar">
-                        <div className="">
-                            <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" alt="Trulli" className="profilePicture" />
+                        <div className="profile-picture-container">
+                            <img src="http://localhost:3001/images/IMG1633498957809.jpeg" alt="Trulli" className="profilePicture" />
                         </div>
                         <button className="btn btn-dark mt-3" onClick={handleShow}>Change Photo Profile</button>
                         <div className="profile-photo-desc mt-3">
-                            <p>Besar file: maksimum 10.000.000 bytes (10 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</p>
+                            <p>Besar file: maksimum 5.000.000 bytes (5 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</p>
                         </div>
                         <button className="btn btn-light mt-3">Change Password</button>
                     </div>

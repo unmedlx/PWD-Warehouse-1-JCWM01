@@ -56,9 +56,16 @@
     margin: 10px 0 0 20px;
 }
 
+.profile-picture-container{
+    width: 200px;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 20%;
+}
+
 .profilePicture{
     width: 200px;
-    border-radius: 20%;
+    /* object-fit: fill; */
 }
 
 .profile-sidebar .btn{
