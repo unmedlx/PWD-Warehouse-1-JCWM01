@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const { productsRouter, userRouter } = require("./router");
+const { productsRouter, userRouter } = require("./routers");
 const bearerToken = require("express-bearer-token");
 const PORT = 3001;
 const app = express();
