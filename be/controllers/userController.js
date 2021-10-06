@@ -86,7 +86,6 @@ module.exports = {
 
   // VERIFICATION //
   verification: (req, res) => {
-    console.log(req.user);
     //update isverified: 1
     let verifyQuery = `UPDATE users SET isVerified = 1 WHERE idUser = ${req.user.idUser};`;
     db.query(verifyQuery, (err, results) => {
