@@ -91,3 +91,12 @@ body .card .description p {
   background-color: #32b280;
   cursor: pointer;
 }
+
+.form-control:hover {
+  border-color: #32b280;
+}
+
+.form-select:hover {
+  border-color: #32b280;
+  cursor: pointer;
+}

@@ -1,55 +1,55 @@
-import React, { useState, useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Link } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import axios from "axios"
-import { API_URL } from "../constants/API"
-import "bootstrap/dist/css/bootstrap.css"
-import "../assets/styles/ProductDetail.css"
+import axios from "axios";
+import { API_URL } from "../constants/API";
+import "bootstrap/dist/css/bootstrap.css";
+import "../assets/styles/ProductDetail.css";
 
 export default function ProductDetail(props) {
-  const [productDetail, setProductDetail] = useState([])
+  const [productDetail, setProductDetail] = useState([]);
 
   const [additionalInfo, setAdditionalInfo] = useState({
     quantity: 1,
     productNotFound: false,
-  })
+  });
 
   const fetchProducts = () => {
     axios
       .get(`${API_URL}/products/${props.match.params.idProduct}`)
       .then((response) => {
         if (response.data.length) {
-          setProductDetail(response.data[0])
+          setProductDetail(response.data[0]);
         } else {
-          setAdditionalInfo({ productNotFound: true })
+          setAdditionalInfo({ productNotFound: true });
         }
       })
       .catch((err) => {
-        alert(err)
-      })
-  }
+        alert(err);
+      });
+  };
 
   useEffect(() => {
-    fetchProducts()
-  }, [])
+    fetchProducts();
+  }, []);
 
   const qtyButtonHandler = (action) => {
     if (action === "increment") {
-      setAdditionalInfo({ quantity: additionalInfo.quantity + 1 })
+      setAdditionalInfo({ quantity: additionalInfo.quantity + 1 });
     } else if (action === "decrement" && additionalInfo.quantity > 1) {
-      setAdditionalInfo({ quantity: additionalInfo.quantity - 1 })
+      setAdditionalInfo({ quantity: additionalInfo.quantity - 1 });
     }
-  }
+  };
 
   const addToCartHandler = () => {
-    return
-  }
+    return;
+  };
 
   return (
     <div
       style={{ height: 650 }}
-      className="container d-flex justify-content-center align-items-center"
+      className="d-flex justify-content-center align-items-center"
     >
       {additionalInfo.productNotFound ? (
         <div className="d-flex flex-column align-items-center justify-content-center">
@@ -109,5 +109,5 @@ export default function ProductDetail(props) {
         </div>
       )}
     </div>
-  )
+  );
 }
