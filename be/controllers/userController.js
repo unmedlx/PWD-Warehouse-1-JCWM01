@@ -2,6 +2,7 @@ const { db } = require("../database/index"); //mysql
 const Crypto = require("crypto"); // for hashing
 //Middleware
 const { createToken } = require("../helper/createToken");
+const { createTokenF } = require("../helper/forgotPassword/createTokenF");
 const nodemailer = require("../helper/nodemailer");
 
 module.exports = {
@@ -34,12 +35,11 @@ module.exports = {
       }
       //Check Register Data
       if (results.length === 0) {
-        res
+        return res
           .status(200)
           .send({ messege: "Data Form Not Complete", success: false });
-        return;
       }
-      //If Inject Data Success//
+      //If Data Saved//
       if (results) {
         //get user data
         let newUserQuery = `SELECT * FROM users WHERE idUser = ${results.insertId} ;`;
@@ -110,16 +110,16 @@ module.exports = {
     )} AND password =${db.escape(req.body.password)} ;`;
     //inject query
     db.query(loginQuery, (err, results) => {
-      //if error
-      if (err) res.status(500).send(err);
+      if (err) {
+        res.status(500).send(err);
+      }
       //Check USER Data
       if (results.length === 0) {
-        res
+        return res
           .status(200)
           .send({ messege: "Account Is Not Registered", success: false });
-        return;
       }
-      //if not error create token n check status
+      // Check isVerified & Create Token
       if (results[0]) {
         //user data
         let {
@@ -131,11 +131,11 @@ module.exports = {
           idRole,
           isVerified,
         } = results[0];
-        //check verified
+        //check isVerified
         if (isVerified != 1) {
           return res
             .status(200)
-            .send({ messege: "account not verified", success: false });
+            .send({ messege: "Account Is Not Verified", success: false });
         } else {
           //Create Token
           let Token = createToken({
@@ -151,10 +151,90 @@ module.exports = {
             messege: "Login Success",
             success: true,
             token: Token,
-            dataLogin: results[0],
+            dataLogin: results[0], // notes //
           });
         }
       }
+    });
+  },
+
+  // FORGOT PASSWORD //
+  forgotPassword: (req, res) => {
+    //Query
+    let selectQuery = `SELECT * FROM users WHERE email =${db.escape(
+      req.body.email
+    )} ;`;
+
+    db.query(selectQuery, (err, results) => {
+      console.log(results);
+
+      if (err) {
+        res.status(500).send({ message: err, success: false });
+      }
+
+      // Check Data User
+      if (results.length === 0) {
+        res
+          .status(200)
+          .send({ message: "Email Is Not Registered", success: false });
+        return;
+      }
+
+      //If User Data Exist
+      if (results) {
+        //Create Token
+        let { idUser, fullName, username, email, idRole, isVerified } =
+          results[0];
+        let Token = createTokenF({
+          idUser,
+          fullName,
+          username,
+          email,
+          idRole,
+          isVerified,
+        });
+        //Send Verify Email
+        let mail = {
+          from: `Admin <ayyasluthfi@gmail.com>`,
+          to: `${email}`,
+          subject: `Acount Verification`,
+          html: `<a href="http://localhost:3000/reset-password/${idUser}/${Token}"> Hai ${username}, Click here to Reset your password, this link valid for only 1 hour</a>`,
+        };
+        //nodemailer
+        nodemailer.sendMail(mail, (errMail, restMail) => {
+          if (errMail) {
+            console.log(errMail);
+            res.status(500).send({
+              message: "req forgot password failed",
+              success: false,
+            });
+          }
+          res.status(200).send({
+            message: "req forgot password success  ✔, check your email",
+            success: true,
+          });
+        });
+      }
+    });
+  },
+
+  // VERIFICATION FORGOT //
+  verificationF: (req, res) => {
+    console.log(req.user);
+    console.log(req.body.newPassword);
+    const newPassword = req.body.newPassword;
+    //update password
+    let updateQuery = `UPDATE users SET password = "${newPassword}" WHERE idUser = ${req.user.idUser};`;
+    db.query(updateQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        res
+          .status(500)
+          .send({ message: "update password failed", success: false });
+      }
+      res
+        .status(200)
+        .send({ message: "update password success", success: true });
     });
   },
 };

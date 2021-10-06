@@ -1,6 +1,7 @@
 const express = require("express");
 const { userController } = require("../controllers");
 const { authToken } = require("../helper/authToken");
+const { authTokenF } = require("../helper/forgotPassword/authTokenF");
 
 const router = express.Router();
 
@@ -8,5 +9,6 @@ const router = express.Router();
 router.post("/register", userController.register);
 router.patch("/verification", authToken, userController.verification);
 router.post("/login", userController.login);
-
+router.post("/forgot-pass", userController.forgotPassword);
+router.patch("/reset-pass", authTokenF, userController.verificationF);
 module.exports = router;

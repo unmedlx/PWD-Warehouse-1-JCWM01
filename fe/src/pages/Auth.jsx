@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
@@ -207,10 +207,10 @@ function Auth() {
                 autoComplete="off"
               />
               {/* FORGOT PASSWORD BTN */}
-              <a className="a" href="#">
+              <Link className="a" to="/forgot-password">
                 Forgot your password?
-              </a>
-              {/*  */}
+              </Link>
+
               <button className="button" type="submit">
                 Sign In
               </button>
