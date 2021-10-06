@@ -58,11 +58,11 @@ const Profile = () => {
                     <div className="profile-main">
                         <ProfileNavbar profileNav={profileNav} setProfileNav={setProfileNav} />
                         <div className="profile-main-detail">
-                            <h1><strong>Hello, Nadhif Rafifaiz</strong></h1>
-                            <h6><strong>nadhifrafifaiz@gmail.com</strong></h6>
+                            <h1><strong>Hello, {fullName}</strong></h1>
+                            <h6><strong>{email}</strong></h6>
                             <hr />
                             {profileNav == 1 ?
-                                <ProfileData />
+                                <ProfileData handleClose={handleClose} />
                                 : profileNav == 2 ?
                                     <>
                                         <ProfileAddress />

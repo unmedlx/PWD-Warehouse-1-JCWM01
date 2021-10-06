@@ -7,7 +7,7 @@ import { API_URL } from '../helper';
 
 
 
-const ProfileData = () => {
+const ProfileData = ({ handleClose }) => {
     const userGlobal = useSelector((state) => state.users);
     const { idUser, fullName, username, email, userImage, idRole, gender, dateOfBirth } = userGlobal
 
@@ -45,6 +45,7 @@ const ProfileData = () => {
             .then((res) => {
                 console.log(res);
                 alert("Berhasil Update Data")
+                handleClose()
             })
             .catch((err) => {
                 console.log(err);
