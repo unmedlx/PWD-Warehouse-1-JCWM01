@@ -15,7 +15,6 @@ module.exports = {
     let previousPage;
 
     let scriptQuery = `SELECT idProduct, productName, price, productImage, description, category FROM products p JOIN categories c on p.idCategory = c.idCategory;`;
-    console.log(page);
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
         res.status(500).send({
@@ -31,14 +30,16 @@ module.exports = {
             el.productName
               .toLowerCase()
               .includes(filterProductName.toLowerCase()) &&
-            parseInt(el.idCategory) == parseInt(filterCategory)
+            el.category.toLowerCase().includes(filterCategory.toLowerCase())
           );
         } else if (filterProductName) {
           return el.productName
             .toLowerCase()
             .includes(filterProductName.toLowerCase());
         } else if (filterCategory) {
-          return parseInt(el.idCategory) == parseInt(filterCategory);
+          return el.category
+            .toLowerCase()
+            .includes(filterCategory.toLowerCase());
         } else {
           return results;
         }

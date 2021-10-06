@@ -20,14 +20,13 @@ export default function ProductsList() {
   const [filtering, setFiltering] = useState({
     byName: "",
     byCategory: "",
+    sort: "",
   });
-
-  const [sorting, setSorting] = useState("");
 
   const fetchProducts = () => {
     axios
       .get(
-        `${API_URL}/products?page=${paging.currentPage}&productName=${filtering.byName}&category=${filtering.byCategory}&sortBy=${sorting}`
+        `${API_URL}/products?page=${paging.currentPage}&productName=${filtering.byName}&category=${filtering.byCategory}&sortBy=${filtering.sort}`
       )
       .then((response) => {
         setProducts(response.data.data);
@@ -66,7 +65,7 @@ export default function ProductsList() {
   useEffect(() => {
     fetchProducts();
     renderProducts();
-  }, [paging.currentPage]);
+  }, [paging.currentPage, filtering]);
 
   const nextPageHandler = () => {
     setPaging({
@@ -78,6 +77,13 @@ export default function ProductsList() {
     setPaging({
       currentPage: paging.currentPage - 1,
     });
+  };
+
+  const inputHandler = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    setFiltering({ ...filtering, [name]: value });
   };
 
   return (
@@ -92,26 +98,36 @@ export default function ProductsList() {
               type="text"
               placeholder="Search..."
               className="form-control box-shadow"
+              name="byName"
+              onChange={inputHandler}
             />
           </div>
 
           <div className="col-lg-2 col-6 col-md-3">
-            <select className="form-select box-shadow">
-              <option>All category</option>
-              <option>Baju</option>
-              <option>Celana</option>
-              <option>Jaket</option>
-              <option>Topi</option>
+            <select
+              name="byCategory"
+              className="form-select box-shadow"
+              onChange={inputHandler}
+            >
+              <option value="">All category</option>
+              <option value="Baju">Baju</option>
+              <option value="Celana">Celana</option>
+              <option value="Jaket">Jaket</option>
+              <option value="Topi">Topi</option>
             </select>
           </div>
 
           <div className="col-lg-2 col-6 col-md-3">
-            <select className="form-select box-shadow ">
-              <option>Sort by</option>
-              <option>Lowest price</option>
-              <option>Highest price</option>
-              <option>A to Z</option>
-              <option>Z to A</option>
+            <select
+              name="sort"
+              className="form-select box-shadow"
+              onChange={inputHandler}
+            >
+              <option value="">Sort by</option>
+              <option value="lowPrice">Lowest price</option>
+              <option value="highPrice">Highest price</option>
+              <option value="az">A to Z</option>
+              <option value="za">Z to A</option>
             </select>
           </div>
         </div>
