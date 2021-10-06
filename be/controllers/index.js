@@ -1,7 +1,7 @@
-const userController = require('./userContoller')
+const userController = require('./userController')
 const uploaderController = require('./uploaderController')
 
 module.exports = {
-    userController,
-    uploaderController
+  userController,
+  uploaderController
 }
