@@ -43,21 +43,10 @@ const ImageModals = ({ show, handleClose, userImage }) => {
                     authorization: `Bearer ${userLocalStorage}`,
                 },
             }
-
         )
-        Axios.patch(`${API_URL}/profile/upload`, data)
-            .then(res => {
-                console.log(res);
+            .then(
                 handleClose()
-            })
-            .catch(err => {
-                console.log(err);
-            })
-
-
-
-
-
+            )
     }
 
 
