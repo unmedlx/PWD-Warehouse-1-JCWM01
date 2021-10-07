@@ -12,6 +12,7 @@ const ImageModals = ({ show, handleClose, userImage }) => {
     const [file, setFile] = useState()
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
+    const [successUpload, setSuccessUpload] = useState(false)
 
 
 
@@ -35,8 +36,9 @@ const ImageModals = ({ show, handleClose, userImage }) => {
         data.append("data", JSON.stringify(obj))
         data.append("file", file[0])
 
-        console.log(data);
-        axios.patch(`http://localhost:3001/profile/${idUser}`,
+        console.log(file[0]);
+        console.log(idUser);
+        axios.patch(`${API_URL}/profile/${idUser}`,
             data,
             {
                 headers: {
@@ -44,8 +46,11 @@ const ImageModals = ({ show, handleClose, userImage }) => {
                 },
             }
         )
-            .then(
-                handleClose()
+            .then((res) => {
+                console.log(res.data.success);
+                setSuccessUpload(res.data.success)
+                alert(res.data.message)
+            },
             )
     }
 
@@ -69,7 +74,11 @@ const ImageModals = ({ show, handleClose, userImage }) => {
                                 preview.src = URL.createObjectURL(file[0])
                             }} />
                         </form>
-                        <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                        {successUpload ?
+                            <button className="btn btn-success mt-2" disabled>Success</button>
+                            :
+                            <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                        }
                     </div>
 
                 </Modal.Body>
