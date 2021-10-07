@@ -12,10 +12,11 @@ app.use(bearerToken()); //Bearer-Token
 //http://localhost:3001/images/IMG1633323280976.png
 app.use(express.static("public"))
 
-const { userRouter, uploaderRouter } = require('./routers/index')
+const { userRouter, uploaderRouter, addressRouter } = require('./routers/index')
 
 app.use('/users', userRouter)
 app.use('/profile', uploaderRouter)
+app.use('/address', addressRouter)
 
 app.listen(PORT, () => {
     console.log("API Running on ", PORT);

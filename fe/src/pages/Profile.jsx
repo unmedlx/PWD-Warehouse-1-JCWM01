@@ -62,11 +62,14 @@ const Profile = () => {
                             <h6><strong>{email}</strong></h6>
                             <hr />
                             {profileNav == 1 ?
-                                <ProfileData handleClose={handleClose} />
+                                <>
+                                    <ProfileData handleClose={handleClose} />
+                                    <hr />
+                                    <ProfileAddress />
+                                </>
                                 : profileNav == 2 ?
                                     <>
                                         <ProfileAddress />
-                                        <ProfileData />
                                     </>
                                     : null
                             }
