@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import { URL_API } from "../helper/index";
@@ -10,14 +10,18 @@ function ForgotPassword() {
   const [redirect, setRedirect] = useState(false);
   const [message, setMessage] = useState(null);
 
-  // FORMIK Email //
+  // FORMIK EMAIL //
   const emailInitialValues = {
     email: "",
   };
   const emailValidationSchema = Yup.object().shape({
-    email: Yup.string().email("Format Email Salah").min(3).required(),
+    email: Yup.string()
+      .email("Wrong Email Format")
+      .min(3)
+      .required("Your Account Email Is Required"),
   });
 
+  //SUBMIT EMAIL//
   const submitEmail = (data) => {
     console.log(data.email);
     setMessage("Loading...");
@@ -47,6 +51,7 @@ function ForgotPassword() {
     return <Redirect to="/authentication" />;
   }
 
+  //RENDER//
   return (
     <div className="body">
       <Formik

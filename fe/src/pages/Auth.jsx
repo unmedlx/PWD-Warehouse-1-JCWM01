@@ -27,10 +27,13 @@ function Auth() {
     password: "",
   };
   const registerValidationSchema = Yup.object().shape({
-    fullName: Yup.string().required(),
-    username: Yup.string().required(),
-    email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(6).required(),
+    fullName: Yup.string().required("Full Name Is Required"),
+    username: Yup.string().required("Username Is Required"),
+    email: Yup.string()
+      .email("Wrong Email Format")
+      .min(3)
+      .required("Email Is Required"),
+    password: Yup.string().min(6).required("Password Is Required"),
   });
 
   // FORMIK LOGIN //
@@ -39,8 +42,11 @@ function Auth() {
     password: "",
   };
   const loginValidationSchema = Yup.object().shape({
-    email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(6).required(),
+    email: Yup.string()
+      .email("Format Email Salah")
+      .min(3)
+      .required("Email Is Required "),
+    password: Yup.string().min(6).required("Password Is Required"),
   });
 
   // Change Form //
@@ -151,7 +157,7 @@ function Auth() {
               <Field
                 name="fullName"
                 type="text"
-                placeholder="Name"
+                placeholder="Full Name"
                 autoComplete="off"
               />
               <ErrorMessage
@@ -224,7 +230,6 @@ function Auth() {
               <Link className="a" to="/forgot-password">
                 Forgot your password?
               </Link>
-
               <button className="button" type="submit">
                 Sign In
               </button>

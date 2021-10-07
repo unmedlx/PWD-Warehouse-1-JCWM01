@@ -1,7 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
 
 /* ELEMENT */
-
 .body {
   display: flex;
   justify-content: center;
@@ -135,7 +134,6 @@ input {
 }
 
 /* FORM SIGNIN & SIGNUP */
-
 .form-container {
   position: absolute;
   top: 0;
@@ -180,7 +178,6 @@ input {
 }
 
 /* OVERLAY */
-
 .overlay-container {
   position: absolute;
   top: 0;
@@ -197,12 +194,23 @@ input {
 }
 
 .overlay {
-  background: #32b280;
-  background: -webkit-linear-gradient(to right, #2b5bf7, #32b280);
-  background: linear-gradient(to right, #32b280, #2b2ef7);
+  background: linear-gradient(
+    to right top,
+    #2b5bf7,
+    #007efc,
+    #0093e7,
+    #00a1c7,
+    #00aaaa,
+    #03b3a8,
+    #1ebca3,
+    #37c49c,
+    #3ed2b1,
+    #47e0c6,
+    #52eddc,
+    #5ffbf1
+  );
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: 0 0;
   color: #ffffff;
   position: relative;
   left: -100%;

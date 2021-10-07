@@ -11,28 +11,29 @@ function ResetPassword() {
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState(false);
 
-  // FORMIK password //
+  // FORMIK PASSWORD //
   const passwordInitialValues = {
     password: "",
   };
   const passwordValidationSchema = Yup.object().shape({
-    password: Yup.string().min(6).required("Password Required"),
+    password: Yup.string().min(6).required("Password Is Required"),
     confirmPassword: Yup.string()
       .min(6)
       .when("password", {
         is: (val) => (val && val.length > 0 ? true : false),
         then: Yup.string().oneOf(
           [Yup.ref("password")],
-          "Both password need to be the same"
+          "Both Password Need To Be The Same"
         ),
       })
       .required("Confirm Password Required"),
   });
 
-  //Token
+  // TOKEN FROM URL //
   const params = useParams();
   const Token = params.token;
 
+  // SUBMIT NEW PASSWORD //
   const submitPassword = (data) => {
     axios
       .patch(
@@ -66,6 +67,7 @@ function ResetPassword() {
     return <Redirect to="/authentication" />;
   }
 
+  //RENDER//
   return (
     <div className="body">
       {success ? (
