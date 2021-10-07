@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { API_URL } from "../constants/API"
-import axios from "axios"
-import "bootstrap/dist/css/bootstrap.css"
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { API_URL } from "../constants/API";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.css";
 
-import ProductCard from "../components/ProductCard"
+import ProductCard from "../components/ProductCard";
 
 export default function ProductsList() {
-  const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([]);
 
   const [paging, setPaging] = useState({
     previousPage: 0,
@@ -15,13 +15,21 @@ export default function ProductsList() {
     currentPage: 1,
     productsCount: 1,
     maxPage: 1,
-  })
+  });
+
+  const [filtering, setFiltering] = useState({
+    byName: "",
+    byCategory: "",
+    sort: "",
+  });
 
   const fetchProducts = () => {
     axios
-      .get(`${API_URL}/products?page=${paging.currentPage}`)
+      .get(
+        `${API_URL}/products?page=${paging.currentPage}&productName=${filtering.byName}&category=${filtering.byCategory}&sortBy=${filtering.sort}`
+      )
       .then((response) => {
-        setProducts(response.data.data)
+        setProducts(response.data.data);
 
         setPaging({
           ...paging,
@@ -29,14 +37,14 @@ export default function ProductsList() {
           previousPage: response.data.previous_page || paging.previousPage,
           productsCount: response.data.products_count || paging.productsCount,
           maxPage: response.data.max_page || paging.maxPage,
-        })
+        });
 
-        renderProducts()
+        renderProducts();
       })
       .catch((err) => {
-        alert(err)
-      })
-  }
+        alert(err);
+      });
+  };
 
   const renderProducts = () => {
     return products.map((val) => {
@@ -50,29 +58,81 @@ export default function ProductsList() {
           idCategory={val.idCategory}
           category={val.category}
         />
-      )
-    })
-  }
+      );
+    });
+  };
 
   useEffect(() => {
-    fetchProducts()
-    renderProducts()
-  }, [paging.currentPage])
+    fetchProducts();
+    renderProducts();
+  }, [paging.currentPage, filtering]);
 
   const nextPageHandler = () => {
     setPaging({
       currentPage: paging.currentPage + 1,
-    })
-  }
+    });
+  };
 
   const prevPageHandler = () => {
     setPaging({
       currentPage: paging.currentPage - 1,
-    })
-  }
+    });
+  };
+
+  const inputHandler = (event) => {
+    const value = event.target.value;
+    const name = event.target.name;
+
+    setFiltering({ ...filtering, [name]: value });
+  };
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center">
+      <header
+        style={{ width: 1122, backgroundColor: "#f7f7f7" }}
+        className="mt-3"
+      >
+        <div className="row gx-3">
+          <div className="col-lg-4 col-md-6 me-auto">
+            <input
+              type="text"
+              placeholder="Search..."
+              className="form-control box-shadow"
+              name="byName"
+              onChange={inputHandler}
+            />
+          </div>
+
+          <div className="col-lg-2 col-6 col-md-3">
+            <select
+              name="byCategory"
+              className="form-select box-shadow"
+              onChange={inputHandler}
+            >
+              <option value="">All category</option>
+              <option value="Baju">Baju</option>
+              <option value="Celana">Celana</option>
+              <option value="Jaket">Jaket</option>
+              <option value="Topi">Topi</option>
+            </select>
+          </div>
+
+          <div className="col-lg-2 col-6 col-md-3">
+            <select
+              name="sort"
+              className="form-select box-shadow"
+              onChange={inputHandler}
+            >
+              <option value="">Sort by</option>
+              <option value="lowPrice">Lowest price</option>
+              <option value="highPrice">Highest price</option>
+              <option value="az">A to Z</option>
+              <option value="za">Z to A</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
       <div className="col-10 d-flex ">
         <div className="d-flex flex-wrap flex-row justify-content-evenly mb-1">
           {renderProducts()}
@@ -102,5 +162,5 @@ export default function ProductsList() {
         </div>
       </div>
     </div>
-  )
+  );
 }

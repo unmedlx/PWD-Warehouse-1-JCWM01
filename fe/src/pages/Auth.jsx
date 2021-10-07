@@ -64,6 +64,12 @@ function Auth() {
         password,
       })
       .then((res) => {
+        delete res.data.dataLogin.password;
+        localStorage.setItem("token_shutter", res.data.token);
+        dispatch({
+          type: "USER_LOGIN",
+          payload: res.data.dataLogin,
+        });
         alert("Register success  ✔ , check your email to verify");
         setState({ redirect: true });
       })
@@ -107,114 +113,133 @@ function Auth() {
   // RENDER //
   return (
     /* Change Form */
-    <div
-      className={`container body ${state.btnClick ? "" : "right-panel-active"}`}
-      id="container"
-    >
-      {/* SIGN UP FORM */}
-      <Formik
-        initialValues={registerInitialValues}
-        onSubmit={register}
-        validationSchema={registerValidationSchema}
+    <div className="body">
+      <div
+        className={` auth-container ${
+          state.btnClick ? "" : "right-panel-active"
+        }`}
       >
-        <div className="form-container sign-up-container">
-          <Form className="form">
-            <h1 className="h1">Create Account</h1>
-            <span className="span">
-              Enter your personal details and start journey with us
-            </span>
-            <ErrorMessage name="fullName" component="span" className="error" />
-            <Field
-              name="fullName"
-              type="text"
-              placeholder="Name"
-              autoComplete="off"
-            />
-            <ErrorMessage name="username" component="span" className="error" />
-            <Field
-              name="username"
-              type="text"
-              placeholder="Username"
-              autoComplete="off"
-            />
-            <ErrorMessage name="email" component="span" className="error" />
-            <Field
-              name="email"
-              type="email"
-              placeholder="Email"
-              autoComplete="off"
-            />
-            <ErrorMessage name="password" component="span" className="error" />
-            <Field
-              name="password"
-              type="password"
-              placeholder="Password"
-              autoComplete="off"
-            />
-            <button className="button" type="submit">
-              Sign Up
-            </button>
-          </Form>
-        </div>
-      </Formik>
-
-      {/* SIGN IN FORM */}
-      <Formik
-        initialValues={loginInitialValues}
-        onSubmit={login}
-        validationSchema={loginValidationSchema}
-      >
-        <div className="form-container sign-in-container">
-          <Form className="form">
-            <h1 className="h1">Sign in</h1>
-            <span className="span">login with your account info</span>
-            <ErrorMessage name="email" component="span" className="error" />
-            <Field
-              name="email"
-              type="email"
-              placeholder="Email"
-              autoComplete="off"
-            />
-            <ErrorMessage name="password" component="span" className="error" />
-            <Field
-              name="password"
-              type="password"
-              placeholder="Password"
-              autoComplete="off"
-            />
-            {/* FORGOT PASSWORD BTN */}
-            <a className="a" href="#">
-              Forgot your password?
-            </a>
-            {/*  */}
-            <button className="button" type="submit">
-              Sign In
-            </button>
-          </Form>
-        </div>
-      </Formik>
-
-      {/* OVERLAY PANEL */}
-      <div className="overlay-container">
-        <div className="overlay">
-          <div className="overlay-panel overlay-left">
-            <h1 className="h1">Welcome Back!</h1>
-            <p className="p">
-              To keep connected with us please login with your personal info
-            </p>
-            <button onClick={signInPage} className="ghost button" id="signIn">
-              Sign In
-            </button>
+        {/* SIGN UP FORM */}
+        <Formik
+          initialValues={registerInitialValues}
+          onSubmit={register}
+          validationSchema={registerValidationSchema}
+        >
+          <div className="form-container sign-up-container">
+            <Form className="form">
+              <h1 className="h1">Create Account</h1>
+              <span className="span">
+                Enter your personal details and start journey with us
+              </span>
+              <ErrorMessage
+                name="fullName"
+                component="span"
+                className="error"
+              />
+              <Field
+                name="fullName"
+                type="text"
+                placeholder="Name"
+                autoComplete="off"
+              />
+              <ErrorMessage
+                name="username"
+                component="span"
+                className="error"
+              />
+              <Field
+                name="username"
+                type="text"
+                placeholder="Username"
+                autoComplete="off"
+              />
+              <ErrorMessage name="email" component="span" className="error" />
+              <Field
+                name="email"
+                type="email"
+                placeholder="Email"
+                autoComplete="off"
+              />
+              <ErrorMessage
+                name="password"
+                component="span"
+                className="error"
+              />
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                autoComplete="off"
+              />
+              <button className="button" type="submit">
+                Sign Up
+              </button>
+            </Form>
           </div>
+        </Formik>
 
-          <div className="overlay-panel overlay-right">
-            <h1 className="h1">Hello, Friend!</h1>
-            <p className="p">
-              Enter your personal details and start journey with us
-            </p>
-            <button onClick={signUpPage} className="ghost button" id="signUp">
-              Sign Up
-            </button>
+        {/* SIGN IN FORM */}
+        <Formik
+          initialValues={loginInitialValues}
+          onSubmit={login}
+          validationSchema={loginValidationSchema}
+        >
+          <div className="form-container sign-in-container">
+            <Form className="form">
+              <h1 className="h1">Sign in</h1>
+              <span className="span">login with your account info</span>
+              <ErrorMessage name="email" component="span" className="error" />
+              <Field
+                name="email"
+                type="email"
+                placeholder="Email"
+                autoComplete="off"
+              />
+              <ErrorMessage
+                name="password"
+                component="span"
+                className="error"
+              />
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                autoComplete="off"
+              />
+              {/* FORGOT PASSWORD BTN */}
+              <a className="a" href="#">
+                Forgot your password?
+              </a>
+              {/*  */}
+              <button className="button" type="submit">
+                Sign In
+              </button>
+            </Form>
+          </div>
+        </Formik>
+
+        {/* OVERLAY PANEL */}
+        <div className="overlay-container">
+          <div className="overlay">
+            <div className="overlay-panel overlay-left">
+              <h1 className="h1">Welcome Back!</h1>
+              <p className="p">
+                To keep connected with us please login with your personal info
+              </p>
+              <button onClick={signInPage} className="ghost button" id="signIn">
+                Sign In
+              </button>
+            </div>
+
+            <div className="overlay-panel overlay-right">
+              <h1 className="h1">Hello, Friend!</h1>
+              <p className="p">
+                Enter your personal details and start journey with us
+              </p>
+              <button onClick={signUpPage} className="ghost button" id="signUp">
+                Sign Up
+              </button>
+            </div>
           </div>
         </div>
       </div>
