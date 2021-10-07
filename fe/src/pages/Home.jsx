@@ -15,6 +15,12 @@ function Home() {
       <Link to="/authentication">
         <button className="btn btn-success">Ayok Kita signUp dulu</button>
       </Link>
+      <Link to="/profile">
+        <button className="btn btn-success">Profile</button>
+      </Link>
+      <Link to="/product-list">
+        <button className="btn btn-success">Product</button>
+      </Link>
     </div>
   );
 }
