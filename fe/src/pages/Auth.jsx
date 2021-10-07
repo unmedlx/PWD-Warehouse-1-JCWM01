@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
-import { URL_API } from "../helper";
+import { API_URL } from "../helper";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -57,7 +57,7 @@ function Auth() {
     let { fullName, username, email, password } = data;
     //Execute register
     axios
-      .post(URL_API + "/users/register", {
+      .post(API_URL + "/users/register", {
         fullName,
         username,
         email,
@@ -83,7 +83,7 @@ function Auth() {
     //Execute Login
     console.log("axios jalan");
     axios
-      .post(URL_API + `/users/login`, {
+      .post(API_URL + `/users/login`, {
         email: email,
         password: password,
       })
@@ -92,11 +92,11 @@ function Auth() {
         if (res.data.success) {
           delete res.data.dataLogin.password;
           localStorage.setItem("token_shutter", res.data.token);
+          alert("Login Success ✔");
           dispatch({
             type: "USER_LOGIN",
             payload: res.data.dataLogin,
           });
-          alert("Login Success ✔");
           setState({ redirect: true });
         } else {
           alert(res.data.messege);
