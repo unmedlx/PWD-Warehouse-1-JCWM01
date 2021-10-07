@@ -49,6 +49,7 @@ const AddAddressModal = ({ show, handleClose }) => {
                 console.log(res);
                 setSuccessUpload(res.data.success)
                 alert(res.data.message)
+                handleClose()
             })
             .catch((err) => {
                 console.log(err);

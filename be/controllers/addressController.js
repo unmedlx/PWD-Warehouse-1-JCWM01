@@ -47,5 +47,17 @@ module.exports = {
             }
             return res.status(200).send({ message: 'Berahasil Menambahkan Data Alamat', results, success: true })
         })
+    },
+    deleteAddress: (req, res) => {
+        console.log(req.params.idAddress);
+        let idAddress = req.params.idAddress;
+        let scriptQuery = `DELETE FROM addresses WHERE idAddress=${idAddress}`
+        console.log(scriptQuery);
+        db.query(scriptQuery, (err, results) => {
+            if (err) {
+                return res.status(500).send({ message: 'Error Occurs', success: false, err })
+            }
+            return res.status(200).send({ message: 'Berahasil Menghapus Data Alamat', results, success: true })
+        })
     }
 }
