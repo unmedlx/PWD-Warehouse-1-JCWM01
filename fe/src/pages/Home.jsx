@@ -19,7 +19,10 @@ function Home() {
         <button className="btn btn-success">Profile</button>
       </Link>
       <Link to="/product-list">
-        <button className="btn btn-success">Product</button>
+        <button className="btn btn-success">Product List</button>
+      </Link>
+      <Link to="/add-product">
+        <button className="btn btn-success">Admin Add Product</button>
       </Link>
     </div>
   );

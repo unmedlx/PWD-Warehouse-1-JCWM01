@@ -1,4 +1,6 @@
 const { db } = require("../database");
+const { uploader } = require("../helper/uploader");
+const fs = require("fs");
 
 module.exports = {
   getData: (req, res) => {
@@ -113,28 +115,49 @@ module.exports = {
   },
 
   addData: (req, res) => {
-    let { productName, price, productImage, description, idCategory } =
-      req.body;
+    try {
+      let path = "/images";
+      const upload = uploader(path, "IMG").fields([{ name: "file" }]);
 
-    let scriptQuery = `INSERT INTO db_warehouse1.products VALUES (${db.escape(
-      null
-    )}, ${db.escape(productName)}, ${db.escape(price)}, ${db.escape(
-      productImage
-    )}, ${db.escape(description)}, ${db.escape(idCategory)});`;
+      upload(req, res, (error) => {
+        if (error) {
+          console.log(error);
+          res.status(500).send(error);
+        }
 
-    db.query(scriptQuery, [], (err, results) => {
-      if (err) {
-        res.status(500).send({
-          message: "Gagal menambah data ke database",
-          success: false,
-          err,
+        const { file } = req.files;
+        const filepath = file ? path + "/" + file[0].filename : null;
+        console.log(filepath);
+
+        let data = JSON.parse(req.body.data);
+        data.productImage = filepath;
+        console.log(data);
+
+        let scriptQuery = `INSERT INTO db_warehouse1.products VALUES (${db.escape(
+          null
+        )}, ${db.escape(data.productName)}, ${db.escape(
+          data.price
+        )}, ${db.escape(filepath)}, ${db.escape(data.description)}, ${db.escape(
+          data.idCategory
+        )});`;
+        db.query(scriptQuery, [], (err, results) => {
+          if (err) {
+            fs.unlinkSync(`./public` + filepath);
+            res.status(500).send({
+              message: "Gagal menambah data ke database",
+              success: false,
+              err,
+            });
+          }
+          res.status(200).send({
+            message: `${data.productName} berhasil ditambahkan`,
+          });
         });
-      }
-      res.status(200).send({
-        message: `${productName} berhasil ditambahkan`,
-        data: results,
       });
-    });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
   },
 
   editData: (req, res) => {

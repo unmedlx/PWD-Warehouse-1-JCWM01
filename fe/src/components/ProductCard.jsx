@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { Link } from "react-router-dom"
-import axios from "axios"
-import "bootstrap/dist/css/bootstrap.css"
-import "../assets/styles/ProductCard.css"
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.css";
+import "../assets/styles/ProductCard.css";
+import { API_URL } from "../constants/API";
 
 export default function ProductCard(props) {
   return (
@@ -15,7 +16,11 @@ export default function ProductCard(props) {
               <div class="box-up">
                 <img
                   class="img"
-                  src={props.productImage}
+                  src={
+                    props.productImage.includes("/images/IMG")
+                      ? API_URL + props.productImage
+                      : props.productImage
+                  }
                   alt="productImage"
                 ></img>
 
@@ -33,7 +38,9 @@ export default function ProductCard(props) {
               <Link onClick={"#"} class="cart" to="#">
                 <span class="price">Rp. {props.price}</span>
                 <span class="add-to-cart">
-                  <span class="txt fw-bolder">Add to cart</span>
+                  <span style={{ marginLeft: -3 }} class="txt fw-bolder">
+                    Add to cart
+                  </span>
                 </span>
               </Link>
             </div>
@@ -41,5 +48,5 @@ export default function ProductCard(props) {
         </div>
       </div>
     </div>
-  )
+  );
 }
