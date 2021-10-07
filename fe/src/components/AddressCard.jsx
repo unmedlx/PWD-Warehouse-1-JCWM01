@@ -12,8 +12,6 @@ const AddressCard = ({ address }) => {
 
     }
 
-
-    <Redirect to="/" />
     const handleShow = () => setShow(true);
     return (
         <>

@@ -1,27 +1,26 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Modal } from 'react-bootstrap'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
+import { Modal, Button } from 'react-bootstrap'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { API_URL } from '../helper/index'
+import { useSelector } from 'react-redux'
 
-const AddressModal = ({ show, handleClose, address }) => {
+const AddAddressModal = ({ show, handleClose }) => {
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
     const [successUpload, setSuccessUpload] = useState(false)
 
-
     const addressDataInitialValues = {
         //diisi dari redux
-        recipientName: address.recipientName,
-        phoneNumber: address.phoneNumber,
-        jalan: address.jalan,
-        kecamatan: address.kecamatan,
-        kota: address.kota,
-        provinsi: address.provinsi,
-        zip: address.zip,
-        isDefault: address.isDefault
+        recipientName: "",
+        phoneNumber: "",
+        jalan: "",
+        kecamatan: "",
+        kota: "",
+        provinsi: "",
+        zip: "",
+        isDefault: ""
 
     }
 
@@ -37,32 +36,28 @@ const AddressModal = ({ show, handleClose, address }) => {
     })
 
     const onSubmit = (data) => {
-        console.log(data.isDefault[0]);
-        if (data.isDefault[0] == '0') {
+
+        if (data.isDefault == true) {
             data = { ...data, isDefault: 1 }
         } else if (data.isDefault == false) {
             data = { ...data, isDefault: 0 }
         }
-
-        data = { ...data, idAddress: address.idAddress }
+        data = { ...data, idUser: idUser }
         console.log(data);
-
-        axios.patch(`${API_URL}/address/${idUser}`, data)
+        axios.post(`${API_URL}/address`, { data })
             .then((res) => {
                 console.log(res);
                 setSuccessUpload(res.data.success)
                 alert(res.data.message)
-
             })
             .catch((err) => {
                 console.log(err);
             })
     }
-
     return (
         <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-lg">Choose Your Profile Picture</Modal.Title>
+                <Modal.Title>Choose Your Profile Picture</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik initialValues={addressDataInitialValues}
@@ -112,28 +107,20 @@ const AddressModal = ({ show, handleClose, address }) => {
                                 <ErrorMessage name="zip" component="span" className="error-message" />
                                 <Field type="text" autocomplete="off" className="input-field" name="zip" placeholder="ZIP" />
                             </div>
-
-                            <div className="input-container">
-                                <ErrorMessage name="isDefault" component="span" className="error-message" />
-                                <label>
-                                    <Field type="checkbox" autocomplete="off" className="input-field" name="isDefault" />
-                                    Default
-                                </label>
-
-                            </div>
                         </div>
                         {successUpload ?
                             <button className="btn btn-success mt-2" disabled>Success</button>
                             :
-                            <button type="submit" className="btn btn-warning">Edit Address</button>
+                            <button type="submit" className="btn btn-warning">Add Address</button>
                         }
+
                     </Form>
                 </Formik>
 
             </Modal.Body>
 
-        </Modal >
+        </Modal>
     )
 }
 
-export default AddressModal
+export default AddAddressModal

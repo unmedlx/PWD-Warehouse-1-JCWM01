@@ -2,15 +2,21 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { API_URL } from '../helper'
+import AddAddressModal from './AddAddressModal';
 import Address from './Address';
 import AddressCard from './AddressCard';
 
-const ProfileAddress = ({ setProfileNav }) => {
+const ProfileAddress = () => {
     const userGlobal = useSelector((state) => state.users);
+    const [show, setShow] = useState(false);
     const [addresses, setAddresses] = useState([])
-    const [tesReset, setTesReset] = useState()
     const dispatch = useDispatch()
 
+    const handleClose = () => {
+        setShow(false);
+    }
+
+    const handleShow = () => setShow(true);
 
 
     const fetchDataAddress = (idUser) => {
@@ -44,11 +50,15 @@ const ProfileAddress = ({ setProfileNav }) => {
 
     return (
         <>
-            <p><strong>Address</strong></p>
-            <button className="btn btn-warning">Add new address</button>
-            <div className="profile-main-address">
-                {renderAddress()}
+            <div>
+                <p><strong>Address</strong></p>
+                <button className="btn btn-warning mt-3" onClick={handleShow}>Add Address</button>
+                <div className="profile-main-address">
+                    {renderAddress()}
+                </div>
             </div>
+
+            <AddAddressModal show={show} handleClose={handleClose} />
         </>
     )
 }
