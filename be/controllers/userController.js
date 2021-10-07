@@ -37,7 +37,7 @@ module.exports = {
       if (results.length === 0) {
         return res
           .status(200)
-          .send({ messege: "Data Form Not Complete", success: false });
+          .send({ message: "Data Form Not Complete", success: false });
       }
       //If Data Saved//
       if (results) {
@@ -49,6 +49,7 @@ module.exports = {
             res.status(500).send(err);
           }
           //Create Token
+          delete results1[0].password;
           let { idUser, fullName, username, email, idRole, isVerified } =
             results1[0];
           let Token = createToken({
@@ -70,13 +71,16 @@ module.exports = {
             if (errMail) {
               console.log(errMail);
               res.status(500).send({
-                messege: "Registration failed",
+                message: "Registration failed",
                 success: false,
               });
             }
             res.status(200).send({
-              messege: "Registration success, check your email",
+              message:
+                "Registration And Login Success, check your email to verify account",
               success: true,
+              token: Token,
+              dataUser: results1[0],
             });
           });
         });
@@ -86,15 +90,14 @@ module.exports = {
 
   // VERIFICATION //
   verification: (req, res) => {
-    console.log(req.user);
     //update isverified: 1
     let verifyQuery = `UPDATE users SET isVerified = 1 WHERE idUser = ${req.user.idUser};`;
     db.query(verifyQuery, (err, results) => {
       if (err) {
         console.log(err);
-        res.status(500).send({ messege: "acount unverified", success: false });
+        res.status(500).send({ message: "acount unverified", success: false });
       }
-      res.status(200).send({ messege: "acount verified", success: true });
+      res.status(200).send({ message: "acount verified", success: true });
     });
   },
 
@@ -117,25 +120,19 @@ module.exports = {
       if (results.length === 0) {
         return res
           .status(200)
-          .send({ messege: "Account Is Not Registered", success: false });
+          .send({ message: "Account Is Not Registered", success: false });
       }
       // Check isVerified & Create Token
       if (results[0]) {
         //user data
-        let {
-          idUser,
-          fullName,
-          username,
-          email,
-          password,
-          idRole,
-          isVerified,
-        } = results[0];
+        delete results[0].password;
+        let { idUser, fullName, username, email, idRole, isVerified } =
+          results[0];
         //check isVerified
         if (isVerified != 1) {
           return res
             .status(200)
-            .send({ messege: "Account Is Not Verified", success: false });
+            .send({ message: "Account Is Not Verified", success: false });
         } else {
           //Create Token
           let Token = createToken({
@@ -143,15 +140,14 @@ module.exports = {
             fullName,
             username,
             email,
-            password,
             idRole,
             isVerified,
           });
           return res.status(200).send({
-            messege: "Login Success",
+            message: "Login Success",
             success: true,
             token: Token,
-            dataLogin: results[0], // notes //
+            dataUser: results[0],
           });
         }
       }
@@ -164,10 +160,7 @@ module.exports = {
     let selectQuery = `SELECT * FROM users WHERE email =${db.escape(
       req.body.email
     )} ;`;
-
     db.query(selectQuery, (err, results) => {
-      console.log(results);
-
       if (err) {
         res.status(500).send({ message: err, success: false });
       }
@@ -210,7 +203,7 @@ module.exports = {
             });
           }
           res.status(200).send({
-            message: "req forgot password success  ✔, check your email",
+            message: "Request Forgot Password Success  ✔",
             success: true,
           });
         });
@@ -220,8 +213,10 @@ module.exports = {
 
   // VERIFICATION FORGOT //
   verificationF: (req, res) => {
-    console.log(req.user);
-    console.log(req.body.newPassword);
+    //hash password
+    req.body.newPassword = Crypto.createHmac("sha1", "hash123")
+      .update(req.body.newPassword)
+      .digest("hex");
     const newPassword = req.body.newPassword;
     //update password
     let updateQuery = `UPDATE users SET password = "${newPassword}" WHERE idUser = ${req.user.idUser};`;
@@ -234,7 +229,7 @@ module.exports = {
       }
       res
         .status(200)
-        .send({ message: "update password success", success: true });
+        .send({ message: "update password success ✔", success: true });
     });
   },
 };

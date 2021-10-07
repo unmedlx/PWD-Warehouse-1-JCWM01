@@ -43,8 +43,8 @@ function Verification() {
   }
 
   return (
-    <div className="container p-5 justify-content-center">
-      <h2>{message}</h2>
+    <div className="body">
+      <h1 className="h1">{message}</h1>
     </div>
   );
 }

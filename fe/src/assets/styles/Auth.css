@@ -18,6 +18,17 @@
   margin: 0;
 }
 
+.h5 {
+  font-weight: 800;
+  font-size: 19px;
+  margin-top: 10px;
+}
+.h5-light {
+  font-weight: 400;
+  font-size: 15px;
+  margin-top: 3px;
+}
+
 .p {
   font-size: 14px;
   font-weight: 100;
@@ -109,6 +120,17 @@ input {
   min-width: 130vh;
   max-width: 100%;
   min-height: 80vh;
+  max-height: 100%;
+}
+.forgot-container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+  min-width: 100vh;
+  max-width: 100%;
+  min-height: 40vh;
   max-height: 100%;
 }
 
@@ -225,7 +247,3 @@ input {
 .auth-container.right-panel-active .overlay-right {
   transform: translateX(20%);
 }
-
-/* * {
-  box-sizing: border-box;
-} */

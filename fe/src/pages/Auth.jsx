@@ -13,6 +13,8 @@ function Auth() {
     btnClick: "signIn",
     redirect: false,
   });
+  const [message, setMessage] = useState(null);
+  const [message1, setMessage1] = useState(null);
 
   // Redux //
   const dispatch = useDispatch();
@@ -53,6 +55,7 @@ function Auth() {
 
   // REGISTER //
   const register = (data) => {
+    setMessage("Loading...");
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
@@ -64,20 +67,25 @@ function Auth() {
         password,
       })
       .then((res) => {
-        delete res.data.dataLogin.password;
         localStorage.setItem("token_shutter", res.data.token);
         dispatch({
           type: "USER_LOGIN",
-          payload: res.data.dataLogin,
+          payload: res.data.dataUser,
         });
-        alert("Register success  ✔ , check your email to verify");
-        setState({ redirect: true });
+        setMessage("Register success  ✔ ");
+        setMessage1("Check Your Email To Verify Your Account ");
+        setTimeout(() => setState({ redirect: true }), 3000);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(null);
+        console.log(err);
+      });
   };
 
   // LOGIN //
   const login = (data) => {
+    setMessage("Loading...");
+
     //Data Login
     let { email, password } = data;
     //Execute Login
@@ -90,19 +98,23 @@ function Auth() {
       .then((res) => {
         // console.log(res);
         if (res.data.success) {
-          delete res.data.dataLogin.password;
+          console.log(res.data.dataUser);
           localStorage.setItem("token_shutter", res.data.token);
           dispatch({
             type: "USER_LOGIN",
-            payload: res.data.dataLogin,
+            payload: res.data.dataUser,
           });
-          alert("Login Success ✔");
-          setState({ redirect: true });
+          setMessage("Login Success ✔");
+          setTimeout(() => setState({ redirect: true }), 2000);
         } else {
-          alert(res.data.messege);
+          setMessage(null);
+          alert(res.data.message);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(null);
+        console.log(err);
+      });
   };
 
   // REDIRECT //
@@ -174,6 +186,8 @@ function Auth() {
               <button className="button" type="submit">
                 Sign Up
               </button>
+              <h5 className="h5">{message}</h5>
+              <h5 className="h5-light">{message1}</h5>
             </Form>
           </div>
         </Formik>
@@ -214,6 +228,7 @@ function Auth() {
               <button className="button" type="submit">
                 Sign In
               </button>
+              <h5 className="h5">{message}</h5>
             </Form>
           </div>
         </Formik>

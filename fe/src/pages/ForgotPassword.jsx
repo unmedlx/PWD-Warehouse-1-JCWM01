@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 import { URL_API } from "../helper/index";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function ForgotPassword() {
+  // STATE //
+  const [redirect, setRedirect] = useState(false);
+  const [message, setMessage] = useState(null);
+
   // FORMIK Email //
   const emailInitialValues = {
     email: "",
@@ -15,6 +20,7 @@ function ForgotPassword() {
 
   const submitEmail = (data) => {
     console.log(data.email);
+    setMessage("Loading...");
 
     axios
       .post(URL_API + "/users/forgot-pass", {
@@ -23,14 +29,23 @@ function ForgotPassword() {
       .then((res) => {
         if (res.data.success) {
           alert(res.data.message);
+          setMessage("Check Your Email To Reset Password");
+          setTimeout(() => setMessage("Redirecting To SignIn... "), 3000);
+          setTimeout(() => setRedirect(true), 4000);
         } else {
           alert(res.data.message);
+          setMessage(null);
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  //REDIRECT//
+  if (redirect) {
+    return <Redirect to="/authentication" />;
+  }
 
   return (
     <div className="body">
@@ -39,10 +54,10 @@ function ForgotPassword() {
         onSubmit={submitEmail}
         validationSchema={emailValidationSchema}
       >
-        <div className="form-container sign-in-container">
+        <div className="forgot-container">
           <Form className="form">
             <h1 className="h1">Submit Your Email</h1>
-            <span className="span">email for your account</span>
+            <span className="span">Your Account Email</span>
             <ErrorMessage name="email" component="span" className="error" />
             <Field
               name="email"
@@ -50,9 +65,11 @@ function ForgotPassword() {
               placeholder="Email"
               autoComplete="off"
             />
+
             <button className="button" type="submit">
               Submit
             </button>
+            <h5 className="h5">{message}</h5>
           </Form>
         </div>
       </Formik>
