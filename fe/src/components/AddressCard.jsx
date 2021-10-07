@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
+import { Redirect } from 'react-router';
 import AddressModal from './AddressModal';
 
 const AddressCard = ({ address }) => {
     const [show, setShow] = useState(false);
+    const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
+        reload()
+
     }
+
+
+    <Redirect to="/" />
     const handleShow = () => setShow(true);
     return (
         <>

@@ -7,13 +7,12 @@ import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
 import ProfileAddress from '../components/ProfileAddress';
 import ProfileData from '../components/ProfileData';
-import ProfileNavbar from '../components/ProfileNavbar';
 import { API_URL } from '../helper';
 
 
 const Profile = () => {
     const userGlobal = useSelector((state) => state.users);
-    const { idUser, fullName, username, email, password, userImage } = userGlobal
+    const { fullName, email, userImage, idUser } = userGlobal
     const [show, setShow] = useState(false);
     const [profileNav, setProfileNav] = useState(1)
     const reload = () => window.location.reload();
@@ -23,26 +22,22 @@ const Profile = () => {
         reload()
     }
     const handleShow = () => setShow(true);
+    console.log(idUser);
 
     const fetchDataUser = () => {
-        // axios.get(`${API_URL}/users/1`)
-        //     .then(res => {
-        //         console.log(res.data[0]);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
+        const { idUser } = userGlobal
+        console.log(idUser);
     }
 
     useEffect(() => {
-        fetchDataUser() //data sama alamat
+        fetchDataUser()
     }, [])
 
     return (
         <>
-
             <div className="container mt-5">
                 <div className="profile-container">
+
 
                     <div className="profile-sidebar">
                         <div className="profile-picture-container">
@@ -56,7 +51,11 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-main">
-                        <ProfileNavbar profileNav={profileNav} setProfileNav={setProfileNav} />
+                        <div className="profile-tab">
+                            <div><a onClick={() => setProfileNav(1)}>PROFILE</a></div>
+                            <div><a onClick={() => setProfileNav(2)}>ADDRESS</a></div>
+                            <div><a >{profileNav}</a></div>
+                        </div>
                         <div className="profile-main-detail">
                             <h1><strong>Hello, {fullName}</strong></h1>
                             <h6><strong>{email}</strong></h6>
@@ -64,12 +63,10 @@ const Profile = () => {
                             {profileNav == 1 ?
                                 <>
                                     <ProfileData handleClose={handleClose} />
-                                    <hr />
-                                    <ProfileAddress />
                                 </>
                                 : profileNav == 2 ?
                                     <>
-                                        <ProfileAddress />
+                                        <ProfileAddress setProfileNav={setProfileNav} />
                                     </>
                                     : null
                             }
