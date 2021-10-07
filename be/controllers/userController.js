@@ -1,5 +1,6 @@
 const { db } = require("../database/index"); //mysql
 const Crypto = require("crypto"); // for hashing
+const moment = require("moment")
 //Middleware
 const { createToken } = require("../helper/createToken");
 const nodemailer = require("../helper/nodemailer");
@@ -161,6 +162,8 @@ module.exports = {
   getDataUser: (req, res) => {
     let scriptQuery = `SELECT *  FROM users WHERE idUser=${req.user.idUser}`
     db.query(scriptQuery, (err, results) => {
+      var parsed = moment(results[0].dateOfBirth).format('YYYY-MM-DD');
+      results = { ...results[0], dateOfBirth: parsed }
       return res
         .status(200)
         .send(results);
@@ -170,14 +173,19 @@ module.exports = {
   //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser
-    console.log(idUser);
-    console.log(req.body);
     let { fullName, username, email, gender, dateOfBirth } = req.body
-    let scriptQuery = `UPDATE users SET fullName=${db.escape(fullName)}, username=${db.escape(username)},email=${db.escape(email)},gender=${db.escape(gender)},dateOfBirth=${db.escape(dateOfBirth)} WHERE idUser=${db.escape(idUser)}`
-    console.log(scriptQuery);
+    var parsed = moment(dateOfBirth).format('YYYY-MM-DD');
+
+
+    let scriptQuery = `UPDATE users SET fullName=${db.escape(fullName)}, username=${db.escape(username)},email=${db.escape(email)},gender=${db.escape(gender)},dateOfBirth=${db.escape(parsed)} WHERE idUser=${db.escape(idUser)}`
     db.query(scriptQuery, (err, results) => {
-      if (err) res.status(500).send({ message: "Gagal mengambil data di database", success: false, err })
-      res.status(200).send(results)
+      if (err) {
+        return res.status(500).send({ message: 'Update Gagal', success: false, err })
+      }
+      return res.status(200).send({ message: 'Berhasil Mengubah Data', results, success: true })
     })
+
+
+
   }
 };

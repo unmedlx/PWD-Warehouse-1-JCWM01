@@ -33,10 +33,10 @@ function App() {
           }
         )
         .then((res) => {
-          delete res.data[0].password;
+          delete res.data.password;
           dispatch({
             type: "USER_LOGIN",
-            payload: res.data[0],
+            payload: res.data,
           });
         })
         .catch((err) => {
