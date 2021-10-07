@@ -9,6 +9,6 @@ router.post("/register", userController.register);
 router.patch("/verification", authToken, userController.verification);
 router.post("/login", userController.login);
 router.patch("/", authToken, userController.getDataUser)
-router.patch("/edit", authToken, userController.editDataUser)
+router.patch("/tes", authToken, userController.editDataUser)
 
 module.exports = router;

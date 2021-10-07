@@ -24,6 +24,20 @@ const Profile = () => {
     }
     const handleShow = () => setShow(true);
 
+    const fetchDataUser = () => {
+        // axios.get(`${API_URL}/users/1`)
+        //     .then(res => {
+        //         console.log(res.data[0]);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
+    }
+
+    useEffect(() => {
+        fetchDataUser() //data sama alamat
+    }, [])
+
     return (
         <>
 
@@ -52,6 +66,7 @@ const Profile = () => {
                                 : profileNav == 2 ?
                                     <>
                                         <ProfileAddress />
+                                        <ProfileData />
                                     </>
                                     : null
                             }
