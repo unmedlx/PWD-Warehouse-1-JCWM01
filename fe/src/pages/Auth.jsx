@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
@@ -13,6 +13,8 @@ function Auth() {
     btnClick: "signIn",
     redirect: false,
   });
+  const [message, setMessage] = useState(null);
+  const [message1, setMessage1] = useState(null);
 
   // Redux //
   const dispatch = useDispatch();
@@ -25,10 +27,13 @@ function Auth() {
     password: "",
   };
   const registerValidationSchema = Yup.object().shape({
-    fullName: Yup.string().required(),
-    username: Yup.string().required(),
-    email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(6).required(),
+    fullName: Yup.string().required("Full Name Is Required"),
+    username: Yup.string().required("Username Is Required"),
+    email: Yup.string()
+      .email("Wrong Email Format")
+      .min(3)
+      .required("Email Is Required"),
+    password: Yup.string().min(6).required("Password Is Required"),
   });
 
   // FORMIK LOGIN //
@@ -37,8 +42,11 @@ function Auth() {
     password: "",
   };
   const loginValidationSchema = Yup.object().shape({
-    email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(6).required(),
+    email: Yup.string()
+      .email("Format Email Salah")
+      .min(3)
+      .required("Email Is Required "),
+    password: Yup.string().min(6).required("Password Is Required"),
   });
 
   // Change Form //
@@ -53,6 +61,7 @@ function Auth() {
 
   // REGISTER //
   const register = (data) => {
+    setMessage("Loading...");
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
@@ -64,20 +73,25 @@ function Auth() {
         password,
       })
       .then((res) => {
-        delete res.data.dataLogin.password;
         localStorage.setItem("token_shutter", res.data.token);
         dispatch({
           type: "USER_LOGIN",
-          payload: res.data.dataLogin,
+          payload: res.data.dataUser,
         });
-        alert("Register success  ✔ , check your email to verify");
-        setState({ redirect: true });
+        setMessage("Register success  ✔ ");
+        setMessage1("Check Your Email To Verify Your Account ");
+        setTimeout(() => setState({ redirect: true }), 3000);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(null);
+        console.log(err);
+      });
   };
 
   // LOGIN //
   const login = (data) => {
+    setMessage("Loading...");
+
     //Data Login
     let { email, password } = data;
     //Execute Login
@@ -90,19 +104,24 @@ function Auth() {
       .then((res) => {
         // console.log(res);
         if (res.data.success) {
-          delete res.data.dataLogin.password;
+          console.log(res.data.dataUser);
           localStorage.setItem("token_shutter", res.data.token);
           alert("Login Success ✔");
           dispatch({
             type: "USER_LOGIN",
-            payload: res.data.dataLogin,
+            payload: res.data.dataUser,
           });
-          setState({ redirect: true });
+          setMessage("Login Success ✔");
+          setTimeout(() => setState({ redirect: true }), 2000);
         } else {
-          alert(res.data.messege);
+          setMessage(null);
+          alert(res.data.message);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(null);
+        console.log(err);
+      });
   };
 
   // REDIRECT //
@@ -139,7 +158,7 @@ function Auth() {
               <Field
                 name="fullName"
                 type="text"
-                placeholder="Name"
+                placeholder="Full Name"
                 autoComplete="off"
               />
               <ErrorMessage
@@ -174,6 +193,8 @@ function Auth() {
               <button className="button" type="submit">
                 Sign Up
               </button>
+              <h5 className="h5">{message}</h5>
+              <h5 className="h5-light">{message1}</h5>
             </Form>
           </div>
         </Formik>
@@ -207,13 +228,13 @@ function Auth() {
                 autoComplete="off"
               />
               {/* FORGOT PASSWORD BTN */}
-              <a className="a" href="#">
+              <Link className="a" to="/forgot-password">
                 Forgot your password?
-              </a>
-              {/*  */}
+              </Link>
               <button className="button" type="submit">
                 Sign In
               </button>
+              <h5 className="h5">{message}</h5>
             </Form>
           </div>
         </Formik>

@@ -2,6 +2,7 @@ const { db } = require("../database/index"); //mysql
 const Crypto = require("crypto"); // for hashing
 //Middleware
 const { createToken } = require("../helper/createToken");
+const { createTokenF } = require("../helper/forgotPassword/createTokenF");
 const nodemailer = require("../helper/nodemailer");
 
 module.exports = {
@@ -34,12 +35,11 @@ module.exports = {
       }
       //Check Register Data
       if (results.length === 0) {
-        res
+        return res
           .status(200)
-          .send({ messege: "Data Form Not Complete", success: false });
-        return;
+          .send({ message: "Data Form Not Complete", success: false });
       }
-      //If Inject Data Success//
+      //If Data Saved//
       if (results) {
         //get user data
         let newUserQuery = `SELECT * FROM users WHERE idUser = ${results.insertId} ;`;
@@ -49,6 +49,7 @@ module.exports = {
             res.status(500).send(err);
           }
           //Create Token
+          delete results1[0].password;
           let { idUser, fullName, username, email, idRole, isVerified } =
             results1[0];
           let Token = createToken({
@@ -70,13 +71,16 @@ module.exports = {
             if (errMail) {
               console.log(errMail);
               res.status(500).send({
-                messege: "Registration failed",
+                message: "Registration failed",
                 success: false,
               });
             }
             res.status(200).send({
-              messege: "Registration success, check your email",
+              message:
+                "Registration And Login Success, check your email to verify account",
               success: true,
+              token: Token,
+              dataUser: results1[0],
             });
           });
         });
@@ -86,15 +90,14 @@ module.exports = {
 
   // VERIFICATION //
   verification: (req, res) => {
-    console.log(req.user);
     //update isverified: 1
     let verifyQuery = `UPDATE users SET isVerified = 1 WHERE idUser = ${req.user.idUser};`;
     db.query(verifyQuery, (err, results) => {
       if (err) {
         console.log(err);
-        res.status(500).send({ messege: "acount unverified", success: false });
+        res.status(500).send({ message: "acount unverified", success: false });
       }
-      res.status(200).send({ messege: "acount verified", success: true });
+      res.status(200).send({ message: "acount verified", success: true });
     });
   },
 
@@ -110,32 +113,26 @@ module.exports = {
     )} AND password =${db.escape(req.body.password)} ;`;
     //inject query
     db.query(loginQuery, (err, results) => {
-      //if error
-      if (err) res.status(500).send(err);
+      if (err) {
+        res.status(500).send(err);
+      }
       //Check USER Data
       if (results.length === 0) {
-        res
+        return res
           .status(200)
-          .send({ messege: "Account Is Not Registered", success: false });
-        return;
+          .send({ message: "Account Is Not Registered", success: false });
       }
-      //if not error create token n check status
+      // Check isVerified & Create Token
       if (results[0]) {
         //user data
-        let {
-          idUser,
-          fullName,
-          username,
-          email,
-          password,
-          idRole,
-          isVerified,
-        } = results[0];
-        //check verified
+        delete results[0].password;
+        let { idUser, fullName, username, email, idRole, isVerified } =
+          results[0];
+        //check isVerified
         if (isVerified != 1) {
           return res
             .status(200)
-            .send({ messege: "account not verified", success: false });
+            .send({ message: "Account Is Not Verified", success: false });
         } else {
           //Create Token
           let Token = createToken({
@@ -143,15 +140,14 @@ module.exports = {
             fullName,
             username,
             email,
-            password,
             idRole,
             isVerified,
           });
           return res.status(200).send({
-            messege: "Login Success",
+            message: "Login Success",
             success: true,
             token: Token,
-            dataLogin: results[0],
+            dataUser: results[0],
           });
         }
       }
@@ -159,25 +155,114 @@ module.exports = {
   },
   //GET DATA CHECK LOGIN
   getDataUser: (req, res) => {
-    let scriptQuery = `SELECT *  FROM users WHERE idUser=${req.user.idUser}`
+    let scriptQuery = `SELECT *  FROM users WHERE idUser=${req.user.idUser}`;
     db.query(scriptQuery, (err, results) => {
-      return res
-        .status(200)
-        .send(results);
-    })
-
+      return res.status(200).send(results);
+    });
   },
   //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
-    const idUser = req.user.idUser
+    const idUser = req.user.idUser;
     console.log(idUser);
     console.log(req.body);
-    let { fullName, username, email, gender, dateOfBirth } = req.body
-    let scriptQuery = `UPDATE users SET fullName=${db.escape(fullName)}, username=${db.escape(username)},email=${db.escape(email)},gender=${db.escape(gender)},dateOfBirth=${db.escape(dateOfBirth)} WHERE idUser=${db.escape(idUser)}`
+    let { fullName, username, email, gender, dateOfBirth } = req.body;
+    let scriptQuery = `UPDATE users SET fullName=${db.escape(
+      fullName
+    )}, username=${db.escape(username)},email=${db.escape(
+      email
+    )},gender=${db.escape(gender)},dateOfBirth=${db.escape(
+      dateOfBirth
+    )} WHERE idUser=${db.escape(idUser)}`;
     console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
-      if (err) res.status(500).send({ message: "Gagal mengambil data di database", success: false, err })
-      res.status(200).send(results)
-    })
-  }
+      if (err)
+        res
+          .status(500)
+          .send({
+            message: "Gagal mengambil data di database",
+            success: false,
+            err,
+          });
+      res.status(200).send(results);
+    });
+  },
+
+  // FORGOT PASSWORD //
+  forgotPassword: (req, res) => {
+    //Query
+    let selectQuery = `SELECT * FROM users WHERE email =${db.escape(
+      req.body.email
+    )} ;`;
+    db.query(selectQuery, (err, results) => {
+      if (err) {
+        res.status(500).send({ message: err, success: false });
+      }
+
+      // Check Data User
+      if (results.length === 0) {
+        res
+          .status(200)
+          .send({ message: "Email Is Not Registered", success: false });
+        return;
+      }
+
+      //If User Data Exist
+      if (results) {
+        //Create Token
+        let { idUser, fullName, username, email, idRole, isVerified } =
+          results[0];
+        let Token = createTokenF({
+          idUser,
+          fullName,
+          username,
+          email,
+          idRole,
+          isVerified,
+        });
+        //Send Verify Email
+        let mail = {
+          from: `Admin <ayyasluthfi@gmail.com>`,
+          to: `${email}`,
+          subject: `Acount Verification`,
+          html: `<a href="http://localhost:3000/reset-password/${idUser}/${Token}"> Hai ${username}, Click here to Reset your password, this link valid for only 1 hour</a>`,
+        };
+        //nodemailer
+        nodemailer.sendMail(mail, (errMail, restMail) => {
+          if (errMail) {
+            console.log(errMail);
+            res.status(500).send({
+              message: "req forgot password failed",
+              success: false,
+            });
+          }
+          res.status(200).send({
+            message: "Request Forgot Password Success  ✔",
+            success: true,
+          });
+        });
+      }
+    });
+  },
+
+  // VERIFICATION FORGOT //
+  verificationF: (req, res) => {
+    //hash password
+    req.body.newPassword = Crypto.createHmac("sha1", "hash123")
+      .update(req.body.newPassword)
+      .digest("hex");
+    const newPassword = req.body.newPassword;
+    //update password
+    let updateQuery = `UPDATE users SET password = "${newPassword}" WHERE idUser = ${req.user.idUser};`;
+    db.query(updateQuery, (err, results) => {
+      if (err) {
+        console.log(err);
+        res
+          .status(500)
+          .send({ message: "update password failed", success: false });
+      }
+      res
+        .status(200)
+        .send({ message: "update password success ✔", success: true });
+    });
+  },
 };

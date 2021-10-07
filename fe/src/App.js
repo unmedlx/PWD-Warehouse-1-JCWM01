@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
 import Profile from "./pages/Profile";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -52,6 +54,8 @@ function App() {
         <Route component={Auth} path="/authentication" />
         <Route component={Verification} path="/verification/:token" />
         <Route component={Profile} path="/profile" />
+        <Route component={ForgotPassword} path="/forgot-password" />
+        <Route component={ResetPassword} path="/reset-password/:id/:token" />
         <Route component={Home} path="/" />
       </Switch>
     </BrowserRouter>
