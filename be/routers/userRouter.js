@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/register", userController.register);
 router.patch("/verification", authToken, userController.verification);
 router.post("/login", userController.login);
-router.patch("/", authToken, userController.getDataUser)
+router.post("/", authToken, userController.getDataUser)
 router.patch("/edit", authToken, userController.editDataUser)
 router.patch("/change-password", authToken, userController.changePasswordUser)
 

@@ -2,7 +2,7 @@ const { db } = require("../database/index"); //mysql
 
 
 module.exports = {
-    getAdress: (req, res) => {
+    getAddress: (req, res) => {
         idUser = parseInt(req.params.id)
         console.log(idUser);
         let scriptQuery = `SELECT * FROM addresses WHERE idUser=${req.params.id}`
@@ -74,5 +74,15 @@ module.exports = {
             }
             return res.status(200).send({ message: 'Berahasil Menghapus Data Alamat', results, success: true })
         })
+    },
+    //GET DATA CHECK LOGIN
+    getDataAddress: (req, res) => {
+        let scriptQuery = `SELECT *  FROM addresses WHERE idUser=${req.user.idUser}`
+        db.query(scriptQuery, (err, results) => {
+            return res
+                .status(200)
+                .send(results);
+        })
+
     }
 }

@@ -23,20 +23,37 @@ function App() {
     const userLocalStorage = localStorage.getItem("token_shutter")
 
     if (userLocalStorage) {
-      axios
-        .patch(
-          `http://localhost:3001/users/`,
-          {},
-          {
-            headers: {
-              authorization: `Bearer ${userLocalStorage}`,
-            },
-          }
-        )
+      axios.post(`http://localhost:3001/users/`,
+        {},
+        {
+          headers: {
+            authorization: `Bearer ${userLocalStorage}`,
+          },
+        }
+      )
         .then((res) => {
           delete res.data.password;
           dispatch({
             type: "USER_LOGIN",
+            payload: res.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      axios.post(`http://localhost:3001/address/`,
+        {},
+        {
+          headers: {
+            authorization: `Bearer ${userLocalStorage}`,
+          },
+        }
+      )
+        .then((res) => {
+          delete res.data.password;
+          dispatch({
+            type: "GET_ADDRESS",
             payload: res.data,
           });
         })
