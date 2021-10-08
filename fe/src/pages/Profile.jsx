@@ -9,6 +9,7 @@ import ImageModals from '../components/ImageModals';
 import ProfileAddress from '../components/ProfileAddress';
 import ProfileData from '../components/ProfileData';
 import { API_URL } from '../helper';
+import ProfileNavbar from '../components/ProfileNavbar';
 
 
 const Profile = () => {
@@ -56,10 +57,7 @@ const Profile = () => {
                     </div>
 
                     <div className="profile-main">
-                        <div className="profile-tab">
-                            <Link to="/profile"><a>PROFILE</a></Link>
-                            <Link to="/profile/address"><a>ADDRESS</a></Link>
-                        </div>
+                        <ProfileNavbar />
                         <div className="profile-main-detail">
                             <h1><strong>Hello, {fullName}</strong></h1>
                             <h6><strong>{email}</strong></h6>

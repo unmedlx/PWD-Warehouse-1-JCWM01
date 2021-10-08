@@ -79,6 +79,16 @@ module.exports = {
     getDataAddress: (req, res) => {
         let scriptQuery = `SELECT *  FROM addresses WHERE idUser=${req.user.idUser}`
         db.query(scriptQuery, (err, results) => {
+
+            console.log(results);
+            results.forEach(function (result, i) {
+                if (result.isDefault === 1) {
+                    results.splice(i, 1);
+                    results.unshift(result);
+                }
+            });
+
+            console.log(results);
             return res
                 .status(200)
                 .send(results);
