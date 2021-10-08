@@ -5,6 +5,7 @@ import * as Yup from 'yup'
 import axios from 'axios'
 import { API_URL } from '../helper/index'
 import { useSelector } from 'react-redux'
+import '../assets/styles/addressModals.css'
 
 const AddAddressModal = ({ show, handleClose }) => {
     const userGlobal = useSelector((state) => state.users);
@@ -26,7 +27,7 @@ const AddAddressModal = ({ show, handleClose }) => {
 
     const addressDataValidationSchema = Yup.object().shape({
         recipientName: Yup.string().required("Recipient name is required"),
-        phoneNumber: Yup.number().required("Phone number is required"),
+        phoneNumber: Yup.number().min(12).required("Phone number is required"),
         jalan: Yup.string().required("Street is required"),
         kecamatan: Yup.string().required("Subdivision is required"),
         kota: Yup.string().required("City is required"),
@@ -56,9 +57,9 @@ const AddAddressModal = ({ show, handleClose }) => {
             })
     }
     return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>Choose Your Profile Picture</Modal.Title>
+        <Modal show={show} onHide={handleClose} size="lg" >
+            <Modal.Header closeButton className="modal-header-style">
+                <Modal.Title classname="header-title">Add New Address</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik initialValues={addressDataInitialValues}
@@ -67,53 +68,62 @@ const AddAddressModal = ({ show, handleClose }) => {
                     enableReinitialize={true}>
 
                     <Form>
-                        <div className="profile-main-data">
-                            <div className="input-container">
-                                <ErrorMessage name="recipientName" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="recipientName" placeholder="Recipient Name" />
+                        <div className="address-modals-container">
+                            <div className="profile-main-data">
+                                <div className="input-container">
+                                    <label htmlFor="recipientName" className="form-label">Recipient Name</label>
+                                    <ErrorMessage name="recipientName" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="recipientName" placeholder="Recipient Name" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
+                                    <ErrorMessage name="phoneNumber" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="phoneNumber" placeholder="Phone Number" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="jalan" className="form-label">Street</label>
+                                    <ErrorMessage name="jalan" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="jalan" placeholder="Street" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="kecamatan" className="form-label">District</label>
+                                    <ErrorMessage name="kecamatan" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="kecamatan" placeholder="District" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="kota" className="form-label">City</label>
+                                    <ErrorMessage name="kota" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="kota" placeholder="City" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="provinsi" className="form-label">Province</label>
+                                    <ErrorMessage name="provinsi" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="provinsi" placeholder="Province" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="zip" className="form-label">ZIP</label>
+                                    <ErrorMessage name="zip" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="zip" placeholder="ZIP" />
+                                </div>
                             </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="phoneNumber" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="phoneNumber" placeholder="Phone Number" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="jalan" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="jalan" placeholder="Street" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="kecamatan" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="kecamatan" placeholder="Subdivision" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="kota" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="kota" placeholder="City" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="provinsi" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="provinsi" placeholder="Province" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="zip" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="zip" placeholder="ZIP" />
-                            </div>
+                            {successUpload ?
+                                <button className="btn success-btn" disabled>Success</button>
+                                :
+                                <button type="submit" className="btn submit-btn">Add Address</button>
+                            }
                         </div>
-                        {successUpload ?
-                            <button className="btn btn-success mt-2" disabled>Success</button>
-                            :
-                            <button type="submit" className="btn btn-warning">Add Address</button>
-                        }
 
                     </Form>
                 </Formik>

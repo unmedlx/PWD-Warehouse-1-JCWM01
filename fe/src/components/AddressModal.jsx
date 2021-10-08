@@ -5,6 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import axios from 'axios'
 import { API_URL } from '../helper/index'
+import '../assets/styles/addressModals.css'
 
 const AddressModal = ({ show, handleClose, address }) => {
     const userGlobal = useSelector((state) => state.users);
@@ -60,9 +61,9 @@ const AddressModal = ({ show, handleClose, address }) => {
     }
 
     return (
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-lg">Choose Your Profile Picture</Modal.Title>
+                <Modal.Title id="example-modal-sizes-title-lg">Edit Address</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Formik initialValues={addressDataInitialValues}
@@ -71,62 +72,64 @@ const AddressModal = ({ show, handleClose, address }) => {
                     enableReinitialize={true}>
 
                     <Form>
-                        <div className="profile-main-data">
-                            <div className="input-container">
-                                <ErrorMessage name="recipientName" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="recipientName" placeholder="Recipient Name" />
+                        <div className="address-modals-container">
+
+                            <div className="profile-main-data">
+                                <div className="input-container">
+                                    <ErrorMessage name="recipientName" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="recipientName" placeholder="Recipient Name" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <ErrorMessage name="phoneNumber" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="phoneNumber" placeholder="Phone Number" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <ErrorMessage name="jalan" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="jalan" placeholder="Street" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <ErrorMessage name="kecamatan" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="kecamatan" placeholder="Subdivision" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <ErrorMessage name="kota" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="kota" placeholder="City" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <ErrorMessage name="provinsi" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="provinsi" placeholder="Province" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <ErrorMessage name="zip" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="zip" placeholder="ZIP" />
+                                </div>
+
+                                <div className="input-container">
+                                    <ErrorMessage name="isDefault" component="span" className="error-message" />
+                                    <label>
+                                        <Field type="checkbox" autocomplete="off" className="input-field" name="isDefault" />Default
+                                    </label>
+
+                                </div>
                             </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="phoneNumber" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="phoneNumber" placeholder="Phone Number" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="jalan" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="jalan" placeholder="Street" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="kecamatan" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="kecamatan" placeholder="Subdivision" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="kota" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="kota" placeholder="City" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="provinsi" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="provinsi" placeholder="Province" />
-                            </div>
-
-
-                            <div className="input-container">
-                                <ErrorMessage name="zip" component="span" className="error-message" />
-                                <Field type="text" autocomplete="off" className="input-field" name="zip" placeholder="ZIP" />
-                            </div>
-
-                            <div className="input-container">
-                                <ErrorMessage name="isDefault" component="span" className="error-message" />
-                                <label>
-                                    <Field type="checkbox" autocomplete="off" className="input-field" name="isDefault" />
-                                    Default
-                                </label>
-
-                            </div>
+                            {successUpload ?
+                                <button className="btn success-btn" disabled>Success</button>
+                                :
+                                <button type="submit" className="btn submit-btn">Edit Address</button>
+                            }
                         </div>
-                        {successUpload ?
-                            <button className="btn btn-success mt-2" disabled>Success</button>
-                            :
-                            <button type="submit" className="btn btn-warning">Edit Address</button>
-                        }
                     </Form>
                 </Formik>
 

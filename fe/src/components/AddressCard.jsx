@@ -35,21 +35,21 @@ const AddressCard = ({ address }) => {
             <div className="address-card">
                 <div>
                     <div className="address-card-data">
-                        <div className="recipient">
-                            <h6>{address.recipientName}</h6>
-                            <p>{address.phoneNumber}</p>
-                        </div>
-                        <div className="address-location">
-                            <p>{address.jalan}</p>
-                            <p>{address.kecamatan}, {address.kota}, {address.provinsi}</p>
-                            <p>{address.zip}</p>
-                        </div>
                         <div className="status">
                             {
                                 address.isDefault == 1 ?
                                     <p><Badge bg="#32b280">Primary</Badge></p>
                                     : null
                             }
+                        </div>
+                        <div className="recipient">
+                            <h6>{address.recipientName}</h6>
+                        </div>
+                        <p className="phoneNumber">{address.phoneNumber}</p>
+                        <div className="address-location">
+                            <p>{address.jalan}</p>
+                            <p>{address.kecamatan}, {address.kota}, {address.provinsi}</p>
+                            <p>{address.zip}</p>
                         </div>
                     </div>
                     <a className="address-edit setting" onClick={handleShow}>Edit</a>

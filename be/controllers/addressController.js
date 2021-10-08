@@ -34,19 +34,34 @@ module.exports = {
 
             })
         })
+
+
     },
     addAddress: (req, res) => {
-        console.log(req.addressData);
-        const { recipientName, phoneNumber, kecamatan, kota, provinsi, zip, jalan, idUser, isDefault, latitude, longitude } = req.addressData
-        let scriptQuery = `INSERT INTO addresses (recipientName,phoneNumber,kecamatan,kota,provinsi,zip,jalan,idUser,isDefault,latitude,longitude) 
-        VALUES(${db.escape(recipientName)},${db.escape(phoneNumber)},${db.escape(kecamatan)},${db.escape(kota)},${db.escape(provinsi)},${db.escape(zip)},${db.escape(jalan)},${db.escape(idUser)},0,${db.escape(longitude)},${db.escape(latitude)})`
-        console.log(scriptQuery);
+        const { recipientName, phoneNumber, kecamatan, kota, provinsi, zip, jalan, idUser, latitude, longitude } = req.addressData
+        let scriptQuery = `SELECT * FROM addresses WHERE idUser=${idUser}`
         db.query(scriptQuery, (err, results) => {
             if (err) {
                 return res.status(500).send({ message: 'Error Occurs', success: false, err })
             }
-            return res.status(200).send({ message: 'Berahasil Menambahkan Data Alamat', results, success: true })
+
+            //Check alamat udah ada 5 atau belum
+            if (results.length >= 5) {
+                return res.status(200).send({ message: 'Anda hanya bisa memiliki 5 alamat', results, success: true })
+            } else {
+                let scriptQuery = `INSERT INTO addresses (recipientName,phoneNumber,kecamatan,kota,provinsi,zip,jalan,idUser,isDefault,latitude,longitude) 
+                VALUES(${db.escape(recipientName)},${db.escape(phoneNumber)},${db.escape(kecamatan)},${db.escape(kota)},${db.escape(provinsi)},${db.escape(zip)},${db.escape(jalan)},${db.escape(idUser)},0,${db.escape(longitude)},${db.escape(latitude)})`
+                console.log(scriptQuery);
+                db.query(scriptQuery, (err, results) => {
+                    if (err) {
+                        return res.status(500).send({ message: 'Error Occurs', success: false, err })
+                    }
+                    return res.status(200).send({ message: 'Berahasil Menambahkan Data Alamat', results, success: true })
+                })
+            }
+
         })
+
     },
     deleteAddress: (req, res) => {
         console.log(req.params.idAddress);
