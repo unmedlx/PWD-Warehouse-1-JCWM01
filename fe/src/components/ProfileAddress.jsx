@@ -9,14 +9,13 @@ import '../assets/styles/ProfileAddress.css'
 const ProfileAddress = (addressGlobal) => {
     const userGlobal = useSelector((state) => state.users);
     const [show, setShow] = useState(false);
-    const [addresses, setAddresses] = useState()
-    const dispatch = useDispatch()
 
-    // const reload = () => window.location.reload();
+
+    const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        // reload()
+        reload()
     }
 
     const handleShow = () => setShow(true);

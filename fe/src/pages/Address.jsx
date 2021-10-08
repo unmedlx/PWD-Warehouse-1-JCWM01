@@ -57,9 +57,8 @@ const Address = () => {
 
                     <div className="profile-main">
                         <div className="profile-tab">
-                            <div><a onClick={() => setProfileNav(1)}>PROFILE</a></div>
-                            <div><a onClick={() => setProfileNav(2)}>ADDRESS</a></div>
-                            <div><a >{profileNav}</a></div>
+                            <Link to="/profile"><a>PROFILE</a></Link>
+                            <Link to="/profile/address"><a>ADDRESS</a></Link>
                         </div>
 
                         <div className="profile-main-detail">

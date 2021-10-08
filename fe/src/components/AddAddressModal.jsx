@@ -37,7 +37,6 @@ const AddAddressModal = ({ show, handleClose }) => {
     });
 
     const onSubmit = (data) => {
-
         if (data.isDefault == true) {
             data = { ...data, isDefault: 1 }
         } else if (data.isDefault == false) {
@@ -45,7 +44,7 @@ const AddAddressModal = ({ show, handleClose }) => {
         }
         data = { ...data, idUser: idUser }
         console.log(data);
-        axios.post(`${API_URL}/address`, { data })
+        axios.post(`${API_URL}/address/addAddress`, { data })
             .then((res) => {
                 console.log(res);
                 setSuccessUpload(res.data.success)

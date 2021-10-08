@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
@@ -56,24 +57,15 @@ const Profile = () => {
 
                     <div className="profile-main">
                         <div className="profile-tab">
-                            <div><a onClick={() => setProfileNav(1)}>PROFILE</a></div>
-                            <div><a onClick={() => setProfileNav(2)}>ADDRESS</a></div>
-                            <div><a >{profileNav}</a></div>
+                            <Link to="/profile"><a>PROFILE</a></Link>
+                            <Link to="/profile/address"><a>ADDRESS</a></Link>
                         </div>
                         <div className="profile-main-detail">
                             <h1><strong>Hello, {fullName}</strong></h1>
                             <h6><strong>{email}</strong></h6>
                             <hr className="hr-line" />
-                            {profileNav == 1 ?
-                                <>
-                                    <ProfileData handleClose={handleClose} />
-                                </>
-                                : profileNav == 2 ?
-                                    <>
-                                        <ProfileAddress setProfileNav={setProfileNav} />
-                                    </>
-                                    : null
-                            }
+
+                            <ProfileData handleClose={handleClose} />
 
                         </div>
                     </div>

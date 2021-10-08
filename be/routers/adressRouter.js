@@ -9,7 +9,7 @@ const router = express.Router()
 router.get("/:id", addressController.getAddress);
 router.post("/", authToken, addressController.getDataAddress);
 router.patch("/:id", addressController.editAddress);
-router.post("/", getCoor, addressController.addAddress);
+router.post("/addAddress", getCoor, addressController.addAddress);
 router.delete("/:idAddress", addressController.deleteAddress);
 
 
