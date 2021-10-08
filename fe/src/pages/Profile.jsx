@@ -59,7 +59,7 @@ const Profile = () => {
                         <div className="profile-main-detail">
                             <h1><strong>Hello, {fullName}</strong></h1>
                             <h6><strong>{email}</strong></h6>
-                            <hr />
+                            <hr className="hr-line" />
                             {profileNav == 1 ?
                                 <>
                                     <ProfileData handleClose={handleClose} />

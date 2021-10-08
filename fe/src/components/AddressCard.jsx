@@ -3,6 +3,8 @@ import { Redirect } from 'react-router';
 import { API_URL } from '../helper';
 import AddressModal from './AddressModal';
 import axios from 'axios';
+import '../assets/styles/ProfileAddress.css'
+import { Badge } from 'react-bootstrap';
 
 const AddressCard = ({ address }) => {
     const [show, setShow] = useState(false);
@@ -30,17 +32,29 @@ const AddressCard = ({ address }) => {
 
     return (
         <>
-            <div className="profile-adress-item">
-                <h4>{address.recipientName}</h4>
-                <p>{address.phoneNumber}</p>
-                <p>{address.jalan}</p>
-                <p>{address.kecamatan}</p>
-                <p>{address.kota}</p>
-                <p>{address.provinsi}</p>
-                <p>{address.zip}</p>
-                <p>{address.isDefault}</p>
-                <button className="btn btn-warning mt-3" onClick={handleShow}>Edit</button>
-                <button className="btn btn-danger mt-3" onClick={() => deleteBtnHandler(address.idAddress)}>Delete</button>
+            <div className="address-card">
+                <div>
+                    <div className="address-card-data">
+                        <div className="recipient">
+                            <h6>{address.recipientName}</h6>
+                            <p>{address.phoneNumber}</p>
+                        </div>
+                        <div className="address-location">
+                            <p>{address.jalan}</p>
+                            <p>{address.kecamatan}, {address.kota}, {address.provinsi}</p>
+                            <p>{address.zip}</p>
+                        </div>
+                        <div className="status">
+                            {
+                                address.isDefault == 1 ?
+                                    <p><Badge bg="#32b280">Primary</Badge></p>
+                                    : null
+                            }
+                        </div>
+                    </div>
+                    <a className="address-edit setting" onClick={handleShow}>Edit</a>
+                    <a className="address-delete setting" onClick={() => deleteBtnHandler(address.idAddress)}>Delete</a>
+                </div>
             </div>
             <AddressModal show={show} handleClose={handleClose} address={address} />
         </>

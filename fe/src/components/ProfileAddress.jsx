@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { API_URL } from '../helper'
 import AddAddressModal from './AddAddressModal';
-import Address from './Address';
 import AddressCard from './AddressCard';
+import '../assets/styles/ProfileAddress.css'
 
 const ProfileAddress = () => {
     const userGlobal = useSelector((state) => state.users);
@@ -51,9 +51,11 @@ const ProfileAddress = () => {
     return (
         <>
             <div>
-                <p><strong>Address</strong></p>
-                <button className="btn btn-warning mt-3" onClick={handleShow}>Add Address</button>
-                <div className="profile-main-address">
+                <div className="address">
+                    <h4><strong>Address</strong></h4>
+                    <button className="btn btn-warning" onClick={handleShow}>Add Address</button>
+                </div>
+                <div>
                     {renderAddress()}
                 </div>
             </div>
