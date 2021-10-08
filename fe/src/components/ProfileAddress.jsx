@@ -6,39 +6,31 @@ import AddAddressModal from './AddAddressModal';
 import AddressCard from './AddressCard';
 import '../assets/styles/ProfileAddress.css'
 
-const ProfileAddress = () => {
+const ProfileAddress = (addressGlobal) => {
     const userGlobal = useSelector((state) => state.users);
     const [show, setShow] = useState(false);
-    const [addresses, setAddresses] = useState([])
+    const [addresses, setAddresses] = useState()
     const dispatch = useDispatch()
 
-    const reload = () => window.location.reload();
+    // const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        reload()
+        // reload()
     }
 
     const handleShow = () => setShow(true);
 
-
-    const fetchDataAddress = (idUser) => {
-        axios.get(`${API_URL}/address/${idUser}`)
-            .then((res) => {
-                console.log(res.data.results);
-                dispatch({
-                    type: "GET_ADDRESS",
-                    payload: res.data.results
-                })
-                setAddresses(res.data.results)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+    const fetchDataAddress = () => {
+        const { idUser } = userGlobal
+        console.log(idUser);
     }
 
     const renderAddress = () => {
-        return addresses.map((address) => {
+        console.log(addressGlobal.addresses);
+        let arrAddress = Object.values(addressGlobal.addresses)
+        console.log(arrAddress);
+        return arrAddress.map((address) => {
             // return <Address />
             return (
                 <AddressCard address={address} />
@@ -47,8 +39,8 @@ const ProfileAddress = () => {
     }
 
     useEffect(() => {
-        const { idUser } = userGlobal
-        fetchDataAddress(idUser)
+        fetchDataAddress()
+
     }, [])
 
     return (

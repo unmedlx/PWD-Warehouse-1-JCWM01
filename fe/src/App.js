@@ -2,6 +2,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
+import Address from "./pages/Address";
 import Profile from './pages/Profile';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
@@ -70,6 +71,7 @@ function App() {
         <Route component={Auth} path="/authentication" />
         <Route component={Verification} path="/verification/:token" />
         <Route component={ChangePassword} path="/profile/change-password" />
+        <Route component={Address} path="/profile/address" />
         <Route component={Profile} path="/profile" />
         <Route component={Home} path="/" />
       </Switch>

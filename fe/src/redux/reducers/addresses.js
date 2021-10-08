@@ -1,5 +1,4 @@
-const initialState = {
-};
+const initialState = [];
 
 const users = (state = initialState, { type, payload }) => {
     switch (type) {
