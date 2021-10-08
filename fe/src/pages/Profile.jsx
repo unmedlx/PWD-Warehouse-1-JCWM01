@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 
 import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
@@ -47,7 +47,11 @@ const Profile = () => {
                         <div className="profile-photo-desc mt-3">
                             <p>Besar file: maksimum 5.000.000 bytes (5 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</p>
                         </div>
-                        <button className="btn btn-light mt-3">Change Password</button>
+                        <button className="button-profile mt-3"  >
+                            <Link to="/profile/change-password" style={{ textDecoration: 'none', color: 'white' }}>
+                                Change Password
+                            </Link>
+                        </button>
                     </div>
 
                     <div className="profile-main">

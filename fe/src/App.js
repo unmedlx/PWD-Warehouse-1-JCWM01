@@ -7,6 +7,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react'
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -51,6 +52,7 @@ function App() {
       <Switch>
         <Route component={Auth} path="/authentication" />
         <Route component={Verification} path="/verification/:token" />
+        <Route component={ChangePassword} path="/profile/change-password" />
         <Route component={Profile} path="/profile" />
         <Route component={Home} path="/" />
       </Switch>

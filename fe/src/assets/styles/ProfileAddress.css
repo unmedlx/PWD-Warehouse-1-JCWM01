@@ -26,12 +26,13 @@
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
     display: flex;
     align-items: flex-start;
-
+    transition: 0.2s;
     /* background-color: violet; */
 }
 
 .address-card:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    border-bottom: 10px solid #32b280;
   }
 
 .address-card .address-edit{
