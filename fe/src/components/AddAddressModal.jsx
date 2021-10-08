@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import { Modal, Button } from 'react-bootstrap'
-import * as Yup from 'yup'
-import axios from 'axios'
-import { API_URL } from '../helper/index'
-import { useSelector } from 'react-redux'
-import '../assets/styles/addressModals.css'
+import React, { useState } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Modal } from 'react-bootstrap';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { API_URL } from '../helper/index';
+import { useSelector } from 'react-redux';
+import '../assets/styles/addressModals.css';
 
 const AddAddressModal = ({ show, handleClose }) => {
     const userGlobal = useSelector((state) => state.users);
@@ -34,7 +34,7 @@ const AddAddressModal = ({ show, handleClose }) => {
         provinsi: Yup.string().required("Province is required"),
         zip: Yup.number().required("ZIP is required"),
 
-    })
+    });
 
     const onSubmit = (data) => {
 

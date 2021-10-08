@@ -12,8 +12,11 @@ const ProfileAddress = () => {
     const [addresses, setAddresses] = useState([])
     const dispatch = useDispatch()
 
+    const reload = () => window.location.reload();
+
     const handleClose = () => {
         setShow(false);
+        reload()
     }
 
     const handleShow = () => setShow(true);

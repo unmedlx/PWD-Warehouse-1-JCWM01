@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { Redirect } from 'react-router';
 import { API_URL } from '../helper';
 import AddressModal from './AddressModal';
 import axios from 'axios';

@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Modal } from 'react-bootstrap'
-import { Formik, Form, Field, ErrorMessage } from 'formik'
-import * as Yup from 'yup'
-import axios from 'axios'
-import { API_URL } from '../helper/index'
-import '../assets/styles/addressModals.css'
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Modal } from 'react-bootstrap';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { API_URL } from '../helper/index';
+import '../assets/styles/addressModals.css';
 
 const AddressModal = ({ show, handleClose, address }) => {
     const userGlobal = useSelector((state) => state.users);
