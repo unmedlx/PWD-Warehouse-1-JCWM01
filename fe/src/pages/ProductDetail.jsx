@@ -10,6 +10,7 @@ import "../assets/styles/ProductDetail.css";
 export default function ProductDetail(props) {
   const [productDetail, setProductDetail] = useState([]);
   const [image, setImage] = useState("");
+  const [stock, setStock] = useState([]);
 
   const [additionalInfo, setAdditionalInfo] = useState({
     quantity: 1,
@@ -32,8 +33,20 @@ export default function ProductDetail(props) {
       });
   };
 
+  const fetchStock = () => {
+    axios
+      .get(`${API_URL}/userstocks/${props.match.params.idProduct}`)
+      .then((response) => {
+        setStock(response.data[0]);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchStock();
   }, []);
 
   const qtyButtonHandler = (action) => {
@@ -87,7 +100,9 @@ export default function ProductDetail(props) {
               <h4>{productDetail.category}</h4>
               <h1>Rp. {productDetail.price}</h1>
               <p>{productDetail.description}</p>
-              <p style={{ marginBottom: -15 }}>Stock: 12</p>
+              <p style={{ marginBottom: -15 }}>
+                Ready Stock: {stock.sumQuantity} pcs
+              </p>
 
               <div className="d-flex flex-row align-items-center">
                 <span

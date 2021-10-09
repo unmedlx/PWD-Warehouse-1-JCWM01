@@ -9,6 +9,24 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "../assets/styles/AdminDashboard.css";
 
 export default function AdminProductCard(props) {
+  let badge;
+  if (props.category == "Baju") {
+    badge = (
+      <span className="badge rounded-pill alert-success">{props.category}</span>
+    );
+  } else if (props.category == "Celana") {
+    badge = (
+      <span className="badge rounded-pill alert-primary">{props.category}</span>
+    );
+  } else if (props.category == "Jaket") {
+    badge = (
+      <span className="badge rounded-pill alert-warning">{props.category}</span>
+    );
+  } else if (props.category == "Topi") {
+    badge = (
+      <span className="badge rounded-pill alert-danger">{props.category}</span>
+    );
+  }
   return (
     <div className="card-body">
       <article className="itemlist">
@@ -32,18 +50,15 @@ export default function AdminProductCard(props) {
               </div>
             </a>
           </div>
-          <div className="col-lg-2 col-sm-2 col-4 col-price">
+          <div
+            style={{ marginRight: 200 }}
+            className="col-lg-2 col-sm-2 col-4 col-price"
+          >
             {" "}
             <span>Rp. {props.price}</span>{" "}
           </div>
-          <div className="col-lg-2 col-sm-2 col-4 col-status">
-            <span className="badge rounded-pill alert-success">
-              {props.category}
-            </span>
-          </div>
-          <div className="col-lg-2 col-sm-2 col-4 col-date">
-            <span>5 pcs</span>
-          </div>
+          <div className="col-lg-2 col-sm-2 col-4 col-status">{badge}</div>
+
           <div className="col-lg-1 col-sm-2 col-4 col-action">
             <div className="dropdown float-end">
               <a href="#" data-bs-toggle="dropdown" className="btn btn-light">
