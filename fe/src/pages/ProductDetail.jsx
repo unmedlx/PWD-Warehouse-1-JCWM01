@@ -9,6 +9,7 @@ import "../assets/styles/ProductDetail.css";
 
 export default function ProductDetail(props) {
   const [productDetail, setProductDetail] = useState([]);
+  const [image, setImage] = useState("");
 
   const [additionalInfo, setAdditionalInfo] = useState({
     quantity: 1,
@@ -21,6 +22,7 @@ export default function ProductDetail(props) {
       .then((response) => {
         if (response.data.length) {
           setProductDetail(response.data[0]);
+          setImage(response.data[0].productImage);
         } else {
           setAdditionalInfo({ productNotFound: true });
         }
@@ -75,7 +77,10 @@ export default function ProductDetail(props) {
               </Link>
             </div>
             <div class="photo">
-              <img src={productDetail.productImage} alt="productImage" />
+              <img
+                src={image.includes("/images/IMG") ? API_URL + image : image}
+                alt="productImage"
+              ></img>
             </div>
             <div class="description">
               <h2>{productDetail.productName}</h2>

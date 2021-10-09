@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
 import Profile from "./pages/Profile";
+import AdminProductList from "./pages/AdminProductList";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -51,6 +52,7 @@ function App() {
         <Route component={ProductsList} path="/product-list" />
         <Route component={ProductDetail} path="/product-detail/:idProduct" />
         <Route component={AddProduct} path="/add-product" />
+        <Route component={AdminProductList} path="/admin-product-list" />
         <Route component={Auth} path="/authentication" />
         <Route component={Verification} path="/verification/:token" />
         <Route component={Profile} path="/profile" />
