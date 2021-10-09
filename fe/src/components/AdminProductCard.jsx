@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../constants/API";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -17,22 +18,28 @@ export default function AdminProductCard(props) {
             <a className="itemside" href="#">
               <div className="left">
                 <img
-                  src="https://purepng.com/public/uploads/large/white-tshirt-n0j.png"
+                  src={
+                    props.productImage.includes("/images/IMG")
+                      ? API_URL + props.productImage
+                      : props.productImage
+                  }
                   className="img-sm img-thumbnail"
                   alt="productImage"
                 />
               </div>
               <div className="info">
-                <h6 className="mb-0">Kaos Putih Polos</h6>
+                <h6 className="mb-0">{props.productName}</h6>
               </div>
             </a>
           </div>
           <div className="col-lg-2 col-sm-2 col-4 col-price">
             {" "}
-            <span>Rp. 299000</span>{" "}
+            <span>Rp. {props.price}</span>{" "}
           </div>
           <div className="col-lg-2 col-sm-2 col-4 col-status">
-            <span className="badge rounded-pill alert-success">Baju</span>
+            <span className="badge rounded-pill alert-success">
+              {props.category}
+            </span>
           </div>
           <div className="col-lg-2 col-sm-2 col-4 col-date">
             <span>5 pcs</span>
@@ -44,9 +51,12 @@ export default function AdminProductCard(props) {
                 <i className="material-icons md-more_horiz"></i>{" "}
               </a>
               <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">
+                <Link
+                  to={`/product-detail/${props.idProduct}`}
+                  class="p-name dropdown-item"
+                >
                   View product detail page
-                </a>
+                </Link>
                 <a className="dropdown-item" href="#">
                   Edit product
                 </a>

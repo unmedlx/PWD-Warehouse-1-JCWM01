@@ -128,6 +128,16 @@ export default function AddProduct() {
                   name="description"
                 ></textarea>
               </div>
+              <div className="mb-4">
+                <label className="form-label">Stock</label>
+                <input
+                  // onChange={inputHandler}
+                  type="number"
+                  placeholder="0"
+                  className="form-control"
+                  name="stock"
+                />
+              </div>
             </div>
           </div>
 
@@ -237,7 +247,7 @@ export default function AddProduct() {
           <hr className="my-4" />
 
           <div className="d-flex justify-content-end gap-2">
-            <Link to="/product-list">
+            <Link to="/admin-product-list">
               <button
                 style={{
                   color: "white",
@@ -250,7 +260,7 @@ export default function AddProduct() {
               </button>
             </Link>
 
-            <Link to="/product-list">
+            <Link to="/admin-product-list">
               <button
                 style={{
                   backgroundColor: "#32b280",

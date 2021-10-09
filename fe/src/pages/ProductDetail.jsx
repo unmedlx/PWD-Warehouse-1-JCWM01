@@ -67,7 +67,7 @@ export default function ProductDetail(props) {
       ) : (
         <div>
           <div className="card d-flex flex-row justify content evenly align-items-center">
-            <div className="d-flex align-self-start justify-content-start">
+            {/* <div className="d-flex align-self-start justify-content-start">
               <Link
                 style={{ textDecoration: "none", color: "#32b28080" }}
                 className="h2 mt-3 ms-4"
@@ -75,7 +75,7 @@ export default function ProductDetail(props) {
               >
                 {"❮"}
               </Link>
-            </div>
+            </div> */}
             <div class="photo">
               <img
                 src={image.includes("/images/IMG") ? API_URL + image : image}
@@ -87,6 +87,7 @@ export default function ProductDetail(props) {
               <h4>{productDetail.category}</h4>
               <h1>Rp. {productDetail.price}</h1>
               <p>{productDetail.description}</p>
+              <p style={{ marginBottom: -15 }}>Stock: 12</p>
 
               <div className="d-flex flex-row align-items-center">
                 <span
