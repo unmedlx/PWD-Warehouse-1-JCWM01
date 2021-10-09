@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import axios from "axios";
 import { API_URL } from "../constants/API";
@@ -8,8 +8,15 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/ProductDetail.css";
 
 export default function ProductDetail(props) {
-  const [productDetail, setProductDetail] = useState([]);
+  // GLOBAL STATE //
+  const userGlobal = useSelector((state) => state.users);
+  const { idUser, isUpload } = userGlobal;
 
+  //REDIRECT TRIGGER//
+  const [redirect, setRedirect] = useState(null);
+
+  //PRODUCT DATA
+  const [productDetail, setProductDetail] = useState([]);
   const [additionalInfo, setAdditionalInfo] = useState({
     quantity: 1,
     productNotFound: false,
@@ -43,8 +50,21 @@ export default function ProductDetail(props) {
   };
 
   const addToCartHandler = () => {
-    return;
+    // Check Login Condition
+    if (idUser) {
+      alert(
+        `Anda Berhasil Add To Cart sebanyak ${additionalInfo.quantity} Barang `
+      );
+    } else {
+      alert(`Anda Belum SignIn, Silahkan SignIn Untuk Dapat Bertransaksi `);
+      setRedirect("Reload This Page After SignIn !");
+    }
   };
+
+  // REDIRECT //
+  if (redirect) {
+    window.open("http://localhost:3000/authentication");
+  }
 
   return (
     <div
@@ -102,8 +122,11 @@ export default function ProductDetail(props) {
                     +
                   </button>
                 </span>
-                <button className="button-cart">Add to Cart</button>
+                <button className="button-cart" onClick={addToCartHandler}>
+                  Add to Cart
+                </button>
               </div>
+              <h5 className="h5-light">{redirect}</h5>
             </div>
           </div>
         </div>

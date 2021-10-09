@@ -106,12 +106,13 @@ function Auth() {
         if (res.data.success) {
           console.log(res.data.dataUser);
           localStorage.setItem("token_shutter", res.data.token);
-          alert("Login Success ✔");
           dispatch({
             type: "USER_LOGIN",
             payload: res.data.dataUser,
           });
           setMessage("Login Success ✔");
+          setMessage1("Happy Shopping ! :)");
+
           setTimeout(() => setState({ redirect: true }), 2000);
         } else {
           setMessage(null);
@@ -235,6 +236,7 @@ function Auth() {
                 Sign In
               </button>
               <h5 className="h5">{message}</h5>
+              <h5 className="h5-light">{message1}</h5>
             </Form>
           </div>
         </Formik>

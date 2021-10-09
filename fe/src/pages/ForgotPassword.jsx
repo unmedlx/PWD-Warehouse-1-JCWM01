@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { URL_API } from "../helper/index";
+import { API_URL } from "../helper/index";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -27,7 +27,7 @@ function ForgotPassword() {
     setMessage("Loading...");
 
     axios
-      .post(URL_API + "/users/forgot-pass", {
+      .post(API_URL + "/users/forgot-pass", {
         email: data.email,
       })
       .then((res) => {

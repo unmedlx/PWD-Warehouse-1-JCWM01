@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
 const { productsRouter, userRouter, uploaderRouter } = require("./routers");
 const bearerToken = require("express-bearer-token");
 const PORT = 3001;

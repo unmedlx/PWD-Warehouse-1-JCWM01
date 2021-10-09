@@ -9,9 +9,11 @@ const router = express.Router();
 router.post("/register", userController.register);
 router.patch("/verification", authToken, userController.verification);
 router.post("/login", userController.login);
+
 router.patch("/", authToken, userController.getDataUser);
 router.patch("/tes", authToken, userController.editDataUser);
 
 router.post("/forgot-pass", userController.forgotPassword);
 router.patch("/reset-pass", authTokenF, userController.verificationF);
+
 module.exports = router;

@@ -153,13 +153,26 @@ module.exports = {
       }
     });
   },
-  //GET DATA CHECK LOGIN
+
+  //CHECK LOGIN//
   getDataUser: (req, res) => {
-    let scriptQuery = `SELECT *  FROM users WHERE idUser=${req.user.idUser}`;
+    let scriptQuery = `SELECT *  FROM users WHERE idUser=${
+      req.user.idUser
+    } AND email=${db.escape(req.user.email)}`;
     db.query(scriptQuery, (err, results) => {
-      return res.status(200).send(results);
+      if (err) {
+        console.log(err);
+        res
+          .status(500)
+          .send({ message: "Failed To Get User Data", error: err });
+      } else {
+        delete results[0].password;
+        console.log(results);
+        res.status(200).send(results);
+      }
     });
   },
+
   //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
@@ -176,13 +189,11 @@ module.exports = {
     console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err)
-        res
-          .status(500)
-          .send({
-            message: "Gagal mengambil data di database",
-            success: false,
-            err,
-          });
+        res.status(500).send({
+          message: "Gagal mengambil data di database",
+          success: false,
+          err,
+        });
       res.status(200).send(results);
     });
   },

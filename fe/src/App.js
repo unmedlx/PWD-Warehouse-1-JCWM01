@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
-
+import { API_URL } from "./helper/index";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import axios from "axios";
+import { MustLoggedInRoute, AdminRoute } from "./helper/ProtectedRoute";
+import { useDispatch, useSelector } from "react-redux";
+// PAGES //
+import Admin from "./pages/Admin";
 import ProductsList from "./pages/ProductsList";
 import ProductDetail from "./pages/ProductDetail";
 import Home from "./pages/Home";
@@ -9,23 +14,21 @@ import Verification from "./pages/Verification";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import Cart from "./pages/Cart";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
-  const { idUser, isUpload } = userGlobal;
   const dispatch = useDispatch();
-  const [idUserActive, setIdUserActive] = useState(idUser);
+  //LOCAL STORAGE USED TO CONDITIONING isLogin FOR MustLoggedInRoute //
+  const userLocalStorage = localStorage.getItem("token_shutter");
+  console.log(userLocalStorage);
 
-  useEffect(() => {
-    setIdUserActive(idUser);
-    const userLocalStorage = localStorage.getItem("token_shutter");
-
+  //KEEP LOGIN CHECKER
+  const keepLogin = () => {
     if (userLocalStorage) {
       axios
         .patch(
-          `http://localhost:3001/users/`,
+          `${API_URL}/users/`,
           {},
           {
             headers: {
@@ -34,30 +37,47 @@ function App() {
           }
         )
         .then((res) => {
+          console.log(res.data);
           delete res.data[0].password;
           dispatch({
             type: "USER_LOGIN",
             payload: res.data[0],
           });
+          // console.log(isLogin);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [isUpload]);
+  };
+
+  useEffect(() => {
+    keepLogin();
+  }, []);
 
   return (
     <BrowserRouter>
-      <Switch>
-        <Route component={ProductsList} path="/product-list" />
-        <Route component={ProductDetail} path="/product-detail/:idProduct" />
-        <Route component={Auth} path="/authentication" />
-        <Route component={Verification} path="/verification/:token" />
-        <Route component={Profile} path="/profile" />
-        <Route component={ForgotPassword} path="/forgot-password" />
-        <Route component={ResetPassword} path="/reset-password/:id/:token" />
-        <Route component={Home} path="/" />
-      </Switch>
+      {/* <Switch> */}
+      <Route component={ProductsList} path="/product-list" />
+      <Route component={ProductDetail} path="/product-detail/:idProduct" />
+      <Route component={Auth} path="/authentication" />
+      <Route component={Verification} path="/verification/:token" />
+      <Route component={ForgotPassword} path="/forgot-password" />
+      <Route component={ResetPassword} path="/reset-password/:id/:token" />
+      <Route component={Home} path="/" exact />
+      {/* Protected Route */}
+      <MustLoggedInRoute
+        path="/profile"
+        component={Profile}
+        isLogin={userLocalStorage}
+      />
+      <MustLoggedInRoute
+        path="/cart"
+        component={Cart}
+        isLogin={userLocalStorage}
+      />
+      {/* <AdminRoute path="/admin" component={Admin} isAdmin={} /> */}
+      {/* </Switch> */}
     </BrowserRouter>
   );
 }
