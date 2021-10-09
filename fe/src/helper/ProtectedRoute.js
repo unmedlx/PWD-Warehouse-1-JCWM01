@@ -1,12 +1,8 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-export const MustLoggedInRoute = ({
-  isLogin: isLocalStorage,
-  component,
-  ...rest
-}) => {
-  //   console.log(isLocalStorage);
+export const MustLoggedInRoute = ({ isLogin, component, ...rest }) => {
+  //   console.log(isLogin);
   //   console.log(component);
   //   console.log(rest);
   let Component = component;
@@ -14,7 +10,7 @@ export const MustLoggedInRoute = ({
     <Route
       {...rest}
       render={(props) => {
-        if (isLocalStorage) {
+        if (isLogin) {
           return <Component />;
         } else {
           return (
@@ -39,12 +35,14 @@ export const MustLoggedInRoute = ({
  */
 
 export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
+  console.log(isAdmin);
   let Component = component;
   return (
     <Route
       {...rest}
       render={(props) => {
-        if (isAdmin) {
+        //Conditioning Role
+        if (isAdmin !== 3) {
           return <Component />;
         } else {
           return (

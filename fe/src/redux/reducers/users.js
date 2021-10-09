@@ -10,7 +10,7 @@ const initialState = {
 const users = (state = initialState, { type, payload }) => {
   switch (type) {
     case "USER_LOGIN":
-      return { ...state, ...payload };
+      return { ...state, ...payload, isLogin: true };
     case "USER_CHECK_LOGIN":
       return { ...state, isLogin: true };
     case "USER_LOGOUT":

@@ -19,9 +19,10 @@ import Cart from "./pages/Cart";
 function App() {
   const userGlobal = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  //LOCAL STORAGE USED TO CONDITIONING isLogin FOR MustLoggedInRoute //
   const userLocalStorage = localStorage.getItem("token_shutter");
   console.log(userLocalStorage);
+  console.log(userGlobal.isLogin); // to conditioning mustLogedInRoute
+  //isLogin
 
   //KEEP LOGIN CHECKER
   const keepLogin = () => {
@@ -43,7 +44,11 @@ function App() {
             type: "USER_LOGIN",
             payload: res.data[0],
           });
-          // console.log(isLogin);
+          dispatch({
+            type: "USER_CHECK_LOGIN",
+            payload: true,
+          });
+          console.log(userGlobal.isLogin);
         })
         .catch((err) => {
           console.log(err);
@@ -57,7 +62,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <Switch> */}
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Auth} path="/authentication" />
@@ -69,15 +73,14 @@ function App() {
       <MustLoggedInRoute
         path="/profile"
         component={Profile}
-        isLogin={userLocalStorage}
+        isLogin={userGlobal.isLogin}
       />
       <MustLoggedInRoute
         path="/cart"
         component={Cart}
-        isLogin={userLocalStorage}
+        isLogin={userGlobal.isLogin}
       />
-      {/* <AdminRoute path="/admin" component={Admin} isAdmin={} /> */}
-      {/* </Switch> */}
+      <AdminRoute path="/admin" component={Admin} isAdmin={userGlobal.idRole} />
     </BrowserRouter>
   );
 }

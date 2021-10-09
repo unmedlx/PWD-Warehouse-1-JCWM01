@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
 import { API_URL } from "../helper";
@@ -8,6 +8,9 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function Auth() {
+  // Redux //
+  const userGlobal = useSelector((state) => state.users);
+  const dispatch = useDispatch();
   // State //
   const [state, setState] = useState({
     btnClick: "signIn",
@@ -15,9 +18,6 @@ function Auth() {
   });
   const [message, setMessage] = useState(null);
   const [message1, setMessage1] = useState(null);
-
-  // Redux //
-  const dispatch = useDispatch();
 
   // FORMIK REGISTER //
   const registerInitialValues = {
@@ -127,7 +127,12 @@ function Auth() {
 
   // REDIRECT //
   if (state.redirect) {
-    return <Redirect to="/" />;
+    // console.log(userGlobal.idRole);
+    if (userGlobal.idRole === 3) {
+      return <Redirect to="/" />;
+    } else {
+      return <Redirect to="/admin" />;
+    }
   }
 
   // RENDER //
