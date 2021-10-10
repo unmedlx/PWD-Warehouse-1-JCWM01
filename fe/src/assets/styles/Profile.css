@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+.container{
+    font-family: "Montserrat";
+    box-sizing: border-box;
+    margin-bottom: 20vh;
+}
+
+.profile-tab{
+    display: flex;
+    margin-bottom: 20px;
+
+    /* border: 1px solid #d3d3d3;
+    border-radius: 10px; */
+    padding: 20px;
+    /* margin: 0 0 0 10px; */
+}
+
+
+.profile-container{
+    display: flex;
+    align-items: flex-start;
+}
+
+.profile-sidebar{
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid #d3d3d3;
+    border-radius: 10px;
+    padding: 20px;
+    background-image: linear-gradient(to right bottom, #32b280, #00b8a9, #00bccf, #00bcec, #4fb9fd);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.profile-sidebar:hover {
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  }
+
+
+.profile-main{
+    flex-grow: 3;
+}
+
+
+.profile-main-detail{
+    margin: 10px 0 0 20px;
+}
+
+.profile-picture-container{
+    width: 200px;
+        height: 200px;
+        overflow: hidden;
+        border-radius: 20%;
+}
+
+.profilePicture{
+    width: 200px;
+    /* object-fit: fill; */
+}
+
+.profile-sidebar .btn{
+    width: 200px;
+}
+
+.profile-photo-desc{
+    width: 200px;
+}
+
+
+.profile-main-data{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.profile-main-data .input-container{
+    width: 45%;
+    margin-bottom: 20px;
+}
+
+.profile-main-data .input-field{
+    width: 100%;
+    padding: 10px 20px;
+    margin-right: 20px;
+    border-radius: 6px;
+    border: 1px solid #d3d3d3;
+}
+
+.profile-main-data .error-message{
+    color: salmon;
+}
+
+.hr-line{
+    border:1px solid black;
+}
+
+.button-profile {
+    border-radius: 20px;
+    border: 1px solid #2b5bf7;
+    background-color: #2b5bf7;
+    color: #ffffff ;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s;
+    text-decoration: none !important;
+  }
+
+  
+  .button-profile:hover {
+    background-color: #32b280;
+    color: white;
+    border: 1px solid #32b280;
+  }
+
+
+
+
+
+
+
