@@ -3,15 +3,9 @@ const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
 module.exports = {
-  getData: (req, res) => {},
-
-  getDataById: (req, res) => {
-    let scriptQuery = `SELECT p.idProduct, productName, price, productImage, description, warehouse, quantity, idUser
-    FROM db_warehouse1.adminstocks adm 
-    JOIN products p on adm.idProduct = p.idProduct
-    JOIN warehouses w on adm.idWarehouse = w.idWarehouse
-    WHERE w.idUser = ${(db, escape(req.query.idUser))}
-    AND p.idProduct = ${db.escape(req.params.idProduct)};`;
+  getData: (req, res) => {
+    let scriptQuery = `SELECT * FROM db_warehouse1.warehouses
+    WHERE idUser = ${req.query.idUser};`;
 
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
@@ -24,6 +18,8 @@ module.exports = {
       res.status(200).send(results);
     });
   },
+
+  getDataById: (req, res) => {},
 
   addData: (req, res) => {},
 

@@ -33,7 +33,7 @@ export default function AdminProductCard(props) {
         <div className="row align-items-center">
           <div className="col col-check flex-grow-0"></div>
           <div className="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-            <a className="itemside" href="#">
+            <Link className="itemside" to={`/edit-product/${props.idProduct}`}>
               <div className="left">
                 <img
                   src={
@@ -48,7 +48,7 @@ export default function AdminProductCard(props) {
               <div className="info">
                 <h6 className="mb-0">{props.productName}</h6>
               </div>
-            </a>
+            </Link>
           </div>
           <div
             style={{ marginRight: 200 }}

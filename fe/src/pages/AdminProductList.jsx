@@ -11,7 +11,9 @@ import "../assets/styles/AdminDashboard.css";
 import AdminProductCard from "../components/AdminProductCard";
 
 export default function AdminProductList() {
+  const userGlobal = useSelector((state) => state.users);
   const [products, setProducts] = useState([]);
+  const [warehouse, setWarehouse] = useState("");
 
   const [paging, setPaging] = useState({
     previousPage: 0,
@@ -50,6 +52,17 @@ export default function AdminProductList() {
       });
   };
 
+  const fetchWarehouse = () => {
+    axios
+      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
+      .then((response) => {
+        setWarehouse(response.data[0]);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   const renderProducts = () => {
     return products.map((val) => {
       return (
@@ -68,6 +81,7 @@ export default function AdminProductList() {
 
   useEffect(() => {
     fetchProducts();
+    fetchWarehouse();
     renderProducts();
   }, [paging.currentPage, filtering]);
 
@@ -93,7 +107,9 @@ export default function AdminProductList() {
   return (
     <div style={{ padding: "60px", backgroundColor: "white" }} className="">
       <div className="content-header">
-        <h2 className="content-title">Products list </h2>
+        <h2 className="content-title">
+          {warehouse.warehouse} - Products list{" "}
+        </h2>
         <div>
           <Link to={`/add-product`} class="p-name button-cart">
             <i className="material-icons md-plus"></i> Create new

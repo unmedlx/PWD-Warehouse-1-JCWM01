@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ProductsList from "./pages/ProductsList";
 import ProductDetail from "./pages/ProductDetail";
 import AddProduct from "./pages/AddProduct";
+import AdminEditProduct from "./pages/AdminEditProduct";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
@@ -52,6 +53,7 @@ function App() {
         <Route component={ProductsList} path="/product-list" />
         <Route component={ProductDetail} path="/product-detail/:idProduct" />
         <Route component={AddProduct} path="/add-product" />
+        <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
         <Route component={AdminProductList} path="/admin-product-list" />
         <Route component={Auth} path="/authentication" />
         <Route component={Verification} path="/verification/:token" />
