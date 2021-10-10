@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-export const MustLoggedInRoute = ({ isLogin, component, ...rest }) => {
+export const LoggedInRoute = ({ isLogin, component, ...rest }) => {
   //   console.log(isLogin);
   //   console.log(component);
   //   console.log(rest);
@@ -26,7 +26,6 @@ export const MustLoggedInRoute = ({ isLogin, component, ...rest }) => {
     />
   );
 };
-
 /* 
  Explain:
       isLogin: condition for this protectedRoute ,isinya variabel yang tetap walaupun page di reload
@@ -34,15 +33,13 @@ export const MustLoggedInRoute = ({ isLogin, component, ...rest }) => {
      ...rest : berisi object path yang menentukan tujuan page kita
  */
 
-export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
-  console.log(isAdmin);
+export const NonLoggedInRoute = ({isLogin, component, ...rest}) => {
   let Component = component;
   return (
     <Route
       {...rest}
       render={(props) => {
-        //Conditioning Role
-        if (isAdmin !== 3) {
+        if (isLogin === false) {
           return <Component />;
         } else {
           return (
@@ -52,6 +49,28 @@ export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
                 state: { from: props.location },
               }}
             />
+          );
+        }
+      }}
+    />
+  );
+}
+
+export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
+  console.log(isAdmin);
+  let Component = component;
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        //Conditioning Role
+        if (isAdmin === 2) {
+          return <Component />;
+        } else if (isAdmin === 1) {
+          return <Component />;
+        }else{
+          return (
+            <Redirect to={{pathname: "/",state: { from: props.location }, }} />
           );
         }
       }}

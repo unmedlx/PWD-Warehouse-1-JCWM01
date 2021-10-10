@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { API_URL } from "./helper/index";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
 import axios from "axios";
-import { MustLoggedInRoute, AdminRoute } from "./helper/ProtectedRoute";
+import { API_URL } from "./constants/API";
+import { BrowserRouter, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { LoggedInRoute,NonLoggedInRoute, AdminRoute } from "./helper/ProtectedRoute";
 // PAGES //
 import Admin from "./pages/Admin";
 import ProductsList from "./pages/ProductsList";
@@ -20,23 +20,12 @@ function App() {
   const userGlobal = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const userLocalStorage = localStorage.getItem("token_shutter");
-  console.log(userLocalStorage);
   console.log(userGlobal.isLogin); // to conditioning mustLogedInRoute
-  //isLogin
 
   //KEEP LOGIN CHECKER
   const keepLogin = () => {
     if (userLocalStorage) {
-      axios
-        .patch(
-          `${API_URL}/users/`,
-          {},
-          {
-            headers: {
-              authorization: `Bearer ${userLocalStorage}`,
-            },
-          }
-        )
+      axios.patch(`${API_URL}/users/`,{},{ headers: { authorization: `Bearer ${userLocalStorage}`}})
         .then((res) => {
           console.log(res.data);
           delete res.data[0].password;
@@ -64,22 +53,14 @@ function App() {
     <BrowserRouter>
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
-      <Route component={Auth} path="/authentication" />
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
       <Route component={Home} path="/" exact />
       {/* Protected Route */}
-      <MustLoggedInRoute
-        path="/profile"
-        component={Profile}
-        isLogin={userGlobal.isLogin}
-      />
-      <MustLoggedInRoute
-        path="/cart"
-        component={Cart}
-        isLogin={userGlobal.isLogin}
-      />
+      <LoggedInRoute path="/profile" component={Profile} isLogin={userGlobal.isLogin}/>
+      <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/>
+      <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin} />
       <AdminRoute path="/admin" component={Admin} isAdmin={userGlobal.idRole} />
     </BrowserRouter>
   );

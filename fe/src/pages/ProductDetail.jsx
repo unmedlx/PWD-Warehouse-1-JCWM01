@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-
 import axios from "axios";
 import { API_URL } from "../constants/API";
 import "bootstrap/dist/css/bootstrap.css";
@@ -23,8 +22,7 @@ export default function ProductDetail(props) {
   });
 
   const fetchProducts = () => {
-    axios
-      .get(`${API_URL}/products/${props.match.params.idProduct}`)
+    axios.get(`${API_URL}/products/${props.match.params.idProduct}`)
       .then((response) => {
         if (response.data.length) {
           setProductDetail(response.data[0]);

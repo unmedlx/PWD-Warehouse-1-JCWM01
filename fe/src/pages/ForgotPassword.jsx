@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import { API_URL } from "../helper/index";
+import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
@@ -15,19 +15,14 @@ function ForgotPassword() {
     email: "",
   };
   const emailValidationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email("Wrong Email Format")
-      .min(3)
-      .required("Your Account Email Is Required"),
+    email: Yup.string().email("Wrong Email Format").min(3).required("Your Account Email Is Required"),
   });
 
   //SUBMIT EMAIL//
   const submitEmail = (data) => {
-    console.log(data.email);
     setMessage("Loading...");
-
-    axios
-      .post(API_URL + "/users/forgot-pass", {
+    //Send to API
+    axios.post(`${API_URL}/users/forgot-password`, {
         email: data.email,
       })
       .then((res) => {
@@ -35,7 +30,7 @@ function ForgotPassword() {
           alert(res.data.message);
           setMessage("Check Your Email To Reset Password");
           setTimeout(() => setMessage("Redirecting To SignIn... "), 3000);
-          setTimeout(() => setRedirect(true), 4000);
+          setTimeout(() => setRedirect(true), 3000);
         } else {
           alert(res.data.message);
           setMessage(null);
@@ -54,11 +49,7 @@ function ForgotPassword() {
   //RENDER//
   return (
     <div className="body">
-      <Formik
-        initialValues={emailInitialValues}
-        onSubmit={submitEmail}
-        validationSchema={emailValidationSchema}
-      >
+      <Formik initialValues={emailInitialValues} onSubmit={submitEmail} validationSchema={emailValidationSchema}>
         <div className="forgot-container">
           <Form className="form">
             <h1 className="h1">Submit Your Email</h1>
@@ -70,7 +61,6 @@ function ForgotPassword() {
               placeholder="Email"
               autoComplete="off"
             />
-
             <button className="button" type="submit">
               Submit
             </button>
