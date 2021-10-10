@@ -9,10 +9,8 @@ import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
 import Address from "./pages/Address";
 import Profile from './pages/Profile';
-import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from 'react'
 import ChangePassword from "./pages/ChangePassword";
 
 function App() {

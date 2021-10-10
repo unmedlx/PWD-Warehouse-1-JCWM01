@@ -4,6 +4,7 @@ const fs = require("fs");
 
 module.exports = {
   getData: (req, res) => {
+    console.log(req.query.sortBy);
     const sortBy = req.query.sortBy;
 
     const filterProductName = req.query.productName;
