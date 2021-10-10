@@ -29,6 +29,18 @@ export default function AdminProductList() {
     sort: "",
   });
 
+  const fetchWarehouse = () => {
+    axios
+      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
+      .then((response) => {
+        setWarehouse(response.data[0]);
+        console.log(response.data[0]);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   const fetchProducts = () => {
     axios
       .get(
@@ -44,19 +56,7 @@ export default function AdminProductList() {
           productsCount: response.data.products_count || paging.productsCount,
           maxPage: response.data.max_page || paging.maxPage,
         });
-
         renderProducts();
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-  const fetchWarehouse = () => {
-    axios
-      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
-      .then((response) => {
-        setWarehouse(response.data[0]);
       })
       .catch((err) => {
         alert(err);
@@ -81,8 +81,8 @@ export default function AdminProductList() {
 
   useEffect(() => {
     fetchProducts();
-    fetchWarehouse();
     renderProducts();
+    fetchWarehouse();
   }, [paging.currentPage, filtering]);
 
   const nextPageHandler = () => {
@@ -108,9 +108,9 @@ export default function AdminProductList() {
     <div style={{ padding: "60px", backgroundColor: "white" }} className="">
       <div className="content-header">
         <h2 className="content-title d-flex flex-row align-items-center">
-          <span className="badge rounded-pill alert-success me-2">
-            {warehouse.warehouse}
-          </span>{" "}
+          {/* <span className="badge rounded-pill alert-success me-2">
+            {warehouse.warehouse ? warehouse.warehouse : "lol"}
+          </span>{" "} */}
           Products list{" "}
         </h2>
         <div>
