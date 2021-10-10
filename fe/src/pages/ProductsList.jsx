@@ -13,7 +13,7 @@ export default function ProductsList() {
     previousPage: 0,
     nextPage: 0,
     currentPage: 1,
-    productsCount: 1,
+    productsCount: 0,
     maxPage: 1,
   });
 
@@ -140,7 +140,6 @@ export default function ProductsList() {
       </div>
 
       <div className="my-4 d-flex flex-column justify-content-center align-items-center">
-        <p>Total found: {paging.productsCount} products</p>
         <div className="d-flex flex-row justify-content-between align-items-center">
           <button
             onClick={prevPageHandler}
