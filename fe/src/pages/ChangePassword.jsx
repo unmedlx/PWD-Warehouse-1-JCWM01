@@ -4,8 +4,10 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { API_URL } from '../helper';
 import '../assets/styles/Auth.css'
+import { Redirect } from 'react-router';
 
 const ChangePassword = () => {
+    const [redirect, setRedirect] = useState(false)
     // FORMIK PASSWORD //
     const passwordInitialValues = {
         password: "",
@@ -43,11 +45,15 @@ const ChangePassword = () => {
             .then((res) => {
                 console.log(res);
                 alert(res.data.message)
+                setRedirect(true)
             })
             .catch((err) => {
                 console.log(err);
             })
 
+    }
+    if (redirect) {
+        return <Redirect to="/profile" />
     }
 
 
