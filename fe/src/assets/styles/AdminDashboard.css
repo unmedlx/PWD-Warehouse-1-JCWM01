@@ -1074,3 +1074,7 @@ textarea {
   display: block;
   position: absolute;
 }
+
+.dropdown-item:focus {
+  background-color: #32b280;
+}

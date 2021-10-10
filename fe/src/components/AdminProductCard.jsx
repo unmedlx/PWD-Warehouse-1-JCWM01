@@ -70,14 +70,14 @@ export default function AdminProductCard(props) {
                   to={`/product-detail/${props.idProduct}`}
                   class="p-name dropdown-item"
                 >
-                  View product detail page
+                  View product's detail page
                 </Link>
-                <a className="dropdown-item" href="#">
-                  Edit product
-                </a>
-                <a className="dropdown-item text-danger" href="#">
-                  Delete product
-                </a>
+                <Link
+                  to={`/edit-product/${props.idProduct}`}
+                  className="dropdown-item"
+                >
+                  Product's settings
+                </Link>
               </div>
             </div>
           </div>

@@ -23,13 +23,22 @@ export default function AdminEditProduct(props) {
         `${API_URL}/adminstocks/${props.match.params.idProduct}?idUser=${userGlobal.idUser}`
       )
       .then((response) => {
-        // console.log(response.data[0]);
+        console.log(response.data[0]);
         setCurrentProduct(response.data[0]);
       })
       .catch((err) => {
         alert(err);
       });
     console.log(userGlobal);
+  };
+
+  const deleteProduct = () => {
+    axios
+      .delete(`${API_URL}/products/${props.match.params.idProduct}}`)
+      .then((response) => {})
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   useEffect(() => {
@@ -47,9 +56,7 @@ export default function AdminEditProduct(props) {
           <div className="content-header">
             <h2 className="content-title">Edit product</h2>
           </div>
-
           <hr className="my-4" />
-
           <div className="row">
             <div className="col-md-4 ">
               <h5>1. General info</h5>
@@ -80,7 +87,7 @@ export default function AdminEditProduct(props) {
               <div className="mb-4">
                 <label className="form-label">Stock</label>
                 <input
-                  // onChange={inputHandler}
+                  onChange={inputHandler}
                   type="number"
                   placeholder="0"
                   className="form-control"
@@ -90,9 +97,7 @@ export default function AdminEditProduct(props) {
               </div>
             </div>
           </div>
-
           <hr className="my-4" />
-
           <div className="row">
             <div className="col-md-4">
               <h5>2. Pricing</h5>
@@ -111,9 +116,7 @@ export default function AdminEditProduct(props) {
               </div>
             </div>
           </div>
-
           <hr className="my-4" />
-
           <div className="row">
             <div className="col-md-4">
               <h5>3. Category</h5>
@@ -162,9 +165,9 @@ export default function AdminEditProduct(props) {
                     name="idCategory"
                     type="radio"
                     value="3"
-                    checked={
-                      currentProduct.category == "Jaket" ? "checked" : null
-                    }
+                    // checked={
+                    // //   currentProduct.category == "Jaket" ? "checked" : null
+                    // }
                   />
                   <span className="form-check-label"> Jaket </span>
                 </label>
@@ -187,9 +190,7 @@ export default function AdminEditProduct(props) {
               </div>
             </div>
           </div>
-
           <hr className="mb-4 mt-0" />
-
           <div className="row">
             <div className="col-md-4">
               <h5>4. Media</h5>
@@ -209,65 +210,59 @@ export default function AdminEditProduct(props) {
           </div>
           <hr className="my-4" />
 
-          <div className="d-flex justify-content-end gap-2">
-            <Link to="/admin-product-list">
-              <button
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                }}
-                type="button"
-                className="btn btn-danger"
-              >
-                Cancel
-              </button>
-            </Link>
+          <div className="d-flex flex-row justify-content-between">
+            <div className="d-flex justify-content-start gap-2">
+              <Link to="/admin-product-list">
+                <button
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                  type="button"
+                  className="btn btn-danger"
+                >
+                  Delete product
+                </button>
+              </Link>
+            </div>
+            <div className="d-flex justify-content-end gap-2">
+              <Link to="/admin-product-list">
+                <button
+                  style={{
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                  type="button"
+                  className="btn btn-secondary"
+                >
+                  Cancel
+                </button>
+              </Link>
 
-            <Link to="/admin-product-list">
-              <button
-                style={{
-                  backgroundColor: "#32b280",
-                  color: "white",
-                  fontWeight: "bold",
-                }}
-                type="button"
-                className="btn"
-                // disabled={
-                //   !(
-                //     addProduct.productName &&
-                //     addProduct.price &&
-                //     file &&
-                //     addProduct.description &&
-                //     addProduct.idCategory
-                //   )
-                // }
-                // onClick={saveButtonHandler}
-              >
-                Save
-              </button>
-            </Link>
-
-            <button
-              style={{
-                backgroundColor: "#32b280",
-                color: "white",
-                fontWeight: "bold",
-              }}
-              type="button"
-              className="btn"
-              //   disabled={
-              //     !(
-              //       addProduct.productName &&
-              //       addProduct.price &&
-              //       file &&
-              //       addProduct.description &&
-              //       addProduct.idCategory
-              //     )
-              //   }
-              //   onClick={addAnotherButtonHandler}
-            >
-              Save and add another
-            </button>
+              <Link to="/admin-product-list">
+                <button
+                  style={{
+                    backgroundColor: "#32b280",
+                    color: "white",
+                    fontWeight: "bold",
+                  }}
+                  type="button"
+                  className="btn"
+                  // disabled={
+                  //   !(
+                  //     addProduct.productName &&
+                  //     addProduct.price &&
+                  //     file &&
+                  //     addProduct.description &&
+                  //     addProduct.idCategory
+                  //   )
+                  // }
+                  // onClick={saveButtonHandler}
+                >
+                  Save
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

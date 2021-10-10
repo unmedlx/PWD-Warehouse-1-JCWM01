@@ -6,9 +6,10 @@ module.exports = {
   getData: (req, res) => {},
 
   getDataById: (req, res) => {
-    let scriptQuery = `SELECT p.idProduct, productName, price, productImage, description, warehouse, quantity, idUser
+    let scriptQuery = `SELECT p.idProduct, productName, price, productImage, description, p.idCategory, category, idUser, warehouse, quantity 
     FROM db_warehouse1.adminstocks adm 
     JOIN products p on adm.idProduct = p.idProduct
+    JOIN categories c on p.idCategory = c.idCategory
     JOIN warehouses w on adm.idWarehouse = w.idWarehouse
     WHERE w.idUser = ${(db, escape(req.query.idUser))}
     AND p.idProduct = ${db.escape(req.params.idProduct)};`;

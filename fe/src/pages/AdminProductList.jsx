@@ -107,8 +107,11 @@ export default function AdminProductList() {
   return (
     <div style={{ padding: "60px", backgroundColor: "white" }} className="">
       <div className="content-header">
-        <h2 className="content-title">
-          {warehouse.warehouse} - Products list{" "}
+        <h2 className="content-title d-flex flex-row align-items-center">
+          <span className="badge rounded-pill alert-success me-2">
+            {warehouse.warehouse}
+          </span>{" "}
+          Products list{" "}
         </h2>
         <div>
           <Link to={`/add-product`} class="p-name button-cart">
