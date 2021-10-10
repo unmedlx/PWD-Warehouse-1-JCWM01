@@ -57,7 +57,7 @@ const ImageModals = ({ show, handleClose, userImage }) => {
 
     return (
         <>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} >
                 <Modal.Header closeButton>
                     <Modal.Title>Choose Your Profile Picture</Modal.Title>
                 </Modal.Header>

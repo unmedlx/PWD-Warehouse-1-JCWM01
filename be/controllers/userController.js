@@ -1,5 +1,7 @@
 const { db } = require("../database/index"); //mysql
 const Crypto = require("crypto"); // for hashing
+const moment = require("moment")
+const bcrypt = require('bcrypt');
 //Middleware
 const { createToken } = require("../helper/createToken");
 const nodemailer = require("../helper/nodemailer");
@@ -161,6 +163,8 @@ module.exports = {
   getDataUser: (req, res) => {
     let scriptQuery = `SELECT *  FROM users WHERE idUser=${req.user.idUser}`
     db.query(scriptQuery, (err, results) => {
+      var parsed = moment(results[0].dateOfBirth).format('YYYY-MM-DD');
+      results = { ...results[0], dateOfBirth: parsed }
       return res
         .status(200)
         .send(results);
@@ -170,14 +174,69 @@ module.exports = {
   //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser
-    console.log(idUser);
-    console.log(req.body);
     let { fullName, username, email, gender, dateOfBirth } = req.body
-    let scriptQuery = `UPDATE users SET fullName=${db.escape(fullName)}, username=${db.escape(username)},email=${db.escape(email)},gender=${db.escape(gender)},dateOfBirth=${db.escape(dateOfBirth)} WHERE idUser=${db.escape(idUser)}`
-    console.log(scriptQuery);
+    var parsed = moment(dateOfBirth).format('YYYY-MM-DD');
+
+
+    let scriptQuery = `UPDATE users SET fullName=${db.escape(fullName)}, username=${db.escape(username)},email=${db.escape(email)},gender=${db.escape(gender)},dateOfBirth=${db.escape(parsed)} WHERE idUser=${db.escape(idUser)}`
     db.query(scriptQuery, (err, results) => {
-      if (err) res.status(500).send({ message: "Gagal mengambil data di database", success: false, err })
-      res.status(200).send(results)
+      if (err) {
+        return res.status(500).send({ message: 'Update Gagal', success: false, err })
+      }
+      return res.status(200).send({ message: 'Berhasil Mengubah Data', results, success: true })
     })
+
+
+
+  },
+  //CHANGE PASSWORD//
+  changePasswordUser: (req, res) => {
+    let { idUser } = req.user;
+    let { password, oldPassword } = req.body.data;
+
+    console.log(password);
+    console.log(idUser);
+    console.log(oldPassword);
+
+    //hash password baru
+    password = Crypto.createHmac("sha1", "hash123")
+      .update(password)
+      .digest("hex");
+
+    //hash password baru
+    oldPassword = Crypto.createHmac("sha1", "hash123")
+      .update(oldPassword)
+      .digest("hex");
+    console.log(oldPassword);
+    console.log(password);
+
+
+    let scriptQuery = `SELECT * FROM users WHERE idUser=${db.escape(idUser)} AND password=${db.escape(oldPassword)}`
+    console.log(scriptQuery);
+
+    db.query(scriptQuery, (err, results) => {
+      if (err) {
+        return res.status(500).send({ message: 'Data Tidak Ditemukan', success: false, err })
+      }
+      console.log(results.length);
+      if (results.length == 0) {
+        console.log("kosongg");
+        return res.status(200).send({ message: 'Password anda salah', success: false })
+      }
+      if (results[0].password == oldPassword) {
+        //EDIT DATA PASSWORD
+        let scriptQuery = `UPDATE users SET password=${db.escape(password)} WHERE idUser=${db.escape(idUser)}`
+        console.log(scriptQuery);
+        db.query(scriptQuery, (err, results) => {
+          if (err) {
+            return res.status(500).send({ message: 'Update Gagal', success: false, err })
+          }
+          return res.status(200).send({ message: 'Berhasil Mengubah Password', success: true, err })
+        })
+
+      }
+    })
+
+
   }
 };

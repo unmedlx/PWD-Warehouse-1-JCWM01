@@ -11,6 +11,7 @@ const ProfileData = ({ handleClose }) => {
     const userGlobal = useSelector((state) => state.users);
     const { idUser, fullName, username, email, userImage, idRole, gender, dateOfBirth } = userGlobal
 
+    console.log(dateOfBirth);
 
     const profileDataInitialValues = {
         //diisi dari redux
@@ -33,7 +34,7 @@ const ProfileData = ({ handleClose }) => {
     const onSubmit = (data) => {
         console.log(data);
         const userLocalStorage = localStorage.getItem("token_shutter")
-        axios.patch(`${API_URL}/users/tes`,
+        axios.patch(`${API_URL}/users/edit`,
             data,
             {
                 headers: {

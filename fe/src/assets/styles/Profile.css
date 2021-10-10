@@ -16,17 +16,6 @@
     /* margin: 0 0 0 10px; */
 }
 
-.profile-tab a{
-    margin:0 20px 0 0;
-}
-
-.profile-tab a:hover{
-    cursor:pointer
-}
-
-
-
-
 
 .profile-container{
     display: flex;
@@ -36,7 +25,6 @@
 .profile-sidebar{
     display: flex;
     flex-direction: column;
-
 
     border: 1px solid #d3d3d3;
     border-radius: 10px;
@@ -103,6 +91,32 @@
 .profile-main-data .error-message{
     color: salmon;
 }
+
+.hr-line{
+    border:1px solid black;
+}
+
+.button-profile {
+    border-radius: 20px;
+    border: 1px solid #2b5bf7;
+    background-color: #2b5bf7;
+    color: #ffffff ;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 20px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: 0.5s;
+    text-decoration: none !important;
+  }
+
+  
+  .button-profile:hover {
+    background-color: #32b280;
+    color: white;
+    border: 1px solid #32b280;
+  }
+
 
 
 
