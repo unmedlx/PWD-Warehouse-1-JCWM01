@@ -25,7 +25,6 @@ module.exports = {
                 if (err) {
                     return res.status(500).send({ message: 'Error Occurs', success: false, err })
                 }
-                console.log(results);
                 return res.status(200).send({ message: 'Berahasil Mengambil Data Kota', results, success: true })
             })
         })

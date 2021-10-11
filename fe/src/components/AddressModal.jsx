@@ -8,7 +8,6 @@ import { API_URL } from '../helper/index';
 import '../assets/styles/addressModals.css';
 
 const AddressModal = ({ show, handleClose, address, provinces }) => {
-    console.log(provinces);
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
     const [successUpload, setSuccessUpload] = useState(false)
@@ -42,7 +41,6 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
     })
 
     const onSubmit = (data) => {
-        console.log(data);
         if (data.isDefault[0] == '0') {
             data = { ...data, isDefault: 1 }
         } else if (data.isDefault == false) {
@@ -50,7 +48,6 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
         }
 
         data = { ...data, idAddress: address.idAddress }
-        console.log(data);
 
         axios.patch(`${API_URL}/address/${idUser}`, data)
             .then((res) => {
@@ -65,10 +62,8 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
     }
 
     const fetchCity = () => {
-        console.log(province);
         axios.get(`${API_URL}/cityprovince/city?province=${province}`)
             .then((res) => {
-                console.log(res.data.results);
                 setCity(res.data.results)
             })
             .catch((err) => {

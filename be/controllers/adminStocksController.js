@@ -3,7 +3,7 @@ const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
 module.exports = {
-  getData: (req, res) => {},
+  getData: (req, res) => { },
 
   getDataById: (req, res) => {
     let scriptQuery = `SELECT p.idProduct, productName, price, productImage, description, p.idCategory, category, idUser, warehouse, quantity 
@@ -45,7 +45,7 @@ module.exports = {
     });
   },
 
-  editData: (req, res) => {},
+  editData: (req, res) => { },
 
-  deleteData: (req, res) => {},
+  deleteData: (req, res) => { },
 };

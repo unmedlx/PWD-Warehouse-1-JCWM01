@@ -26,6 +26,7 @@ const ProfileAddress = (addressGlobal) => {
     }
 
     const renderAddress = () => {
+        console.log(addressGlobal.addresses);
         let arrAddress = Object.values(addressGlobal.addresses)
         return arrAddress.map((address) => {
             // return <Address />

@@ -9,6 +9,7 @@ const {
   userStocksRouter,
   warehousesRouter,
   addressRouter,
+  cityProvinceRouter
 } = require("./routers");
 const bearerToken = require("express-bearer-token");
 const PORT = 3001;
@@ -23,7 +24,6 @@ app.use(express.static("public"));
 //http://localhost:3001/images/IMG1633323280976.png
 app.use(express.static("public"))
 
-const { userRouter, uploaderRouter, addressRouter, cityProvinceRouter } = require('./routers/index')
 
 app.use('/users', userRouter)
 app.use('/profile', uploaderRouter)
