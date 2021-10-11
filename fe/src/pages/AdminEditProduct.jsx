@@ -182,7 +182,7 @@ export default function AdminEditProduct(props) {
               `${API_URL}/userstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`
             )
             .then(() => {
-              alert(`${currentProduct.productName} has been deleted`);
+              alert(`${currentProduct.productName} is deleted`);
               refreshPage();
             })
             .catch(() => {
