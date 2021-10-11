@@ -20,8 +20,6 @@ import Verification from "./pages/Verification";
 import Address from "./pages/Address";
 import Profile from "./pages/Profile";
 import AdminProductList from "./pages/AdminProductList";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
