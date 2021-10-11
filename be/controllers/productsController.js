@@ -149,9 +149,22 @@ module.exports = {
               err,
             });
           }
-          res.status(200).send({
-            message: `${data.productName} berhasil ditambahkan`,
-          });
+          res.status(200).send(results);
+          // db.query(
+          //   `SELECT idProduct from db_warehouse1.products WHERE productName = ${db.escape(
+          //     data.productName
+          //   )}`,
+          //   (err2, results2) => {
+          //     if (err2) {
+          //       res.status(500).send(err2);
+          //     }
+          //     res.status(200).send({
+          //       message: `${data.productName} berhasil ditambahkan`,
+          //       data: results2,
+          //     });
+          //     console.log(results2);
+          //   }
+          // );
         });
       });
     } catch (error) {

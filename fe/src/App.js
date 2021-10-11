@@ -4,15 +4,15 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ProductsList from "./pages/ProductsList";
 import ProductDetail from "./pages/ProductDetail";
 import AddProduct from "./pages/AddProduct";
+import AdminEditProduct from "./pages/AdminEditProduct";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
 import Address from "./pages/Address";
 import Profile from "./pages/Profile";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import AdminProductList from "./pages/AdminProductList";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import ChangePassword from "./pages/ChangePassword";
 
 function App() {
@@ -76,6 +76,8 @@ function App() {
         <Route component={ProductsList} path="/product-list" />
         <Route component={ProductDetail} path="/product-detail/:idProduct" />
         <Route component={AddProduct} path="/add-product" />
+        <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
+        <Route component={AdminProductList} path="/admin-product-list" />
         <Route component={Auth} path="/authentication" />
         <Route component={Verification} path="/verification/:token" />
         <Route component={ChangePassword} path="/profile/change-password" />
