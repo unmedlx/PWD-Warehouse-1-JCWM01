@@ -7,9 +7,13 @@ import AddProduct from "./pages/AddProduct";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
+import Address from "./pages/Address";
 import Profile from "./pages/Profile";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import ChangePassword from "./pages/ChangePassword";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -23,7 +27,7 @@ function App() {
 
     if (userLocalStorage) {
       axios
-        .patch(
+        .post(
           `http://localhost:3001/users/`,
           {},
           {
@@ -33,10 +37,31 @@ function App() {
           }
         )
         .then((res) => {
-          delete res.data[0].password;
+          delete res.data.password;
           dispatch({
             type: "USER_LOGIN",
-            payload: res.data[0],
+            payload: res.data,
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      axios
+        .post(
+          `http://localhost:3001/address/`,
+          {},
+          {
+            headers: {
+              authorization: `Bearer ${userLocalStorage}`,
+            },
+          }
+        )
+        .then((res) => {
+          delete res.data.password;
+          dispatch({
+            type: "GET_ADDRESS",
+            payload: res.data,
           });
         })
         .catch((err) => {
@@ -53,6 +78,8 @@ function App() {
         <Route component={AddProduct} path="/add-product" />
         <Route component={Auth} path="/authentication" />
         <Route component={Verification} path="/verification/:token" />
+        <Route component={ChangePassword} path="/profile/change-password" />
+        <Route component={Address} path="/profile/address" />
         <Route component={Profile} path="/profile" />
         <Route component={Home} path="/" />
       </Switch>

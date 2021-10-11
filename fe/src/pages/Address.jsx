@@ -2,29 +2,29 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router';
 
 import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
 import ProfileAddress from '../components/ProfileAddress';
-import ProfileData from '../components/ProfileData';
-import { API_URL } from '../helper';
 import ProfileNavbar from '../components/ProfileNavbar';
 
 
-const Profile = () => {
+const Address = () => {
     const userGlobal = useSelector((state) => state.users);
+    const addressGlobal = useSelector((state) => state.addresses);
     const { fullName, email, userImage, idUser } = userGlobal
+    // console.log(addressGlobal);
     const [show, setShow] = useState(false);
     const [profileNav, setProfileNav] = useState(1)
+
     const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
         reload()
     }
+
     const handleShow = () => setShow(true);
-    console.log(idUser);
 
     const fetchDataUser = () => {
         const { idUser } = userGlobal
@@ -39,8 +39,6 @@ const Profile = () => {
         <>
             <div className="container mt-5">
                 <div className="profile-container">
-
-
                     <div className="profile-sidebar">
                         <div className="profile-picture-container">
                             <img src={"http://localhost:3001/" + userImage} alt="Trulli" className="profilePicture" />
@@ -58,13 +56,13 @@ const Profile = () => {
 
                     <div className="profile-main">
                         <ProfileNavbar />
+
                         <div className="profile-main-detail">
                             <h1><strong>Hello, {fullName}</strong></h1>
                             <h6><strong>{email}</strong></h6>
                             <hr className="hr-line" />
 
-                            <ProfileData handleClose={handleClose} />
-
+                            <ProfileAddress setProfileNav={setProfileNav} addresses={addressGlobal} />
                         </div>
                     </div>
 
@@ -81,4 +79,4 @@ const Profile = () => {
     )
 }
 
-export default Profile
+export default Address

@@ -1,10 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+import '../assets/styles/ProfileNavbar.css'
 
-const ProfileNavbar = ({ profileNav, setProfileNav }) => {
+const ProfileNavbar = () => {
     return (
         <div className="profile-tab">
-            <div><a onClick={() => setProfileNav(1)}>PROFILE</a></div>
-            <div><a onClick={() => setProfileNav(2)}>HISTORY</a></div>
+            <Link to="/profile"><a>PROFILE</a></Link>
+            <Link to="/profile/address"><a>ADDRESS</a></Link>
         </div>
     )
 }
