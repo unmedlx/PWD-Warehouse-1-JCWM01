@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
@@ -7,10 +7,14 @@ import axios from 'axios';
 import { API_URL } from '../helper/index';
 import '../assets/styles/addressModals.css';
 
-const AddressModal = ({ show, handleClose, address }) => {
+const AddressModal = ({ show, handleClose, address, provinces }) => {
+    console.log(provinces);
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
     const [successUpload, setSuccessUpload] = useState(false)
+    const [province, setProvince] = useState("Choose Province")
+    const [city, setCity] = useState([])
+    const [selectedCity, setSelectedCity] = useState()
 
 
     const addressDataInitialValues = {
@@ -19,8 +23,8 @@ const AddressModal = ({ show, handleClose, address }) => {
         phoneNumber: address.phoneNumber,
         jalan: address.jalan,
         kecamatan: address.kecamatan,
-        kota: address.kota,
-        provinsi: address.provinsi,
+        city: selectedCity,
+        province: province,
         zip: address.zip,
         isDefault: address.isDefault
 
@@ -31,14 +35,14 @@ const AddressModal = ({ show, handleClose, address }) => {
         phoneNumber: Yup.number().required("Phone number is required"),
         jalan: Yup.string().required("Street is required"),
         kecamatan: Yup.string().required("Subdivision is required"),
-        kota: Yup.string().required("City is required"),
-        provinsi: Yup.string().required("Province is required"),
+        city: Yup.string().required("City is required"),
+        province: Yup.string().required("Province is required"),
         zip: Yup.number().required("ZIP is required"),
 
     })
 
     const onSubmit = (data) => {
-        console.log(data.isDefault[0]);
+        console.log(data);
         if (data.isDefault[0] == '0') {
             data = { ...data, isDefault: 1 }
         } else if (data.isDefault == false) {
@@ -59,6 +63,23 @@ const AddressModal = ({ show, handleClose, address }) => {
                 console.log(err);
             })
     }
+
+    const fetchCity = () => {
+        console.log(province);
+        axios.get(`${API_URL}/cityprovince/city?province=${province}`)
+            .then((res) => {
+                console.log(res.data.results);
+                setCity(res.data.results)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+    }
+
+    useEffect(() => {
+        fetchCity()
+    }, [province])
 
     return (
         <Modal show={show} onHide={handleClose} size="lg">
@@ -100,14 +121,23 @@ const AddressModal = ({ show, handleClose, address }) => {
 
 
                                 <div className="input-container">
-                                    <ErrorMessage name="kota" component="span" className="error-message" />
-                                    <Field type="text" autocomplete="off" className="input-field" name="kota" placeholder="City" />
+                                    <label htmlFor="province" className="form-label">Province</label>
+                                    <ErrorMessage name="province" component="span" className="error-message" />
+                                    <Field as="select" className="input-field" name="province" value={province} onChange={(e) => setProvince(e.target.value)} >
+                                        {provinces.map((province) => {
+                                            return <option value={province.idProvince}>{province.provinceName}</option>
+                                        })}
+                                    </Field>
                                 </div>
 
-
                                 <div className="input-container">
-                                    <ErrorMessage name="provinsi" component="span" className="error-message" />
-                                    <Field type="text" autocomplete="off" className="input-field" name="provinsi" placeholder="Province" />
+                                    <label htmlFor="city" className="form-label">City</label>
+                                    <ErrorMessage name="city" component="span" className="error-message" />
+                                    <Field as="select" className="input-field" name="city" value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} >
+                                        {city.map((c) => {
+                                            return <option value={c.cityName}>{c.cityName}</option>
+                                        })}
+                                    </Field>
                                 </div>
 
 

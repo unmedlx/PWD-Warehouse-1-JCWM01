@@ -5,7 +5,7 @@ import axios from 'axios';
 import '../assets/styles/ProfileAddress.css'
 import { Badge } from 'react-bootstrap';
 
-const AddressCard = ({ address }) => {
+const AddressCard = ({ address, provinces }) => {
     const [show, setShow] = useState(false);
     const reload = () => window.location.reload();
 
@@ -55,7 +55,7 @@ const AddressCard = ({ address }) => {
                     <a className="address-delete setting" onClick={() => deleteBtnHandler(address.idAddress)}>Delete</a>
                 </div>
             </div>
-            <AddressModal show={show} handleClose={handleClose} address={address} />
+            <AddressModal show={show} handleClose={handleClose} address={address} provinces={provinces} />
         </>
     )
 }

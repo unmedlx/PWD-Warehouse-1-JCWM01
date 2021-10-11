@@ -30,7 +30,7 @@ const ProfileAddress = (addressGlobal) => {
         return arrAddress.map((address) => {
             // return <Address />
             return (
-                <AddressCard address={address} />
+                <AddressCard address={address} provinces={provinces} />
             )
         })
     }

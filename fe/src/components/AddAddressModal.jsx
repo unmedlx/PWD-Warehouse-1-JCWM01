@@ -8,13 +8,15 @@ import { useSelector } from 'react-redux';
 import '../assets/styles/addressModals.css';
 
 const AddAddressModal = ({ show, handleClose, provinces }) => {
-    console.log(provinces);
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
     const [successUpload, setSuccessUpload] = useState(false)
-    const [province, setProvince] = useState("province_name")
+
+    const [province, setProvince] = useState("Choose Province")
     const [city, setCity] = useState([])
     const [selectedCity, setSelectedCity] = useState()
+
+
     const addressDataInitialValues = {
         //diisi dari redux
         recipientName: "",

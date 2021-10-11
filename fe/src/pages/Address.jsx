@@ -32,21 +32,6 @@ const Address = () => {
         console.log(idUser);
     }
 
-    // const fetchProvince = () => {
-    //     axios.get(`${API_URL}/cityprovince/province`)
-    //         .then((res) => {
-    //             console.log(res.data.results);
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         })
-    // }
-
-    // useEffect(() => {
-    //     fetchProvince()
-    // }, [])
-
-
     useEffect(() => {
         fetchDataUser()
     }, [])

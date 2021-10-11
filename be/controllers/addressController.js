@@ -24,7 +24,7 @@ module.exports = {
             if (err) {
                 return res.status(500).send({ message: 'Error Occurs', success: false, err })
             }
-            let scriptQueryAlter = `UPDATE addresses SET recipientName=${db.escape(req.body.recipientName)},phoneNumber=${db.escape(req.body.phoneNumber)},jalan=${db.escape(req.body.jalan)},kecamatan=${db.escape(req.body.kecamatan)},kota=${db.escape(req.body.kota)},provinsi=${db.escape(req.body.provinsi)},zip=${db.escape(req.body.zip)},isDefault=${db.escape(req.body.isDefault)} WHERE idAddress=${db.escape(req.body.idAddress)}`
+            let scriptQueryAlter = `UPDATE addresses SET recipientName=${db.escape(req.body.recipientName)},phoneNumber=${db.escape(req.body.phoneNumber)},jalan=${db.escape(req.body.jalan)},kecamatan=${db.escape(req.body.kecamatan)},kota=${db.escape(req.body.city)},provinsi=${db.escape(req.body.province)},zip=${db.escape(req.body.zip)},isDefault=${db.escape(req.body.isDefault)} WHERE idAddress=${db.escape(req.body.idAddress)}`
             // console.log(scriptQueryAlter);
             db.query(scriptQueryAlter, (err, results) => {
                 if (err) {
