@@ -3,18 +3,22 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+// import rootReducer from "./redux/reducers";
 import { Provider } from "react-redux";
-import rootReducer from "./redux/reducers";
-import { configureStore } from "@reduxjs/toolkit";
+import { persistor, store } from "./redux/configureStore"; //Redux Persist : to keep state after reload
+import { PersistGate } from "redux-persist/integration/react";
+// import { configureStore } from "@reduxjs/toolkit";
 
-const store = configureStore({
-  reducer: rootReducer,
-  devTools: true,
-});
+// const store = configureStore({
+//   reducer: rootReducer,
+//   devTools: true,
+// });
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>,
   document.getElementById("root")
 );

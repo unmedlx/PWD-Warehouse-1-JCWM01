@@ -1,6 +1,15 @@
-import React, { useState, useEffect } from "react";
-
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import axios from "axios";
+import { API_URL } from "./constants/API";
+import { BrowserRouter, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  LoggedInRoute,
+  NonLoggedInRoute,
+  AdminRoute,
+} from "./helper/ProtectedRoute";
+// PAGES //
+import Admin from "./pages/Admin";
 import ProductsList from "./pages/ProductsList";
 import ProductDetail from "./pages/ProductDetail";
 import AddProduct from "./pages/AddProduct";
@@ -14,17 +23,18 @@ import AdminProductList from "./pages/AdminProductList";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import ChangePassword from "./pages/ChangePassword";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Cart from "./pages/Cart";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
-  const { idUser, isUpload } = userGlobal;
   const dispatch = useDispatch();
-  const [idUserActive, setIdUserActive] = useState(idUser);
+  const userLocalStorage = localStorage.getItem("token_shutter");
+  console.log(userGlobal.isLogin); // to conditioning mustLogedInRoute
 
-  useEffect(() => {
-    setIdUserActive(idUser);
-    const userLocalStorage = localStorage.getItem("token_shutter");
-
+  //KEEP LOGIN CHECKER
+  const keepLogin = () => {
     if (userLocalStorage) {
       axios
         .post(
@@ -63,28 +73,52 @@ function App() {
             type: "GET_ADDRESS",
             payload: res.data,
           });
+          dispatch({
+            type: "USER_CHECK_LOGIN",
+            payload: true,
+          });
+          console.log(userGlobal.isLogin);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [isUpload]);
+  };
+
+  useEffect(() => {
+    keepLogin();
+  }, []);
 
   return (
     <BrowserRouter>
-      <Switch>
-        <Route component={ProductsList} path="/product-list" />
-        <Route component={ProductDetail} path="/product-detail/:idProduct" />
-        <Route component={AddProduct} path="/add-product" />
-        <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
-        <Route component={AdminProductList} path="/admin-product-list" />
-        <Route component={Auth} path="/authentication" />
-        <Route component={Verification} path="/verification/:token" />
-        <Route component={ChangePassword} path="/profile/change-password" />
-        <Route component={Address} path="/profile/address" />
-        <Route component={Profile} path="/profile" />
-        <Route component={Home} path="/" />
-      </Switch>
+      <Route component={AddProduct} path="/add-product" />
+      <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
+      <Route component={AdminProductList} path="/admin-product-list" />
+      <Route component={ChangePassword} path="/profile/change-password" />
+      <Route component={Address} path="/profile/address" />
+      <Route component={ProductsList} path="/product-list" />
+      <Route component={ProductDetail} path="/product-detail/:idProduct" />
+      <Route component={Verification} path="/verification/:token" />
+      <Route component={ForgotPassword} path="/forgot-password" />
+      <Route component={ResetPassword} path="/reset-password/:id/:token" />
+      <Route component={Home} path="/" exact />
+      {/* Protected Route */}
+      <LoggedInRoute
+        path="/profile"
+        component={Profile}
+        isLogin={userGlobal.isLogin}
+      />
+      <LoggedInRoute
+        path="/cart"
+        component={Cart}
+        isLogin={userGlobal.isLogin}
+      />
+      <NonLoggedInRoute
+        path="/authentication"
+        component={Auth}
+        isLogin={userGlobal.isLogin}
+      />
+      <AdminRoute path="/admin" component={Admin} isAdmin={userGlobal.idRole} />
     </BrowserRouter>
   );
 }

@@ -69,8 +69,8 @@
   transform: scale(0.95);
 }
 .button:hover {
-  background-color: white;
-  color: #32b280;
+  background-color: #32b280;
+  color: white;
   border: 3px solid #32b280;
 }
 
