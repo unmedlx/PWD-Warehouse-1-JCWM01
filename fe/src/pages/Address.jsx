@@ -7,6 +7,7 @@ import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
 import ProfileAddress from '../components/ProfileAddress';
 import ProfileNavbar from '../components/ProfileNavbar';
+import { API_URL } from '../helper';
 
 
 const Address = () => {
@@ -30,6 +31,21 @@ const Address = () => {
         const { idUser } = userGlobal
         console.log(idUser);
     }
+
+    // const fetchProvince = () => {
+    //     axios.get(`${API_URL}/cityprovince/province`)
+    //         .then((res) => {
+    //             console.log(res.data.results);
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         })
+    // }
+
+    // useEffect(() => {
+    //     fetchProvince()
+    // }, [])
+
 
     useEffect(() => {
         fetchDataUser()
