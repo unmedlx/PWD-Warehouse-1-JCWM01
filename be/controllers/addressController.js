@@ -14,7 +14,8 @@ module.exports = {
         })
     },
     editAddress: (req, res) => {
-
+        console.log(req.addressData.longitude);
+        console.log(req.addressData.latitude);
 
         let scriptQuery = `UPDATE addresses SET isDefault = 0 where idUser=${req.params.id}`
         // console.log(scriptQuery);
@@ -22,8 +23,8 @@ module.exports = {
             if (err) {
                 return res.status(500).send({ message: 'Error Occurs', success: false, err })
             }
-            let scriptQueryAlter = `UPDATE addresses SET recipientName=${db.escape(req.body.recipientName)},phoneNumber=${db.escape(req.body.phoneNumber)},jalan=${db.escape(req.body.jalan)},kecamatan=${db.escape(req.body.kecamatan)},kota=${db.escape(req.body.city)},provinsi=${db.escape(req.body.province)},zip=${db.escape(req.body.zip)},isDefault=${db.escape(req.body.isDefault)} WHERE idAddress=${db.escape(req.body.idAddress)}`
-            // console.log(scriptQueryAlter);
+            let scriptQueryAlter = `UPDATE addresses SET recipientName=${db.escape(req.addressData.recipientName)},phoneNumber=${db.escape(req.addressData.phoneNumber)},jalan=${db.escape(req.addressData.jalan)},kecamatan=${db.escape(req.addressData.kecamatan)},kota=${db.escape(req.addressData.city)},provinsi=${db.escape(req.addressData.province)},zip=${db.escape(req.addressData.zip)},isDefault=${db.escape(req.addressData.isDefault)},latitude=${db.escape(req.addressData.latitude)},longitude=${db.escape(req.addressData.longitude)} WHERE idAddress=${db.escape(req.addressData.idAddress)}`
+            console.log(scriptQueryAlter);
             db.query(scriptQueryAlter, (err, results) => {
                 if (err) {
                     return res.status(500).send({ message: 'Error Occurs', success: false, err })

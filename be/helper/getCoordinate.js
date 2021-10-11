@@ -5,6 +5,7 @@ const accessToken = 'pk.eyJ1IjoiYWx5d2hpdGV3b2xmaWUiLCJhIjoiY2t1NThuMnlpMjV4MDJ1
 
 module.exports = {
     getCoor: (req, res, next) => {
+        console.log(req.body.data);
         const kecamatan = req.body.data.kecamatan;
         const kota = req.body.data.city;
         const provinsi = req.body.data.province;

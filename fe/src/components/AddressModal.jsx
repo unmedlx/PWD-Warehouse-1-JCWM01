@@ -49,7 +49,7 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
 
         data = { ...data, idAddress: address.idAddress }
 
-        axios.patch(`${API_URL}/address/${idUser}`, data)
+        axios.patch(`${API_URL}/address/${idUser}`, { data })
             .then((res) => {
                 console.log(res);
                 setSuccessUpload(res.data.success)
