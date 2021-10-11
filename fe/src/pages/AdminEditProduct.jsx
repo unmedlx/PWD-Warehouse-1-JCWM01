@@ -11,11 +11,18 @@ export default function AdminEditProduct(props) {
   const [currentProduct, setCurrentProduct] = useState([]);
   const [newProduct, setNewProduct] = useState({
     productName: "",
-    price: 0,
+    price: parseInt(0),
     description: "",
-    idCategory: 0,
+    idCategory: parseInt(0),
   });
   const [file, setFile] = useState();
+  const [idWarehouse, setIdWarehouse] = useState(0);
+  const [newQuantity, setNewQuantity] = useState(0);
+
+  const uploadHandler = (e) => {
+    let uploaded = e.target.files[0];
+    setFile(uploaded);
+  };
 
   const fetchProducts = () => {
     axios
@@ -30,6 +37,18 @@ export default function AdminEditProduct(props) {
         alert(err);
       });
     console.log(userGlobal);
+  };
+
+  const fetchWarehouse = () => {
+    axios
+      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
+      .then((response) => {
+        setIdWarehouse(response.data[0].idWarehouse);
+        console.log(response.data[0].idWarehouse);
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   const deleteProduct = () => {
@@ -48,6 +67,12 @@ export default function AdminEditProduct(props) {
   const inputHandler = (event) => {
     const value = event.target.value;
     const name = event.target.name;
+
+    setNewProduct({ ...newProduct, [name]: value });
+  };
+
+  const quantityHandler = (event) => {
+    setNewQuantity(event.target.value);
   };
   return (
     <div style={{ height: "90%", width: "80%" }} className="card mb-4 scroll">
@@ -87,7 +112,7 @@ export default function AdminEditProduct(props) {
               <div className="mb-4">
                 <label className="form-label">Stock</label>
                 <input
-                  onChange={inputHandler}
+                  onChange={quantityHandler}
                   type="number"
                   placeholder="0"
                   className="form-control"
@@ -203,7 +228,7 @@ export default function AdminEditProduct(props) {
                   className="form-control"
                   type="file"
                   accept=".jpg, .jpeg, .png, .JPG, .PNG, .JPEG"
-                  //   onChange={uploadHandler}
+                  onChange={uploadHandler}
                 />
               </div>
             </div>
