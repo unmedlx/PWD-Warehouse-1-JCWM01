@@ -7,11 +7,11 @@ import rootReducer from "./reducers/index";
 const persistConfig = {
   key: "root", //i dunno
   storage, //storage to save data
-  whitelist: ["users"], // reducer that we want to keep
+  whitelist: ["users", "addresses"], // reducer that we want to keep
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 //The store
-export let store = configureStore({reducer: persistedReducer, devTools: true,});
+export let store = configureStore({ reducer: persistedReducer, devTools: true, });
 //the persistor
 export let persistor = persistStore(store);

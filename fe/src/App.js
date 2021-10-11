@@ -18,8 +18,6 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
 import Address from "./pages/Address";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import Profile from "./pages/Profile";
 import AdminProductList from "./pages/AdminProductList";
 import ChangePassword from "./pages/ChangePassword";
@@ -47,9 +45,10 @@ function App() {
           }
         )
         .then((res) => {
+          console.log(res.data);
           delete res.data.password;
           dispatch({
-            type: "USER_LOGIN",
+            type: "USER_CHECK_LOGIN",
             payload: res.data,
           });
         })
@@ -69,6 +68,7 @@ function App() {
         )
         .then((res) => {
           delete res.data.password;
+          console.log(res.data);
           dispatch({
             type: "GET_ADDRESS",
             payload: res.data,

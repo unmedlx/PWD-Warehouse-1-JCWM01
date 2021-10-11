@@ -11,8 +11,6 @@ const ProfileData = ({ handleClose }) => {
     const userGlobal = useSelector((state) => state.users);
     const { idUser, fullName, username, email, userImage, idRole, gender, dateOfBirth } = userGlobal
 
-    console.log(dateOfBirth);
-
     const profileDataInitialValues = {
         //diisi dari redux
         username: username,
