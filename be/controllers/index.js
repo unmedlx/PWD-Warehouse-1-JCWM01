@@ -10,7 +10,7 @@ module.exports = {
   productsController,
   userController,
   uploaderController,
-  addressController
+  addressController,
   adminStocksController,
   userStocksController,
   warehousesController,

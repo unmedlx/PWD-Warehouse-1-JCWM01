@@ -1,5 +1,5 @@
 const { db } = require("../database/index"); //mysql
-const moment = require("moment");
+// const moment = require("moment");
 const Crypto = require("crypto"); // for encrypt
 //Hashing
 const bcrypt = require("bcrypt");
