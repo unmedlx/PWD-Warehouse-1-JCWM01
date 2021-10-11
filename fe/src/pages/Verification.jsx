@@ -5,13 +5,16 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function Verification() {
+  // STATE //
   const [message, setMessage] = useState(
     "We Verify Your Account, Please Wait..."
   );
   const [redirect, setRedirect] = useState(false);
-  //Get Token From url
+
+  // TOKEN STUFF //
   const params = useParams();
 
+  // VERIFICATION //
   const verify = () => {
     console.log(params.token);
     axios
@@ -38,13 +41,15 @@ function Verification() {
     verify();
   });
 
+  // REDIRECT //
   if (redirect) {
     return <Redirect to="/" />;
   }
 
+  // RENDER //
   return (
-    <div className="container p-5 justify-content-center">
-      <h2>{message}</h2>
+    <div className="body">
+      <h1 className="h1">{message}</h1>
     </div>
   );
 }
