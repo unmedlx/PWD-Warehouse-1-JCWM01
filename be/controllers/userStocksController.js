@@ -43,7 +43,27 @@ module.exports = {
     });
   },
 
-  editData: (req, res) => {},
+  editData: (req, res) => {
+    let dataUpdate = [];
+    for (let prop in req.body) {
+      dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
+    }
+
+    console.log(dataUpdate);
+
+    let scriptQuery = `UPDATE db_warehouse1.userstocks SET ${dataUpdate} WHERE idProduct = ${req.params.idProduct} AND idWarehouse = ${req.query.idWarehouse}`;
+
+    db.query(scriptQuery, [], (err, results) => {
+      if (err) {
+        res.status(500).send({
+          message: "Gagal merubah data di database",
+          success: false,
+          err,
+        });
+      }
+      res.status(200).send(results);
+    });
+  },
 
   deleteData: (req, res) => {},
 };
