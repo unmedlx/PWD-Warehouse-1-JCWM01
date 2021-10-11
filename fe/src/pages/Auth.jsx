@@ -1,21 +1,23 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Redirect, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
-import { API_URL } from "../helper";
+import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function Auth() {
+  // Redux //
+  const userGlobal = useSelector((state) => state.users);
+  const dispatch = useDispatch();
   // State //
   const [state, setState] = useState({
-    btnClick: "signIn",
+    btnClick: true,
     redirect: false,
   });
-
-  // Redux //
-  const dispatch = useDispatch();
+  const [message, setMessage] = useState(null);
+  const [message1, setMessage1] = useState(null);
 
   // FORMIK REGISTER //
   const registerInitialValues = {
@@ -25,10 +27,18 @@ function Auth() {
     password: "",
   };
   const registerValidationSchema = Yup.object().shape({
-    fullName: Yup.string().required(),
-    username: Yup.string().required(),
-    email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(6).required(),
+    fullName: Yup.string().required("Full Name Is Required"),
+    username: Yup.string().required("Username Is Required"),
+    email: Yup.string().email("Wrong Email Format").required("Email Is Required"),
+    password: Yup.string().min(6).required("Password Is Required"),
+    confirmPassword: Yup.string().min(6).when("password", {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref("password")],
+        "Both Password Need To Be The Same"
+      ),
+    })
+      .required("Confirm Password Required"),
   });
 
   // FORMIK LOGIN //
@@ -37,184 +47,196 @@ function Auth() {
     password: "",
   };
   const loginValidationSchema = Yup.object().shape({
-    email: Yup.string().email("Format Email Salah").min(3).required(),
-    password: Yup.string().min(6).required(),
+    email: Yup.string().email("Format Email Salah").required("Email Is Required "),
+    password: Yup.string().min(6).required("Password Is Required"),
   });
 
   // Change Form //
   const signInPage = () => {
-    setState({ btnClick: "signUp" });
+    setState({ btnClick: true });
     console.log(state.btnClick);
+    setMessage(null)
+    setMessage1(null)
   };
   const signUpPage = () => {
-    setState({ btnClick: null });
+    setState({ btnClick: false });
     console.log(state.btnClick);
+    setMessage(null)
+    setMessage1(null)
   };
 
   // REGISTER //
   const register = (data) => {
+    console.log(data);
+    setMessage("Loading...");
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
-    axios
-      .post(API_URL + "/users/register", {
-        fullName,
-        username,
-        email,
-        password,
-      })
+    axios.post(API_URL + "/users/register", { fullName, username, email, password, })
       .then((res) => {
-        alert("Register success  ✔ , check your email to verify");
-        setState({ redirect: true });
+        if (res.data.success) {
+          localStorage.setItem("token_shutter", res.data.token);
+          dispatch({
+            type: "USER_LOGIN",
+            payload: res.data.dataUser,
+          });
+          setTimeout(() => setState({ redirect: true }), 3000);
+        } else {
+          setMessage(res.data.message);
+          setMessage1(res.data.message1);
+        }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(null);
+        console.log(err);
+      });
   };
 
   // LOGIN //
   const login = (data) => {
+    setMessage("Loading...");
     //Data Login
     let { email, password } = data;
     //Execute Login
-    console.log("axios jalan");
-    axios
-      .post(API_URL + `/users/login`, {
-        email: email,
-        password: password,
-      })
+    axios.post(`${API_URL}/users/login`, { email, password, })
       .then((res) => {
-        // console.log(res);
         if (res.data.success) {
-          delete res.data.dataLogin.password;
           localStorage.setItem("token_shutter", res.data.token);
-          alert("Login Success ✔");
           dispatch({
             type: "USER_LOGIN",
-            payload: res.data.dataLogin,
-          });
-          setState({ redirect: true });
+            payload: res.data.dataUser,
+          })
+          setMessage("Login Success ✔");
+          setMessage1("Happy Shopping ! :)");
+          // setState({ redirect: true })
         } else {
-          alert(res.data.messege);
+          setMessage(null);
+          setMessage(res.data.message)
+          // alert(res.data.message);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        setMessage(null);
+        console.log(err);
+      });
   };
 
-  // REDIRECT //
-  if (state.redirect) {
-    return <Redirect to="/" />;
-  }
+  // // REDIRECT //
+  // if (state.redirect) {
+  //   if (userGlobal.idRole == 2) {
+  //     return <Redirect to="/admin" />;
+  //   } else if (userGlobal.idRole == 1) {
+  //     return <Redirect to="/admin" />;
+  //   }else {
+  //     return <Redirect to="/" />;
+  //   }
+  // }
 
   // RENDER //
   return (
     /* Change Form */
-    <div
-      className={`container body ${state.btnClick ? "" : "right-panel-active"}`}
-      id="container"
-    >
-      {/* SIGN UP FORM */}
-      <Formik
-        initialValues={registerInitialValues}
-        onSubmit={register}
-        validationSchema={registerValidationSchema}
-      >
-        <div className="form-container sign-up-container">
-          <Form className="form">
-            <h1 className="h1">Create Account</h1>
-            <span className="span">
-              Enter your personal details and start journey with us
-            </span>
-            <ErrorMessage name="fullName" component="span" className="error" />
-            <Field
-              name="fullName"
-              type="text"
-              placeholder="Name"
-              autoComplete="off"
-            />
-            <ErrorMessage name="username" component="span" className="error" />
-            <Field
-              name="username"
-              type="text"
-              placeholder="Username"
-              autoComplete="off"
-            />
-            <ErrorMessage name="email" component="span" className="error" />
-            <Field
-              name="email"
-              type="email"
-              placeholder="Email"
-              autoComplete="off"
-            />
-            <ErrorMessage name="password" component="span" className="error" />
-            <Field
-              name="password"
-              type="password"
-              placeholder="Password"
-              autoComplete="off"
-            />
-            <button className="button" type="submit">
-              Sign Up
-            </button>
-          </Form>
-        </div>
-      </Formik>
-
-      {/* SIGN IN FORM */}
-      <Formik
-        initialValues={loginInitialValues}
-        onSubmit={login}
-        validationSchema={loginValidationSchema}
-      >
-        <div className="form-container sign-in-container">
-          <Form className="form">
-            <h1 className="h1">Sign in</h1>
-            <span className="span">login with your account info</span>
-            <ErrorMessage name="email" component="span" className="error" />
-            <Field
-              name="email"
-              type="email"
-              placeholder="Email"
-              autoComplete="off"
-            />
-            <ErrorMessage name="password" component="span" className="error" />
-            <Field
-              name="password"
-              type="password"
-              placeholder="Password"
-              autoComplete="off"
-            />
-            {/* FORGOT PASSWORD BTN */}
-            <a className="a" href="#">
-              Forgot your password?
-            </a>
-            {/*  */}
-            <button className="button" type="submit">
-              Sign In
-            </button>
-          </Form>
-        </div>
-      </Formik>
-
-      {/* OVERLAY PANEL */}
-      <div className="overlay-container">
-        <div className="overlay">
-          <div className="overlay-panel overlay-left">
-            <h1 className="h1">Welcome Back!</h1>
-            <p className="p">
-              To keep connected with us please login with your personal info
-            </p>
-            <button onClick={signInPage} className="ghost button" id="signIn">
-              Sign In
-            </button>
+    <div className="body">
+      <div className={` auth-container ${state.btnClick ? "" : "right-panel-active"}`}>
+        {/* SIGN UP FORM */}
+        <Formik initialValues={registerInitialValues} onSubmit={register} validationSchema={registerValidationSchema}>
+          <div className="form-container sign-up-container">
+            <Form className="form">
+              <h1 className="h1">Create Account</h1>
+              <span className="span"> Enter your personal details and start journey with us</span>
+              <ErrorMessage name="fullName" component="span" className="error" />
+              <Field
+                name="fullName"
+                type="text"
+                placeholder="Full Name"
+                autoComplete="off"
+              />
+              <ErrorMessage name="username" component="span" className="error" />
+              <Field
+                name="username"
+                type="text"
+                placeholder="Username"
+                autoComplete="off"
+              />
+              <ErrorMessage name="email" component="span" className="error" />
+              <Field
+                name="email"
+                type="email"
+                placeholder="Email"
+                autoComplete="off"
+              />
+              <ErrorMessage name="password" component="span" className="error" />
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                autoComplete="off"
+              />
+              <ErrorMessage name="confirmPassword" component="span" className="error" />
+              <Field
+                name="confirmPassword"
+                type="password"
+                placeholder="Confirm Password"
+                autoComplete="off"
+              />
+              <button className="button" type="submit">
+                Sign Up
+              </button>
+              <h5 className="h5">{message}</h5>
+              <h5 className="h5-light">{message1}</h5>
+            </Form>
           </div>
+        </Formik>
 
-          <div className="overlay-panel overlay-right">
-            <h1 className="h1">Hello, Friend!</h1>
-            <p className="p">
-              Enter your personal details and start journey with us
-            </p>
-            <button onClick={signUpPage} className="ghost button" id="signUp">
-              Sign Up
-            </button>
+        {/* SIGN IN FORM */}
+        <Formik initialValues={loginInitialValues} onSubmit={login} validationSchema={loginValidationSchema} >
+          <div className="form-container sign-in-container">
+            <Form className="form">
+              <h1 className="h1">Sign in</h1>
+              <span className="span">login with your account info</span>
+              <ErrorMessage name="email" component="span" className="error" />
+              <Field
+                name="email"
+                type="email"
+                placeholder="Email"
+                autoComplete="off"
+              />
+              <ErrorMessage name="password" component="span" className="error" />
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                autoComplete="off"
+              />
+              <Link className="a" to="/forgot-password">
+                Forgot your password?
+              </Link>
+              <button className="button" type="submit">
+                Sign In
+              </button>
+              <h5 className="h5">{message}</h5>
+              <h5 className="h5-light">{message1}</h5>
+            </Form>
+          </div>
+        </Formik>
+
+        {/* OVERLAY PANEL */}
+        <div className="overlay-container">
+          <div className="overlay">
+            <div className="overlay-panel overlay-left">
+              <h1 className="h1">Welcome Back!</h1>
+              <p className="p"> To keep connected with us please login with your personal info</p>
+              <button onClick={signInPage} className="ghost button" id="signIn">
+                Sign In
+              </button>
+            </div>
+
+            <div className="overlay-panel overlay-right">
+              <h1 className="h1">Hello, Friend!</h1>
+              <p className="p"> Enter your personal details and start journey with us</p>
+              <button onClick={signUpPage} className="ghost button" id="signUp">
+                Sign Up
+              </button>
+            </div>
           </div>
         </div>
       </div>

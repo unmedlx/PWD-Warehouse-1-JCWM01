@@ -4,9 +4,8 @@ const { db } = require("../database/index"); //mysql
 module.exports = {
     getAddress: (req, res) => {
         idUser = parseInt(req.params.id)
-        // console.log(idUser);
-        let scriptQuery = `SELECT * FROM addresses WHERE idUser=${req.params.id}`
         // console.log(scriptQuery);
+        let scriptQuery = `SELECT * FROM addresses WHERE idUser=${req.params.id}`
         db.query(scriptQuery, (err, results) => {
             if (err) {
                 return res.status(500).send({ message: 'Error Occurs', success: false, err })
@@ -15,8 +14,7 @@ module.exports = {
         })
     },
     editAddress: (req, res) => {
-        console.log(req.params.id);
-        console.log(req.body);
+
 
         let scriptQuery = `UPDATE addresses SET isDefault = 0 where idUser=${req.params.id}`
         // console.log(scriptQuery);
@@ -78,10 +76,16 @@ module.exports = {
     },
     //GET DATA CHECK LOGIN
     getDataAddress: (req, res) => {
-        let scriptQuery = `SELECT *  FROM addresses WHERE idUser=${req.user.idUser}`
+        let scriptQuery = `SELECT * FROM addresses WHERE idUser=${req.user.idUser}`
         db.query(scriptQuery, (err, results) => {
+            if (err) {
+                return res.status(500).send({ message: 'Error Occurs', success: false, err })
+            }
 
             // console.log(results);
+            if (results === undefined) {
+                console.log("tal define");
+            }
             results.forEach(function (result, i) {
                 if (result.isDefault === 1) {
                     results.splice(i, 1);

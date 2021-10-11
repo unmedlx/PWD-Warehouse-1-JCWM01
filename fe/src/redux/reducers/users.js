@@ -4,13 +4,17 @@ const initialState = {
   username: "",
   email: "",
   idRole: "",
+  isLogin: false,
 };
 
 const users = (state = initialState, { type, payload }) => {
   switch (type) {
     case "USER_LOGIN":
-      return { ...state, ...payload };
-
+      return { ...state, ...payload, isLogin: true };
+    case "USER_CHECK_LOGIN":
+      return { ...state, ...payload, isLogin: true };
+    case "USER_LOGOUT":
+      return { state, isLogin: false };
     default:
       return state;
   }

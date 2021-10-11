@@ -42,7 +42,7 @@ const Address = () => {
                 <div className="profile-container">
                     <div className="profile-sidebar">
                         <div className="profile-picture-container">
-                            <img src={"http://localhost:3001/" + userImage} alt="Trulli" className="profilePicture" />
+                            <img src={"http://localhost:3001" + userImage} alt="Trulli" className="profilePicture" />
                         </div>
                         <button className="btn btn-dark mt-3" onClick={handleShow}>Change Photo Profile</button>
                         <div className="profile-photo-desc mt-3">
