@@ -92,7 +92,7 @@ function App() {
       <Route component={AddProduct} path="/add-product" />
       <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
       <Route component={AdminProductList} path="/admin-product-list" />
-      <Route component={ChangePassword} path="/profile/change-password" />
+      <Route component={ChangePassword} path="/change-password" />
       <Route component={Address} path="/profile/address" />
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />

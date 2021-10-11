@@ -50,7 +50,7 @@ const Profile = () => {
                             <p>Besar file: maksimum 5.000.000 bytes (5 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</p>
                         </div>
                         <button className="button-profile mt-3"  >
-                            <Link to="/profile/change-password" style={{ textDecoration: 'none', color: 'white' }}>
+                            <Link to="/change-password" style={{ textDecoration: 'none', color: 'white' }}>
                                 Change Password
                             </Link>
                         </button>

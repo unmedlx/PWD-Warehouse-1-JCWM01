@@ -83,6 +83,7 @@ function Auth() {
         }else{
           setMessage(res.data.message);
           setMessage1(res.data.message1);
+          alert(res.data.message1)
         }
       })
       .catch((err) => {

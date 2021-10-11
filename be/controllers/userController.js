@@ -1,5 +1,5 @@
 const { db } = require("../database/index"); //mysql
-// const moment = require("moment");
+const moment = require("moment"); // ubah format tanggal
 const Crypto = require("crypto"); // for encrypt
 //Hashing
 const bcrypt = require("bcrypt");
@@ -19,7 +19,7 @@ module.exports = {
       email
     )} ;`;
     db.query(checkEmailQuery, (err, results) => {
-      if (results) {
+      if (results == []) {
         res.send({
           message: "This Email Already Registered",
           message1: "Try Again With Different Email",
@@ -203,9 +203,9 @@ module.exports = {
           .status(500)
           .send({ message: "Failed To Get User Data", error: err });
       } else {
+        delete results[0].password;
         var parsed = moment(results[0].dateOfBirth).format("YYYY-MM-DD");
         results = { ...results[0], dateOfBirth: parsed };
-        delete results[0].password;
         return res.status(200).send(results);
       }
     });
@@ -243,9 +243,9 @@ module.exports = {
     let { idUser } = req.user;
     let { password, oldPassword } = req.body.data;
 
-    console.log(password);
-    console.log(idUser);
-    console.log(oldPassword);
+    // console.log(password);
+    // console.log(idUser);
+    // console.log(oldPassword);
 
     //hash password baru
     password = Crypto.createHmac("sha1", "hash123")
@@ -272,7 +272,7 @@ module.exports = {
       }
       console.log(results.length);
       if (results.length == 0) {
-        console.log("kosongg");
+        // console.log("kosongg");
         return res
           .status(200)
           .send({ message: "Password anda salah", success: false });

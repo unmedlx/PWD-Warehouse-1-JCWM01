@@ -1,5 +1,5 @@
 const express = require("express");
-const { addressRouter } = require(".");
+// const { addressRouter } = require(".");
 const { addressController } = require("../controllers/index");
 const { authToken } = require("../helper/authToken");
 const { getCoor } = require('../helper/getCoordinate');
