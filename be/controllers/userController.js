@@ -224,7 +224,7 @@ module.exports = {
      gender=${db.escape(gender)},
      dateOfBirth=${db.escape(dateOfBirth)}
      WHERE idUser=${db.escape(idUser)} ;`;
-    // console.log(scriptQuery);
+    console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res.status(500).send({

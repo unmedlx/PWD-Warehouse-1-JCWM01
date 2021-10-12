@@ -93,7 +93,7 @@ function App() {
       <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
       <Route component={AdminProductList} path="/admin-product-list" />
       <Route component={ChangePassword} path="/change-password" />
-      <Route component={Address} path="/profile/address" />
+      <Route component={Address} path="/profile/address" exact />
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
@@ -105,6 +105,7 @@ function App() {
         path="/profile"
         component={Profile}
         isLogin={userGlobal.isLogin}
+        exact
       />
       <LoggedInRoute
         path="/cart"
