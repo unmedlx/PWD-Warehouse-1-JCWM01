@@ -67,5 +67,20 @@ module.exports = {
     });
   },
 
-  deleteData: (req, res) => {},
+  deleteData: (req, res) => {
+    let scriptQuery = `DELETE from db_warehouse1.adminstocks WHERE idProduct = ${db.escape(
+      req.params.idProduct
+    )} AND idWarehouse = ${db.escape(req.query.idWarehouse)}`;
+
+    db.query(scriptQuery, (err, results) => {
+      if (err) {
+        res.status(500).send({
+          message: "Gagal menghapus data di database",
+          success: false,
+          err,
+        });
+      }
+      res.status(200).send(results);
+    });
+  },
 };

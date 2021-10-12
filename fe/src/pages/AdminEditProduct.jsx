@@ -160,13 +160,41 @@ export default function AdminEditProduct(props) {
       });
   };
 
-  const deleteProduct = () => {
-    axios
-      .delete(`${API_URL}/products/${props.match.params.idProduct}}`)
-      .then((response) => {})
-      .catch((err) => {
-        alert(err);
-      });
+  const deleteButtonHandler = () => {
+    const confirmDelete = window.confirm(
+      `Delete ${currentProduct.productName}?`
+    );
+    if (confirmDelete) {
+      axios
+        .delete(`${API_URL}/products/${currentProduct.idProduct}`)
+        .then(() => {
+          axios
+            .delete(
+              `${API_URL}/adminstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`
+            )
+            .then(() => {})
+            .catch(() => {
+              alert(`Server error`);
+            });
+
+          axios
+            .delete(
+              `${API_URL}/userstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`
+            )
+            .then(() => {
+              alert(`${currentProduct.productName} is deleted`);
+              refreshPage();
+            })
+            .catch(() => {
+              alert(`Server error`);
+            });
+        })
+        .catch(() => {
+          alert(`Server error`);
+        });
+    } else {
+      alert(`Cancelled`);
+    }
   };
 
   useEffect(() => {
@@ -355,6 +383,7 @@ export default function AdminEditProduct(props) {
                   }}
                   type="button"
                   className="btn btn-danger"
+                  onClick={deleteButtonHandler}
                 >
                   Delete product
                 </button>
