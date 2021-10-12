@@ -54,11 +54,25 @@
   .checkout-detail{
       display: flex;
       flex-direction: column;
-  }
-
-  .checkout-item{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
-  
+    }
+    
+    .checkout-item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Shipping Information */
+    .shipping-information-container{
+        margin: auto;
+        height: 400px;
+        width: 1000px;
+    }
+    .shipping-information-item{
+        padding:10px 20px ;
+        border-radius: 10px;
+        border: 1px black solid;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }

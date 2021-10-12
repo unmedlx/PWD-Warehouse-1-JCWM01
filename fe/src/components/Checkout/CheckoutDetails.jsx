@@ -40,6 +40,11 @@ const CheckoutDetails = ({ nextStep, handleChange }) => {
         })
 
     }
+    const Continue = () => {
+        let total = getTotal()
+        handleChange(total)
+        nextStep();
+    }
 
     return (
         <div className="mt-5 ms-4">
@@ -63,7 +68,7 @@ const CheckoutDetails = ({ nextStep, handleChange }) => {
                 </div >
             </div >
             <button>Back to Cart</button>
-            <button onClick={nextStep}>Next</button>
+            <button onClick={Continue}>Next</button>
 
 
         </div >
