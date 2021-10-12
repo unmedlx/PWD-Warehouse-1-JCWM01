@@ -38,7 +38,7 @@ function Auth() {
         "Both Password Need To Be The Same"
       ),
     })
-    .required("Confirm Password Required"),
+      .required("Confirm Password Required"),
   });
 
   // FORMIK LOGIN //
@@ -67,11 +67,12 @@ function Auth() {
 
   // REGISTER //
   const register = (data) => {
+    console.log(data);
     setMessage("Loading...");
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
-    axios.post(API_URL + "/users/register", {fullName,username,email,password,})
+    axios.post(API_URL + "/users/register", { fullName, username, email, password, })
       .then((res) => {
         if (res.data.success) {
           localStorage.setItem("token_shutter", res.data.token);
@@ -80,7 +81,7 @@ function Auth() {
             payload: res.data.dataUser,
           });
           setTimeout(() => setState({ redirect: true }), 3000);
-        }else{
+        } else {
           setMessage(res.data.message);
           setMessage1(res.data.message1);
         }
@@ -97,16 +98,14 @@ function Auth() {
     //Data Login
     let { email, password } = data;
     //Execute Login
-    axios.post(`${API_URL}/users/login`, {email,password,})
+    axios.post(`${API_URL}/users/login`, { email, password, })
       .then((res) => {
-        // console.log(res);
         if (res.data.success) {
-          console.log(res.data.dataUser);
           localStorage.setItem("token_shutter", res.data.token);
           dispatch({
-              type: "USER_LOGIN",
-              payload: res.data.dataUser,
-            }) 
+            type: "USER_LOGIN",
+            payload: res.data.dataUser,
+          })
           setMessage("Login Success ✔");
           setMessage1("Happy Shopping ! :)");
           // setState({ redirect: true })
@@ -144,7 +143,7 @@ function Auth() {
             <Form className="form">
               <h1 className="h1">Create Account</h1>
               <span className="span"> Enter your personal details and start journey with us</span>
-              <ErrorMessage name="fullName" component="span" className="error"/>
+              <ErrorMessage name="fullName" component="span" className="error" />
               <Field
                 name="fullName"
                 type="text"
@@ -165,7 +164,7 @@ function Auth() {
                 placeholder="Email"
                 autoComplete="off"
               />
-              <ErrorMessage name="password" component="span" className="error"/>
+              <ErrorMessage name="password" component="span" className="error" />
               <Field
                 name="password"
                 type="password"

@@ -9,6 +9,7 @@ import '../assets/styles/ProfileAddress.css'
 const ProfileAddress = (addressGlobal) => {
     const userGlobal = useSelector((state) => state.users);
     const [show, setShow] = useState(false);
+    const [provinces, setProvinces] = useState([])
 
 
     const reload = () => window.location.reload();
@@ -22,20 +23,32 @@ const ProfileAddress = (addressGlobal) => {
 
     const fetchDataAddress = () => {
         const { idUser } = userGlobal
-        console.log(idUser);
     }
 
     const renderAddress = () => {
         console.log(addressGlobal.addresses);
         let arrAddress = Object.values(addressGlobal.addresses)
-        console.log(arrAddress);
         return arrAddress.map((address) => {
             // return <Address />
             return (
-                <AddressCard address={address} />
+                <AddressCard address={address} provinces={provinces} />
             )
         })
     }
+
+    const fetchProvince = () => {
+        axios.get(`${API_URL}/cityprovince/province`)
+            .then((res) => {
+                setProvinces(res.data.results)
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    useEffect(() => {
+        fetchProvince()
+    }, [])
 
     useEffect(() => {
         fetchDataAddress()
@@ -54,7 +67,7 @@ const ProfileAddress = (addressGlobal) => {
                 </div>
             </div>
 
-            <AddAddressModal show={show} handleClose={handleClose} />
+            <AddAddressModal show={show} handleClose={handleClose} provinces={provinces} />
         </>
     )
 }

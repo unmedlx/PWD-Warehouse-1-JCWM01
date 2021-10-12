@@ -7,6 +7,7 @@ import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
 import ProfileAddress from '../components/ProfileAddress';
 import ProfileNavbar from '../components/ProfileNavbar';
+import { API_URL } from '../helper';
 
 
 const Address = () => {
@@ -41,14 +42,14 @@ const Address = () => {
                 <div className="profile-container">
                     <div className="profile-sidebar">
                         <div className="profile-picture-container">
-                            <img src={"http://localhost:3001/" + userImage} alt="Trulli" className="profilePicture" />
+                            <img src={"http://localhost:3001" + userImage} alt="Trulli" className="profilePicture" />
                         </div>
                         <button className="btn btn-dark mt-3" onClick={handleShow}>Change Photo Profile</button>
                         <div className="profile-photo-desc mt-3">
                             <p>Besar file: maksimum 5.000.000 bytes (5 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</p>
                         </div>
                         <button className="button-profile mt-3"  >
-                            <Link to="/profile/change-password" style={{ textDecoration: 'none', color: 'white' }}>
+                            <Link to="/change-password" style={{ textDecoration: 'none', color: 'white' }}>
                                 Change Password
                             </Link>
                         </button>

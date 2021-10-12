@@ -12,9 +12,9 @@ const users = (state = initialState, { type, payload }) => {
     case "USER_LOGIN":
       return { ...state, ...payload, isLogin: true };
     case "USER_CHECK_LOGIN":
-      return { ...state, isLogin: true };
+      return { ...state, ...payload, isLogin: true };
     case "USER_LOGOUT":
-      return { initialState, isLogin: false };
+      return { state, isLogin: false };
     default:
       return state;
   }
