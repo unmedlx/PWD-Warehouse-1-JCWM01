@@ -19,7 +19,7 @@ module.exports = {
       email
     )} ;`;
     db.query(checkEmailQuery, (err, results) => {
-      if (results) {
+      if (results == []) {
         res.send({
           message: "This Email Already Registered",
           message1: "Try Again With Different Email",
@@ -205,7 +205,7 @@ module.exports = {
       } else {
         var parsed = moment(results[0].dateOfBirth).format("YYYY-MM-DD");
         results = { ...results[0], dateOfBirth: parsed };
-        delete results[0].password;
+        // delete results[0].password;
         return res.status(200).send(results);
       }
     });
