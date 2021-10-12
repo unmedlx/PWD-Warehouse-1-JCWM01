@@ -7,6 +7,7 @@ import {
   LoggedInRoute,
   NonLoggedInRoute,
   AdminRoute,
+  AdminNonLoggedRoute
 } from "./helper/ProtectedRoute";
 
 // PAGES //
@@ -25,18 +26,18 @@ import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Cart from "./pages/Cart";
+import Warehouse from "./pages/Warehouse"
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
+  const adminGlobal = useSelector((state) => state.admins);
   const dispatch = useDispatch();
   const userLocalStorage = localStorage.getItem("token_shutter");
 
   //KEEP LOGIN CHECKER
   const keepLogin = () => {
     if (userLocalStorage) {
-      axios
-        .post(
-          `http://localhost:3001/users/`,
+      axios.post(`${API_URL}/users/`,
           {},
           {
             headers: {
@@ -45,19 +46,34 @@ function App() {
           }
         )
         .then((res) => {
+          console.log(res.data.idRole);
           delete res.data.password;
-          dispatch({
-            type: "USER_CHECK_LOGIN",
-            payload: res.data,
-          });
+          if (res.data.idRole == 1) {
+            dispatch({
+              type: "ADMIN_CHECK_LOGIN",
+              payload: res.data
+            })
+            return
+          } else if (res.data.idRole == 2) {
+            dispatch({
+              type: "ADMIN_CHECK_LOGIN",
+              payload: res.data
+            })
+            return
+          }
+          else {
+            dispatch({
+              type: "USER_CHECK_LOGIN",
+              payload: res.data,
+            })
+          }
+        
         })
         .catch((err) => {
           console.log(err);
         });
 
-      axios
-        .post(
-          `http://localhost:3001/address/`,
+      axios.post(`${API_URL}/address/`,
           {},
           {
             headers: {
@@ -71,10 +87,10 @@ function App() {
             type: "GET_ADDRESS",
             payload: res.data,
           });
-          dispatch({
-            type: "USER_CHECK_LOGIN",
-            payload: true,
-          });
+          // dispatch({
+          //   type: "USER_CHECK_LOGIN",
+          //   payload: true,
+          // });
         })
         .catch((err) => {
           console.log(err);
@@ -88,11 +104,9 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Route component={AddProduct} path="/add-product" />
-      <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
-      <Route component={AdminProductList} path="/admin-product-list" />
-      <Route component={ChangePassword} path="/change-password" />
-      <Route component={Address} path="/address" />
+      {/* <Route component={ChangePassword} path="/change-password" /> */}
+      {/* <Route component={Address} path="/address" /> */}
+      {/* <Route component={AdminEditProduct} path="/edit-product/:idProduct" /> */}
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
@@ -100,23 +114,18 @@ function App() {
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
       <Route component={Home} path="/" exact />
       {/* Protected Route */}
-      <LoggedInRoute
-        path="/profile"
-        component={Profile}
-        isLogin={userGlobal.isLogin}
-        exact
-      />
-      <LoggedInRoute
-        path="/cart"
-        component={Cart}
-        isLogin={userGlobal.isLogin}
-      />
-      <NonLoggedInRoute
-        path="/authentication"
-        component={Auth}
-        isLogin={userGlobal.isLogin}
-      />
-      <AdminRoute path="/admin" component={Admin} isAdmin={userGlobal.idRole} />
+      <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin}/>
+      <LoggedInRoute path="/address"  component={Address}  isLogin={userGlobal.isLogin} exact/>
+      <LoggedInRoute path="/change-password" component={ChangePassword} isLogin={userGlobal.isLogin} exact />
+      <LoggedInRoute path="/profile"  component={Profile}  isLogin={userGlobal.isLogin} exact/>
+      <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/>
+      {/* ADMIN */}
+      <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin}/>
+      <AdminRoute path="/admin" component={Admin} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/edit-product/:idProduct" component={AdminEditProduct} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/admin-warehouse" component={Warehouse} isAdmin={adminGlobal.idRole} />
     </BrowserRouter>
   );
 }

@@ -12,9 +12,9 @@ const initialState = {
       case "ADMIN_LOGIN":
         return { ...state, ...payload, isLogin: true };
       case "ADMIN_CHECK_LOGIN":
-        return { ...state, isLogin: true };
+      return {...state, ...payload, isLogin: true };
       case "ADMIN_LOGOUT":
-        return { initialState, isLogin: false };
+        return { ...initialState, isLogin: false };
       default:
         return state;
     }

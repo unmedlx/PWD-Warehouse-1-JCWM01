@@ -10,6 +10,7 @@ import * as Yup from "yup";
 function Auth() {
   // Redux //
   const userGlobal = useSelector((state) => state.users);
+  const adminGlobal = useSelector((state) => state.admins);
   const dispatch = useDispatch();
   // State //
   const [state, setState] = useState({
@@ -74,17 +75,18 @@ function Auth() {
     //Execute register
     axios.post(API_URL + "/users/register", { fullName, username, email, password, })
       .then((res) => {
+        console.log(res.data);
         if (res.data.success) {
           localStorage.setItem("token_shutter", res.data.token);
           dispatch({
             type: "USER_LOGIN",
             payload: res.data.dataUser,
           });
+          alert(res.data.message)
           setTimeout(() => setState({ redirect: true }), 3000);
         } else {
           setMessage(res.data.message);
           setMessage1(res.data.message1);
-          alert(res.data.message1)
         }
       })
       .catch((err) => {
@@ -102,11 +104,26 @@ function Auth() {
     axios.post(`${API_URL}/users/login`, { email, password, })
       .then((res) => {
         if (res.data.success) {
+          console.log(res.data.dataUser);
           localStorage.setItem("token_shutter", res.data.token);
-          dispatch({
-            type: "USER_LOGIN",
-            payload: res.data.dataUser,
-          })
+          if (res.data.dataUser.idRole == 1) {
+            window.location = "/admin"
+            dispatch({
+              type: "ADMIN_LOGIN",
+              payload: res.data.dataUser
+            })
+          } else if (res.data.dataUser.idRole == 2) {
+            window.location = "/admin"
+            dispatch({
+              type: "ADMIN_LOGIN",
+              payload: res.data.dataUser
+            })
+          }else {
+            dispatch({
+              type: "USER_LOGIN",
+              payload: res.data.dataUser,
+            })
+          }
           setMessage("Login Success ✔");
           setMessage1("Happy Shopping ! :)");
           // setState({ redirect: true })
@@ -122,16 +139,16 @@ function Auth() {
       });
   };
 
-  // // REDIRECT //
-  // if (state.redirect) {
-  //   if (userGlobal.idRole == 2) {
-  //     return <Redirect to="/admin" />;
-  //   } else if (userGlobal.idRole == 1) {
-  //     return <Redirect to="/admin" />;
-  //   }else {
-  //     return <Redirect to="/" />;
-  //   }
-  // }
+  // REDIRECT //
+  if (state.redirect) {
+    if (adminGlobal.idRole == 2) {
+      return <Redirect to="/admin" />;
+    } else if (adminGlobal.idRole == 1) {
+      return <Redirect to="/admin" />;
+    // }else {
+    //   return <Redirect to="/" />;
+    }
+  }
 
   // RENDER //
   return (
