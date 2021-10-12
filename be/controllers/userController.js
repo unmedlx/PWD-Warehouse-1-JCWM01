@@ -209,7 +209,7 @@ module.exports = {
         return res.status(200).send(results);
       }
 
-      // console.log(results[0]);
+      console.log(results[0]);
       delete results[0].password;
       if (results[0].dateOfBirth == null) {
         return res.status(200).send(results[0]);
@@ -221,12 +221,17 @@ module.exports = {
   },
 
   //EDIT DATA USER PROFILE//
+  //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
     // console.log(idUser);
-    console.log(req.body);
     let { fullName, username, email, gender, dateOfBirth } = req.body;
-    dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD");
+    if (dateOfBirth === "") {
+      dateOfBirth = null;
+    } else {
+      dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD"); // ubah format jadi YYYY/MM/DD
+    }
+    // console.log(dateOfBirth);
     let scriptQuery = `UPDATE users SET
      fullName=${db.escape(fullName)},
      username=${db.escape(username)},
@@ -234,13 +239,13 @@ module.exports = {
      gender=${db.escape(gender)},
      dateOfBirth=${db.escape(dateOfBirth)}
      WHERE idUser=${db.escape(idUser)} ;`;
-    console.log(scriptQuery);
+    // console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res.status(500).send({
           message: "Gagal mengambil data di database",
           success: false,
-          err,
+          error: err,
         });
         return;
       } else {
@@ -287,19 +292,15 @@ module.exports = {
               db.query(updateQuery, (err, results) => {
                 if (err) {
                   console.log(err);
-                  res
-                    .status(500)
-                    .send({
-                      message: "update password failed",
-                      success: false,
-                    });
-                }
-                res
-                  .status(200)
-                  .send({
-                    message: "update password success ✔",
-                    success: true,
+                  res.status(500).send({
+                    message: "update password failed",
+                    success: false,
                   });
+                }
+                res.status(200).send({
+                  message: "update password success ✔",
+                  success: true,
+                });
               });
             }
           });

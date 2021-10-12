@@ -20,6 +20,43 @@ module.exports = {
     });
   },
 
+  getWarehouseList: (req, res) => {
+    let scriptQuery = `SELECT idWarehouse, warehouse, w.idUser, latitude, longitude, kota, provinsi, fullName, username, email, userImage 
+    FROM db_warehouse1.warehouses w
+    JOIN users u ON w.idUser = u.idUser;`;
+
+    db.query(scriptQuery, [], (err, results) => {
+      if (err) {
+        res.status(500).send({
+          message: "Gagal mengambil data di database",
+          success: false,
+          err,
+        });
+      }
+      res.status(200).send(results);
+      console.log(results);
+    });
+  },
+
+  getWarehouseData: (req, res) => {
+    let scriptQuery = `SELECT idWarehouse, warehouse, w.idUser, latitude, longitude, kota, provinsi, fullName, username, email, userImage 
+    FROM db_warehouse1.warehouses w
+    JOIN users u ON w.idUser = u.idUser
+    WHERE w.warehouse = ${db.escape(req.query.warehouse)};`;
+
+    db.query(scriptQuery, [], (err, results) => {
+      if (err) {
+        res.status(500).send({
+          message: "Gagal mengambil data di database",
+          success: false,
+          err,
+        });
+      }
+      res.status(200).send(results);
+      console.log(results);
+    });
+  },
+
   getDataById: (req, res) => {},
 
   addData: (req, res) => {},
