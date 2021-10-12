@@ -9,19 +9,19 @@ import "../assets/styles/AdminDashboard.css";
 export default function AdminEditProduct(props) {
   const userGlobal = useSelector((state) => state.users);
   const [currentProduct, setCurrentProduct] = useState([]);
-  const [newProduct, setNewProduct] = useState({
-    productName: "",
-    price: parseInt(0),
-    description: "",
-    idCategory: parseInt(0),
-  });
   const [file, setFile] = useState();
   const [idWarehouse, setIdWarehouse] = useState(0);
-  const [newQuantity, setNewQuantity] = useState(0);
+  const [newQuantity, setNewQuantity] = useState({
+    quantity: 0,
+  });
 
   const uploadHandler = (e) => {
     let uploaded = e.target.files[0];
     setFile(uploaded);
+  };
+
+  const refreshPage = () => {
+    window.location.reload();
   };
 
   const fetchProducts = () => {
@@ -32,6 +32,7 @@ export default function AdminEditProduct(props) {
       .then((response) => {
         console.log(response.data[0]);
         setCurrentProduct(response.data[0]);
+        setNewQuantity(response.data[0].quantity);
       })
       .catch((err) => {
         alert(err);
@@ -51,29 +52,166 @@ export default function AdminEditProduct(props) {
       });
   };
 
-  const deleteProduct = () => {
+  const saveButtonHandler = () => {
+    let formData = new FormData();
+    let obj = {
+      productName: currentProduct.productName,
+      price: parseInt(currentProduct.price),
+      description: currentProduct.description,
+      idCategory: parseInt(currentProduct.idCategory),
+    };
+    formData.append("file", file);
+    formData.append("data", JSON.stringify(obj));
+
     axios
-      .delete(`${API_URL}/products/${props.match.params.idProduct}}`)
-      .then((response) => {})
+      .patch(`${API_URL}/products/${currentProduct.idProduct}`, formData)
+      .then((response) => {
+        alert(
+          `Successfuly edited product with idProduct ${currentProduct.idProduct}`
+        );
+        setFile();
+
+        axios
+          .patch(
+            `${API_URL}/adminstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`,
+            {
+              idProduct: parseInt(currentProduct.idProduct),
+              idWarehouse: parseInt(idWarehouse),
+              quantity: parseInt(currentProduct.quantity),
+            }
+          )
+          .then((response) => {
+            console.log(`Edited in userstocks`);
+          })
+          .catch((err) => {
+            alert(err);
+          });
+
+        axios
+          .patch(
+            `${API_URL}/userstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`,
+            {
+              idProduct: parseInt(currentProduct.idProduct),
+              idWarehouse: parseInt(idWarehouse),
+              quantity: parseInt(currentProduct.quantity),
+            }
+          )
+          .then((response) => {
+            console.log(`Edited in adminstocks`);
+            refreshPage();
+          })
+          .catch((err) => {
+            alert(err);
+          });
+      })
       .catch((err) => {
         alert(err);
       });
   };
 
+  const saveButtonHandlerNoImage = () => {
+    axios
+      .patch(`${API_URL}/products/noImage/${currentProduct.idProduct}`, {
+        productName: currentProduct.productName,
+        price: parseInt(currentProduct.price),
+        description: currentProduct.description,
+        idCategory: parseInt(currentProduct.idCategory),
+      })
+      .then((response) => {
+        alert(
+          `Successfuly edited product with idProduct ${currentProduct.idProduct}`
+        );
+
+        axios
+          .patch(
+            `${API_URL}/adminstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`,
+            {
+              idProduct: parseInt(currentProduct.idProduct),
+              idWarehouse: parseInt(idWarehouse),
+              quantity: parseInt(currentProduct.quantity),
+            }
+          )
+          .then((response) => {
+            console.log(`Edited in userstocks`);
+          })
+          .catch((err) => {
+            alert(err);
+          });
+
+        axios
+          .patch(
+            `${API_URL}/userstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`,
+            {
+              idProduct: parseInt(currentProduct.idProduct),
+              idWarehouse: parseInt(idWarehouse),
+              quantity: parseInt(currentProduct.quantity),
+            }
+          )
+          .then((response) => {
+            console.log(`Edited in adminstocks`);
+            refreshPage();
+          })
+          .catch((err) => {
+            alert(err);
+          });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  const deleteButtonHandler = () => {
+    const confirmDelete = window.confirm(
+      `Delete ${currentProduct.productName}?`
+    );
+    if (confirmDelete) {
+      axios
+        .delete(`${API_URL}/products/${currentProduct.idProduct}`)
+        .then(() => {
+          axios
+            .delete(
+              `${API_URL}/adminstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`
+            )
+            .then(() => {})
+            .catch(() => {
+              alert(`Server error`);
+            });
+
+          axios
+            .delete(
+              `${API_URL}/userstocks/${currentProduct.idProduct}?idWarehouse=${idWarehouse}`
+            )
+            .then(() => {
+              alert(`${currentProduct.productName} is deleted`);
+              refreshPage();
+            })
+            .catch(() => {
+              alert(`Server error`);
+            });
+        })
+        .catch(() => {
+          alert(`Server error`);
+        });
+    } else {
+      alert(`Cancelled`);
+    }
+  };
+
   useEffect(() => {
     fetchProducts();
+    fetchWarehouse();
   }, []);
 
   const inputHandler = (event) => {
     const value = event.target.value;
     const name = event.target.name;
 
-    setNewProduct({ ...newProduct, [name]: value });
+    setCurrentProduct({ ...currentProduct, [name]: value });
+    // setNewQuantity({ ...newQuantity, [name]: value });
+    console.log(name);
+    console.log(value);
   };
 
-  const quantityHandler = (event) => {
-    setNewQuantity(event.target.value);
-  };
   return (
     <div style={{ height: "90%", width: "80%" }} className="card mb-4 scroll">
       <div className="card-body p-5 ">
@@ -112,11 +250,11 @@ export default function AdminEditProduct(props) {
               <div className="mb-4">
                 <label className="form-label">Stock</label>
                 <input
-                  onChange={quantityHandler}
+                  onChange={inputHandler}
                   type="number"
                   placeholder="0"
                   className="form-control"
-                  name="stock"
+                  name="quantity"
                   value={currentProduct.quantity}
                 />
               </div>
@@ -159,7 +297,7 @@ export default function AdminEditProduct(props) {
                     type="radio"
                     value="1"
                     checked={
-                      currentProduct.category == "Baju" ? "checked" : null
+                      currentProduct.category === "Baju" ? "checked" : null
                     }
                   />
                   <span className="form-check-label"> Baju </span>
@@ -175,7 +313,7 @@ export default function AdminEditProduct(props) {
                     type="radio"
                     value="2"
                     checked={
-                      currentProduct.category == "Celana" ? "checked" : null
+                      currentProduct.category === "Celana" ? "checked" : null
                     }
                   />
                   <span className="form-check-label"> Celana </span>
@@ -190,9 +328,9 @@ export default function AdminEditProduct(props) {
                     name="idCategory"
                     type="radio"
                     value="3"
-                    // checked={
-                    // //   currentProduct.category == "Jaket" ? "checked" : null
-                    // }
+                    checked={
+                      currentProduct.category === "Jaket" ? "checked" : null
+                    }
                   />
                   <span className="form-check-label"> Jaket </span>
                 </label>
@@ -207,7 +345,7 @@ export default function AdminEditProduct(props) {
                     type="radio"
                     value="4"
                     checked={
-                      currentProduct.category == "Topi" ? "checked" : null
+                      currentProduct.category === "Topi" ? "checked" : null
                     }
                   />
                   <span className="form-check-label"> Topi </span>
@@ -245,6 +383,7 @@ export default function AdminEditProduct(props) {
                   }}
                   type="button"
                   className="btn btn-danger"
+                  onClick={deleteButtonHandler}
                 >
                   Delete product
                 </button>
@@ -273,16 +412,8 @@ export default function AdminEditProduct(props) {
                   }}
                   type="button"
                   className="btn"
-                  // disabled={
-                  //   !(
-                  //     addProduct.productName &&
-                  //     addProduct.price &&
-                  //     file &&
-                  //     addProduct.description &&
-                  //     addProduct.idCategory
-                  //   )
-                  // }
-                  // onClick={saveButtonHandler}
+                  // disabled={!file}
+                  onClick={file ? saveButtonHandler : saveButtonHandlerNoImage}
                 >
                   Save
                 </button>

@@ -195,10 +195,10 @@ module.exports = {
 
   // CHECK LOGIN//
   getDataUser: (req, res) => {
-    let scriptQuery = `SELECT *  FROM users WHERE idUser=${req.user.idUser};`;
+    let scriptQuery = `SELECT * FROM users WHERE idUser=${req.user.idUser};`;
+    console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
-        console.log(err);
         res
           .status(500)
           .send({ message: "Failed To Get User Data", error: err });
@@ -208,6 +208,15 @@ module.exports = {
         results = { ...results[0], dateOfBirth: parsed };
         return res.status(200).send(results);
       }
+
+      // console.log(results[0]);
+      delete results[0].password;
+      if (results[0].dateOfBirth == null) {
+        return res.status(200).send(results[0]);
+      }
+      var parsed = moment(results[0].dateOfBirth).format("YYYY-MM-DD");
+      results = { ...results[0], dateOfBirth: parsed };
+      return res.status(200).send(results);
     });
   },
 
@@ -215,8 +224,9 @@ module.exports = {
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
     // console.log(idUser);
-    // console.log(req.body);
+    console.log(req.body);
     let { fullName, username, email, gender, dateOfBirth } = req.body;
+    dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD");
     let scriptQuery = `UPDATE users SET
      fullName=${db.escape(fullName)},
      username=${db.escape(username)},
@@ -241,61 +251,60 @@ module.exports = {
   // //CHANGE PASSWORD//
   changePasswordUser: (req, res) => {
     let { idUser } = req.user;
-    let { password, oldPassword } = req.body.data;
+    let { newPassword, oldPassword } = req.body.data;
 
-    // console.log(password);
-    // console.log(idUser);
-    // console.log(oldPassword);
-
-    //hash password baru
-    password = Crypto.createHmac("sha1", "hash123")
-      .update(password)
-      .digest("hex");
-
-    //hash password baru
-    oldPassword = Crypto.createHmac("sha1", "hash123")
-      .update(oldPassword)
-      .digest("hex");
-    console.log(oldPassword);
-    console.log(password);
-
-    let scriptQuery = `SELECT * FROM users WHERE idUser=${db.escape(
+    let scriptQuery = `SELECT password FROM users WHERE idUser=${db.escape(
       idUser
-    )} AND password=${db.escape(oldPassword)}`;
-    console.log(scriptQuery);
-
+    )}`;
     db.query(scriptQuery, (err, results) => {
       if (err) {
         return res
           .status(500)
           .send({ message: "Data Tidak Ditemukan", success: false, err });
       }
-      console.log(results.length);
-      if (results.length == 0) {
-        // console.log("kosongg");
-        return res
-          .status(200)
-          .send({ message: "Password anda salah", success: false });
-      }
-      if (results[0].password == oldPassword) {
-        //EDIT DATA PASSWORD
-        let scriptQuery = `UPDATE users SET password=${db.escape(
-          password
-        )} WHERE idUser=${db.escape(idUser)}`;
-        console.log(scriptQuery);
-        db.query(scriptQuery, (err, results) => {
-          if (err) {
-            return res
-              .status(500)
-              .send({ message: "Update Gagal", success: false, err });
-          }
-          return res.status(200).send({
-            message: "Berhasil Mengubah Password",
-            success: true,
-            err,
+
+      bcrypt.compare(oldPassword, results[0].password, function (err, isMatch) {
+        if (err) {
+          return res
+            .status(500)
+            .send({ message: "Terjadi Kesalahan", success: false, err });
+        } else if (!isMatch) {
+          return res
+            .status(200)
+            .send({ message: "Password anda salah", success: false });
+        } else {
+          //Password match dengan hashing
+          //add new password to db
+          let { password } = req.body.data;
+          bcrypt.hash(password, saltRounds, (error, hash) => {
+            if (error) {
+              return console.log(error);
+            } else {
+              password = hash;
+              console.log(password);
+              //update password
+              let updateQuery = `UPDATE users SET password = "${password}" WHERE idUser = ${req.user.idUser};`;
+              db.query(updateQuery, (err, results) => {
+                if (err) {
+                  console.log(err);
+                  res
+                    .status(500)
+                    .send({
+                      message: "update password failed",
+                      success: false,
+                    });
+                }
+                res
+                  .status(200)
+                  .send({
+                    message: "update password success ✔",
+                    success: true,
+                  });
+              });
+            }
           });
-        });
-      }
+        }
+      });
     });
   },
 

@@ -8,6 +8,7 @@ import {
   NonLoggedInRoute,
   AdminRoute,
 } from "./helper/ProtectedRoute";
+
 // PAGES //
 import Admin from "./pages/Admin";
 import ProductsList from "./pages/ProductsList";
@@ -29,7 +30,6 @@ function App() {
   const userGlobal = useSelector((state) => state.users);
   const dispatch = useDispatch();
   const userLocalStorage = localStorage.getItem("token_shutter");
-  console.log(userGlobal.isLogin); // to conditioning mustLogedInRoute
 
   //KEEP LOGIN CHECKER
   const keepLogin = () => {
@@ -47,7 +47,7 @@ function App() {
         .then((res) => {
           delete res.data.password;
           dispatch({
-            type: "USER_LOGIN",
+            type: "USER_CHECK_LOGIN",
             payload: res.data,
           });
         })
@@ -75,7 +75,6 @@ function App() {
             type: "USER_CHECK_LOGIN",
             payload: true,
           });
-          console.log(userGlobal.isLogin);
         })
         .catch((err) => {
           console.log(err);
@@ -93,7 +92,7 @@ function App() {
       <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
       <Route component={AdminProductList} path="/admin-product-list" />
       <Route component={ChangePassword} path="/change-password" />
-      <Route component={Address} path="/profile/address" exact />
+      <Route component={Address} path="/address" />
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />

@@ -5,9 +5,10 @@ const accessToken = 'pk.eyJ1IjoiYWx5d2hpdGV3b2xmaWUiLCJhIjoiY2t1NThuMnlpMjV4MDJ1
 
 module.exports = {
     getCoor: (req, res, next) => {
+        console.log(req.body.data);
         const kecamatan = req.body.data.kecamatan;
-        const kota = req.body.data.kota;
-        const provinsi = req.body.data.provinsi;
+        const kota = req.body.data.city;
+        const provinsi = req.body.data.province;
         const address = `${kecamatan} ${kota} ${provinsi}`
 
         var url = 'https://api.mapbox.com/geocoding/v5/mapbox.places/'
@@ -19,7 +20,7 @@ module.exports = {
         axios.get(url)
             .then((response) => {
                 const coordinate = (response.data.features[0].geometry.coordinates);
-                addressData = { ...req.body.data, latitude: coordinate[1], longitude: coordinate[0] }
+                addressData = { ...req.body.data, latitude: coordinate[0], longitude: coordinate[1] }
                 req.addressData = addressData
                 next()
             })

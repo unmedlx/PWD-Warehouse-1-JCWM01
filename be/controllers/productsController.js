@@ -4,6 +4,7 @@ const fs = require("fs");
 
 module.exports = {
   getData: (req, res) => {
+    console.log(req.query.sortBy);
     const sortBy = req.query.sortBy;
 
     const filterProductName = req.query.productName;
@@ -173,7 +174,7 @@ module.exports = {
     }
   },
 
-  editData: (req, res) => {
+  editDataNoImage: (req, res) => {
     let dataUpdate = [];
     for (let prop in req.body) {
       dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
@@ -184,13 +185,57 @@ module.exports = {
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
         res.status(500).send({
-          message: "Gagal merubah data di database",
+          message: "Gagal menambah data ke database",
           success: false,
           err,
         });
       }
       res.status(200).send(results);
     });
+  },
+
+  editData: (req, res) => {
+    try {
+      let path = "/images";
+      const upload = uploader(path, "IMG").fields([{ name: "file" }]);
+
+      upload(req, res, (error) => {
+        if (error) {
+          console.log(error);
+          res.status(500).send(error);
+        }
+
+        const { file } = req.files;
+        const filepath = file ? path + "/" + file[0].filename : null;
+        console.log(filepath);
+
+        let data = JSON.parse(req.body.data);
+        data.productImage = filepath;
+        console.log(data);
+
+        let dataUpdate = [];
+        for (let prop in data) {
+          dataUpdate.push(`${prop} = ${db.escape(data[prop])}`);
+        }
+
+        let scriptQuery = `UPDATE db_warehouse1.products SET ${dataUpdate} WHERE idProduct = ${req.params.idProduct}`;
+
+        db.query(scriptQuery, [], (err, results) => {
+          if (err) {
+            // fs.unlinkSync(`./public` + filepath);
+            res.status(500).send({
+              message: "Gagal merubah data di database",
+              success: false,
+              err,
+            });
+          }
+          res.status(200).send(results);
+        });
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
   },
 
   deleteData: (req, res) => {

@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
+import usersReducer from "./users";
 import productReducer from "./products";
-import userReducer from "./users";
 import addressesReducer from "./addresses";
 import adminReducer from "./admins"
 
 export default combineReducers({
-  product: productReducer,
-  users: userReducer,
+  users: usersReducer,
   addresses: addressesReducer,
-  admins: adminReducer
+  admins: adminReducer,
+  product: productReducer,
 });

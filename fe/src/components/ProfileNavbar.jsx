@@ -6,7 +6,7 @@ const ProfileNavbar = () => {
     return (
         <div className="profile-tab">
             <Link to="/profile"><a>PROFILE</a></Link>
-            <Link to="/profile/address"><a>ADDRESS</a></Link>
+            <Link to="/address"><a>ADDRESS</a></Link>
         </div>
     )
 }
