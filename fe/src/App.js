@@ -104,22 +104,20 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <Route component={ChangePassword} path="/change-password" /> */}
-      {/* <Route component={Address} path="/address" /> */}
-      {/* <Route component={AdminEditProduct} path="/edit-product/:idProduct" /> */}
+    {/* Public */}
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
       <Route component={Home} path="/" exact />
-      {/* Protected Route */}
+    {/* Protected Route */}
       <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin}/>
       <LoggedInRoute path="/address"  component={Address}  isLogin={userGlobal.isLogin} exact/>
       <LoggedInRoute path="/change-password" component={ChangePassword} isLogin={userGlobal.isLogin} exact />
       <LoggedInRoute path="/profile"  component={Profile}  isLogin={userGlobal.isLogin} exact/>
       <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/>
-      {/* ADMIN */}
+    {/* ADMIN */}
       <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin}/>
       <AdminRoute path="/admin" component={Admin} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole} />

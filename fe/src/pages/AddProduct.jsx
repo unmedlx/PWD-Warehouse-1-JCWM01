@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
 
 export default function AddProduct() {
-  const userGlobal = useSelector((state) => state.users);
   const adminGlobal = useSelector((state) => state.admins);
   const [addProduct, setAddProduct] = useState({
     productName: "",
