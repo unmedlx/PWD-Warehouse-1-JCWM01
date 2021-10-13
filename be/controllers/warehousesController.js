@@ -16,7 +16,7 @@ module.exports = {
         });
       }
       res.status(200).send(results);
-      console.log(results);
+      // console.log(results);
     });
   },
 

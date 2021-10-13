@@ -56,6 +56,29 @@ export const NonLoggedInRoute = ({isLogin, component, ...rest}) => {
   );
 }
 
+export const AdminNonLoggedRoute = ({isLogin, component, ...rest}) => {
+  let Component = component;
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        if (isLogin === false) {
+          return <Component />;
+        } else {
+          return (
+            <Redirect
+              to={{
+                pathname: "/admin",
+                state: { from: props.location },
+              }}
+            />
+          );
+        }
+      }}
+    />
+  );
+}
+
 export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
   console.log(isAdmin);
   let Component = component;

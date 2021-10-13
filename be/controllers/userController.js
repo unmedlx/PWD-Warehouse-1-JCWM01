@@ -1,5 +1,5 @@
 const { db } = require("../database/index"); //mysql
-const moment = require("moment");
+const moment = require("moment"); // ubah format tanggal
 const Crypto = require("crypto"); // for encrypt
 //Hashing
 const bcrypt = require("bcrypt");
@@ -15,11 +15,11 @@ module.exports = {
     //User Data Input//
     let { fullName, username, email, password } = req.body;
     //Check Is Email Exist//
-    const checkEmailQuery = `SELECT * FROM users WHERE email = ${db.escape(
-      email
-    )} ;`;
+    const checkEmailQuery = `SELECT * FROM users WHERE email = ${db.escape(email)} ;`;
     db.query(checkEmailQuery, (err, results) => {
-      if (results == []) {
+      if (results.length > 0) {
+        console.log(results.length);
+        console.log(results);
         res.send({
           message: "This Email Already Registered",
           message1: "Try Again With Different Email",
@@ -27,6 +27,7 @@ module.exports = {
         });
         return;
       } else {
+        // console.log(results.length);
         // Hash Pass
         bcrypt.hash(password, saltRounds, (err, hash) => {
           if (err) {
@@ -203,9 +204,9 @@ module.exports = {
           .status(500)
           .send({ message: "Failed To Get User Data", error: err });
       } else {
+        delete results[0].password;
         var parsed = moment(results[0].dateOfBirth).format("YYYY-MM-DD");
         results = { ...results[0], dateOfBirth: parsed };
-        // delete results[0].password;
         return res.status(200).send(results);
       }
 
@@ -224,9 +225,13 @@ module.exports = {
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
     // console.log(idUser);
-    console.log(req.body);
     let { fullName, username, email, gender, dateOfBirth } = req.body;
-    dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD");
+    if (dateOfBirth === '') {
+      dateOfBirth = null
+    }else{
+      dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD"); // ubah format jadi YYYY/MM/DD
+    }
+    // console.log(dateOfBirth);
     let scriptQuery = `UPDATE users SET
      fullName=${db.escape(fullName)},
      username=${db.escape(username)},
@@ -234,13 +239,13 @@ module.exports = {
      gender=${db.escape(gender)},
      dateOfBirth=${db.escape(dateOfBirth)}
      WHERE idUser=${db.escape(idUser)} ;`;
-    console.log(scriptQuery);
+    // console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res.status(500).send({
           message: "Gagal mengambil data di database",
           success: false,
-          err,
+          error: err
         });
         return;
       } else {
@@ -248,6 +253,7 @@ module.exports = {
       }
     });
   },
+
   // //CHANGE PASSWORD//
   changePasswordUser: (req, res) => {
     let { idUser } = req.user;

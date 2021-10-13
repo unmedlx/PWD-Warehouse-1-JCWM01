@@ -7,7 +7,7 @@ import rootReducer from "./reducers/index";
 const persistConfig = {
   key: "root", //i dunno
   storage, //storage to save data
-  whitelist: ["users"], // reducer that we want to keep
+  whitelist: ["users", "admins"], // reducer that we want to keep
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

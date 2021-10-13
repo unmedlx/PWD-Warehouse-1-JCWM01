@@ -8,7 +8,9 @@ function Home() {
     localStorage.removeItem("token_shutter");
     dispatch({
       type: "USER_LOGOUT",
-      payload: false,
+    });
+    dispatch({
+      type: "ADMIN_LOGOUT",
     });
     alert("logout success");
   };

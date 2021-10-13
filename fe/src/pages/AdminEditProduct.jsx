@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import { API_URL } from "../constants/API";
 import axios from "axios";
 import { Link, Redirect } from "react-router-dom";
@@ -7,13 +8,15 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
 
 export default function AdminEditProduct(props) {
-  const userGlobal = useSelector((state) => state.users);
+  const adminGlobal = useSelector((state) => state.admins);
   const [currentProduct, setCurrentProduct] = useState([]);
   const [file, setFile] = useState();
   const [idWarehouse, setIdWarehouse] = useState(0);
   const [newQuantity, setNewQuantity] = useState({
     quantity: 0,
   });
+  const params = useParams();
+  
 
   const uploadHandler = (e) => {
     let uploaded = e.target.files[0];
@@ -25,9 +28,10 @@ export default function AdminEditProduct(props) {
   };
 
   const fetchProducts = () => {
+    console.log(params.idProduct);
     axios
       .get(
-        `${API_URL}/adminstocks/${props.match.params.idProduct}?idUser=${userGlobal.idUser}`
+        `${API_URL}/adminstocks/${params.idProduct}?idUser=${adminGlobal.idUser}`
       )
       .then((response) => {
         console.log(response.data[0]);
@@ -37,15 +41,15 @@ export default function AdminEditProduct(props) {
       .catch((err) => {
         alert(err);
       });
-    console.log(userGlobal);
+    console.log(adminGlobal);
   };
 
   const fetchWarehouse = () => {
     axios
-      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
+      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         setIdWarehouse(response.data[0].idWarehouse);
-        console.log(response.data[0].idWarehouse);
+        // console.log(response.data[0].idWarehouse);
       })
       .catch((err) => {
         alert(err);

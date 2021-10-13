@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
 
 export default function AddProduct() {
-  const userGlobal = useSelector((state) => state.users);
+  const adminGlobal = useSelector((state) => state.admins);
   const [addProduct, setAddProduct] = useState({
     productName: "",
     price: parseInt(0),
@@ -31,7 +31,7 @@ export default function AddProduct() {
 
   const fetchWarehouse = () => {
     axios
-      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
+      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         setIdWarehouse(response.data[0].idWarehouse);
         console.log(response.data[0].idWarehouse);

@@ -11,6 +11,7 @@ export default function ProductDetail(props) {
   const [stock, setStock] = useState([]);
   // GLOBAL STATE //
   const userGlobal = useSelector((state) => state.users);
+  // const adminGlobal = useSelector((state) => state.admins);
   const { idUser, isUpload } = userGlobal;
 
   //REDIRECT TRIGGER//
