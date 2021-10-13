@@ -103,7 +103,7 @@ module.exports = {
     },
     // CEK JARAK TERDEKAT
     checkAddress: (req, res) => {
-        console.log(req.distances);
+        // console.log(req.distances);
         if (req.distances.length === 0) {
             return res.status(500).send({ message: 'Alamat diluar jangkauan, silahkan masukkan alamat lain', success: false })
         }

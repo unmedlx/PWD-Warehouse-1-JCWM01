@@ -6,6 +6,7 @@ import { Stepper, Step, StepLabel } from '@mui/material'
 import CheckoutDetails from '../components/Checkout/CheckoutDetails'
 import ShippingInformation from '../components/Checkout/ShippingInformation'
 import PreviewOrder from '../components/Checkout/PreviewOrder'
+import PaymentConfirmation from '../components/Checkout/PaymentConfirmation'
 
 const Checkout = () => {
     const cartsGlobal = useSelector((state) => state.carts);
@@ -13,6 +14,7 @@ const Checkout = () => {
     const [total, settotal] = useState()
     const [shippingInformation, setshippingInformation] = useState()
     const [previewOrder, setpreviewOrder] = useState()
+    const [paymentConfirmation, setpaymentConfirmation] = useState()
     const [step, setStep] = useState(0)
 
     // go back to previous step
@@ -29,20 +31,23 @@ const Checkout = () => {
     const handleChangetotal = (data) => {
         settotal(data);
     }
-
     const handleChangeshippingInformation = (data) => {
         setshippingInformation(data)
     }
     const handleChangepreviewOrder = (data) => {
         setpreviewOrder(data)
     }
+    const handleChangepaymentConfirmation = (data) => {
+        setpaymentConfirmation(data)
+    }
 
     const Form = () => (step === 0
         ? <CheckoutDetails nextStep={nextStep} handleChange={handleChangetotal} />
         : step === 1 ? <ShippingInformation nextStep={nextStep} prevStep={prevStep} handleChange={handleChangeshippingInformation} />
             : step === 2 ? <PreviewOrder nextStep={nextStep} prevStep={prevStep} handleChange={handleChangepreviewOrder} total={total} shippingInformation={shippingInformation} />
+                : step === 3 ? <PaymentConfirmation nextStep={nextStep} prevStep={prevStep} handleChange={handleChangepaymentConfirmation} total={total} shippingInformation={shippingInformation} previewOrder={previewOrder} />
 
-                : null)
+                    : null)
 
 
     return (

@@ -38,7 +38,7 @@ module.exports = {
                                 }
                             })
                     )
-                    console.log("masuk", distances);
+                    // console.log("masuk", distances);
                 }
                 Promise.all(promises).then(() => {
                     req.distances = distances

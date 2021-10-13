@@ -5,9 +5,12 @@ import { API_URL } from '../../constants/API'
 
 const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInformation }) => {
     const [closestWarehouse, setclosestWarehouse] = useState({})
+    const [dataCourier, setdataCourier] = useState()
+    const [isLoading, setisLoading] = useState(true)
+    const [selectedCourier, setselectedCourier] = useState({})
 
     const Continue = () => {
-        // handleChange(chooseAddress)
+        handleChange(selectedCourier)
         nextStep();
     }
     const Previous = e => {
@@ -16,22 +19,65 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
     }
 
 
-    const getClosestWarehouse = () => {
+    const getClosestWarehouse = async () => {
         console.log(shippingInformation);
-        axios.post(`${API_URL}/address/closest-address/`, shippingInformation)
+        await axios.post(`${API_URL}/address/closest-address/`, shippingInformation)
             .then((res) => {
-                console.log(res.data);
                 setclosestWarehouse(res.data)
+                console.log(res.data);
             })
             .catch((err) => {
                 console.log(err);
             })
+
+        // setstate ini akan menunggu await
+    }
+
+    const getDeliveryRate = (e) => {
+        console.log(e.target.value)
+        console.log(shippingInformation);
+        console.log(closestWarehouse);
+        let courier = e.target.value
+        if (courier) {
+            axios.post(`${API_URL}/transaction`, {
+                originCity: shippingInformation.kota,
+                destinationCity: closestWarehouse.kota,
+                courier: courier
+            })
+                .then((res) => {
+                    setdataCourier(res.data.results.rajaongkir.results[0]);
+                    // setisLoading(false);
+                    console.log(res.data.results.rajaongkir.results[0]);
+                })
+                .catch((err) => {
+                    console.log(err);
+                })
+        } else {
+            console.log("Pilih COurier");
+        }
+    }
+
+    const renderDelivery = () => {
+        console.log(dataCourier.costs);
+        return dataCourier.costs.map((courier) => {
+            return (
+                <div onClick={() => { getSelectedCourier(courier) }}>
+                    <h5>{courier.service}</h5>
+                    <p>{courier.description}</p>
+                    <p>{courier.cost[0].value}</p>
+                </div>
+            )
+        })
+    }
+
+    const getSelectedCourier = (courier) => {
+        setselectedCourier(courier)
+        setisLoading(false)
     }
 
     useEffect(() => {
         getClosestWarehouse()
     }, [])
-
 
 
     return (
@@ -49,9 +95,24 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
                 <div>
                     {closestWarehouse.warehouse}
                 </div>
+
+                <label htmlFor="deliveryRate">Courier</label>
+                <select name="" id="deliveryRate" onChange={(e) => getDeliveryRate(e)}>
+                    <option value="">Choose Courier</option>
+                    <option value="jne">JNE</option>
+                    <option value="pos">POS Indonesia</option>
+                    <option value="tiki">TIKI</option>
+                </select>
+                {
+                    dataCourier &&
+                    <div>
+                        <p>ada</p>
+                        {renderDelivery()}
+                    </div>
+                }
             </div>
             <button onClick={Previous} type="submit">Previous</button>
-            <button onClick={Continue} type="submit">Next</button>
+            <button onClick={Continue} type="submit" disabled={isLoading}>Next</button>
         </div >
 
     )
