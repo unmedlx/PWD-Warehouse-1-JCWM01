@@ -1079,9 +1079,9 @@ textarea {
   background-color: #32b280;
 }
 
-.el-wrapper {
-  width: 260px;
-  height: 260px;
+.el-wrappers {
+  width: 294px;
+  height: 380px;
   padding: 15px;
   margin: 15px auto;
   background-color: #fff;

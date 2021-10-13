@@ -28,7 +28,16 @@ export default function WarehouseList() {
 
   const renderWarehouseData = () => {
     return warehouseData.map((val) => {
-      return <WarehouseCard warehouse={val.warehouse} kota={val.kota} />;
+      return (
+        <WarehouseCard
+          warehouse={val.warehouse}
+          kota={val.kota}
+          fullName={val.fullName}
+          email={val.email}
+          provinsi={val.provinsi}
+          username={val.username}
+        />
+      );
     });
   };
 
@@ -46,7 +55,7 @@ export default function WarehouseList() {
           Warehouse list{" "}
         </h2>
         <div>
-          <Link to={`/add-product`} class="p-name button-cart">
+          <Link to={`/add-warehouse`} class="p-name button-cart">
             <i className="material-icons md-plus"></i> Add new warehouse
           </Link>
         </div>
@@ -54,7 +63,7 @@ export default function WarehouseList() {
       <div className="mb-4">
         <header className="mt-3 p-3">
           <div className="row gx-3">
-            <div className="col-lg-4 col-md-6 me-auto">
+            {/* <div className="col-lg-4 col-md-6 me-auto">
               <input
                 type="text"
                 placeholder="Search..."
@@ -76,7 +85,7 @@ export default function WarehouseList() {
                 <option value="Jaket">Jaket</option>
                 <option value="Topi">Topi</option>
               </select>
-            </div>
+            </div> */}
           </div>
         </header>
       </div>

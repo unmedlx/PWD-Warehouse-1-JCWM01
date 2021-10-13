@@ -16,6 +16,7 @@ import ProductDetail from "./pages/ProductDetail";
 import AddProduct from "./pages/AddProduct";
 import AdminEditProduct from "./pages/AdminEditProduct";
 import WarehouseList from "./pages/WarehouseList";
+import AddWarehouse from "./pages/AddWarehouse";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
@@ -93,6 +94,7 @@ function App() {
       <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
       <Route component={AdminProductList} path="/admin-product-list" />
       <Route component={WarehouseList} path="/warehouse-list" />
+      <Route component={AddWarehouse} path="/add-warehouse" />
       <Route component={ChangePassword} path="/change-password" />
       <Route component={Address} path="/address" />
       <Route component={ProductsList} path="/product-list" />
