@@ -19,7 +19,6 @@ const Checkout = () => {
     const prevStep = () => {
         setStep(step - 1);
     }
-    console.log(cartsGlobal);
 
     // proceed to the next step
     const nextStep = () => {

@@ -20,7 +20,7 @@ module.exports = {
         axios.get(url)
             .then((response) => {
                 const coordinate = (response.data.features[0].geometry.coordinates);
-                addressData = { ...req.body.data, latitude: coordinate[0], longitude: coordinate[1] }
+                addressData = { ...req.body.data, latitude: coordinate[1], longitude: coordinate[0] }
                 req.addressData = addressData
                 next()
             })
