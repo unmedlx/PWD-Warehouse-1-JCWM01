@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector } from "react-redux";
+import { API_URL } from "../constants/API";
+import axios from "axios";
 
 function Admin() {
-
+  const adminGlobal = useSelector((state) => state.admins);
   const dispatch = useDispatch();
+
   const logout = () => {
     localStorage.removeItem("token_shutter");
     dispatch({
@@ -15,6 +18,26 @@ function Admin() {
     });
     alert("logout success");
   };
+
+  const fetchWarehouse = () => {
+    axios
+      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
+      .then((response) => {
+        console.log(response.data[0].idWarehouse);
+        dispatch({
+          type: "ADMIN_WAREHOUSE",
+          payload: response.data[0].idWarehouse
+        })
+      
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchWarehouse()
+  },[])
 
   return (
     <div>

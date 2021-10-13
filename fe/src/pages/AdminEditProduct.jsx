@@ -16,6 +16,8 @@ export default function AdminEditProduct(props) {
     quantity: 0,
   });
   const params = useParams();
+  const dispatch = useDispatch();
+
   
 
   const uploadHandler = (e) => {
@@ -49,7 +51,12 @@ export default function AdminEditProduct(props) {
       .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         setIdWarehouse(response.data[0].idWarehouse);
-        // console.log(response.data[0].idWarehouse);
+        console.log(response.data[0].idWarehouse);
+        dispatch({
+          type: "ADMIN_WAREHOUSE",
+          payload: response.data[0].idWarehouse
+        })
+      
       })
       .catch((err) => {
         alert(err);

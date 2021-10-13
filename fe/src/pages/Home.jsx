@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 
 function Home() {
   const dispatch = useDispatch();
+  
   const logout = () => {
     localStorage.removeItem("token_shutter");
     dispatch({
@@ -33,10 +34,16 @@ function Home() {
       <Link to="/product-list">
         <button className="btn btn-success">Product List</button>
       </Link>
-      <Link to="/add-product">
+      
+      {/* Rendered Only For Admin */}
+      {
+        // this.props.role === "admin" && 
+        <Link to="/add-product">
         <button className="btn btn-success">Admin Add Product</button>
         {/* <button className="btn btn-warning mx-4">Our Products</button> */}
-      </Link>
+         </Link>
+      }
+
       <Link to="/cart">
         <button className="btn btn-warning mx-4">Cart</button>
       </Link>

@@ -80,7 +80,6 @@ export const AdminNonLoggedRoute = ({isLogin, component, ...rest}) => {
 }
 
 export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
-  console.log(isAdmin);
   let Component = component;
   return (
     <Route
