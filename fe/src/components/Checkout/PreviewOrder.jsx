@@ -21,37 +21,32 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
 
 
     const getClosestWarehouse = async () => {
-        // console.log(shippingInformation);
-        await axios.post(`${API_URL}/address/closest-address/`, shippingInformation)
-            .then((res) => {
-                setclosestWarehouse(res.data)
-                setisLoadingWarehouse(false)
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        try {
+            const getClosestAddress = await axios.post(`${API_URL}/address/closest-address/`, shippingInformation)
+            console.log(getClosestAddress);
+            setclosestWarehouse(getClosestAddress.data)
+            setisLoadingWarehouse(false)
+        } catch (err) {
+            console.log(err);
+        }
 
-        // setstate ini akan menunggu await
+
     }
 
-    const getDeliveryRate = (e) => {
+    const getDeliveryRate = async (e) => {
         let courier = e.target.value
         if (courier) {
-            axios.post(`${API_URL}/transaction/delivery-rate`, {
-                originCity: shippingInformation.kota,
-                destinationCity: closestWarehouse.kota,
-                courier: courier
-            })
-                .then((res) => {
-                    setdataCourier(res.data.results.rajaongkir.results[0]);
-                    // setisLoading(false);
-                    console.log(res.data.results.rajaongkir.results[0]);
+            try {
+                const getDeliveryRate = await axios.post(`${API_URL}/transaction/delivery-rate`, {
+                    originCity: shippingInformation.kota,
+                    destinationCity: closestWarehouse.kota,
+                    courier: courier
                 })
-                .catch((err) => {
-                    console.log(err);
-                })
-        } else {
-            console.log("Pilih COurier");
+                setdataCourier(getDeliveryRate.data.results.rajaongkir.results[0]);
+            } catch (err) {
+                console.log(err)
+                console.log("Pilih COurier");
+            }
         }
     }
 
