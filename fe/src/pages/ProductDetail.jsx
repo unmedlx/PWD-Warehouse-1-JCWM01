@@ -24,7 +24,8 @@ export default function ProductDetail(props) {
   });
 
   const fetchProducts = () => {
-    axios.get(`${API_URL}/products/${props.match.params.idProduct}`)
+    axios
+      .get(`${API_URL}/products/${props.match.params.idProduct}`)
       .then((response) => {
         if (response.data.length) {
           setProductDetail(response.data[0]);
@@ -55,7 +56,7 @@ export default function ProductDetail(props) {
   }, []);
 
   const qtyButtonHandler = (action) => {
-    if (action === "increment") {
+    if (action === "increment" && additionalInfo.quantity < stock.sumQuantity) {
       setAdditionalInfo({ quantity: additionalInfo.quantity + 1 });
     } else if (action === "decrement" && additionalInfo.quantity > 1) {
       setAdditionalInfo({ quantity: additionalInfo.quantity - 1 });
