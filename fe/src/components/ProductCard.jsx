@@ -7,6 +7,72 @@ import "../assets/styles/ProductCard.css";
 import { API_URL } from "../constants/API";
 
 export default function ProductCard(props) {
+  const userGlobal = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(parseInt(1));
+  const reload = () => window.location.reload();
+
+  const addToCartHandler = () => {
+    axios
+      .get(`${API_URL}/carts/${props.idProduct}?idUser=${userGlobal.idUser}`)
+      .then((response) => {
+        console.log(response);
+        if (response.data.length) {
+          axios
+            .patch(
+              `${API_URL}/carts/${response.data[0].idProduct}?idUser=${userGlobal.idUser}`,
+              {
+                quantity: response.data[0].quantity + 1,
+              }
+            )
+            .then(() => {
+              alert(`${props.productName} added to the cart`);
+
+              axios
+                .get(`${API_URL}/carts/${userGlobal.idUser}`)
+                .then((response) => {
+                  dispatch({
+                    type: "FILL_CART",
+                    payload: response.data,
+                  });
+                  reload();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            })
+            .catch(() => {
+              alert(`Server error`);
+            });
+        } else {
+          axios
+            .post(`${API_URL}/carts`, {
+              idProduct: props.idProduct,
+              idUser: userGlobal.idUser,
+              quantity: quantity,
+            })
+            .then(() => {
+              alert(`${props.productName} added to the cart`);
+
+              axios
+                .get(`${API_URL}/carts/${userGlobal.idUser}`)
+                .then((response) => {
+                  dispatch({
+                    type: "FILL_CART",
+                    payload: response.data,
+                  });
+                  reload();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            })
+            .catch(() => {
+              alert(`Server error`);
+            });
+        }
+      });
+  };
   return (
     <div className="d-flex flex-row flex-wrap">
       <div class="page-inner">
@@ -35,14 +101,18 @@ export default function ProductCard(props) {
                 <div class="h-bg-inner"></div>
               </div>
 
-              <Link onClick={"#"} class="cart" to="#">
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={addToCartHandler}
+                class="cart"
+              >
                 <span class="price">Rp. {props.price}</span>
                 <span class="add-to-cart">
                   <span style={{ marginLeft: -3 }} class="txt fw-bolder">
                     Add to cart
                   </span>
                 </span>
-              </Link>
+              </span>
             </div>
           </div>
         </div>

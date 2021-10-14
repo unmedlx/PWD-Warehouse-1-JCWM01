@@ -3,16 +3,30 @@ const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
 module.exports = {
-  getData: (req, res) => {},
+  getData: (req, res) => {
+    let scriptQuery = `SELECT c.idProduct, c.idUser, c.quantity, p.productName, p.price, p.productImage
+    FROM db_warehouse1.carts c
+    JOIN products p ON c.idProduct = p.idProduct
+    JOIN users u ON c.idUser = u.idUser
+    WHERE c.idUser = ${db.escape(req.query.idUser)};`;
+
+    db.query(scriptQuery, [], (err, results) => {
+      if (err) {
+        res.status(500).send({
+          message: "Gagal mengambil data di database",
+          success: false,
+          err,
+        });
+      }
+      res.status(200).send(results);
+    });
+  },
 
   getDataById: (req, res) => {
-    let scriptQuery = `SELECT p.idProduct, productName, price, productImage, description, p.idCategory, category, idUser, warehouse, quantity 
-    FROM db_warehouse1.adminstocks adm 
-    JOIN products p on adm.idProduct = p.idProduct
-    JOIN categories c on p.idCategory = c.idCategory
-    JOIN warehouses w on adm.idWarehouse = w.idWarehouse
-    WHERE w.idUser = ${db.escape(req.query.idUser)}
-    AND p.idProduct = ${db.escape(req.params.idProduct)};`;
+    let scriptQuery = `SELECT *
+    FROM db_warehouse1.carts
+    WHERE idUser = ${db.escape(req.query.idUser)}
+    AND idProduct = ${db.escape(req.params.idProduct)};`;
 
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
@@ -27,10 +41,10 @@ module.exports = {
   },
 
   addData: (req, res) => {
-    let scriptQuery = `INSERT INTO db_warehouse1.adminstocks VALUES (${db.escape(
+    let scriptQuery = `INSERT INTO db_warehouse1.carts VALUES (${db.escape(
       null
     )}, ${db.escape(req.body.idProduct)}, ${db.escape(
-      req.body.idWarehouse
+      req.body.idUser
     )}, ${db.escape(req.body.quantity)});`;
 
     console.log(req.body.idProduct);
@@ -50,11 +64,10 @@ module.exports = {
     for (let prop in req.body) {
       dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
     }
-
     console.log(dataUpdate);
-
-    let scriptQuery = `UPDATE db_warehouse1.adminstocks SET ${dataUpdate} WHERE idProduct = ${req.params.idProduct} AND idWarehouse = ${req.query.idWarehouse}`;
-
+    let scriptQuery = `UPDATE db_warehouse1.carts SET ${dataUpdate} WHERE idProduct = ${db.escape(
+      req.params.idProduct
+    )} AND idUser = ${(db, escape(req.query.idUser))}`;
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
         res.status(500).send({
@@ -68,10 +81,9 @@ module.exports = {
   },
 
   deleteData: (req, res) => {
-    let scriptQuery = `DELETE from db_warehouse1.adminstocks WHERE idProduct = ${db.escape(
+    let scriptQuery = `DELETE from db_warehouse1.carts WHERE idProduct = ${db.escape(
       req.params.idProduct
-    )} AND idWarehouse = ${db.escape(req.query.idWarehouse)}`;
-
+    )} AND idUser = ${db.escape(req.query.idUser)}`;
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res.status(500).send({
