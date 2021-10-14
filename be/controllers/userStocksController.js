@@ -3,7 +3,7 @@ const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
 module.exports = {
-  getData: (req, res) => {},
+  getData: (req, res) => { },
 
   getDataById: (req, res) => {
     let scriptQuery = `SELECT sum(quantity) AS sumQuantity
@@ -81,4 +81,46 @@ module.exports = {
       res.status(200).send(results);
     });
   },
+  // Edit User Stock dari checkout
+  editUserStock: (req, res) => {
+    let cartsGlobal = Object.values(req.body.cartsGlobal)
+    console.log(cartsGlobal);
+
+    for (i = 0; i < cartsGlobal.length; i++) {
+      let cartQuantity = cartsGlobal[i].quantity
+      let productName = cartsGlobal[i].productName
+      let scriptQuery = `SELECT * FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`
+      db.query(scriptQuery, (err, results) => {
+        if (err) {
+          res.status(500).send({ message: "Transaction is error", success: false, err });
+        }
+        for (j = 0; j < results.length; j++) {
+          let stockWarehouse = results[j].quantity
+          console.log(productName, results[j].quantity, "digudang");
+          console.log(productName, cartQuantity, "diuser");
+
+          if (cartQuantity - stockWarehouse >= 0) {
+            let scriptQuery = `UPDATE userstocks SET quantity=${db.escape(0)} WHERE idProduct = ${db.escape(results[j].idProduct)} AND idWarehouse=${db.escape(results[j].idWarehouse)} `
+            cartQuantity = cartQuantity - stockWarehouse
+            db.query(scriptQuery, (err, results) => {
+              if (err) {
+                res.status(500).send({ message: "Transaction is error", success: false, err });
+              }
+            })
+
+          } else {
+            let scriptQuery = `UPDATE userstocks SET quantity=${db.escape(stockWarehouse - cartQuantity)} WHERE idProduct = ${db.escape(results[j].idProduct)} AND idWarehouse=${db.escape(results[j].idWarehouse)} `
+            db.query(scriptQuery, (err, results) => {
+              if (err) {
+                res.status(500).send({ message: "Transaction is error", success: false, err });
+              }
+            })
+            cartQuantity = 0
+          }
+        }
+      })
+    }
+    res.status(200).send({ message: "userstocks updated", success: true });
+
+  }
 };

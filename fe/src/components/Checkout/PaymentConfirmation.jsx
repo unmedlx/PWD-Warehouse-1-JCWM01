@@ -17,35 +17,29 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
 
     const checkoutHandler = async () => {
         let idTransaction = 0
-        // idAddress, idUser, subtotalPrice, deliveryCost, courier, courierService, transactionDate, idStatus, IdWarehouse, buktiPembayaran
-        await axios.post(`${API_URL}/transaction`, {
-            idAddress: shippingInformation.idAddress,
-            idUser: shippingInformation.idUser,
-            subtotalPrice: total,
-            deliveryCost: previewOrder.cost[0].value,
-            courier: previewOrder.name,
-            courierService: previewOrder.service,
-            idWarehouse: previewOrder.idWarehouse
-        })
-            .then((res) => {
-                console.log(res);
-                idTransaction = res.data.results.insertId
+        try {
+            const addTransactionResponse = await axios.post(`${API_URL}/transaction`, {
+                idAddress: shippingInformation.idAddress,
+                idUser: shippingInformation.idUser,
+                subtotalPrice: total,
+                deliveryCost: previewOrder.cost[0].value,
+                courier: previewOrder.name,
+                courierService: previewOrder.service,
+                idWarehouse: previewOrder.idWarehouse
             })
-            .catch((err) => {
-                console.log(err);
+            idTransaction = addTransactionResponse.data.results.insertId
+
+            const addCheckoutItem = await axios.post(`${API_URL}/checkout`, {
+                cartsGlobal, idTransaction
             })
 
-        await axios.post(`${API_URL}/checkout`, {
-            cartsGlobal, idTransaction
-        })
-            .then((res) => {
-                console.log(res);
+            const changeUserStocksResponse = await axios.patch(`${API_URL}/userstocks`, {
+                cartsGlobal
             })
-            .catch((err) => {
-                console.log(err);
-            })
-
-
+            console.log(changeUserStocksResponse);
+        } catch (error) {
+            console.log(error);//send error dari backend
+        }
 
     }
 
