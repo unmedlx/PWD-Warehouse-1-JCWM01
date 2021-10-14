@@ -69,7 +69,6 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
             .catch((err) => {
                 console.log(err);
             })
-
     }
 
     useEffect(() => {
