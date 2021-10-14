@@ -43,13 +43,14 @@ const ShippingInformation = ({ nextStep, prevStep, handleChange }) => {
     }, [])
 
     return (
+
         <div className="mt-5 ms-4">
             <h4>Shipping Information</h4>
 
             <div className="shipping-information-container">
                 <div>
                     <label htmlFor="selectAddress">Select your address</label>
-                    <select className="custom-select" name="selectAddress" onChange={(e) => handleSelectedId(e)}>
+                    <select className="custom-select ms-3" name="selectAddress" onChange={(e) => handleSelectedId(e)}>
                         {renderAddress()}
                     </select>
                 </div>
@@ -61,10 +62,10 @@ const ShippingInformation = ({ nextStep, prevStep, handleChange }) => {
                                 <p><Badge bg="#32b280">Primary</Badge></p>
                             }
                         </div>
-                        <div className="row">
+                        <div className="row mt-2">
                             <div className="col-4">
-                                <h4 className="recipient-name">{chooseAddress.recipientName} Ajeng Aulia Maharani</h4>
-                                <h6 className="phoneNumber">{chooseAddress.phoneNumber}08081029</h6>
+                                <h4 className="recipient-name">{chooseAddress.recipientName}</h4>
+                                <h6 className="phoneNumber">{chooseAddress.phoneNumber}</h6>
                             </div>
                             <div className="col-2 address-field">
                                 <p>Street</p>
@@ -79,18 +80,6 @@ const ShippingInformation = ({ nextStep, prevStep, handleChange }) => {
                         </div>
                     </div>
                 </div>
-                {/* <div className="checkout-detail mt-2">
-                    <div div className="shipping-information-item" >
-                        <div className="col">
-                            <div className="row">{chooseAddress.recipientName}</div>
-                            <div className="row">{chooseAddress.phoneNumber}</div>
-                        </div>
-                        <div className="col">
-                            <div className="row text-muted">{chooseAddress.jalan}</div>
-                            <div className="row">{chooseAddress.kecamatan}, {chooseAddress.kota}, {chooseAddress.provinsi}</div>
-                        </div>
-                    </div >
-                </div > */}
             </div>
             <button className="button nav-button" onClick={Previous} type="submit">Previous</button>
             <button className="button nav-button" onClick={Continue} type="submit">Next</button>

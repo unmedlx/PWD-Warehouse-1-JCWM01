@@ -55,7 +55,7 @@ const Checkout = () => {
             {(Object.keys(cartsGlobal).length === 0 && cartsGlobal.constructor === Object) ?
                 <div>Tidak ada cart</div>
                 :
-                <div className="auth-container p-5">
+                <div className="checkout-container p-5 mt-5">
                     <Stepper activeStep={step} alternativeLabel>
                         {steps.map((label) => (
                             <Step key={label}>
