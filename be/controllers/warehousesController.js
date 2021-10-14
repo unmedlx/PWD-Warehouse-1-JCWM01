@@ -39,54 +39,73 @@ module.exports = {
     db.query(query, (err, results) => {
       if (err) {
         console.log(err);
+        return
       }
-      // res.status(200).send(results)
+      //Loop product stock checking
       for (let i = 0; i < results.length; i++) {
         const idWarehouse = results[i].idWarehouse
         const idProduct = results[i].idProduct
         const qtyCheckout = results[i].qtyProduct;
         const qtyAStock = results[i].quantity;
-        console.log(idProduct);
-        console.log("Checkout Qty: ",qtyCheckout);
-        console.log("AdminStock: ",qtyAStock);
-        if (qtyCheckout === qtyAStock) {
+        console.log("ID Product: ",idProduct, "Checkout Qty: ",qtyCheckout, "AdminStock: ",qtyAStock );
+
+        //Check Stock admin Warehouse Sendiri
+        if (qtyAStock - qtyCheckout == 0) {
           let sisaStok = qtyAStock - qtyCheckout
-          console.log("qtyCheckout = qtyAdminStock. sisaStok: ", sisaStok);
+          console.log("qtyCheckout = qtyAdminStock. sisaStok di admin sendiri: ", sisaStok);
           console.log("D O N E");
-        }else if (qtyCheckout < qtyAStock) {
+        
+        }else if (qtyAStock - qtyCheckout >= 0) {
           let sisaStok = qtyAStock - qtyCheckout
-          console.log("qtyCheckout < qtyAdminStock. sisaStok: ", sisaStok);
+          console.log("qtyCheckout < qtyAdminStock. sisaStok di admin sendiri: ", sisaStok);
           console.log("D O N E");
-        }else{
-          let qtyNeeded = Math.abs(qtyCheckout - qtyAStock)
-          console.log("qtyCheckout > qtyAdminStock KUDU REQUEST, Kurang : ", qtyNeeded);
+        
+        }else if(qtyAStock - qtyCheckout < 0){
+          let qtyNeeded = Math.abs(qtyAStock - qtyCheckout)
+          console.log("KUDU REQUEST, Id product:", idProduct ,",Kurang : ", qtyNeeded);
+          
+          //Mencari Warehouse Dengan stock mumpuni lalu Send Data ke table request
           const querySearchWH = `
           SELECT * 
           FROM warehouses W
           JOIN adminstocks A ON A.idWarehouse = W.idWarehouse
-          WHERE A.idProduct = ${db.escape(idProduct)} AND A.quantity != 0 AND W.idWarehouse != ${db.escape(idWarehouse)};
-          `
+          WHERE A.idProduct = ${db.escape(idProduct)} AND A.quantity != 0 AND W.idWarehouse != ${db.escape(idWarehouse)};   `
+          
           db.query(querySearchWH, (err1, resultsWH) => {
             if (err1) {
               console.log(err1);
             }
-            // console.log(resultsWH);
-            for (let i = 0; i < resultsWH.length; i++) {
-              const idOtherWH = resultsWH[i].warehouse
-              const qtyOtherWH = resultsWH[i].quantity
-              qtyNeeded = qtyNeeded - qtyOtherWH
-              console.log("dari WH:", idOtherWH );
-              console.log("sisa stok yang diperlukan:",qtyNeeded);
+            // warehouse yang didapat
+            console.log(resultsWH);
+            //loop checking needed qty and send request data
+            for (let j = 0; j < resultsWH.length; j++) {
+              const idOtherWH = resultsWH[j].warehouse
+              const qtyOtherWH = resultsWH[j].quantity
+             
+              if (qtyNeeded > 0) {
+                //maka request
+                qtyNeeded = qtyNeeded - qtyOtherWH 
+                if (qtyNeeded < 0) {
+                  qtyNeeded = 0
+                }
+                console.log("loop",[j],"idProduct:",idProduct ,"dari warehouse:",idOtherWH,". stok di WH ini:",qtyOtherWH ,"needed qty jadi:",qtyNeeded);
+
+              }else if (qtyNeeded <= 0) {
+                //maka ga request
+                qtyNeeded = 0
+                console.log("loop",[j],"stok sudah terpenuhi . stok yang dibutuhkan:",qtyNeeded);
+              }   
               
             }
-            console.log(qtyNeeded);
-            res.send(resultsWH)
 
+            console.log("Sekarang qtyNeeded idProduct",idProduct, ":",qtyNeeded);
           })
 
         }
 
       }
+      res.status(200).send(results)
+
     })
   }
 };
