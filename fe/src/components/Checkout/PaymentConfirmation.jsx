@@ -37,11 +37,17 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
                 cartsGlobal, idTransaction
             })
 
-            //update userStock based on cart
+            // update userStock based on cart
             const changeUserStocksResponse = await axios.patch(`${API_URL}/userstocks`, {
                 cartsGlobal
             })
             console.log(changeUserStocksResponse);
+
+            const deleteCartResponse = await axios.delete(`${API_URL}/cart`,
+                {
+                    data: cartsGlobal
+                })
+            console.log(deleteCartResponse);
 
 
         } catch (error) {

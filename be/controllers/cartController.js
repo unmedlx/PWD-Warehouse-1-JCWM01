@@ -1,4 +1,4 @@
-const { db } = require("../database/index"); //mysql
+const { db, query } = require("../database/index"); //mysql
 
 
 module.exports = {
@@ -19,5 +19,17 @@ module.exports = {
                 .status(200)
                 .send({ message: 'Berahasil Mengambil data Cart', results, success: true });
         })
+    },
+    deleteDataCart: async (req, res) => {
+        let cartsGlobal = Object.values(req.body)
+        try {
+            for (i = 0; i < cartsGlobal.length; i++) {
+                console.log(cartsGlobal[i].idCart)
+                const deleteDataCart = await query(`DELETE FROM carts WHERE idCart=${db.escape(cartsGlobal[i].idCart)}`)
+            }
+            return res.status(200).send({ message: "cart deleted", success: true });
+        } catch (err) {
+            return res.status(500).send(err);
+        }
     }
 }

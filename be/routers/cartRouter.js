@@ -6,6 +6,7 @@ const router = express.Router()
 
 // router.get("/:id", addressController.getAddress);
 router.post("/", authToken, cartController.getDataCart);
+router.delete("/", cartController.deleteDataCart);
 
 
 module.exports = router
