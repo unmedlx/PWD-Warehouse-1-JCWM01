@@ -82,8 +82,8 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
 
     return (
         <div className="mt-5 ms-4">
-            <h3>Preview Order</h3>
-            <div className="shipping-information-container">
+            <h4>Preview Order</h4>
+            {/* <div className="shipping-information-container">
                 <div className="checkout-detail mt-2">
                     {total}
                 </div >
@@ -114,9 +114,20 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
                         {renderDelivery()}
                     </div>
                 }
+            </div> */}
+            <div className="shipping-information-container">
+                <div className="row">
+                    <div className="col-6">
+
+                    </div>
+                    <div className="col-6">
+
+                    </div>
+                </div>
             </div>
-            <button onClick={Previous} type="submit">Previous</button>
-            <button onClick={Continue} type="submit" disabled={isLoading}>Next</button>
+            <button className="button nav-button" onClick={Previous} type="submit">Previous</button>
+            <button className="" onClick={Continue} type="submit" disabled={isLoading}>Next</button>
+
         </div >
 
     )
