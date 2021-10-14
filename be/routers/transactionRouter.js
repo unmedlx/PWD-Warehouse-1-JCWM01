@@ -3,6 +3,7 @@ const { transactionController } = require("../controllers/index");
 const { deliveryRate } = require("../helper/deliveryRate")
 const router = express.Router()
 
-router.post("/", deliveryRate, transactionController.getDeliveryRate);
+router.post("/delivery-rate", deliveryRate, transactionController.getDeliveryRate);
+router.post("/", transactionController.addTransaction);
 
 module.exports = router

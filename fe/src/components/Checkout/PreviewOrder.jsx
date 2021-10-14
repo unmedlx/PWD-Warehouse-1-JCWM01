@@ -7,7 +7,7 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
     const [closestWarehouse, setclosestWarehouse] = useState({})
     const [dataCourier, setdataCourier] = useState()
     const [isLoading, setisLoading] = useState(true)
-    const [selectedCourier, setselectedCourier] = useState({})
+    const [selectedCourier, setselectedCourier] = useState()
 
     const Continue = () => {
         handleChange(selectedCourier)
@@ -34,12 +34,9 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
     }
 
     const getDeliveryRate = (e) => {
-        console.log(e.target.value)
-        console.log(shippingInformation);
-        console.log(closestWarehouse);
         let courier = e.target.value
         if (courier) {
-            axios.post(`${API_URL}/transaction`, {
+            axios.post(`${API_URL}/transaction/delivery-rate`, {
                 originCity: shippingInformation.kota,
                 destinationCity: closestWarehouse.kota,
                 courier: courier
@@ -58,8 +55,11 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
     }
 
     const renderDelivery = () => {
-        console.log(dataCourier.costs);
         return dataCourier.costs.map((courier) => {
+            courier.name = dataCourier.name
+            courier.code = dataCourier.code
+            courier.warehouse = closestWarehouse.warehouse
+            courier.idWarehouse = closestWarehouse.idWarehouse
             return (
                 <div onClick={() => { getSelectedCourier(courier) }}>
                     <h5>{courier.service}</h5>
@@ -87,6 +87,11 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
                 <div className="checkout-detail mt-2">
                     {total}
                 </div >
+                {selectedCourier &&
+                    <div>
+                        {selectedCourier.cost[0].value}
+                    </div>
+                }
                 <div>
                     {shippingInformation.recipientName}
                     {shippingInformation.kota},
@@ -106,7 +111,6 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
                 {
                     dataCourier &&
                     <div>
-                        <p>ada</p>
                         {renderDelivery()}
                     </div>
                 }

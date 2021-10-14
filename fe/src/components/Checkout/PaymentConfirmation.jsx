@@ -1,7 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+import axios from 'axios'
+import { API_URL } from '../../constants/API';
 
 const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shippingInformation, previewOrder }) => {
-    console.log(previewOrder.service);
+    const cartsGlobal = useSelector((state) => state.carts);
+
     const Continue = () => {
         // handleChange(selectedCourier)
         nextStep();
@@ -10,15 +14,52 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
         e.preventDefault();
         prevStep();
     }
+
+    const checkoutHandler = async () => {
+        let idTransaction = 0
+        // idAddress, idUser, subtotalPrice, deliveryCost, courier, courierService, transactionDate, idStatus, IdWarehouse, buktiPembayaran
+        await axios.post(`${API_URL}/transaction`, {
+            idAddress: shippingInformation.idAddress,
+            idUser: shippingInformation.idUser,
+            subtotalPrice: total,
+            deliveryCost: previewOrder.cost[0].value,
+            courier: previewOrder.name,
+            courierService: previewOrder.service,
+            idWarehouse: previewOrder.idWarehouse
+        })
+            .then((res) => {
+                console.log(res);
+                idTransaction = res.data.results.insertId
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+        await axios.post(`${API_URL}/checkout`, {
+            cartsGlobal, idTransaction
+        })
+            .then((res) => {
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+
+
+    }
+
     return (
         <div className="mt-5 ms-4">
             <h3>Preview Order</h3>
             <div className="shipping-information-container">
-                {previewOrder.service}
-
-                <button onClick={Previous} type="submit">Previous</button>
-                <button type="submit">Finish</button>
+                <h4>Silahkan lakukan pembayaran sebesar </h4>
+                {total}
+                {previewOrder.cost[0].value} + {total} ={previewOrder.cost[0].value + total}
             </div >
+
+            <button onClick={Previous} type="submit">Previous</button>
+            <button type="submit" onClick={checkoutHandler}>Finish</button>
         </div >
     )
 }
