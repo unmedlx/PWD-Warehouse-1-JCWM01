@@ -83,23 +83,20 @@ module.exports = {
   },
   // Edit User Stock dari checkout
   editUserStock: async (req, res) => {
-    console.log("tessasdasdasds");
     let cartsGlobal = Object.values(req.body.cartsGlobal)
     // console.log(cartsGlobal);
 
     try {
       for (i = 0; i < cartsGlobal.length; i++) {
         let cartQuantity = cartsGlobal[i].quantity
-        let productName = cartsGlobal[i].productName
-
         const getUserStocks = await query(`SELECT * FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`)
         // console.log(getUserStocks.length);
 
         for (j = 0; j < getUserStocks.length; j++) {
           // console.log(getUserStocks[j].idProduct, getUserStocks[j].idWarehouse, getUserStocks[j].quantity);
           let stockWarehouse = getUserStocks[j].quantity
-          console.log(productName, stockWarehouse, "digudang");
-          console.log(productName, cartQuantity, "diuser");
+          // console.log(productName, stockWarehouse, "digudang");
+          // console.log(productName, cartQuantity, "diuser");
 
           if (cartQuantity - stockWarehouse >= 0) {
             await query(`UPDATE userstocks SET quantity=${db.escape(0)} WHERE idProduct = ${db.escape(getUserStocks[j].idProduct)} AND idWarehouse=${db.escape(getUserStocks[j].idWarehouse)}`)

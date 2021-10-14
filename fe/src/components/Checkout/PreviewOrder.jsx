@@ -20,7 +20,7 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
 
 
     const getClosestWarehouse = async () => {
-        console.log(shippingInformation);
+        // console.log(shippingInformation);
         await axios.post(`${API_URL}/address/closest-address/`, shippingInformation)
             .then((res) => {
                 setclosestWarehouse(res.data)

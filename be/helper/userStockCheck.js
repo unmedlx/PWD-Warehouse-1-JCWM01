@@ -12,7 +12,7 @@ module.exports = {
                 const getUserStocks = await query(`SELECT SUM(quantity) as totalUserstock FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`)
 
                 if (cartQuantity > getUserStocks[0].totalUserstock) {
-                    return res.status(200).send({ message: "Stock diwarehouse tidak cukup", success: false });
+                    return res.status(500).send({ message: "Stock diwarehouse tidak cukup", success: false });
                 }
             }
 

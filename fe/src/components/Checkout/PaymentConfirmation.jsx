@@ -18,6 +18,12 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
     const checkoutHandler = async () => {
         let idTransaction = 0
         try {
+            // update userStock based on cart
+            const changeUserStocksResponse = await axios.patch(`${API_URL}/userstocks`, {
+                cartsGlobal
+            })
+            console.log(changeUserStocksResponse);
+
             //Insert Transaction to table transaction
             const addTransactionResponse = await axios.post(`${API_URL}/transaction`, {
                 idAddress: shippingInformation.idAddress,
@@ -29,25 +35,17 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
                 idWarehouse: previewOrder.idWarehouse
             })
             idTransaction = addTransactionResponse.data.results.insertId
-            console.log(addTransactionResponse.data);
-            console.log(idTransaction);
 
             //insert checkout item
             const addCheckoutItem = await axios.post(`${API_URL}/checkout`, {
                 cartsGlobal, idTransaction
             })
 
-            // update userStock based on cart
-            const changeUserStocksResponse = await axios.patch(`${API_URL}/userstocks`, {
-                cartsGlobal
-            })
-            console.log(changeUserStocksResponse);
-
             const deleteCartResponse = await axios.delete(`${API_URL}/cart`,
                 {
                     data: cartsGlobal
                 })
-            console.log(deleteCartResponse);
+            // console.log(deleteCartResponse);
 
 
         } catch (error) {
