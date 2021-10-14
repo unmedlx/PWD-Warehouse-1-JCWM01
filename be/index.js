@@ -7,9 +7,11 @@ const {
   uploaderRouter,
   adminStocksRouter,
   userStocksRouter,
-  warehousesRouter,
   addressRouter,
-  cityProvinceRouter
+  cityProvinceRouter,
+  warehousesRouter,
+  warehouseStockRouter
+  
 } = require("./routers");
 const bearerToken = require("express-bearer-token");
 const PORT = 3001;
@@ -33,6 +35,7 @@ app.use('/products', productsRouter)
 app.use("/adminstocks", adminStocksRouter);
 app.use("/userstocks", userStocksRouter);
 app.use("/warehouses", warehousesRouter);
+app.use("/wh-stocks", warehouseStockRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is Listening on ${PORT}`);

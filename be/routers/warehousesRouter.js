@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const { warehousesController } = require("../controllers");
 
-router.get("/request-data-tes", warehousesController.getDataSql);
 router.get("/", warehousesController.getData);
 router.get("/:idProduct", warehousesController.getDataById);
 router.post("/", warehousesController.addData);
