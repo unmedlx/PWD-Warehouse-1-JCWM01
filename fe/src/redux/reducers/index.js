@@ -4,7 +4,7 @@ import productReducer from "./products";
 import addressesReducer from "./addresses";
 import adminReducer from "./admins"
 import cartsReducer from "./carts";
-import addressWarehouse from "./addressWarehouse";
+import addressWarehouseReducer from "./addressWarehouse";
 
 export default combineReducers({
   users: usersReducer,
@@ -12,5 +12,5 @@ export default combineReducers({
   admins: adminReducer,
   product: productReducer,
   carts: cartsReducer,
-  addressWarehouse
+  addressWarehouse: addressWarehouseReducer
 });

@@ -131,35 +131,4 @@ module.exports = {
 
 
     },
-    // checkAddress: (req, res) => {
-    //     // console.log(req.distances);
-    //     if (req.distances.length === 0) {
-    //         return res.status(500).send({ message: 'Alamat diluar jangkauan, silahkan masukkan alamat lain', success: false })
-    //     }
-    //     let scriptQuery = `SELECT * FROM warehouses`
-    //     db.query(scriptQuery, (err, results) => {
-    //         if (err) {
-    //             return res.status(500).send({ message: 'Error Occurs', success: false, err })
-    //         }
-
-    //         for (let i = 0; i < results.length; i++) {
-    //             results[i].distance = req.distances[i]
-    //         }
-    //         // console.log(results);
-
-    //         var index = 0;
-    //         var value = req.distances[0];
-    //         for (var i = 1; i < req.distances.length; i++) {
-    //             if (req.distances[i] < value) {
-    //                 value = req.distances[i];
-    //                 index = i;
-    //             }
-    //         }
-    //         let closestWarehouse = results[index]
-    //         console.log(closestWarehouse);
-    //         // console.log(req.body);
-    //         res.status(200).send(closestWarehouse)
-
-    //     })
-    // }
 }

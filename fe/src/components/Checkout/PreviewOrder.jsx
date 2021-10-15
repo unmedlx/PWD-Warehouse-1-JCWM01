@@ -58,6 +58,18 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
     }
 
     const renderDelivery = () => {
+        console.log(dataCourier.costs);
+        if (dataCourier.costs.length == 0) {
+            return (
+                <div className="courier-card-notavail">
+                    <div>
+                        <div>Courier is not available</div>
+                        <div className="text-muted"></div>
+                    </div>
+                    <div></div>
+                </div>
+            )
+        }
         return dataCourier.costs.map((courier) => {
             courier.name = dataCourier.name
             courier.code = dataCourier.code
@@ -103,7 +115,10 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
 
                             <label htmlFor="deliveryRate">Courier</label>
                             {
-                                loading ? <Spinner animation="border" />
+                                loading ?
+                                    <>
+                                        <Spinner className="ms-3 mt-2" animation="border" />
+                                    </>
                                     :
                                     <div>
                                         <select className="custom-select courier-choose" id="deliveryRate" onChange={(e) => getDeliveryRate(e)}>

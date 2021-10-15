@@ -5,6 +5,7 @@ const accessToken = process.env.PW1J_RAJAONGKIR;
 
 module.exports = {
     deliveryRate: async (req, res, next) => {
+        console.log("masuk");
         try {
             const { originCity, destinationCity, courier } = req.body
             const getOriginId = await query(`SELECT idCity from city WHERE cityName=${db.escape(originCity)} `)
