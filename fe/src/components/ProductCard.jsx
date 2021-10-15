@@ -11,6 +11,28 @@ export default function ProductCard(props) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(parseInt(1));
   const reload = () => window.location.reload();
+  const [stock, setStock] = useState([]);
+
+  const fetchStock = () => {
+    axios
+      .get(`${API_URL}/userstocks/${props.idProduct}`)
+      .then((response) => {
+        // setStock(response.data[0]);
+        console.log(props.idProduct);
+        console.log(response.data[0]);
+        dispatch({
+          type: "FILL_USERSTOCKS",
+          payload: response.data[0],
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchStock();
+  }, []);
 
   const addToCartHandler = () => {
     axios
@@ -18,32 +40,9 @@ export default function ProductCard(props) {
       .then((response) => {
         console.log(response);
         if (response.data.length) {
-          axios
-            .patch(
-              `${API_URL}/carts/${response.data[0].idProduct}?idUser=${userGlobal.idUser}`,
-              {
-                quantity: response.data[0].quantity + 1,
-              }
-            )
-            .then(() => {
-              alert(`${props.productName} added to the cart`);
-
-              axios
-                .get(`${API_URL}/carts/${userGlobal.idUser}`)
-                .then((response) => {
-                  dispatch({
-                    type: "FILL_CART",
-                    payload: response.data,
-                  });
-                  reload();
-                })
-                .catch((err) => {
-                  console.log(err);
-                });
-            })
-            .catch(() => {
-              alert(`Server error`);
-            });
+          alert(
+            `${props.productName} already exist in cart. You can change the quantity in your cart list`
+          );
         } else {
           axios
             .post(`${API_URL}/carts`, {

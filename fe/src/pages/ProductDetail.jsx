@@ -13,7 +13,7 @@ export default function ProductDetail(props) {
   const reload = () => window.location.reload();
   const handleClose = () => {
     setShow(false);
-    // reload();
+    reload();
   };
   const handleShow = () => setShow(true);
 
@@ -101,34 +101,9 @@ export default function ProductDetail(props) {
         .then((response) => {
           console.log(response);
           if (response.data.length) {
-            axios
-              .patch(
-                `${API_URL}/carts/${response.data[0].idProduct}?idUser=${userGlobal.idUser}`,
-                {
-                  quantity: response.data[0].quantity + additionalInfo.quantity,
-                }
-              )
-              .then(() => {
-                alert(
-                  `${additionalInfo.quantity} x ${productDetail.productName} added to the cart`
-                );
-
-                axios
-                  .get(`${API_URL}/carts/${userGlobal.idUser}`)
-                  .then((response) => {
-                    dispatch({
-                      type: "FILL_CART",
-                      payload: response.data,
-                    });
-                    reload();
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              })
-              .catch(() => {
-                alert(`Server error`);
-              });
+            alert(
+              `${productDetail.productName} already exist in cart. You can change the quantity in your cart list`
+            );
           } else {
             axios
               .post(`${API_URL}/carts`, {
@@ -210,11 +185,11 @@ export default function ProductDetail(props) {
               <h1>Rp. {productDetail.price}</h1>
               <p>{productDetail.description}</p>
               <p style={{ marginBottom: -15 }}>
-                Ready Stock: {stock.sumQuantity} pcs
+                {/* Ready Stock: {stock.sumQuantity} pcs */}
               </p>
 
               <div className="d-flex flex-row align-items-center">
-                <span
+                {/* <span
                   style={{ marginTop: -30 }}
                   className="d-flex flex-row align-items-center"
                 >
@@ -231,8 +206,12 @@ export default function ProductDetail(props) {
                   >
                     +
                   </button>
-                </span>
-                <button className="button-cart" onClick={addToCartHandler}>
+                </span> */}
+                <button
+                  style={{ marginLeft: -4 }}
+                  className="button-cart"
+                  onClick={addToCartHandler}
+                >
                   Add to Cart
                 </button>
               </div>

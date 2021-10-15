@@ -15,6 +15,16 @@ export default function ProductsList() {
   const reload = () => window.location.reload();
   const handleClose = () => {
     setShow(false);
+    return cartGlobal.cartList.map((val) => {
+      axios
+        .patch(`${API_URL}/carts/${val.idProduct}?idUser=${val.idUser}`, {
+          quantity: val.quantity,
+        })
+        .then(() => {})
+        .catch(() => {
+          alert(`Server error`);
+        });
+    });
     // reload();
   };
   const handleShow = () => setShow(true);
