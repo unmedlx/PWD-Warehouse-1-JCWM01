@@ -1,7 +1,8 @@
 const axios = require('axios');
 const { db, query } = require('../database');
 
-const accessToken = '485b31d04ebb76f8ffd684e9bdf75f1d';
+// const accessToken = '485b31d04ebb76f8ffd684e9bdf75f1d';
+const accessToken = process.env.PW1J_RAJAONGKIR;
 
 module.exports = {
     deliveryRate: async (req, res, next) => {

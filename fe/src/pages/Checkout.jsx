@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import '../assets/styles/Checkout.css'
 import { Stepper, Step, StepLabel } from '@mui/material'
+import {
+    makeStyles
+} from "@material-ui/core";
 
 import CheckoutDetails from '../components/Checkout/CheckoutDetails'
 import ShippingInformation from '../components/Checkout/ShippingInformation'
@@ -10,12 +13,21 @@ import PaymentConfirmation from '../components/Checkout/PaymentConfirmation'
 
 const Checkout = () => {
     const cartsGlobal = useSelector((state) => state.carts);
-    const steps = ['Checkout Details', 'Shipping Information', 'Preview Order', 'Payment Confirmation']
+    const steps = ['Checkout Details', 'Shipping Information', 'Order Summary', 'Payment Confirmation']
     const [total, settotal] = useState()
     const [shippingInformation, setshippingInformation] = useState()
     const [previewOrder, setpreviewOrder] = useState()
     const [paymentConfirmation, setpaymentConfirmation] = useState()
     const [step, setStep] = useState(0)
+
+    const useStyles = makeStyles(() => ({
+        root: {
+            "& .MuiStepIcon-active": { color: "yellow" },
+            "& .MuiStepIcon-completed": { color: "green" },
+            "& .Mui-disabled .MuiStepIcon-root": { color: "#32b280" }
+        }
+    }));
+    const c = useStyles()
 
     // go back to previous step
     const prevStep = () => {
@@ -56,7 +68,7 @@ const Checkout = () => {
                 <div>Tidak ada cart</div>
                 :
                 <div className="checkout-container p-5 mt-5">
-                    <Stepper activeStep={step} alternativeLabel>
+                    <Stepper className={c.root} activeStep={step} alternativeLabel>
                         {steps.map((label) => (
                             <Step key={label}>
                                 <StepLabel>{label}</StepLabel>

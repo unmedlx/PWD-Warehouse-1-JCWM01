@@ -2,7 +2,7 @@ const axios = require('axios');
 const { addAddress } = require('../controllers/addressController');
 const { db, query } = require('../database');
 
-const accessToken = 'pk.eyJ1IjoiYWx5d2hpdGV3b2xmaWUiLCJhIjoiY2t1NThuMnlpMjV4MDJ1bnpkNmxsMDN1diJ9.URoEKnnGUymc3wZxHmWC2Q';
+const accessToken = process.env.PW1J_MAPBOX;
 
 module.exports = {
     findDistance: async (req, res, next) => {
