@@ -81,7 +81,7 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
     return (
         <div className="mt-5 ms-4">
 
-            <div className="shipping-information-container">
+            <div className="shipping-information-container ">
                 <div className="row">
                     <div className="col-6 preview-order-left">
                         <div className="row">
@@ -96,7 +96,7 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
 
                             <label htmlFor="deliveryRate">Courier</label>
                             <div>
-                                <select className="custom-select" disabled={isLoadingWarehouse} id="deliveryRate" onChange={(e) => getDeliveryRate(e)}>
+                                <select className="custom-select courier-choose" disabled={isLoadingWarehouse} id="deliveryRate" onChange={(e) => getDeliveryRate(e)}>
                                     <option value="">Choose Courier</option>
                                     <option value="jne">JNE</option>
                                     <option value="pos">POS Indonesia</option>

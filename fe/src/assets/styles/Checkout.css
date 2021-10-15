@@ -116,6 +116,7 @@
         outline: none;
       }
       .button:disabled,
+
       .button[disabled]{
         border: 1px solid #999999;
         background-color: #cccccc;
@@ -143,7 +144,16 @@
     .custom-select{
         padding:5px 10px;
         border-radius: 10px;
+        border: 1px solid #32b280;
     }
+
+    .custom-select:disabled,
+      
+      .custom-select[disabled]{
+        border: 1px solid #999999;
+        background-color: #cccccc;
+        }
+
 
     .shipping-card{
         margin-top: 20px;
