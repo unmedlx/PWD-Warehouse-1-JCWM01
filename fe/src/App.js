@@ -29,6 +29,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Cart from "./pages/Cart";
 import Warehouse from "./pages/Warehouse";
+import Checkout from "./pages/Checkout";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -70,6 +71,32 @@ function App() {
               payload: res.data,
             });
           }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      //GET CART 
+      axios
+        .post(
+          `http://localhost:3001/cart/`,
+          {},
+          {
+            headers: {
+              authorization: `Bearer ${userLocalStorage}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data.results);
+          dispatch({
+            type: "GET_CART",
+            payload: res.data.results,
+          });
+          dispatch({
+            type: "USER_CHECK_LOGIN",
+            payload: true,
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -120,6 +147,7 @@ function App() {
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
+      <Route component={Checkout} path="/checkout" />
       <Route component={Home} path="/" exact />
       {/* Protected Route */}
       <NonLoggedInRoute

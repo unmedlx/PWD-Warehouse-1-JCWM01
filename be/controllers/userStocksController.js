@@ -1,9 +1,9 @@
-const { db } = require("../database");
+const { db, query } = require("../database");
 const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
 module.exports = {
-  getData: (req, res) => {},
+  getData: (req, res) => { },
 
   getDataById: (req, res) => {
     let scriptQuery = `SELECT sum(quantity) AS sumQuantity
@@ -81,4 +81,36 @@ module.exports = {
       res.status(200).send(results);
     });
   },
+  // Edit User Stock dari checkout
+  editUserStock: async (req, res) => {
+    let cartsGlobal = Object.values(req.body.cartsGlobal)
+    // console.log(cartsGlobal);
+
+    try {
+      for (i = 0; i < cartsGlobal.length; i++) {
+        let cartQuantity = cartsGlobal[i].quantity
+        const getUserStocks = await query(`SELECT * FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`)
+
+        for (j = 0; j < getUserStocks.length; j++) {
+          let stockWarehouse = getUserStocks[j].quantity
+
+          if (cartQuantity - stockWarehouse >= 0) {
+            await query(`UPDATE userstocks SET quantity=${db.escape(0)} WHERE idProduct = ${db.escape(getUserStocks[j].idProduct)} AND idWarehouse=${db.escape(getUserStocks[j].idWarehouse)}`)
+            cartQuantity = cartQuantity - stockWarehouse
+
+          } else {
+            await query(`UPDATE userstocks SET quantity=${db.escape(stockWarehouse - cartQuantity)} WHERE idProduct = ${db.escape(getUserStocks[j].idProduct)} AND idWarehouse=${db.escape(getUserStocks[j].idWarehouse)}`)
+            cartQuantity = 0
+
+          }
+        }
+      }
+      return res.status(200).send({ message: "userstocks updated", success: true });
+
+    } catch (err) {
+      return res.status(500).send(err);
+    }
+
+
+  }
 };

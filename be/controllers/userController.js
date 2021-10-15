@@ -229,8 +229,8 @@ module.exports = {
     const idUser = req.user.idUser;
     // console.log(idUser);
     let { fullName, username, email, gender, dateOfBirth } = req.body;
-    if (dateOfBirth === "") {
-      dateOfBirth = null;
+    if (dateOfBirth === '') {
+      dateOfBirth = null
     } else {
       dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD"); // ubah format jadi YYYY/MM/DD
     }
@@ -248,7 +248,7 @@ module.exports = {
         res.status(500).send({
           message: "Gagal mengambil data di database",
           success: false,
-          error: err,
+          error: err
         });
         return;
       } else {

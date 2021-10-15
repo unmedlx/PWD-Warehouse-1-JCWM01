@@ -36,8 +36,6 @@ const ImageModals = ({ show, handleClose, userImage }) => {
         data.append("data", JSON.stringify(obj))
         data.append("file", file[0])
 
-        console.log(file[0]);
-        console.log(idUser);
         axios.patch(`${API_URL}/profile/${idUser}`,
             data,
             {
@@ -47,7 +45,6 @@ const ImageModals = ({ show, handleClose, userImage }) => {
             }
         )
             .then((res) => {
-                console.log(res.data.success);
                 setSuccessUpload(res.data.success)
                 alert(res.data.message)
             },

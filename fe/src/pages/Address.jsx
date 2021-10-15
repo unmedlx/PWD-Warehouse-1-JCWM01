@@ -7,6 +7,7 @@ import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
 import ProfileAddress from '../components/ProfileAddress';
 import ProfileNavbar from '../components/ProfileNavbar';
+import ProfileSidebar from '../components/ProfileSidebar';
 import { API_URL } from '../helper';
 
 
@@ -14,9 +15,7 @@ const Address = () => {
     const userGlobal = useSelector((state) => state.users);
     const addressGlobal = useSelector((state) => state.addresses);
     const { fullName, email, userImage, idUser } = userGlobal
-    // console.log(addressGlobal);
     const [show, setShow] = useState(false);
-    const [profileNav, setProfileNav] = useState(1)
 
     const reload = () => window.location.reload();
 
@@ -25,35 +24,11 @@ const Address = () => {
         reload()
     }
 
-    const handleShow = () => setShow(true);
-
-    const fetchDataUser = () => {
-        const { idUser } = userGlobal
-        console.log(idUser);
-    }
-
-    useEffect(() => {
-        fetchDataUser()
-    }, [])
-
     return (
         <>
             <div className="container mt-5">
                 <div className="profile-container">
-                    <div className="profile-sidebar">
-                        <div className="profile-picture-container">
-                            <img src={"http://localhost:3001" + userImage} alt="Trulli" className="profilePicture" />
-                        </div>
-                        <button className="btn btn-dark mt-3" onClick={handleShow}>Change Photo Profile</button>
-                        <div className="profile-photo-desc mt-3">
-                            <p>Besar file: maksimum 5.000.000 bytes (5 Megabytes). Ekstensi file yang diperbolehkan: .JPG .JPEG .PNG</p>
-                        </div>
-                        <button className="button-profile mt-3"  >
-                            <Link to="/change-password" style={{ textDecoration: 'none', color: 'white' }}>
-                                Change Password
-                            </Link>
-                        </button>
-                    </div>
+                    <ProfileSidebar />
 
                     <div className="profile-main">
                         <ProfileNavbar />
@@ -63,7 +38,7 @@ const Address = () => {
                             <h6><strong>{email}</strong></h6>
                             <hr className="hr-line" />
 
-                            <ProfileAddress setProfileNav={setProfileNav} addresses={addressGlobal} />
+                            <ProfileAddress addresses={addressGlobal} />
                         </div>
                     </div>
 
