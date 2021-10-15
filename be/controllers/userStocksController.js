@@ -90,13 +90,9 @@ module.exports = {
       for (i = 0; i < cartsGlobal.length; i++) {
         let cartQuantity = cartsGlobal[i].quantity
         const getUserStocks = await query(`SELECT * FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`)
-        // console.log(getUserStocks.length);
 
         for (j = 0; j < getUserStocks.length; j++) {
-          // console.log(getUserStocks[j].idProduct, getUserStocks[j].idWarehouse, getUserStocks[j].quantity);
           let stockWarehouse = getUserStocks[j].quantity
-          // console.log(productName, stockWarehouse, "digudang");
-          // console.log(productName, cartQuantity, "diuser");
 
           if (cartQuantity - stockWarehouse >= 0) {
             await query(`UPDATE userstocks SET quantity=${db.escape(0)} WHERE idProduct = ${db.escape(getUserStocks[j].idProduct)} AND idWarehouse=${db.escape(getUserStocks[j].idWarehouse)}`)
@@ -115,45 +111,6 @@ module.exports = {
       return res.status(500).send(err);
     }
 
-
-    //working fine
-
-
-    // for (i = 0; i < cartsGlobal.length; i++) {
-    //   let cartQuantity = cartsGlobal[i].quantity
-    //   let productName = cartsGlobal[i].productName
-    //   let scriptQuery = `SELECT * FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`
-    //   db.query(scriptQuery, (err, results) => {
-    //     if (err) {
-    //       res.status(500).send({ message: "Transaction is error", success: false, err });
-    //     }
-    //     for (j = 0; j < results.length; j++) {
-    //       let stockWarehouse = results[j].quantity
-    //       console.log(productName, results[j].quantity, "digudang");
-    //       console.log(productName, cartQuantity, "diuser");
-
-    //       if (cartQuantity - stockWarehouse >= 0) {
-    //         let scriptQuery = `UPDATE userstocks SET quantity=${db.escape(0)} WHERE idProduct = ${db.escape(results[j].idProduct)} AND idWarehouse=${db.escape(results[j].idWarehouse)} `
-    //         cartQuantity = cartQuantity - stockWarehouse
-    //         db.query(scriptQuery, (err, results) => {
-    //           if (err) {
-    //             res.status(500).send({ message: "Transaction is error", success: false, err });
-    //           }
-    //         })
-
-    //       } else {
-    //         let scriptQuery = `UPDATE userstocks SET quantity=${db.escape(stockWarehouse - cartQuantity)} WHERE idProduct = ${db.escape(results[j].idProduct)} AND idWarehouse=${db.escape(results[j].idWarehouse)} `
-    //         db.query(scriptQuery, (err, results) => {
-    //           if (err) {
-    //             res.status(500).send({ message: "Transaction is error", success: false, err });
-    //           }
-    //         })
-    //         cartQuantity = 0
-    //       }
-    //     }
-    //   })
-    // }
-    // res.status(200).send({ message: "userstocks updated", success: true });
 
   }
 };

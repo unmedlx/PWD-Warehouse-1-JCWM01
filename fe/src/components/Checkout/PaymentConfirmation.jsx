@@ -23,7 +23,6 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
             const changeUserStocksResponse = await axios.patch(`${API_URL}/userstocks`, {
                 cartsGlobal
             })
-            console.log(changeUserStocksResponse);
 
             //Insert Transaction to table transaction
             const addTransactionResponse = await axios.post(`${API_URL}/transaction`, {
