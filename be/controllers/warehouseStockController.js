@@ -1,25 +1,22 @@
-const { db } = require("../database");
+const { db, query } = require("../database");
 
 module.exports = {
-    requestStock: (req, res ) => {
-        let query = `
+    requestStock: async (req, res ) => {
+      try {
+        const requestMaterial = await query(`
         SELECT T.idTransaction , C.idCheckout, C.idProduct, C.qtyProduct, A.idWarehouse ,A.quantity  
         FROM transactions T
         JOIN checkouts C ON C.idTransaction = T.idTransaction
         JOIN adminstocks A ON C.idProduct = A.idProduct
         WHERE T.idStatus = 2 AND T.idWarehouse = ${db.escape(req.body.idWarehouse)} AND A.idWarehouse = ${db.escape(req.body.idWarehouse)};
-        `
-        db.query(query, (err, results) => {
-          if (err) {
-            console.log(err);
-            return
-          }
+        `)
+      
           //Loop product stock checking
-          for (let i = 0; i < results.length; i++) {
-            const idWarehouse = results[i].idWarehouse
-            const idProduct = results[i].idProduct
-            const qtyCheckout = results[i].qtyProduct;
-            const qtyAStock = results[i].quantity;
+          for (let i = 0; i < requestMaterial.length; i++) {
+            const idWarehouse = requestMaterial[i].idWarehouse
+            const idProduct = requestMaterial[i].idProduct
+            const qtyCheckout = requestMaterial[i].qtyProduct;
+            const qtyAStock = requestMaterial[i].quantity;
             console.log("ID Product: ",idProduct, "Checkout Qty: ",qtyCheckout, "AdminStock: ",qtyAStock );
     
             //Check Stock admin Warehouse Sendiri
@@ -38,85 +35,66 @@ module.exports = {
               console.log("KUDU REQUEST, Id product:", idProduct ,",Kurang : ", qtyNeeded);
               
               //Mencari Warehouse Dengan stock mumpuni lalu Send Data ke table request
-              const querySearchWH = `
-              SELECT * 
-              FROM warehouses W
-              JOIN adminstocks A ON A.idWarehouse = W.idWarehouse
-              WHERE A.idProduct = ${db.escape(idProduct)} AND A.quantity != 0 AND W.idWarehouse != ${db.escape(idWarehouse)};   `
+              const getSearchWH = await query(`
+                SELECT * 
+                FROM warehouses W
+                JOIN adminstocks A ON A.idWarehouse = W.idWarehouse
+                WHERE A.idProduct = ${db.escape(idProduct)} AND A.quantity != 0 AND W.idWarehouse != ${db.escape(idWarehouse)};   `
+              ) 
               
-              db.query(querySearchWH, (err1, resultsWH) => {
-                if (err1) {
-                  console.log(err1);
-                }
-                // warehouse yang didapat
-                // console.log(resultsWH);
                 //loop checking needed qty and send request data
-                for (let j = 0; j < resultsWH.length; j++) {
-                  const idOtherWH = resultsWH[j].idWarehouse
-                  const qtyOtherWH = resultsWH[j].quantity
+                for (let j = 0; j < getSearchWH.length; j++) {
+                  console.log("qtyneeded diluar for loop",qtyNeeded);
+                  const idOtherWH = getSearchWH[j].idWarehouse
+                  const qtyOtherWH = getSearchWH[j].quantity
                   
                   if (qtyNeeded > 0) {
                     //tentuin request qty nya berapa
                     let qtyRequest = 0
-                    if (qtyNeeded > qtyOtherWH) {
+                    if (qtyNeeded >= qtyOtherWH) {
                       qtyRequest = qtyOtherWH
-                    }else if (qtyNeeded < qtyOtherWH) {
+                    }else{
                       qtyRequest = qtyNeeded
-                    } else if(qtyNeeded = qtyOtherWH) {
-                      qtyRequest = qtyNeeded
-                    }
-                    // console.log("loop",[j],"idProduct:",idProduct ,"dari warehouse:",idOtherWH,". stok di WH ini:",qtyOtherWH ,"request qty:",qtyRequest);
+                    }                    
                     // MEMBUAT REQUEST //
+                    await query(
+                      `INSERT INTO requests VALUES 
+                      (null, ${db.escape(idWarehouse)}, ${db.escape(idOtherWH)}, ${db.escape(idProduct)}, ${db.escape(qtyRequest)}, 2021, "Requesting Stock");`
+                    ) 
                     qtyNeeded = qtyNeeded - qtyRequest
-                    let queryRequest = `INSERT INTO requests VALUES 
-                    (null, ${db.escape(idWarehouse)}, ${db.escape(idOtherWH)}, ${db.escape(idProduct)}, ${db.escape(qtyRequest)}, 2021, "Requesting Stock");`
-                    db.query(queryRequest, (err, results) =>{
-                        if (err) {
-                            console.log(err);
-                        }
-                        console.log("Request D O N E");
-                    })
                  
-                }else if (qtyNeeded <= 0) {
+                }else{
                     //maka ga request
                     qtyNeeded = 0
-                    // console.log("loop",[j],"stok udah ga kurang",qtyNeeded,"gaperlu request");
                   }    
                 }
-                // console.log("Sekarang qtyNeeded idProduct",idProduct, ":",qtyNeeded);
-              })
+              }
             }
-          }
-          res.status(200).send({message: "ini request stock ke warehouse lain", results})
-        })
+            res.status(200).send({message: "ini request stock ke warehouse lain", success: true})
+
+      } catch (error) {
+        res.status(500).send(error)
+      }
     },
 
     acceptRequest: async (req, res) => {
-        console.log(req.body);
         const {idWarehouse, idRequest} = req.body
         const queryUpdate = `UPDATE requests SET status = "Accepted" WHERE idSender = ${db.escape(idWarehouse)} AND idRequest = ${db.escape(idRequest)};`
         const querySelect = `SELECT * FROM requests WHERE idSender = ${db.escape(idWarehouse)} AND idRequest = ${db.escape(idRequest)};`
         try {
-             await db.query(queryUpdate)
-             db.query(querySelect, (err, results) => {
-                 if (err) {
-                   res.status(500).send(err)
-                 }
-                // res.status(200).send(results)
-                const {idSender, idReceiver, idProduct, quantity} = results[0]
-                const updateStockReceiver = 
-                `UPDATE adminstocks SET quantity = quantity + ${db.escape(quantity)} 
-                 WHERE idWarehouse = ${db.escape(idReceiver)} AND idProduct = ${db.escape(idProduct)};`
-                const updateStockSender = 
-                `UPDATE adminstocks SET quantity = quantity - ${db.escape(quantity)} 
-                 WHERE idWarehouse = ${db.escape(idSender)} AND idProduct = ${db.escape(idProduct)};`
-                db.query(updateStockReceiver)
-                db.query(updateStockSender)
-                console.log(idProduct);
-                res.status(200).send("Accept And Update Stock Proceed")
-             })
+             await query(queryUpdate)
+            
+             const getDataRequest = await query(querySelect)
+             const {idSender, idReceiver, idProduct, quantity} = getDataRequest[0]        
+             await query (`UPDATE adminstocks SET quantity = quantity + ${db.escape(quantity)} 
+                          WHERE idWarehouse = ${db.escape(idReceiver)} AND idProduct = ${db.escape(idProduct)};`)
+                
+             await query( `UPDATE adminstocks SET quantity = quantity - ${db.escape(quantity)} 
+                          WHERE idWarehouse = ${db.escape(idSender)} AND idProduct = ${db.escape(idProduct)};`)
+            // await query(`UPDATE transactions SET idStatus = 3 WHERE `)
+                
+            res.status(200).send({message: "Request Accepted", success: true})
         } catch (error) {
-            console.log(error);
             res.status(500).send(error)
         }
     },
@@ -124,7 +102,14 @@ module.exports = {
     getRequest: (req, res) => {
         try {
             const {idWarehouse} = req.body
-            const getData = `SELECT * FROM requests WHERE idSender = ${db.escape(idWarehouse)} OR idReceiver = ${db.escape(idWarehouse)};`
+            const getData = 
+            `SELECT R.idRequest, WR.warehouse AS Receiver, WS.warehouse AS Sender, R.idProduct, P.productName, P.productImage, R.quantity, R.dateRequest, R.status
+            FROM requests R
+            JOIN products P ON P.idProduct = R.idProduct
+            JOIN warehouses WR ON WR.idWarehouse = R.idReceiver 
+            JOIN warehouses WS ON WS.idWarehouse = R.idSender
+            WHERE R.idReceiver = ${db.escape(idWarehouse)} OR R.idSender = ${db.escape(idWarehouse)};`
+            // `SELECT * FROM requests WHERE idSender = ${db.escape(idWarehouse)} OR idReceiver = ${db.escape(idWarehouse)};`
             db.query(getData, (err, results) => {
                 if (err) {
                  res.status(500).send(err)   

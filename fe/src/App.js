@@ -26,7 +26,7 @@ import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Cart from "./pages/Cart";
-import Warehouse from "./pages/Warehouse"
+import WarehouseStock from "./pages/WarehouseStock"
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -123,7 +123,7 @@ function App() {
       <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/edit-product/:idProduct" component={AdminEditProduct} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/admin-warehouse" component={Warehouse} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/admin-warehouse" component={WarehouseStock} isAdmin={adminGlobal.idRole} />
     </BrowserRouter>
   );
 }
