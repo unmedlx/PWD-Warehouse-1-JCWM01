@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react'
 import '../../assets/styles/Checkout.css'
 import axios from 'axios'
 import { API_URL } from '../../constants/API'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchWarehouseAction } from '../../redux/actions/addressWarehouse'
+import { Spinner } from 'react-bootstrap'
 
 const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInformation }) => {
-    const [closestWarehouse, setclosestWarehouse] = useState({})
+    const dispatch = useDispatch()
+    const { loading, data } = useSelector(state => state.addressWarehouse)
+    // const [closestWarehouse, setclosestWarehouse] = useState({})
     const [dataCourier, setdataCourier] = useState()
     const [isLoading, setisLoading] = useState(true)
-    const [isLoadingWarehouse, setisLoadingWarehouse] = useState(true)
     const [selectedCourier, setselectedCourier] = useState()
 
     const Continue = () => {
@@ -22,10 +26,13 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
 
     const getClosestWarehouse = async () => {
         try {
-            const getClosestAddress = await axios.post(`${API_URL}/address/closest-address/`, shippingInformation)
-            console.log(getClosestAddress);
-            setclosestWarehouse(getClosestAddress.data)
-            setisLoadingWarehouse(false)
+            dispatch(
+                fetchWarehouseAction(shippingInformation)
+            )
+            // const getClosestAddress = await axios.post(`${API_URL}/address/closest-address/`, shippingInformation)
+            // console.log(getClosestAddress);
+            // setclosestWarehouse(getClosestAddress.data)
+            // setisLoadingWarehouse(false)
         } catch (err) {
             console.log(err);
         }
@@ -39,7 +46,7 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
             try {
                 const getDeliveryRate = await axios.post(`${API_URL}/transaction/delivery-rate`, {
                     originCity: shippingInformation.kota,
-                    destinationCity: closestWarehouse.kota,
+                    destinationCity: data.kota,
                     courier: courier
                 })
                 setdataCourier(getDeliveryRate.data.results.rajaongkir.results[0]);
@@ -54,8 +61,8 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
         return dataCourier.costs.map((courier) => {
             courier.name = dataCourier.name
             courier.code = dataCourier.code
-            courier.warehouse = closestWarehouse.warehouse
-            courier.idWarehouse = closestWarehouse.idWarehouse
+            courier.warehouse = data.warehouse
+            courier.idWarehouse = data.idWarehouse
             return (
                 <div className="courier-card" onClick={() => { getSelectedCourier(courier) }}>
                     <div>
@@ -95,14 +102,18 @@ const PreviewOrder = ({ nextStep, prevStep, handleChange, total, shippingInforma
                             </div>
 
                             <label htmlFor="deliveryRate">Courier</label>
-                            <div>
-                                <select className="custom-select courier-choose" disabled={isLoadingWarehouse} id="deliveryRate" onChange={(e) => getDeliveryRate(e)}>
-                                    <option value="">Choose Courier</option>
-                                    <option value="jne">JNE</option>
-                                    <option value="pos">POS Indonesia</option>
-                                    <option value="tiki">TIKI</option>
-                                </select>
-                            </div>
+                            {
+                                loading ? <Spinner animation="border" />
+                                    :
+                                    <div>
+                                        <select className="custom-select courier-choose" id="deliveryRate" onChange={(e) => getDeliveryRate(e)}>
+                                            <option value="">Choose Courier</option>
+                                            <option value="jne">JNE</option>
+                                            <option value="pos">POS Indonesia</option>
+                                            <option value="tiki">TIKI</option>
+                                        </select>
+                                    </div>
+                            }
                         </div>
                         {
                             dataCourier &&
