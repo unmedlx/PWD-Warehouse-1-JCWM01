@@ -5,5 +5,6 @@ const router = express.Router()
 
 router.post("/delivery-rate", deliveryRate, transactionController.getDeliveryRate);
 router.post("/", transactionController.addTransaction);
+router.get("/", transactionController.getTransaction);
 
 module.exports = router
