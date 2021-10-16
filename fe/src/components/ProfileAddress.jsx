@@ -7,31 +7,50 @@ import AddressCard from './AddressCard';
 import '../assets/styles/ProfileAddress.css'
 
 const ProfileAddress = (addressGlobal) => {
-    const userGlobal = useSelector((state) => state.users);
+    // const userGlobal = useSelector((state) => state.users);
+    const userLocalStorage = localStorage.getItem("token_shutter");
     const [show, setShow] = useState(false);
     const [provinces, setProvinces] = useState([])
+    const [dataAddresses, setdataAddresses] = useState({})
+    const [done, setdone] = useState(false)
 
 
-    const reload = () => window.location.reload();
+    // const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        reload()
+        // reload()
+        setdone(true)
     }
 
     const handleShow = () => setShow(true);
 
     const fetchDataAddress = () => {
-        const { idUser } = userGlobal
+        axios
+            .post(
+                `${API_URL}/address/`,
+                {},
+                {
+                    headers: {
+                        authorization: `Bearer ${userLocalStorage}`,
+                    },
+                }
+            )
+            .then((res) => {
+                setdataAddresses(res.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     const renderAddress = () => {
-        console.log(addressGlobal.addresses);
-        let arrAddress = Object.values(addressGlobal.addresses)
+        // console.log(addressGlobal.addresses);
+        let arrAddress = Object.values(dataAddresses)
         return arrAddress.map((address) => {
             // return <Address />
             return (
-                <AddressCard address={address} provinces={provinces} />
+                <AddressCard address={address} provinces={provinces} handleClose={handleClose} />
             )
         })
     }
@@ -48,12 +67,13 @@ const ProfileAddress = (addressGlobal) => {
 
     useEffect(() => {
         fetchProvince()
+        fetchDataAddress()
     }, [])
 
     useEffect(() => {
+        fetchProvince()
         fetchDataAddress()
-
-    }, [])
+    }, [done])
 
     return (
         <>

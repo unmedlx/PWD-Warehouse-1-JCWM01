@@ -46,14 +46,18 @@ module.exports = {
             //Check apakah sedang untuk ongoing atau semua
             if (type === "ongoing") {
                 dataTransaction = await query(`SELECT * FROM transactions  as a
-                JOIN 
+                JOIN status as s
+                ON a.idStatus=s.idStatus
+                JOIN
                 (SELECT t.idTransaction, SUM(quantity) as sumquantity FROM transactions as t 
                 JOIN checkouts as c 
                 ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
-                ON a.idTransaction=b.idTransaction WHERE a.idUser=${db.escape(idUser)} && idStatus>=1 && idStatus<=3`)
+                ON a.idTransaction=b.idTransaction WHERE a.idUser=${db.escape(idUser)} && a.idStatus>=1 && a.idStatus<=3`)
             } else if (type === "all") {
                 dataTransaction = await query(`SELECT * FROM transactions  as a
-                JOIN 
+                JOIN status as s
+                ON a.idStatus=s.idStatus
+                JOIN
                 (SELECT t.idTransaction, SUM(quantity) as sumquantity FROM transactions as t 
                 JOIN checkouts as c 
                 ON t.idTransaction=c.idTransaction group by t.idTransaction) as b

@@ -252,7 +252,18 @@ module.exports = {
         });
         return;
       } else {
-        res.status(200).send(results);
+        db.query(`SELECT * FROM users WHERE idUser=${db.escape(idUser)}`, (err, results) => {
+          if (err) {
+            res.status(500).send({
+              message: "Gagal mengambil data di database",
+              success: false,
+              error: err
+            });
+            return;
+          }
+          console.log(results);
+          return res.status(200).send(results);
+        })
       }
     });
   },

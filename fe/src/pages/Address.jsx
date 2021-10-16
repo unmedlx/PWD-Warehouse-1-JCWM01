@@ -34,7 +34,7 @@ const Address = () => {
                         <ProfileNavbar />
 
                         <div className="profile-main-detail">
-                            <h1><strong>Hello, {fullName}</strong></h1>
+                            <h1><strong>Address</strong></h1>
                             <h6><strong>{email}</strong></h6>
                             <hr className="hr-line" />
 
