@@ -112,17 +112,26 @@ function Auth() {
               type: "ADMIN_LOGIN",
               payload: res.data.dataUser
             })
+            dispatch({
+              type: "USER_LOGOUT",
+            });
           } else if (res.data.dataUser.idRole == 2) {
             window.location = "/admin"
             dispatch({
               type: "ADMIN_LOGIN",
               payload: res.data.dataUser
             })
+            dispatch({
+              type: "USER_LOGOUT",
+            });
           }else {
             dispatch({
               type: "USER_LOGIN",
               payload: res.data.dataUser,
             })
+            dispatch({
+              type: "ADMIN_LOGOUT",
+            });
           }
           setMessage("Login Success ✔");
           setMessage1("Happy Shopping ! :)");

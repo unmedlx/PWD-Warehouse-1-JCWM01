@@ -1,4 +1,4 @@
-const { db } = require("../database/index"); //mysql
+const { db, query } = require("../database/index"); //mysql
 
 
 module.exports = {
@@ -50,7 +50,7 @@ module.exports = {
             } else {
 
                 let scriptQuery = `INSERT INTO addresses (recipientName,phoneNumber,kecamatan,kota,provinsi,zip,jalan,idUser,isDefault,latitude,longitude) 
-                VALUES(${db.escape(recipientName)},${db.escape(phoneNumber)},${db.escape(kecamatan)},${db.escape(city)},${db.escape(province)},${db.escape(zip)},${db.escape(jalan)},${db.escape(idUser)},0,${db.escape(longitude)},${db.escape(latitude)})`
+                VALUES(${db.escape(recipientName)},${db.escape(phoneNumber)},${db.escape(kecamatan)},${db.escape(city)},${db.escape(province)},${db.escape(zip)},${db.escape(jalan)},${db.escape(idUser)},0,${db.escape(latitude)},${db.escape(longitude)})`
                 console.log(scriptQuery);
                 db.query(scriptQuery, (err, results) => {
                     if (err) {
@@ -100,5 +100,66 @@ module.exports = {
                 .send(results);
         })
 
-    }
+    },
+
+    // CEK JARAK TERDEKAT
+    checkAddress: async (req, res) => {
+        try {
+            if (req.distances.length === 0) {
+                return res.status(500).send({ message: 'Alamat diluar jangkauan, silahkan masukkan alamat lain', success: false })
+            }
+
+            const getDataWarehouses = await query(`SELECT * FROM warehouses`)
+
+            let index = 0;
+            let value = req.distances[0];
+            for (let i = 1; i < req.distances.length; i++) {
+                if (req.distances[i] < value) {
+                    value = req.distances[i];
+                    index = i;
+                }
+            }
+            let closestWarehouse = getDataWarehouses[index]
+            res.status(200).send(closestWarehouse)
+
+
+        } catch (err) {
+            return res.status(500).send(err);
+        }
+
+
+
+
+    },
+    // checkAddress: (req, res) => {
+    //     // console.log(req.distances);
+    //     if (req.distances.length === 0) {
+    //         return res.status(500).send({ message: 'Alamat diluar jangkauan, silahkan masukkan alamat lain', success: false })
+    //     }
+    //     let scriptQuery = `SELECT * FROM warehouses`
+    //     db.query(scriptQuery, (err, results) => {
+    //         if (err) {
+    //             return res.status(500).send({ message: 'Error Occurs', success: false, err })
+    //         }
+
+    //         for (let i = 0; i < results.length; i++) {
+    //             results[i].distance = req.distances[i]
+    //         }
+    //         // console.log(results);
+
+    //         var index = 0;
+    //         var value = req.distances[0];
+    //         for (var i = 1; i < req.distances.length; i++) {
+    //             if (req.distances[i] < value) {
+    //                 value = req.distances[i];
+    //                 index = i;
+    //             }
+    //         }
+    //         let closestWarehouse = results[index]
+    //         console.log(closestWarehouse);
+    //         // console.log(req.body);
+    //         res.status(200).send(closestWarehouse)
+
+    //     })
+    // }
 }

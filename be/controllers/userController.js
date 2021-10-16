@@ -15,7 +15,9 @@ module.exports = {
     //User Data Input//
     let { fullName, username, email, password } = req.body;
     //Check Is Email Exist//
-    const checkEmailQuery = `SELECT * FROM users WHERE email = ${db.escape(email)} ;`;
+    const checkEmailQuery = `SELECT * FROM users WHERE email = ${db.escape(
+      email
+    )} ;`;
     db.query(checkEmailQuery, (err, results) => {
       if (results.length > 0) {
         console.log(results.length);
@@ -210,7 +212,7 @@ module.exports = {
         return res.status(200).send(results);
       }
 
-      // console.log(results[0]);
+      console.log(results[0]);
       delete results[0].password;
       if (results[0].dateOfBirth == null) {
         return res.status(200).send(results[0]);
@@ -222,13 +224,14 @@ module.exports = {
   },
 
   //EDIT DATA USER PROFILE//
+  //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
     // console.log(idUser);
     let { fullName, username, email, gender, dateOfBirth } = req.body;
     if (dateOfBirth === '') {
       dateOfBirth = null
-    }else{
+    } else {
       dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD"); // ubah format jadi YYYY/MM/DD
     }
     // console.log(dateOfBirth);
@@ -293,19 +296,15 @@ module.exports = {
               db.query(updateQuery, (err, results) => {
                 if (err) {
                   console.log(err);
-                  res
-                    .status(500)
-                    .send({
-                      message: "update password failed",
-                      success: false,
-                    });
-                }
-                res
-                  .status(200)
-                  .send({
-                    message: "update password success ✔",
-                    success: true,
+                  res.status(500).send({
+                    message: "update password failed",
+                    success: false,
                   });
+                }
+                res.status(200).send({
+                  message: "update password success ✔",
+                  success: true,
+                });
               });
             }
           });

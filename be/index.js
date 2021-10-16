@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+require('dotenv').config()
 const {
   productsRouter,
   userRouter,
@@ -10,8 +11,10 @@ const {
   addressRouter,
   cityProvinceRouter,
   warehousesRouter,
-  warehouseStockRouter
-  
+  warehouseStockRouter,
+  cartRouter,
+  transactionRouter,
+  checkoutRouter
 } = require("./routers");
 const bearerToken = require("express-bearer-token");
 const PORT = 3001;
@@ -36,6 +39,9 @@ app.use("/adminstocks", adminStocksRouter);
 app.use("/userstocks", userStocksRouter);
 app.use("/warehouses", warehousesRouter);
 app.use("/wh-stocks", warehouseStockRouter)
+app.use("/cart", cartRouter);
+app.use("/transaction", transactionRouter)
+app.use("/checkout", checkoutRouter)
 
 app.listen(PORT, () => {
   console.log(`Server is Listening on ${PORT}`);
