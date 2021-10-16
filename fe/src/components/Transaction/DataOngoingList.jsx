@@ -5,9 +5,15 @@ import PaymentReceiptModal from './PaymentReceiptModal'
 const DataOngoingList = ({ data }) => {
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
+    const reload = () => window.location.reload();
+
     const handleClose = () => {
         setShow(false);
+        reload()
+
     }
+
+
     return (
         <>
             <tr>
@@ -20,7 +26,7 @@ const DataOngoingList = ({ data }) => {
                 <td onClick={handleShow}>upload</td>
             </tr>
 
-            <PaymentReceiptModal show={show} handleClose={handleClose} idTransaction={data.idTransaction} />
+            <PaymentReceiptModal show={show} handleClose={handleClose} idTransaction={data.idTransaction} buktiPembayaran={data.buktiPembayaran} />
         </>
     )
 }

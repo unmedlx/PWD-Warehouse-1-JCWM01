@@ -1,14 +1,14 @@
 import { Modal, Button } from 'react-bootstrap'
 import axios from 'axios'
-// import '../assets/styles/ImageModals.css'
+import '../../assets/styles/ImageModals.css'
 
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-// import { API_URL } from '../helper'
+import { API_URL } from '../../helper/index'
 
 
 
-const PaymentReceiptModal = ({ show, handleClose, idTransaction }) => {
+const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran }) => {
     const [file, setFile] = useState()
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
@@ -19,38 +19,39 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction }) => {
 
 
     const send = event => {
+        console.log(file[0]);
         // if (file[0].size > 5000000) {
         //     return alert("Photo must be under 5MB")
         // }
 
-        // //membuat data form
-        // const data = new FormData()
+        //membuat data form
+        const data = new FormData()
 
-        // //ini akan ngirim token yang nantinya akan di auth
-        // //untuk mendapatkan idUser di backend
-        // let obj = {
-        //     idUser: idUser
-        // }
+        //ini akan ngirim token yang nantinya akan di auth
+        //untuk mendapatkan idUser di backend
+        let obj = {
+            idUser: idUser
+        }
 
-        // const userLocalStorage = localStorage.getItem("token_shutter")
+        const userLocalStorage = localStorage.getItem("token_shutter")
 
-        // //data token dan juga file photo
-        // data.append("data", JSON.stringify(obj))
-        // data.append("file", file[0])
+        //data token dan juga file photo
+        data.append("data", JSON.stringify(obj))
+        data.append("file", file[0])
 
-        // axios.patch(`${API_URL}/profile/${idUser}`,
-        //     data,
-        //     {
-        //         headers: {
-        //             authorization: `Bearer ${userLocalStorage}`,
-        //         },
-        //     }
-        // )
-        //     .then((res) => {
-        //         setSuccessUpload(res.data.success)
-        //         alert(res.data.message)
-        //     },
-        //     )
+        axios.patch(`${API_URL}/transaction/upload?idUser=${idUser}&idTransaction=${idTransaction}`,
+            data,
+            {
+                headers: {
+                    authorization: `Bearer ${userLocalStorage}`,
+                },
+            }
+        )
+            .then((res) => {
+                setSuccessUpload(res.data.success)
+                alert(res.data.message)
+            },
+            )
     }
 
     useEffect(() => {
@@ -65,26 +66,30 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction }) => {
         <>
             <Modal show={show} onHide={handleClose} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Choose Your Profile Picture {idTransaction}</Modal.Title>
+                    <Modal.Title>Upload your payment proof {idTransaction}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="image-modals-container">
-                        <div className="image-modals-preview-container">
-                            {/* <img id="imgpreview" src={"http://localhost:3001/" + userImage} width="50%" /> */}
+                    <div className="image-modals-proof-container">
+                        <div className="image-modals-proof-preview-container">
+                            {buktiPembayaran ?
+                                <img id="imgpreviewProof" src={"http://localhost:3001/" + buktiPembayaran} width="50%" />
+                                :
+                                <p>Upload Payment Proof</p>
+                            }
                         </div>
                         <form action="">
                             <input type="file" id="file" onChange={event => {
                                 const file = event.target.files
                                 setFile(file)
-                                let preview = document.getElementById("imgpreview")
+                                let preview = document.getElementById("imgpreviewProof")
                                 preview.src = URL.createObjectURL(file[0])
                             }} />
                         </form>
-                        {successUpload ?
+                        {/* {successUpload ?
                             <button className="btn btn-success mt-2" disabled>Success</button>
-                            :
-                            <button className="btn btn-warning mt-2" onClick={send}>Send</button>
-                        }
+                            : */}
+                        <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                        {/* } */}
                     </div>
 
                 </Modal.Body>

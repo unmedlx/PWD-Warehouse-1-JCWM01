@@ -1,5 +1,7 @@
 const { db, query } = require("../database/index"); //mysql
 const moment = require("moment")
+const { uploader } = require('../helper/uploader')
+const fs = require('fs')
 
 
 module.exports = {
@@ -116,4 +118,57 @@ module.exports = {
             res.status(500).send(error)
         }
     },
+    uploadPaymentProof: (req, res) => {
+        // console.log(req.query.idUser, req.query.idTransaction);
+        const idTransaction = parseInt(req.query.idTransaction)
+        if (req.query.idUser == req.user.idUser) {
+            try {
+                let path = '/images/paymentProof'
+                const upload = uploader(path, 'IMG').fields([{ name: 'file' }])
+
+                upload(req, res, (error) => {
+                    if (error) {
+                        console.log(error)
+                        res.status(500).send(error)
+                    }
+
+                    // upload ke backend
+                    const { file } = req.files
+                    const filepath = file ? path + '/' + file[0].filename : null
+                    console.log(filepath);
+
+
+                    let data = JSON.parse(req.body.data)
+                    data.userImage = filepath //dari FE tidak ada path yang dikirim maka untuk masukin path ke database kita tambahkan ke object data dengan data.image (image sesuai dengan db)
+
+
+                    let sqlCheckProof = `SELECT buktiPembayaran FROM transactions WHERE idUser = ${db.escape(data.idUser)} && idTransaction=${db.escape(idTransaction)}`
+                    db.query(sqlCheckProof, (err, results) => {
+                        // console.log(results[0].buktiPembayaran);
+                        if (results[0].buktiPembayaran) {
+                            fs.unlinkSync('./public' + results[0].buktiPembayaran)
+                        }
+                        let sqlInsert = `UPDATE transactions SET buktiPembayaran =${db.escape(data.userImage)},idStatus=2 WHERE idUser = ${db.escape(data.idUser)} && idTransaction=${db.escape(idTransaction)}`
+                        console.log(sqlInsert);
+                        db.query(sqlInsert, (err, results) => {
+                            if (err) {
+                                console.log(err)
+                                fs.unlinkSync('./public' + filepath)
+                                return res.status(500).send(err)
+                            }
+                            return res.status(200).send({ message: "Upload file success", success: true })
+                        })
+                    })
+
+
+                })
+
+            } catch (error) {
+                console.log(error)
+                return res.status(500).send(error)
+            }
+        } else {
+            return res.status(200).send({ message: "Anda belum terverifikasi silahkan login", success: false })
+        }
+    }
 }
