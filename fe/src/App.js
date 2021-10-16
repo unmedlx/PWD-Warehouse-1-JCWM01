@@ -30,6 +30,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Cart from "./pages/Cart";
 import Warehouse from "./pages/Warehouse";
 import Checkout from "./pages/Checkout";
+import DetailTransaction from "./components/Transaction/DetailTransaction";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -148,6 +149,7 @@ function App() {
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
       <Route component={Checkout} path="/checkout" />
+      <Route component={DetailTransaction} path="/transaction/detail/:idTransaction" />
       <Route component={Home} path="/" exact />
       {/* Protected Route */}
       <NonLoggedInRoute

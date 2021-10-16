@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import { Badge } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import PaymentReceiptModal from './PaymentReceiptModal'
 
 const DataOngoingList = ({ data }) => {
-    const [show, setShow] = useState(false);
-    const handleShow = () => setShow(true);
+    const [showProof, setShowProof] = useState(false);
+    const [showDetail, setShowDetail] = useState(false);
+    const handleShowProof = () => setShowProof(true);
     const reload = () => window.location.reload();
 
-    const handleClose = () => {
-        setShow(false);
+    const handleCloseProof = () => {
+        setShowProof(false);
         reload()
-
     }
+
 
 
     return (
@@ -23,10 +26,17 @@ const DataOngoingList = ({ data }) => {
                 <td>{data.deliveryCost}</td>
                 <td>{data.sumquantity} item(s)</td>
                 <td>{data.idStatus}</td>
-                <td onClick={handleShow}>upload</td>
+                <td>
+                    <Badge onClick={handleShowProof}>Payment Proof</Badge>
+                    <Badge>
+                        <Link to={`/transaction/detail/${data.idTransaction}`}>
+                            Transaction Details
+                        </Link>
+                    </Badge>
+                </td>
             </tr>
 
-            <PaymentReceiptModal show={show} handleClose={handleClose} idTransaction={data.idTransaction} buktiPembayaran={data.buktiPembayaran} />
+            <PaymentReceiptModal show={showProof} handleClose={handleCloseProof} idTransaction={data.idTransaction} buktiPembayaran={data.buktiPembayaran} />
         </>
     )
 }
