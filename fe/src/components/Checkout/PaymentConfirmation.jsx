@@ -52,6 +52,7 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
 
         } catch (error) {
             console.log(error);//send error dari backend
+            alert("Stock di warehouse tidak cukup");
         }
 
     }

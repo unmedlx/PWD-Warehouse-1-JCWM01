@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { API_URL } from '../helper/index';
 import '../assets/styles/addressModals.css';
+import { EditAddress } from '../redux/actions/addressUser';
 
 const AddressModal = ({ show, handleClose, address, provinces }) => {
-    const userGlobal = useSelector((state) => state.users);
-    const { idUser } = userGlobal
+    const dispatch = useDispatch()
+    const { idUser } = useSelector((state) => state.users);
+    const userLocalStorage = localStorage.getItem("token_shutter")
     const [successUpload, setSuccessUpload] = useState(false)
     const [province, setProvince] = useState("Choose Province")
     const [city, setCity] = useState([])
@@ -49,16 +51,19 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
 
         data = { ...data, idAddress: address.idAddress }
 
-        axios.patch(`${API_URL}/address/${idUser}`, { data })
-            .then((res) => {
-                console.log(res);
-                setSuccessUpload(res.data.success)
-                alert(res.data.message)
+        dispatch(
+            EditAddress(data, idUser, userLocalStorage)
+        )
+        // axios.patch(`${API_URL}/address/${idUser}`, { data })
+        //     .then((res) => {
+        //         console.log(res);
+        //         setSuccessUpload(res.data.success)
+        //         alert(res.data.message)
 
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //     })
     }
 
     const fetchCity = () => {

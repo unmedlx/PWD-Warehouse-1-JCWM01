@@ -51,7 +51,7 @@ module.exports = {
                 JOIN status as s
                 ON a.idStatus=s.idStatus
                 JOIN
-                (SELECT t.idTransaction, SUM(quantity) as sumquantity FROM transactions as t 
+                (SELECT t.idTransaction, COUNT(quantity) as sumquantity FROM transactions as t 
                 JOIN checkouts as c 
                 ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
                 ON a.idTransaction=b.idTransaction WHERE a.idUser=${db.escape(idUser)} && a.idStatus>=1 && a.idStatus<=3`)
@@ -60,7 +60,7 @@ module.exports = {
                 JOIN status as s
                 ON a.idStatus=s.idStatus
                 JOIN
-                (SELECT t.idTransaction, SUM(quantity) as sumquantity FROM transactions as t 
+                (SELECT t.idTransaction, COUNT(quantity) as sumquantity FROM transactions as t 
                 JOIN checkouts as c 
                 ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
                 ON a.idTransaction=b.idTransaction WHERE a.idUser=${db.escape(idUser)}
@@ -170,5 +170,21 @@ module.exports = {
         } else {
             return res.status(200).send({ message: "Anda belum terverifikasi silahkan login", success: false })
         }
-    }
+    },
+    getDetailTransaction: async (req, res) => {
+        console.log(req.params.id + "WAWW");
+        try {
+            const dataDetailTransaction = await query(`SELECT * FROM transactions as t 
+            JOIN status as s ON t.idStatus=s.idStatus
+            JOIN addresses a ON t.idAddress = a.idAddress
+            WHERE idTransaction=${req.params.id}`)
+            console.log(dataDetailTransaction);
+
+            return res.status(200).send({ message: 'Fetch Data Detail Transaction', dataDetailTransaction, success: true })
+        } catch (error) {
+            return res.status(500).send(error)
+        }
+        // return res.status(200).send({ message: 'Success fetch RajaOngkir API', results, success: true })
+    },
+
 }

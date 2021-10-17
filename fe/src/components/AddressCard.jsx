@@ -4,28 +4,31 @@ import AddressModal from './AddressModal';
 import axios from 'axios';
 import '../assets/styles/ProfileAddress.css'
 import { Badge } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { DeleteAddress } from '../redux/actions/addressUser';
 
-const AddressCard = ({ address, provinces }) => {
+const AddressCard = ({ provinces, address }) => {
+    const userLocalStorage = localStorage.getItem("token_shutter")
+    const dispatch = useDispatch()
     const [show, setShow] = useState(false);
-    const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        reload()
+        // reload()
 
     }
     const handleShow = () => setShow(true);
 
-    const deleteBtnHandler = (idAddress) => {
-        axios.delete(`${API_URL}/address/${idAddress}`)
-            .then((res) => {
-                console.log(res);
-                alert(res.data.message)
-                handleClose()
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+    const deleteBtnHandler = () => {
+        try {
+            dispatch(
+                DeleteAddress(address.idAddress, userLocalStorage)
+            )
+
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
@@ -52,7 +55,7 @@ const AddressCard = ({ address, provinces }) => {
                         </div>
                     </div>
                     <a className="address-edit setting" onClick={handleShow}>Edit</a>
-                    <a className="address-delete setting" onClick={() => deleteBtnHandler(address.idAddress)}>Delete</a>
+                    <a className="address-delete setting" onClick={deleteBtnHandler}>Delete</a>
                 </div>
             </div>
             <AddressModal show={show} handleClose={handleClose} address={address} provinces={provinces} />

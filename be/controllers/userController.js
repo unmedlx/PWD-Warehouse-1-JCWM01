@@ -199,7 +199,7 @@ module.exports = {
   // CHECK LOGIN//
   getDataUser: (req, res) => {
     let scriptQuery = `SELECT * FROM users WHERE idUser=${req.user.idUser};`;
-    console.log(scriptQuery);
+    // console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res
@@ -212,7 +212,7 @@ module.exports = {
         return res.status(200).send(results);
       }
 
-      console.log(results[0]);
+      // console.log(results[0]);
       delete results[0].password;
       if (results[0].dateOfBirth == null) {
         return res.status(200).send(results[0]);

@@ -6,49 +6,24 @@ import AddAddressModal from './AddAddressModal';
 import AddressCard from './AddressCard';
 import '../assets/styles/ProfileAddress.css'
 
-const ProfileAddress = (addressGlobal) => {
+const ProfileAddress = () => {
     // const userGlobal = useSelector((state) => state.users);
+    const addressGlobal = useSelector((state) => state.addresses);
     const userLocalStorage = localStorage.getItem("token_shutter");
     const [show, setShow] = useState(false);
     const [provinces, setProvinces] = useState([])
     const [dataAddresses, setdataAddresses] = useState({})
-    const [done, setdone] = useState(false)
 
-
-    // const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        // reload()
-        setdone(true)
     }
 
     const handleShow = () => setShow(true);
 
-    const fetchDataAddress = () => {
-        axios
-            .post(
-                `${API_URL}/address/`,
-                {},
-                {
-                    headers: {
-                        authorization: `Bearer ${userLocalStorage}`,
-                    },
-                }
-            )
-            .then((res) => {
-                setdataAddresses(res.data)
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
-
     const renderAddress = () => {
-        // console.log(addressGlobal.addresses);
-        let arrAddress = Object.values(dataAddresses)
+        let arrAddress = Object.values(addressGlobal)
         return arrAddress.map((address) => {
-            // return <Address />
             return (
                 <AddressCard address={address} provinces={provinces} handleClose={handleClose} />
             )
@@ -67,13 +42,9 @@ const ProfileAddress = (addressGlobal) => {
 
     useEffect(() => {
         fetchProvince()
-        fetchDataAddress()
     }, [])
 
-    useEffect(() => {
-        fetchProvince()
-        fetchDataAddress()
-    }, [done])
+
 
     return (
         <>

@@ -23,7 +23,7 @@ const Profile = () => {
     const { idUser } = userGlobal
     // const [userData, setuserData] = useState({})
     const { fullName, username, email, gender, dateOfBirth } = userGlobal
-    const userLocalStorage = localStorage.getItem("token_shutter");
+
 
     const profileDataInitialValues = {
         //diisi dari redux

@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react'
 import { Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+
+
 import PaymentReceiptModal from './PaymentReceiptModal'
 
 const DataOngoingList = ({ data }) => {
     const [showProof, setShowProof] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
     const handleShowProof = () => setShowProof(true);
-    // const reload = () => window.location.reload();
+
 
     const handleCloseProof = () => {
         setShowProof(false);
-        // reload()
+
     }
 
 

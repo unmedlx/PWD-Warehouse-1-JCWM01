@@ -5,7 +5,6 @@ const initialState = {
     previous_page: 0,
     transactions_count: 0,
     max_page: 0,
-    data: [],
     loading: false,
     err: ""
 };

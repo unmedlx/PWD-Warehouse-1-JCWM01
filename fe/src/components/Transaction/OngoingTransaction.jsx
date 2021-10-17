@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchOngoingTransaction } from '../../redux/actions/ongoingTransaction'
+import { fetchOngoingTransaction } from '../../redux/actions/Transaction'
 import { Table, Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { API_URL } from '../../constants/API'

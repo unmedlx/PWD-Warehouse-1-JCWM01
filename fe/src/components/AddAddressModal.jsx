@@ -4,10 +4,13 @@ import { Modal } from 'react-bootstrap';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { API_URL } from '../helper/index';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import '../assets/styles/addressModals.css';
+import { AddAddress } from '../redux/actions/addressUser';
 
 const AddAddressModal = ({ show, handleClose, provinces }) => {
+    const userLocalStorage = localStorage.getItem("token_shutter")
+    const dispatch = useDispatch()
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
     const [successUpload, setSuccessUpload] = useState(false)
@@ -49,16 +52,10 @@ const AddAddressModal = ({ show, handleClose, provinces }) => {
             data = { ...data, isDefault: 0 }
         }
         data = { ...data, idUser: idUser }
-        axios.post(`${API_URL}/address/addAddress`, { data })
-            .then((res) => {
-                console.log(res);
-                setSuccessUpload(res.data.success)
-                alert(res.data.message)
-                handleClose()
-            })
-            .catch((err) => {
-                console.log(err);
-            })
+
+        dispatch(
+            AddAddress(data, userLocalStorage)
+        )
     }
 
     const fetchCity = () => {

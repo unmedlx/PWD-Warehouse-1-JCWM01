@@ -6,6 +6,7 @@ import adminReducer from "./admins"
 import cartsReducer from "./carts";
 import addressWarehouseReducer from "./addressWarehouse";
 import ongoingTransactionReducer from "./ongoingTransaction";
+import detailTransactionReducer from "./detailTransaction";
 
 export default combineReducers({
   users: usersReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   product: productReducer,
   carts: cartsReducer,
   addressWarehouse: addressWarehouseReducer,
-  ongoingTransaction: ongoingTransactionReducer
+  ongoingTransaction: ongoingTransactionReducer,
+  detailTransaction: detailTransactionReducer
 });
