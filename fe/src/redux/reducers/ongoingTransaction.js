@@ -1,4 +1,10 @@
 const initialState = {
+    message: "",
+    data: [],
+    next_page: 0,
+    previous_page: 0,
+    transactions_count: 0,
+    max_page: 0,
     data: [],
     loading: false,
     err: ""
@@ -10,7 +16,7 @@ const ongoingTransaction = (state = initialState, { type, payload }) => {
             return { ...state, loading: true };
 
         case "FETCH_ONGOING_TRANSACTION_COMPLETE":
-            return { ...state, loading: false, data: payload }
+            return { ...state, ...payload, loading: false, }
 
         case "FETCH_ONGOING_TRANSACTION_FAILED":
             return { ...state, loading: false, err: payload }

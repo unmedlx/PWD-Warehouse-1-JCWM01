@@ -10,16 +10,10 @@ import DataOngoingList from './DataOngoingList'
 const OngoingTransaction = () => {
     const dispatch = useDispatch()
     const { idUser } = useSelector(state => state.users)
-    const { loading, data } = useSelector(state => state.ongoingTransaction)
-    const [dataOngoing, setdataOngoing] = useState([])
-    // console.log(dataOngoing);
+    const { loading, data, next_page, previous_page, transactions_count, max_page } = useSelector(state => state.ongoingTransaction)
 
     const [paging, setPaging] = useState({
-        previousPage: 0,
-        nextPage: 0,
         currentPage: 1,
-        productsCount: 0,
-        maxPage: 1,
     });
 
     const [sort, setSort] = useState("");
@@ -28,19 +22,10 @@ const OngoingTransaction = () => {
 
     const getOngoingTransaction = async () => {
         try {
-            // dispatch(
-            //     fetchOngoingTransaction(idUser, paging.currentPage, "")
-            // )
+            dispatch(
+                fetchOngoingTransaction(idUser, paging.currentPage, sort)
+            )
 
-            const { data } = await axios.get(`${API_URL}/transaction?idUser=${idUser}&page=${paging.currentPage}&status=&sortBy=${sort}&type=ongoing&limit=3`)
-            setdataOngoing(data.data)
-            setPaging({
-                ...paging,
-                nextPage: data.next_page || paging.nextPage,
-                previousPage: data.previous_page || paging.previousPage,
-                productsCount: data.products_count || paging.productsCount,
-                maxPage: data.max_page || paging.maxPage,
-            });
             renderDataOngoing()
 
         } catch (error) {
@@ -51,7 +36,8 @@ const OngoingTransaction = () => {
 
     // Render Data Ongoing
     const renderDataOngoing = () => {
-        return dataOngoing.map((data) => {
+        // return dataOngoing.map((data) => {
+        return data.map((data) => {
             return (
                 <DataOngoingList data={data} />
             )
@@ -65,10 +51,8 @@ const OngoingTransaction = () => {
     }, [paging.currentPage, sort])
 
     useEffect(() => {
-        // getOngoingTransaction()
-        // // renderDataOngoing()
-        console.log("Ganti gan");
-    }, [])
+        getOngoingTransaction()
+    }, [dispatch])
 
     const nextPageHandler = () => {
         setPaging({
@@ -121,9 +105,9 @@ const OngoingTransaction = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {dataOngoing &&
-                        renderDataOngoing()
-                    }
+
+                    {renderDataOngoing()}
+
 
                 </tbody>
             </Table>
@@ -137,12 +121,12 @@ const OngoingTransaction = () => {
                         {"<"}
                     </button>
                     <div className="text-center px-4">
-                        Page {paging.currentPage} of {paging.maxPage}
+                        Page {paging.currentPage} of {max_page}
                     </div>
                     <button
                         onClick={nextPageHandler}
                         className="btn btn-success"
-                        disabled={paging.currentPage === paging.maxPage}
+                        disabled={paging.currentPage === max_page}
                     >
                         {">"}
                     </button>
