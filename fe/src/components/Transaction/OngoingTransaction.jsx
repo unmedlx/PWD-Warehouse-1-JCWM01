@@ -91,24 +91,12 @@ const OngoingTransaction = () => {
                 </div>
             </header>
 
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                        <th>Username</th>
-                        <th>Username</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    {renderDataOngoing()}
 
 
-                </tbody>
-            </Table>
+            {renderDataOngoing()}
+
+
+
             <div className="my-4 d-flex flex-column justify-content-center align-items-center">
                 <div className="d-flex flex-row justify-content-between align-items-center">
                     <button

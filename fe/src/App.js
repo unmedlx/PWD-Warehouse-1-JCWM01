@@ -34,6 +34,7 @@ import DetailTransaction from "./components/Transaction/DetailTransaction";
 import { CheckLogin } from "./redux/actions/users";
 import { CheckCart } from "./redux/actions/carts";
 import { CheckAddress } from "./redux/actions/addressUser";
+import UserTransaction from "./pages/UserTransaction";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -82,6 +83,7 @@ function App() {
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
       <Route component={Checkout} path="/checkout" />
       <Route component={DetailTransaction} path="/transaction/detail/:idTransaction" />
+      <Route component={UserTransaction} path="/transaction" />
       <Route component={Home} path="/" exact />
       {/* Protected Route */}
       <NonLoggedInRoute
