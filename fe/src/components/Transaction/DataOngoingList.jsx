@@ -8,11 +8,11 @@ const DataOngoingList = ({ data }) => {
     const [showProof, setShowProof] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
     const handleShowProof = () => setShowProof(true);
-    const reload = () => window.location.reload();
+    // const reload = () => window.location.reload();
 
     const handleCloseProof = () => {
         setShowProof(false);
-        reload()
+        // reload()
     }
 
 

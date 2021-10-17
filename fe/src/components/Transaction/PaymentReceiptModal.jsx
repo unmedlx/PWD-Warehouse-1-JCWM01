@@ -3,12 +3,14 @@ import axios from 'axios'
 import '../../assets/styles/ImageModals.css'
 
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { API_URL } from '../../helper/index'
+import { fetchOngoingTransaction } from '../../redux/actions/ongoingTransaction'
 
 
 
 const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran }) => {
+    const dispatch = useDispatch()
     const [file, setFile] = useState()
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
@@ -49,6 +51,7 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
             }
         )
             .then((res) => {
+                dispatch(fetchOngoingTransaction(idUser, 1, ""))
                 setSuccessUpload(res.data.success)
                 alert(res.data.message)
             },
@@ -72,11 +75,9 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
                 <Modal.Body>
                     <div className="image-modals-proof-container">
                         <div className="image-modals-proof-preview-container">
-                            {buktiPembayaran ?
-                                <img id="imgpreviewProof" src={"http://localhost:3001/" + buktiPembayaran} width="50%" />
-                                :
-                                <p>Upload Payment Proof</p>
-                            }
+                            <img id="imgpreviewProof" src={"http://localhost:3001/" + buktiPembayaran} width="50%" />
+                            {/* <img id="imgpreviewProof" width="50%" /> */}
+
                         </div>
                         <form action="">
                             <input type="file" id="file" onChange={event => {

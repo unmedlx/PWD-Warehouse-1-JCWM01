@@ -42,19 +42,7 @@ const ImageModals = ({ show, handleClose, userImage }) => {
             editPhotoProfile(idUser, userLocalStorage, data)
         )
 
-        // axios.patch(`${API_URL}/profile/${idUser}`,
-        //     data,
-        //     {
-        //         headers: {
-        //             authorization: `Bearer ${userLocalStorage}`,
-        //         },
-        //     }
-        // )
-        //     .then((res) => {
-        //         setSuccessUpload(res.data.success)
-        //         alert(res.data.message)
-        //     },
-        //     )
+
     }
 
 
