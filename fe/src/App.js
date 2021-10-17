@@ -31,6 +31,9 @@ import Cart from "./pages/Cart";
 import Warehouse from "./pages/Warehouse";
 import Checkout from "./pages/Checkout";
 import DetailTransaction from "./components/Transaction/DetailTransaction";
+import { CheckLogin } from "./redux/actions/users";
+import { CheckCart } from "./redux/actions/carts";
+import { CheckAddress } from "./redux/actions/addressUser";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -41,92 +44,21 @@ function App() {
   //KEEP LOGIN CHECKER
   const keepLogin = () => {
     if (userLocalStorage) {
-      axios
-        .post(
-          `${API_URL}/users/`,
-          {},
-          {
-            headers: {
-              authorization: `Bearer ${userLocalStorage}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res.data.idRole);
-          delete res.data.password;
-          if (res.data.idRole == 1) {
-            dispatch({
-              type: "ADMIN_CHECK_LOGIN",
-              payload: res.data,
-            });
-            return;
-          } else if (res.data.idRole == 2) {
-            dispatch({
-              type: "ADMIN_CHECK_LOGIN",
-              payload: res.data,
-            });
-            return;
-          } else {
-            dispatch({
-              type: "USER_CHECK_LOGIN",
-              payload: res.data,
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      // Get User Login
+      dispatch(
+        CheckLogin(userLocalStorage)
+      )
 
       //GET CART 
-      axios
-        .post(
-          `http://localhost:3001/cart/`,
-          {},
-          {
-            headers: {
-              authorization: `Bearer ${userLocalStorage}`,
-            },
-          }
-        )
-        .then((res) => {
-          console.log(res.data.results);
-          dispatch({
-            type: "GET_CART",
-            payload: res.data.results,
-          });
-          dispatch({
-            type: "USER_CHECK_LOGIN",
-            payload: true,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(
+        CheckCart(userLocalStorage)
+      )
 
-      axios
-        .post(
-          `${API_URL}/address/`,
-          {},
-          {
-            headers: {
-              authorization: `Bearer ${userLocalStorage}`,
-            },
-          }
-        )
-        .then((res) => {
-          delete res.data.password;
-          dispatch({
-            type: "GET_ADDRESS",
-            payload: res.data,
-          });
-          // dispatch({
-          //   type: "USER_CHECK_LOGIN",
-          //   payload: true,
-          // });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      //GET ADDRESS 
+      dispatch(
+        CheckAddress(userLocalStorage)
+      )
+
     }
   };
 

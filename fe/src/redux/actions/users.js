@@ -1,27 +1,43 @@
 import axios from "axios"
 import { useDispatch } from "react-redux";
+import { API_URL } from "../../constants/API";
 
-export const CheckLogin = () => {
-    const dispatch = useDispatch()
-    const userLocalStorage = localStorage.getItem("token_shutter")
-    axios
-        .patch(
-            `http://localhost:3001/users/`,
-            {},
-            {
-                headers: {
-                    authorization: `Bearer ${userLocalStorage}`,
-                },
+
+export const CheckLogin = (userLocalStorage) => {
+    return async dispatch => {
+        try {
+            const getDataLogin = await axios.post(`${API_URL}/users/`,
+                {},
+                {
+                    headers: {
+                        authorization: `Bearer ${userLocalStorage}`,
+                    },
+                }
+            )
+
+            delete getDataLogin.data.password;
+            if (getDataLogin.data.idRole == 1) {
+                dispatch({
+                    type: "ADMIN_CHECK_LOGIN",
+                    payload: getDataLogin.data,
+                });
+                return;
+            } else if (getDataLogin.data.idRole == 2) {
+                dispatch({
+                    type: "ADMIN_CHECK_LOGIN",
+                    payload: getDataLogin.data,
+                });
+                return;
+            } else {
+                dispatch({
+                    type: "USER_CHECK_LOGIN",
+                    payload: getDataLogin.data,
+                });
             }
-        )
-        .then((res) => {
-            delete res.data[0].password;
-            dispatch({
-                type: "USER_LOGIN",
-                payload: res.data[0],
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
+

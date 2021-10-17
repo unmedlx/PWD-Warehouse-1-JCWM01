@@ -10,7 +10,7 @@ import DataOngoingList from './DataOngoingList'
 const OngoingTransaction = () => {
     const dispatch = useDispatch()
     const { idUser } = useSelector(state => state.users)
-    const { loading, data, next_page, previous_page, transactions_count, max_page } = useSelector(state => state.ongoingTransaction)
+    const { loading, data, max_page } = useSelector(state => state.ongoingTransaction)
 
     const [paging, setPaging] = useState({
         currentPage: 1,

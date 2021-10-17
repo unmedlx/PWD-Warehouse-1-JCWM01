@@ -19,10 +19,11 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
 
 
     const send = event => {
-        console.log(file[0]);
-        // if (file[0].size > 5000000) {
-        //     return alert("Photo must be under 5MB")
-        // }
+        // console.log(file[0]);
+
+        if (file[0].size > 5000000) {
+            return alert("Photo must be under 5MB")
+        }
 
         //membuat data form
         const data = new FormData()
