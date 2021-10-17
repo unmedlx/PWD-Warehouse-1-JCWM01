@@ -23,7 +23,7 @@ const DataOngoingList = ({ data }) => {
         <>
             <div className="row transaction-card">
                 <div className="col-3">
-                    <h5 className="subtitle-600 m-0">Order {data.idTransaction}</h5>
+                    <h5 className="subtitle-600 m-0">{data.invoiceNumber}</h5>
                     <h6 className="subtitle-500 m-0">{data.transactionDate}</h6>
                     <Badge>{data.status}</Badge>
                 </div>
@@ -82,6 +82,7 @@ const DataOngoingList = ({ data }) => {
 
             </div>
             <hr />
+            <PaymentReceiptModal show={showProof} handleClose={handleCloseProof} idTransaction={data.idTransaction} buktiPembayaran={data.buktiPembayaran} />
         </>
     )
 }

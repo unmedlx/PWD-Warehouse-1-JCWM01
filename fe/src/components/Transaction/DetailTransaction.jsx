@@ -13,6 +13,7 @@ import { FaTimes } from 'react-icons/fa'
 const DetailTransaction = () => {
     const dispatch = useDispatch()
     const { data, subtotalPrice,
+        invoiceNumber,
         deliveryCost,
         courier,
         courierService,
@@ -69,7 +70,7 @@ const DetailTransaction = () => {
         <div className="body-transaction-detail">
             <div className="container-transaction-detail">
                 <div className="detail-header d-flex justify-content-between px-4 pt-4">
-                    <p className="detail-header-text subtitle">Order #{idTransaction}</p>
+                    <p className="detail-header-text subtitle italic">{invoiceNumber}</p>
                     <Link class="close" to="/profile"><FaTimes /></Link>
                 </div>
                 <hr className="m-0 mb-3" />

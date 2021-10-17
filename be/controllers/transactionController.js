@@ -13,10 +13,12 @@ module.exports = {
         try {
             const { idAddress, idUser, subtotalPrice, deliveryCost, courier, courierService, idWarehouse } = req.body
             const transactionDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss")
+            const random = Math.floor(Math.random() * 90000) + 10000;
+            const invoiceNumber = `INV/${random}`
 
             const addTransaction = await query(`INSERT INTO transactions
             VALUES (null,${db.escape(idAddress)},${db.escape(idUser)},${db.escape(subtotalPrice)},${db.escape(deliveryCost)},
-            ${db.escape(courier)},${db.escape(courierService)},${db.escape(transactionDate)},${db.escape(1)},${db.escape(idWarehouse)},null)`)
+            ${db.escape(courier)},${db.escape(courierService)},${db.escape(transactionDate)},${db.escape(1)},${db.escape(idWarehouse)},null,${db.escape(invoiceNumber)})`)
 
             res.status(200).send({ message: "transaction is added", success: true, results: addTransaction });
 
