@@ -3,12 +3,14 @@ import axios from 'axios'
 import '../assets/styles/ImageModals.css'
 
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { API_URL } from '../helper'
+import { editPhotoProfile } from '../redux/actions/users'
 
 
 
 const ImageModals = ({ show, handleClose, userImage }) => {
+    const dispatch = useDispatch()
     const [file, setFile] = useState()
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
@@ -36,19 +38,23 @@ const ImageModals = ({ show, handleClose, userImage }) => {
         data.append("data", JSON.stringify(obj))
         data.append("file", file[0])
 
-        axios.patch(`${API_URL}/profile/${idUser}`,
-            data,
-            {
-                headers: {
-                    authorization: `Bearer ${userLocalStorage}`,
-                },
-            }
+        dispatch(
+            editPhotoProfile(idUser, userLocalStorage, data)
         )
-            .then((res) => {
-                setSuccessUpload(res.data.success)
-                alert(res.data.message)
-            },
-            )
+
+        // axios.patch(`${API_URL}/profile/${idUser}`,
+        //     data,
+        //     {
+        //         headers: {
+        //             authorization: `Bearer ${userLocalStorage}`,
+        //         },
+        //     }
+        // )
+        //     .then((res) => {
+        //         setSuccessUpload(res.data.success)
+        //         alert(res.data.message)
+        //     },
+        //     )
     }
 
 
@@ -71,11 +77,11 @@ const ImageModals = ({ show, handleClose, userImage }) => {
                                 preview.src = URL.createObjectURL(file[0])
                             }} />
                         </form>
-                        {successUpload ?
+                        {/* {successUpload ?
                             <button className="btn btn-success mt-2" disabled>Success</button>
-                            :
-                            <button className="btn btn-warning mt-2" onClick={send}>Send</button>
-                        }
+                            : */}
+                        <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                        {/* } */}
                     </div>
 
                 </Modal.Body>

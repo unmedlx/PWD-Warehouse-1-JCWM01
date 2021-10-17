@@ -9,9 +9,9 @@ import ImageModals from '../components/ImageModals';
 
 const ProfileSidebar = () => {
     const userLocalStorage = localStorage.getItem("token_shutter");
-    // const userGlobal = useSelector((state) => state.users);
-    const [userData, setuserData] = useState({})
-    const { userImage } = userData
+    const userGlobal = useSelector((state) => state.users);
+
+    const { userImage } = userGlobal
     const [show, setShow] = useState(false);
     const [done, setdone] = useState(false)
 
@@ -24,31 +24,31 @@ const ProfileSidebar = () => {
         setdone(true)
     }
 
-    const fetchDataUser = async () => {
-        try {
-            const getDataUser = await axios.post(`${API_URL}/users/`,
-                {},
-                {
-                    headers: {
-                        authorization: `Bearer ${userLocalStorage}`,
-                    },
-                }
-            )
+    // const fetchDataUser = async () => {
+    //     try {
+    //         const getDataUser = await axios.post(`${API_URL}/users/`,
+    //             {},
+    //             {
+    //                 headers: {
+    //                     authorization: `Bearer ${userLocalStorage}`,
+    //                 },
+    //             }
+    //         )
 
-            delete getDataUser.data.password;
-            setuserData(getDataUser.data)
+    //         delete getDataUser.data.password;
+    //         setuserData(getDataUser.data)
 
-        } catch (error) {
+    //     } catch (error) {
 
-        }
-    }
+    //     }
+    // }
 
-    useEffect(() => {
-        fetchDataUser()
-    }, [done])
-    useEffect(() => {
-        fetchDataUser()
-    }, [])
+    // useEffect(() => {
+    //     fetchDataUser()
+    // }, [done])
+    // useEffect(() => {
+    //     fetchDataUser()
+    // }, [])
 
 
     return (

@@ -62,8 +62,27 @@ export const EditDataProfile = (data, userLocalStorage) => {
         } catch (error) {
             console.log(error);
         }
+    }
+}
 
+export const editPhotoProfile = (idUser, userLocalStorage, data) => {
+    return async dispatch => {
+        try {
+            const editPhoto = await axios.patch(`${API_URL}/profile/${idUser}`,
+                data,
+                {
+                    headers: {
+                        authorization: `Bearer ${userLocalStorage}`,
+                    },
+                }
+            )
+            dispatch(CheckLogin(userLocalStorage))
+            // setSuccessUpload(res.data.success)
+            alert(editPhoto.data.message)
 
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
