@@ -18,8 +18,6 @@ const OngoingTransaction = () => {
 
     const [sort, setSort] = useState("");
 
-
-
     const getOngoingTransaction = async () => {
         try {
             dispatch(

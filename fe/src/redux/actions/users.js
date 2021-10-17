@@ -41,3 +41,30 @@ export const CheckLogin = (userLocalStorage) => {
     }
 }
 
+export const EditDataProfile = (data, userLocalStorage) => {
+    return async dispatch => {
+        try {
+            const editDataProfile = await axios.patch(`${API_URL}/users/edit`,
+                data,
+                {
+                    headers: {
+                        authorization: `Bearer ${userLocalStorage}`,
+                    }
+                }
+
+            )
+            dispatch({
+                type: "USER_LOGIN",
+                payload: editDataProfile.data[0]
+            })
+            alert("Berhasil Update Data")
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
+    }
+}
+
+

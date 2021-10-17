@@ -1,5 +1,5 @@
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import '../assets/styles/Profile.css'
 
@@ -13,14 +13,16 @@ import * as Yup from 'yup'
 
 import axios from 'axios';
 import { API_URL } from '../helper';
+import { EditDataProfile } from '../redux/actions/users';
 
 
 
 const Profile = () => {
+    const dispatch = useDispatch()
     const userGlobal = useSelector((state) => state.users);
     const { idUser } = userGlobal
-    const [userData, setuserData] = useState({})
-    const { fullName, username, email, gender, dateOfBirth } = userData
+    // const [userData, setuserData] = useState({})
+    const { fullName, username, email, gender, dateOfBirth } = userGlobal
     const userLocalStorage = localStorage.getItem("token_shutter");
 
     const profileDataInitialValues = {
@@ -42,65 +44,17 @@ const Profile = () => {
 
     //Mauskkan data ke database
     const onSubmit = (data) => {
-        console.log(data);
         const userLocalStorage = localStorage.getItem("token_shutter")
-        axios.patch(`${API_URL}/users/edit`,
-            data,
-            {
-                headers: {
-                    authorization: `Bearer ${userLocalStorage}`,
-                }
-            }
 
+        dispatch(
+            EditDataProfile(data, userLocalStorage)
         )
-            .then((res) => {
-                // console.log(res);
-                alert("Berhasil Update Data")
-                setuserData(res.data[0])
-                // handleClose()
-            })
-            .catch((err) => {
-                console.log(err);
-            })
     }
-
-    const fetchDataUser = async () => {
-        try {
-            const getDataUser = await axios.post(`${API_URL}/users/`,
-                {},
-                {
-                    headers: {
-                        authorization: `Bearer ${userLocalStorage}`,
-                    },
-                }
-            )
-
-            // console.log(getDataUser.data.idRole);
-            delete getDataUser.data.password;
-            // console.log(typeof getDataUser.data.dateOfBirth);
-            setuserData(getDataUser.data)
-
-
-
-        } catch (error) {
-
-        }
-    }
-
-    useEffect(() => {
-        fetchDataUser()
-    }, [])
-    useEffect(() => {
-
-    }, [userData])
-
 
     return (
         <>
             <div className="container mt-5">
                 <div className="profile-container">
-
-
                     <ProfileSidebar />
 
                     <div className="profile-main">

@@ -44,17 +44,17 @@ function App() {
   //KEEP LOGIN CHECKER
   const keepLogin = () => {
     if (userLocalStorage) {
-      // Get User Login
+      // Get User Login Action Reducer
       dispatch(
         CheckLogin(userLocalStorage)
       )
 
-      //GET CART 
+      //GET CART Action Reducer
       dispatch(
         CheckCart(userLocalStorage)
       )
 
-      //GET ADDRESS 
+      //GET ADDRESS Action Reducer
       dispatch(
         CheckAddress(userLocalStorage)
       )
