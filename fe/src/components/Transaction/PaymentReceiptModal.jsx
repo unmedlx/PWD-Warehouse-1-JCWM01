@@ -70,7 +70,7 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
         <>
             <Modal show={show} onHide={handleClose} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Upload your payment proof {idTransaction}</Modal.Title>
+                    <Modal.Title className="subtitle">Upload your payment proof </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="image-modals-proof-container">
@@ -90,7 +90,7 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
                         {/* {successUpload ?
                             <button className="btn btn-success mt-2" disabled>Success</button>
                             : */}
-                        <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                        <button className="button mt-2" onClick={send}>Send</button>
                         {/* } */}
                     </div>
 

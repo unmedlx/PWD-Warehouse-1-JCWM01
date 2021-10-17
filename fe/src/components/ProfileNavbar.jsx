@@ -7,6 +7,7 @@ const ProfileNavbar = () => {
         <div className="profile-tab">
             <Link to="/profile"><a>PROFILE</a></Link>
             <Link to="/address"><a>ADDRESS</a></Link>
+            <Link to="/transaction"><a>TRANSACTION</a></Link>
         </div>
     )
 }

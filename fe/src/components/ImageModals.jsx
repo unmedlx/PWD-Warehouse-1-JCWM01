@@ -50,7 +50,7 @@ const ImageModals = ({ show, handleClose, userImage }) => {
         <>
             <Modal show={show} onHide={handleClose} >
                 <Modal.Header closeButton>
-                    <Modal.Title>Choose Your Profile Picture</Modal.Title>
+                    <Modal.Title className="subtitle">Choose Your Profile Picture</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="image-modals-container">
@@ -68,7 +68,7 @@ const ImageModals = ({ show, handleClose, userImage }) => {
                         {/* {successUpload ?
                             <button className="btn btn-success mt-2" disabled>Success</button>
                             : */}
-                        <button className="btn btn-warning mt-2" onClick={send}>Send</button>
+                        <button className="button mt-2" onClick={send}>Send</button>
                         {/* } */}
                     </div>
 

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import '../assets/styles/Profile.css'
 
+
 import ProfileData from '../components/ProfileData';
 import ProfileNavbar from '../components/ProfileNavbar';
 import ProfileSidebar from '../components/ProfileSidebar';
@@ -60,8 +61,8 @@ const Profile = () => {
                     <div className="profile-main">
                         <ProfileNavbar />
                         <div className="profile-main-detail">
-                            <h1><strong>Hello, {fullName}</strong></h1>
-                            <h6><strong>{email}</strong></h6>
+                            <h1 className="subtitle">Hello, {fullName}</h1>
+                            <h6 className="subtitle-600">{email}</h6>
                             <hr className="hr-line" />
 
                             {/* <ProfileData handleClose={handleClose} /> */}
@@ -100,7 +101,7 @@ const Profile = () => {
                                                 <Field type="text" autocomplete="off" className="input-field" name="fullName" placeholder="Fullname" />
                                             </div>
                                         </div>
-                                        <button type="submit" className="btn btn-warning">Edit Data</button>
+                                        <button type="submit" className="button">Edit Data</button>
                                     </Form>
                                 </Formik>
 
