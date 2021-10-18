@@ -211,7 +211,6 @@ module.exports = {
         results = { ...results[0], dateOfBirth: parsed };
         return res.status(200).send(results);
       }
-
       // console.log(results[0]);
       delete results[0].password;
       if (results[0].dateOfBirth == null) {
@@ -223,7 +222,6 @@ module.exports = {
     });
   },
 
-  //EDIT DATA USER PROFILE//
   //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
@@ -268,7 +266,7 @@ module.exports = {
     });
   },
 
-  // //CHANGE PASSWORD//
+  // CHANGE PASSWORD//
   changePasswordUser: (req, res) => {
     let { idUser } = req.user;
     let { newPassword, oldPassword } = req.body.data;
@@ -324,7 +322,7 @@ module.exports = {
     });
   },
 
-  // // FORGOT PASSWORD //
+  // FORGOT PASSWORD //
   forgotPassword: (req, res) => {
     //Query
     let selectQuery = `SELECT * FROM users WHERE email =${db.escape(
@@ -377,7 +375,7 @@ module.exports = {
     });
   },
 
-  // // VERIFICATION AND UPDATE FORGOT //
+  // VERIFICATION AND UPDATE FORGOT //
   verificationF: (req, res) => {
     let newPassword = req.body.newPassword;
     bcrypt.hash(newPassword, saltRounds, (error, hash) => {

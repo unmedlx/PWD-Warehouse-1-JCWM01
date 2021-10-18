@@ -123,7 +123,7 @@ module.exports = {
     }
   },
 
-  
+  // GET DATA AND FILTERING //
   getData: async (req, res) => {
     //Variable
     const idWarehouse = req.query.idWarehouse;
@@ -187,12 +187,12 @@ module.exports = {
           let productsCount = sortByResults.length;
           let maxPage = Math.ceil(productsCount / limit) || 1;
           if (endIndex < productsCount) {
-            nextPage = page + 1;
+             nextPage = page + 1;
           }
           if (startIndex > 0) {
-            previousPage = page - 1;
+             previousPage = page - 1;
           }
-          const paginatedResults = await sortByResults.slice(startIndex, endIndex);
+          const paginatedResults = await sortByResults.slice(startIndex, endIndex);     
           //Response
           res.status(200).send({
             message: `Berhasil mengambil data`,
@@ -207,78 +207,6 @@ module.exports = {
           console.log(error);
           res.status(500).send(error)
     }
-
-    // let scriptQuery = 
-    //  `SELECT R.idRequest, WR.warehouse AS Receiver, WS.warehouse AS Sender, R.idSender,R.idReceiver, R.idProduct, P.productName, P.productImage, R.quantity, R.dateRequest, R.status, R.idTransaction
-    //   FROM requests R
-    //   JOIN products P ON P.idProduct = R.idProduct
-    //   JOIN warehouses WR ON WR.idWarehouse = R.idReceiver 
-    //   JOIN warehouses WS ON WS.idWarehouse = R.idSender
-    //   WHERE R.idReceiver = ${db.escape(idWarehouse)} OR R.idSender = ${db.escape(idWarehouse)};`;
-
-    // db.query(scriptQuery, [], (err, results) => {
-    //   if (err) {
-    //     res.status(500).send({
-    //       message: "Gagal mengambil data di database",
-    //       success: false,
-    //       err,
-    //     });
-    //   }
-
-    //   const filteredResults = results.filter((val) => {
-    //     if (filterStatus == "incoming-request") {
-    //       return (
-    //         val.status == "Requesting Stock" && val.idSender == idWarehouse
-    //       );
-    //     } else if (filterStatus == "requesting-stock") {
-    //       return (
-    //         val.status == "Requesting Stock" && val.idReceiver == idWarehouse
-    //       );
-    //     } else if (filterStatus) {
-    //       return val.status.toLowerCase().includes(filterStatus.toLowerCase());
-    //     } else {
-    //       return results;
-    //     }
-    //   });
-
-    //   const sortByFilter = filteredResults.filter((val) => {
-    //     if (sortBy == "goingin") {
-    //       return val.idReceiver == idWarehouse;
-    //     } else if (sortBy == "goingout") {
-    //       return val.idSender == idWarehouse;
-    //     } else {
-    //       return filteredResults;
-    //     }
-    //   });
-
-    //   switch (sortBy) {
-    //     case "newest":
-    //       sortByFilter.sort();
-    //       break;
-
-    //     default:
-    //       break;
-    //   }
-
-    //   let productsCount = sortByFilter.length;
-    //   let maxPage = Math.ceil(productsCount / limit) || 1;
-    //   if (endIndex < productsCount) {
-    //     nextPage = page + 1;
-    //   }
-    //   if (startIndex > 0) {
-    //     previousPage = page - 1;
-    //   }
-
-    //   const paginatedResults = sortByFilter.slice(startIndex, endIndex);
-    //   res.status(200).send({
-    //     message: `Berhasil mengambil data`,
-    //     data: paginatedResults,
-    //     next_page: nextPage,
-    //     previous_page: previousPage,
-    //     products_count: productsCount,
-    //     max_page: maxPage,
-    //   });
-    // });
   },
 
 };
