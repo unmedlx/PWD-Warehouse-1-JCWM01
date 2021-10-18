@@ -50,8 +50,9 @@ const ProfileAddress = () => {
         <>
             <div>
                 <div className="address">
-                    <h4><strong>Address</strong></h4>
-                    <button className="btn btn-warning" onClick={handleShow}>Add Address</button>
+                    {/* <h4><strong>Address</strong></h4> */}
+                    <h6 className="subtitle-600">You can have up to 5 addresses</h6>
+                    <button className="button" onClick={handleShow}>Add Address</button>
                 </div>
                 <div>
                     {renderAddress()}

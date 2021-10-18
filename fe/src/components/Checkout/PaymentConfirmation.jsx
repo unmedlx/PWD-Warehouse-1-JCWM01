@@ -45,7 +45,7 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
                 {
                     data: cartsGlobal
                 })
-            // console.log(deleteCartResponse);
+            console.log(deleteCartResponse);
 
             setredirect(true)
 

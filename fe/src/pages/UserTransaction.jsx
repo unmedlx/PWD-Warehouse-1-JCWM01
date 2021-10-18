@@ -80,7 +80,7 @@ const UserTransaction = () => {
 
                     <div className="profile-main-detail">
                         <h1><strong>Transaction</strong></h1>
-                        <h6><strong>ss</strong></h6>
+                        <h6 className="substitle-600"></h6>
                         <hr className="hr-line" />
 
 

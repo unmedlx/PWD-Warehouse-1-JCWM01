@@ -9,6 +9,7 @@ import { fetchDetailTransaction, fetchTransactionById } from '../../redux/action
 import moment from "moment";
 import { Badge } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'
+import { useHistory } from "react-router-dom";
 
 const DetailTransaction = () => {
     const dispatch = useDispatch()
@@ -39,16 +40,37 @@ const DetailTransaction = () => {
     }
 
     const renderDetailTransaction = () => {
-
         return data.map((transaction) => {
+            let badge;
+            if (transaction.category == "Baju") {
+                badge = (
+                    <span className="badge rounded-pill alert-success">{transaction.category}</span>
+                );
+            } else if (transaction.category == "Celana") {
+                badge = (
+                    <span className="badge rounded-pill alert-primary">{transaction.category}</span>
+                );
+            } else if (transaction.category == "Jaket") {
+                badge = (
+                    <span className="badge rounded-pill alert-warning">{transaction.category}</span>
+                );
+            } else if (transaction.category == "Topi") {
+                badge = (
+                    <span className="badge rounded-pill alert-danger">{transaction.category}</span>
+                );
+            }
             return (
                 <>
                     <div className="checkout-detail">
                         <div div className="checkout-item" >
                             <div className="col-1 me-5 text-center"><img className="img-fluid" src={transaction.productImage} /></div>
-                            <div className="col text-center">
+                            <div className="col">
                                 <div className="row">{transaction.productName}</div>
-                                <div className="row text-muted">{transaction.category}</div>
+                                <div className="row">
+                                    <div>
+                                        {badge}
+                                    </div>
+                                </div>
                             </div>
                             <div className="col text-center text-center"> <p className="m-0">{transaction.quantity}</p></div>
                             <div className="col text-center">Rp. {transaction.price.toLocaleString()} </div>
@@ -66,12 +88,36 @@ const DetailTransaction = () => {
         fetchTransaction()
     }, [])
 
+    let badgeStatus;
+    if (idStatus == 1) {
+        badgeStatus = (
+            <Badge bg="warning">{status}</Badge>
+        );
+    } else if (idStatus == 2) {
+        badgeStatus = (
+            <Badge bg="primary">{status}</Badge>
+        );
+    } else if (idStatus >= 3 || idStatus <= 7) {
+        badgeStatus = (
+            <Badge bg="info">{status}</Badge>
+        );
+    } else if (idStatus == 8) {
+        badgeStatus = (
+            <Badge bg="success">{status}</Badge>
+        );
+    } else if (idStatus == 9) {
+        badgeStatus = (
+            <Badge bg="danger">{status}</Badge>
+        );
+    }
+    let history = useHistory();
+
     return (
         <div className="body-transaction-detail">
             <div className="container-transaction-detail">
                 <div className="detail-header d-flex justify-content-between px-4 pt-4">
                     <p className="detail-header-text subtitle italic">{invoiceNumber}</p>
-                    <Link class="close" to="/profile"><FaTimes /></Link>
+                    <button class="close" onClick={() => history.goBack()}><FaTimes /></button>
                 </div>
                 <hr className="m-0 mb-3" />
                 <div className="mx-5">
@@ -85,14 +131,7 @@ const DetailTransaction = () => {
                         <div>
                             <p className="m-0 p-0 subtitle">
                                 {
-                                    idStatus == 1 ?
-                                        <Badge bg="primary">
-                                            {status}
-                                        </Badge>
-                                        :
-                                        <Badge bg="warning">
-                                            {status}
-                                        </Badge>
+                                    badgeStatus
                                 }
                             </p>
                             <p className="m-0 p-0 subtitle-600">{courierService}</p>

@@ -2,6 +2,7 @@ const { db, query } = require("../database/index"); //mysql
 const moment = require("moment")
 const { uploader } = require('../helper/uploader')
 const fs = require('fs')
+const nodemailer = require("../helper/nodemailer");
 
 
 module.exports = {
@@ -20,7 +21,20 @@ module.exports = {
             VALUES (null,${db.escape(idAddress)},${db.escape(idUser)},${db.escape(subtotalPrice)},${db.escape(deliveryCost)},
             ${db.escape(courier)},${db.escape(courierService)},${db.escape(transactionDate)},${db.escape(1)},${db.escape(idWarehouse)},null,${db.escape(invoiceNumber)})`)
 
-            res.status(200).send({ message: "transaction is added", success: true, results: addTransaction });
+            // const checkEmail = await query(`SELECT * from users WHERE idUser=${db.escape(idUser)}`)
+            // console.log(checkEmail[0].email);
+
+            // let mail = {
+            //     from: `Admin <ayyasluthfi@gmail.com>`,
+            //     to: `${checkEmail[0].email}`,
+            //     subject: `Transaction ${invoiceNumber} `,
+            //     html: `<p>Hello ${username}, Thank you for your current purchase with us, please complete your transaction payment and upload 
+            //     your payment receipt on your profile dashboard</p>`,
+            // }
+            // console.log(mail);
+
+            // await nodemailer.sendMail(mail)
+            res.status(200).send({ message: "Transacsion is added, please check your email", success: true, results: addTransaction });
 
         } catch (err) {
             return res.status(500).send(err);

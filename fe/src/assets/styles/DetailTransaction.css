@@ -59,10 +59,45 @@ font-size: 1.3rem;
 text-decoration: none;
 color:#fff;
 font-size: 1.5rem;
+border: none;
+background-color: transparent;
 }
 .close:hover {
 color: rgba(255, 255, 255, 0.747);
     opacity: 1;
 }
 
+.link-transaction{
+  text-decoration: none;
+  color: inherit;
+}
+.link-transaction:hover{
+  text-decoration: none;
+  color: inherit;
+}
+
+.button-transaction{
+  border-radius: 20px;
+  border: 1px solid #32b280;
+  background-color: #32b280;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 6px 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.s;
+  margin-left: 10px;
+}
+
+
+.button-transaction:hover {
+  background-color: #2b5bf7;
+  color: white;
+  border: 1px solid #2b5bf7;
+}
+
+.button:focus {
+  outline: none;
+}
   
