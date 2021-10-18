@@ -6,7 +6,7 @@ import { API_URL } from "../../constants/API";
 export const CheckCart = (userLocalStorage) => {
     return async dispatch => {
         try {
-            const getDataCart = await axios.post(`http://localhost:3001/cart/`,
+            const getDataCart = await axios.post(`http://localhost:3001/cart/getCart`,
                 {},
                 {
                     headers: {
