@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../constants/API";
-import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "../assets/styles/AdminDashboard.css";
@@ -62,7 +61,7 @@ export default function WarehouseStock() {
   };
 
   const acceptRequest = (data) => {
-    console.log(data.idRequest, data.idTransaction, adminGlobal.idWarehouse);
+    // console.log(data.idRequest, data.idTransaction, adminGlobal.idWarehouse);
     axios
       .post(`${API_URL}/wh-stocks/accept`, {
         idWarehouse: adminGlobal.idWarehouse,
@@ -79,7 +78,6 @@ export default function WarehouseStock() {
   };
 
   const sendRequest = () => {
-    console.log("aku pengen request dengan idWarehouse", warehouse.idWarehouse);
     axios
       .post(`${API_URL}/wh-stocks/request`, {
         idWarehouse: adminGlobal.idWarehouse,
@@ -114,33 +112,35 @@ export default function WarehouseStock() {
     });
   };
 
-  useEffect(() => {
-    fetchRequests();
-    renderRequests();
-    fetchWarehouse();
-  }, [paging.currentPage, filtering]);
-
+  
   const nextPageHandler = () => {
     setPaging({
       currentPage: paging.currentPage + 1,
     });
   };
-
+  
   const prevPageHandler = () => {
     setPaging({
       currentPage: paging.currentPage - 1,
     });
   };
-
+  
   const inputHandler = (event) => {
     const value = event.target.value;
     const name = event.target.name;
     setFiltering({ ...filtering, [name]: value });
     setPaging({ currentPage: 1 });
   };
+    
+  useEffect(() => {
+    fetchRequests();
+    renderRequests();
+    fetchWarehouse();
+  }, [paging.currentPage, filtering]);
 
   return (
     <div style={{ padding: "60px" }} className="">
+      {/* HEADER */}
       <div className="content-header">
         <h2 className=" h1">Request List Warehouse {warehouse.warehouse}</h2>
       </div>
@@ -176,12 +176,15 @@ export default function WarehouseStock() {
                 <option value="">Sort by</option>
                 <option value="goingin">Going In</option>
                 <option value="goingout">Going Out</option>
+                <option value="newest">Newest</option>
+                <option value="oldest">Oldest</option>
               </select>
             </div>
           </div>
         </header>
       </div>
-
+      
+    {/* TABLE HEADER */}
       <div className="table-responsive">
         <table className="table ">
           <thead>
@@ -204,7 +207,7 @@ export default function WarehouseStock() {
       <div className="d-flex flex-row justify-content-center align-items-center">
         <button
           onClick={prevPageHandler}
-          className="btn btn-success"
+          className="btn btn-success "
           disabled={paging.currentPage === 1}
         >
           {"<"}
@@ -214,32 +217,12 @@ export default function WarehouseStock() {
         </div>
         <button
           onClick={nextPageHandler}
-          className="btn btn-success"
-          disabled={paging.currentPage === paging.maxPage}
-        >
-          {">"}
-        </button>
-      </div>
-
-      {/* <div className="d-flex flex-row justify-content-center align-items-center">
-        <button
-          onClick={prevPageHandler}
-          className="btn btn-success rounded-pill"
-          disabled={paging.currentPage === 1}
-        >
-          {"<"}
-        </button>
-        <div className="text-center px-4">
-          Page {paging.currentPage} of {paging.maxPage}
-        </div>
-        <button
-          onClick={nextPageHandler}
-          className="btn btn-success rounded-pill"
+          className="btn btn-success "
           disabled={paging.currentPage == paging.maxPage}
         >
           {">"}
         </button>
-      </div> */}
+      </div>
     </div>
   );
 }

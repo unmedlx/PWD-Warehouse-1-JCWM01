@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { API_URL } from "./constants/API";
 import { BrowserRouter, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -48,10 +48,8 @@ function App() {
     if (userLocalStorage) {
       // Get User Login Action Reducer
       dispatch(CheckLogin(userLocalStorage));
-
       //GET CART Action Reducer
       dispatch(CheckCart(userLocalStorage));
-
       //GET ADDRESS Action Reducer
       dispatch(CheckAddress(userLocalStorage));
     }
@@ -70,87 +68,23 @@ function App() {
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
-      <HomePageUser
-        component={Home}
-        path="/"
-        isAdmin={adminGlobal.idRole}
-        exact
-      />
+      <HomePageUser component={Home} path="/" isAdmin={adminGlobal.idRole} exact/>
       {/* Protected Route */}
-      <NonLoggedInRoute
-        path="/authentication"
-        component={Auth}
-        isLogin={userGlobal.isLogin}
-      />
-      <LoggedInRoute
-        path="/checkout"
-        component={Checkout}
-        isLogin={userGlobal.isLogin}
-      />
-      <LoggedInRoute
-        path="/transaction/detail/:idTransaction"
-        component={DetailTransaction}
-        isLogin={userGlobal.isLogin}
-      />
-      <LoggedInRoute
-        path="/transaction"
-        component={UserTransaction}
-        isLogin={userGlobal.isLogin}
-      />
-      <LoggedInRoute
-        path="/address"
-        component={Address}
-        isLogin={userGlobal.isLogin}
-        exact
-      />
-      <LoggedInRoute
-        path="/change-password"
-        component={ChangePassword}
-        isLogin={userGlobal.isLogin}
-        exact
-      />
-      <LoggedInRoute
-        path="/profile"
-        component={Profile}
-        isLogin={userGlobal.isLogin}
-        exact
-      />
-      <LoggedInRoute
-        path="/cart"
-        component={Cart}
-        isLogin={userGlobal.isLogin}
-      />
+      <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin} />
+      <LoggedInRoute path="/checkout" component={Checkout} isLogin={userGlobal.isLogin}/>
+      <LoggedInRoute path="/transaction/detail/:idTransaction" component={DetailTransaction} isLogin={userGlobal.isLogin} exact/>
+      <LoggedInRoute path="/transaction" component={UserTransaction} isLogin={userGlobal.isLogin} exact/>
+      <LoggedInRoute path="/address" component={Address} isLogin={userGlobal.isLogin} exact/>
+      <LoggedInRoute path="/change-password" component={ChangePassword} isLogin={userGlobal.isLogin} exact/>
+      <LoggedInRoute path="/profile" component={Profile} isLogin={userGlobal.isLogin} exact />
+      {/* <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/> */}
       {/* ADMIN */}
-      <AdminNonLoggedRoute
-        path="/auth-admin"
-        component={Auth}
-        isLogin={adminGlobal.isLogin}
-      />
-      <AdminRoute
-        path="/admin"
-        component={Admin}
-        isAdmin={adminGlobal.idRole}
-      />
-      <AdminRoute
-        path="/add-product"
-        component={AddProduct}
-        isAdmin={adminGlobal.idRole}
-      />
-      <AdminRoute
-        path="/edit-product/:idProduct"
-        component={AdminEditProduct}
-        isAdmin={adminGlobal.idRole}
-      />
-      <AdminRoute
-        path="/admin-product-list"
-        component={AdminProductList}
-        isAdmin={adminGlobal.idRole}
-      />
-      <AdminRoute
-        path="/admin-warehouse"
-        component={WarehouseStock}
-        isAdmin={adminGlobal.idRole}
-      />
+      <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin}/>
+      <AdminRoute path="/admin" component={Admin} isAdmin={adminGlobal.idRole}/>
+      <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/edit-product/:idProduct" component={AdminEditProduct} isAdmin={adminGlobal.idRole}/>
+      <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/admin-warehouse" component={WarehouseStock} isAdmin={adminGlobal.idRole}/>
     </BrowserRouter>
   );
 }

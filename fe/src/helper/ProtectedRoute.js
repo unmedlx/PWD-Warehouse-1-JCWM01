@@ -108,8 +108,11 @@ export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
       render={(props) => {
         //Conditioning Role
         if (isAdmin === 2) {
+          alert("Admin Tidak Bisa Masuk Ke User Page ")
           return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
         } else if (isAdmin === 1) {
+          alert("Admin Tidak Bisa Masuk Ke User Page ")
+
           return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
         }else{
           return <Component />;

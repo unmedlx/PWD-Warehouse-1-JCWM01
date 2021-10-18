@@ -44,9 +44,9 @@ function Home() {
          </Link>
       }
 
-      <Link to="/cart">
+      {/* <Link to="/cart">
         <button className="btn btn-warning mx-4">Cart</button>
-      </Link>
+      </Link> */}
       <button className="btn btn-danger" onClick={logout}>
         Logout
       </button>
