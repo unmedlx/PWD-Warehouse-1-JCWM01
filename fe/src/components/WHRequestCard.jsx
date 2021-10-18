@@ -1,64 +1,66 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { API_URL } from "../constants/API";
-import axios from "axios";
-import { Link } from "react-router-dom";
-
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.min.js";
-import "../assets/styles/AdminDashboard.css";
+import moment from "moment";
 
 export default function AdminProductCard(props) {
   let status;
-  let requestCard
-  let color
-  if (props.status == "Requesting Stock") {
-    status = <span className="badge rounded-pill alert-primary">{props.status}</span>
-    color = {backgroundColor: "lightblue"}
- } else if (props.status == "Must Request") {
-        status = (
-            <div>
-                <button className="badge rounded-pill alert-danger">{props.status}</button>
-            </div>
-        )
-        color = {backgroundColor:"lightpink"}
-} else if (props.status == "Accepted") {
-        status = <span className="badge rounded-pill alert-success">{props.status}</span>
-}
-   
+  let color;
+  if (
+    props.status == "Requesting Stock" &&
+    props.idWarehouse == props.idSender
+  ) {
+    status = (
+      <div className="d-flex flex-column">
+        <span
+          className="badge rounded-pill alert-warning my-1"
+          style={{ backgroundColor: "orange", color: "black" }}
+        >
+          Incoming Request
+        </span>
+        <button
+          className="badge rounded-pill alert-primary my-1"
+          onClick={() =>
+            props.acceptBtn({
+              idRequest: props.idRequest,
+              idTransaction: props.idTransaction,
+            })
+          }
+        >
+          Accept
+        </button>
+      </div>
+    );
+    color = { backgroundColor: "lightyellow" };
+  } else if (props.status == "Requesting Stock") {
+    status = (
+      <span className="badge rounded-pill alert-primary">{props.status}</span>
+    );
+    color = { backgroundColor: "lightblue" };
+  } else if (props.status == "Accepted") {
+    status = (
+      <span className="badge rounded-pill alert-success">{props.status}</span>
+    );
+  }
 
   return (
     <tr style={color}>
-            <td ><h5 >{props.idRequest}</h5></td>
-            <td>{props.Receiver}</td>
-            <td>{props.Sender}</td>
-            <td>{props.productName}</td>
-            <td>{props.quantity} pcs</td>
-            <td>{props.dateRequest}</td>
-            <td>{status}</td>
-      {/* <article className="itemlist">
-        <div className="row align-items-center">
-          <div className="col col-check flex-grow-0">id:{props.idRequest}</div>
-          <div className="col-lg-4 col-sm-4 col-8 flex-grow-1 col-name">
-              <div className="info">
-                <h6 className="mb-0">ID Receiver {props.idReceiver}</h6>
-                <h6 className="mb-0">ID Sender {props.idSender}</h6>
-              </div>
-          </div>
-          <div
-            style={{ marginRight: 200 }}
-            className="col-lg-2 col-sm-2 col-4 col-price"
-          >
-            <span>id product {props.idProduct}</span>{" "}
-            <span>quantity {props.quantity}</span>{" "}
-          </div>
-          <div className="col-lg-2 col-sm-2 col-4 col-status">{status}</div>
-
-          <div className="col-lg-1 col-sm-2 col-4 col-action">
-            
-          </div>
+      <td>
+        <h6>ID: {props.idRequest}</h6>
+      </td>
+      <td>
+        <h6>ID: {props.idTransaction}</h6>
+      </td>
+      <td>{props.Receiver}</td>
+      <td>{props.Sender}</td>
+      <td>
+        <div className="d-flex flex-column justify-content-center">
+          <div>{props.productName}</div>
+          <span style={{ fontSize: "10px" }}>ID: {props.idProduct}</span>
         </div>
-      </article> */}
+      </td>
+      <td>{props.quantity} pcs</td>
+      <td>{moment(props.dateRequest).format("MMMM Do YYYY, h:mm:ss a")}</td>
+      <td>{status}</td>
     </tr>
   );
 }

@@ -99,3 +99,23 @@ export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
     />
   );
 };
+
+export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
+  let Component = component;
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        //Conditioning Role
+        if (isAdmin === 2) {
+          return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
+        } else if (isAdmin === 1) {
+          return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
+        }else{
+          return <Component />;
+        }
+      }}
+    />
+  );
+};
+

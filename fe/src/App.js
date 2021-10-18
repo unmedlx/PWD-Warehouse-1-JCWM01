@@ -8,6 +8,7 @@ import {
   NonLoggedInRoute,
   AdminRoute,
   AdminNonLoggedRoute,
+  HomePageUser
 } from "./helper/ProtectedRoute";
 
 // PAGES //
@@ -93,10 +94,10 @@ function App() {
             type: "GET_CART",
             payload: res.data.results,
           });
-          dispatch({
-            type: "USER_CHECK_LOGIN",
-            payload: true,
-          });
+          // dispatch({
+          //   type: "USER_CHECK_LOGIN",
+          //   payload: true,
+          // });
         })
         .catch((err) => {
           console.log(err);
@@ -135,20 +136,20 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Route component={AddProduct} path="/add-product" />
-      <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
-      <Route component={AdminProductList} path="/admin-product-list" />
+      {/* <Route component={AddProduct} path="/add-product" /> */}
+      {/* <Route component={AdminEditProduct} path="/edit-product/:idProduct" /> */}
+      {/* <Route component={AdminProductList} path="/admin-product-list" /> */}
       <Route component={WarehouseList} path="/warehouse-list" />
       <Route component={AddWarehouse} path="/add-warehouse" />
-      <Route component={ChangePassword} path="/change-password" />
-      <Route component={Address} path="/address" />
+      {/* <Route component={ChangePassword} path="/change-password" /> */}
+      {/* <Route component={Address} path="/address" /> */}
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
       <Route component={Checkout} path="/checkout" />
-      <Route component={Home} path="/" exact />
+      <HomePageUser component={Home} path="/" isAdmin={adminGlobal.idRole} exact />
     {/* Protected Route */}
       <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin}/>
       <LoggedInRoute path="/address"  component={Address}  isLogin={userGlobal.isLogin} exact/>
