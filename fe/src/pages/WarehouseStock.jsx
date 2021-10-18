@@ -111,8 +111,7 @@ export default function WarehouseStock() {
       );
     });
   };
-
-  
+ 
   const nextPageHandler = () => {
     setPaging({
       currentPage: paging.currentPage + 1,

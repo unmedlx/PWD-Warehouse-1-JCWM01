@@ -28,7 +28,7 @@ import AdminProductList from "./pages/AdminProductList";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-import Cart from "./pages/Cart";
+// import Cart from "./pages/Cart";
 import WarehouseStock from "./pages/WarehouseStock";
 import Checkout from "./pages/Checkout";
 import DetailTransaction from "./components/Transaction/DetailTransaction";

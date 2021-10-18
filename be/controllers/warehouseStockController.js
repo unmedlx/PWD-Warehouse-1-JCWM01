@@ -2,6 +2,7 @@ const { db, query } = require("../database");
 const moment = require("moment");
 
 module.exports = {
+  // REQUEST STOCK //
   requestStock: async (req, res) => {
     try {
         const requestMaterial = await query(`
@@ -81,6 +82,7 @@ module.exports = {
     }
   },
 
+  // ACCEPT REQUEST //
   acceptRequest: async (req, res) => {
     const { idWarehouse, idRequest, idTransaction } = req.body;
     // console.log(idWarehouse, idRequest, idTransaction);
@@ -132,8 +134,7 @@ module.exports = {
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     let nextPage;
-    let previousPage;
-    
+    let previousPage; 
     try {
       //Get Data 
       const results = await query(
