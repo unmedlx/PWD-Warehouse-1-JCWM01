@@ -20,10 +20,12 @@
 
 .profile-tab a:hover{
     cursor:pointer;
-    color:#2b5bf7
+    color:#2b5bf7;
 }
 
 .profile-container{
     display: flex;
     align-items: flex-start;
 }
+
+

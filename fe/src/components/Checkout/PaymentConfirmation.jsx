@@ -45,13 +45,14 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
                 {
                     data: cartsGlobal
                 })
-            // console.log(deleteCartResponse);
+            console.log(deleteCartResponse);
 
             setredirect(true)
 
 
         } catch (error) {
             console.log(error);//send error dari backend
+            alert("Stock di warehouse tidak cukup");
         }
 
     }

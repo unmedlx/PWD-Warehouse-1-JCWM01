@@ -2,8 +2,10 @@ const { db, query } = require("../database");
 
 module.exports = {
     userStockCheck: async (req, res, next) => {
-        let cartsGlobal = Object.values(req.body.cartsGlobal)
         try {
+            let cartsGlobal = Object.values(req.body.cartsGlobal)
+            // console.log(cartsGlobal);
+
             //cek data di userstock
             for (i = 0; i < cartsGlobal.length; i++) {
                 let cartQuantity = cartsGlobal[i].quantity

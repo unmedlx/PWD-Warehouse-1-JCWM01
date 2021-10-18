@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 
 .body-checkout {
     display: flex;
@@ -24,6 +26,16 @@
     overflow: scroll;
     overflow-x: hidden;
   }
+
+  
+
+  .checkout-detail-transaction-container{
+    margin: auto;
+      height: 400px;
+   width: 1000px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
 
   ::-webkit-scrollbar {
     width: 6px;
@@ -205,7 +217,22 @@
     justify-content:space-between;
     transition: 0.2s;
 }
+.courier-card-notavail{
+    margin: 10px;
+    border: 2px solid red;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    transition: 0.2s;
+}
 
+.courier-card-notavail:hover{
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+    border-bottom: 8px solid red;
+    cursor: pointer;
+}
 .courier-card:hover{
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     border-bottom: 8px solid #32b280;
@@ -221,3 +248,7 @@
     border-radius: 5px;
     padding:20px;
 }
+
+
+
+

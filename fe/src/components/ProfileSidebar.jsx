@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { API_URL } from '../helper';
 import { Link } from 'react-router-dom';
@@ -12,12 +12,13 @@ const ProfileSidebar = () => {
     const [show, setShow] = useState(false);
 
     const handleShow = () => setShow(true);
-    const reload = () => window.location.reload();
+
 
     const handleClose = () => {
         setShow(false);
-        reload()
+        // reload()
     }
+
 
 
     return (

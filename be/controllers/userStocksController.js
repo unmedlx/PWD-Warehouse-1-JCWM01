@@ -83,10 +83,10 @@ module.exports = {
   },
   // Edit User Stock dari checkout
   editUserStock: async (req, res) => {
-    let cartsGlobal = Object.values(req.body.cartsGlobal)
-    // console.log(cartsGlobal);
 
     try {
+      let cartsGlobal = Object.values(req.body.cartsGlobal)
+      // console.log(cartsGlobal);
       for (i = 0; i < cartsGlobal.length; i++) {
         let cartQuantity = cartsGlobal[i].quantity
         const getUserStocks = await query(`SELECT * FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`)

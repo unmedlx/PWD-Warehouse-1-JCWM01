@@ -1,5 +1,5 @@
 const mysql = require("mysql");
-const util = require("util")
+const util = require("util");
 
 const db = mysql.createConnection({
   host: "localhost",

@@ -6,10 +6,10 @@ const cityProvinceController = require("./cityProvinceController");
 const adminStocksController = require("./adminStocksController");
 const userStocksController = require("./userStocksController");
 const warehousesController = require("./warehousesController");
-const warehouseStockController = require("./warehouseStockController")
-const cartController = require("./cartController")
-const transactionController = require("./transactionController")
-const checkoutController = require("./checkoutController")
+const warehouseStockController = require("./warehouseStockController");
+const cartController = require("./cartController");
+const transactionController = require("./transactionController");
+const checkoutController = require("./checkoutController");
 
 module.exports = {
   userStocksController,
@@ -25,5 +25,5 @@ module.exports = {
   warehouseStockController,
   cartController,
   transactionController,
-  checkoutController
+  checkoutController,
 };

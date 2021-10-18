@@ -1,15 +1,16 @@
-const userRouter = require('./userRouter')
-const uploaderRouter = require('./uploaderRouter')
-const addressRouter = require('./adressRouter')
-const cityProvinceRouter = require('./cityProvinceRouter')
-const productsRouter = require('./productsRouter')
-const adminStocksRouter = require('./adminStocksRouter')
-const userStocksRouter = require('./userStocksRouter')
-const warehousesRouter = require('./warehousesRouter')
-const warehouseStockRouter = require('./warehouseStockRouter')
-const cartRouter = require('./cartRouter')
-const transactionRouter = require('./transactionRouter')
-const checkoutRouter = require('./checkoutRouter')
+const checkoutRouter = require("./checkoutRouter");
+const userRouter = require("./userRouter");
+const uploaderRouter = require("./uploaderRouter");
+const addressRouter = require("./adressRouter");
+const cityProvinceRouter = require("./cityProvinceRouter");
+const productsRouter = require("./productsRouter");
+const adminStocksRouter = require("./adminStocksRouter");
+const userStocksRouter = require("./userStocksRouter");
+const warehousesRouter = require("./warehousesRouter");
+const warehouseStockRouter = require("./warehouseStockRouter");
+const cartRouter = require("./cartRouter");
+const transactionRouter = require("./transactionRouter");
+const checkoutRouter = require("./checkoutRouter");
 
 module.exports = {
   productsRouter,
@@ -23,5 +24,5 @@ module.exports = {
   warehouseStockRouter,
   cartRouter,
   transactionRouter,
-  checkoutRouter
+  checkoutRouter,
 };

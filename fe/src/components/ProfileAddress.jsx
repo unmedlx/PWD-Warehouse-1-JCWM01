@@ -6,32 +6,26 @@ import AddAddressModal from './AddAddressModal';
 import AddressCard from './AddressCard';
 import '../assets/styles/ProfileAddress.css'
 
-const ProfileAddress = (addressGlobal) => {
-    const userGlobal = useSelector((state) => state.users);
+const ProfileAddress = () => {
+    // const userGlobal = useSelector((state) => state.users);
+    const addressGlobal = useSelector((state) => state.addresses);
+    const userLocalStorage = localStorage.getItem("token_shutter");
     const [show, setShow] = useState(false);
     const [provinces, setProvinces] = useState([])
+    const [dataAddresses, setdataAddresses] = useState({})
 
-
-    const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        reload()
     }
 
     const handleShow = () => setShow(true);
 
-    const fetchDataAddress = () => {
-        const { idUser } = userGlobal
-    }
-
     const renderAddress = () => {
-        console.log(addressGlobal.addresses);
-        let arrAddress = Object.values(addressGlobal.addresses)
+        let arrAddress = Object.values(addressGlobal)
         return arrAddress.map((address) => {
-            // return <Address />
             return (
-                <AddressCard address={address} provinces={provinces} />
+                <AddressCard address={address} provinces={provinces} handleClose={handleClose} />
             )
         })
     }
@@ -50,17 +44,15 @@ const ProfileAddress = (addressGlobal) => {
         fetchProvince()
     }, [])
 
-    useEffect(() => {
-        fetchDataAddress()
 
-    }, [])
 
     return (
         <>
             <div>
                 <div className="address">
-                    <h4><strong>Address</strong></h4>
-                    <button className="btn btn-warning" onClick={handleShow}>Add Address</button>
+                    {/* <h4><strong>Address</strong></h4> */}
+                    <h6 className="subtitle-600">You can have up to 5 addresses</h6>
+                    <button className="button" onClick={handleShow}>Add Address</button>
                 </div>
                 <div>
                     {renderAddress()}

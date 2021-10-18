@@ -34,8 +34,8 @@ const Address = () => {
                         <ProfileNavbar />
 
                         <div className="profile-main-detail">
-                            <h1><strong>Hello, {fullName}</strong></h1>
-                            <h6><strong>{email}</strong></h6>
+                            <h1><strong>Address</strong></h1>
+                            {/* <h6 className="subtitle-600">{email}</h6> */}
                             <hr className="hr-line" />
 
                             <ProfileAddress addresses={addressGlobal} />
