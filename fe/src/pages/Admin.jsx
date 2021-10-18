@@ -16,13 +16,15 @@ function Admin() {
     alert("logout success");
   };
 
+  // Dispatch data transaction all user ke dalam ongoingTransaction
+
   return (
     <div>
       <h1 className="h1 form">INI ADMIN PAGE</h1>
       <Link to="/auth-admin">
         <button className="btn btn-success mx-4">Auth</button>
       </Link>
-     
+
       <Link to="/admin-product-list">
         <button className="btn btn-warning mx-4">Product List</button>
       </Link>

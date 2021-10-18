@@ -54,16 +54,7 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
         dispatch(
             EditAddress(data, idUser, userLocalStorage)
         )
-        // axios.patch(`${API_URL}/address/${idUser}`, { data })
-        //     .then((res) => {
-        //         console.log(res);
-        //         setSuccessUpload(res.data.success)
-        //         alert(res.data.message)
 
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     })
     }
 
     const fetchCity = () => {

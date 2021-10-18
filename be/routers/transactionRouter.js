@@ -10,4 +10,8 @@ router.get("/", transactionController.getTransaction);
 router.get("/detail/:id", transactionController.getDetailTransaction);
 router.patch('/upload', authToken, transactionController.uploadPaymentProof)
 
+
+router.get("/admintransaction", transactionController.getUserTransaction)
+
+
 module.exports = router
