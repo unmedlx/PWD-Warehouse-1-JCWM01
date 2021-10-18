@@ -7,6 +7,71 @@ import "../assets/styles/ProductCard.css";
 import { API_URL } from "../constants/API";
 
 export default function ProductCard(props) {
+  const userGlobal = useSelector((state) => state.users);
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(parseInt(1));
+  const reload = () => window.location.reload();
+  const [stock, setStock] = useState([]);
+
+  const fetchStock = () => {
+    axios
+      .get(`${API_URL}/userstocks/${props.idProduct}`)
+      .then((response) => {
+        // setStock(response.data[0]);
+        console.log(props.idProduct);
+        console.log(response.data[0]);
+        dispatch({
+          type: "FILL_USERSTOCKS",
+          payload: response.data[0],
+        });
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
+  useEffect(() => {
+    fetchStock();
+  }, []);
+
+  const addToCartHandler = () => {
+    axios
+      .get(`${API_URL}/carts/${props.idProduct}?idUser=${userGlobal.idUser}`)
+      .then((response) => {
+        console.log(response);
+        if (response.data.length) {
+          alert(
+            `${props.productName} already exist in cart. You can change the quantity in your cart list`
+          );
+        } else {
+          axios
+            .post(`${API_URL}/carts`, {
+              idProduct: props.idProduct,
+              idUser: userGlobal.idUser,
+              quantity: quantity,
+            })
+            .then(() => {
+              alert(`${props.productName} added to the cart`);
+
+              axios
+                .get(`${API_URL}/carts/${userGlobal.idUser}`)
+                .then((response) => {
+                  dispatch({
+                    type: "FILL_CART",
+                    payload: response.data,
+                  });
+                  reload();
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            })
+            .catch(() => {
+              alert(`Server error`);
+            });
+        }
+      });
+  };
   return (
     <div className="d-flex flex-row flex-wrap">
       <div class="page-inner">
@@ -35,14 +100,18 @@ export default function ProductCard(props) {
                 <div class="h-bg-inner"></div>
               </div>
 
-              <Link onClick={"#"} class="cart" to="#">
+              <span
+                style={{ cursor: "pointer" }}
+                onClick={addToCartHandler}
+                class="cart"
+              >
                 <span class="price">Rp. {props.price}</span>
                 <span class="add-to-cart">
                   <span style={{ marginLeft: -3 }} class="txt fw-bolder">
                     Add to cart
                   </span>
                 </span>
-              </Link>
+              </span>
             </div>
           </div>
         </div>

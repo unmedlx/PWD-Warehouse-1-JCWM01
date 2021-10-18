@@ -11,7 +11,7 @@ module.exports = {
     JOIN products p on adm.idProduct = p.idProduct
     JOIN categories c on p.idCategory = c.idCategory
     JOIN warehouses w on adm.idWarehouse = w.idWarehouse
-    WHERE w.idUser = ${(db, escape(req.query.idUser))}
+    WHERE w.idUser = ${db.escape(req.query.idUser)}
     AND p.idProduct = ${db.escape(req.params.idProduct)};`;
 
     db.query(scriptQuery, [], (err, results) => {

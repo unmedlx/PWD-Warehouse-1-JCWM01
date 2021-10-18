@@ -3,10 +3,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constants/API";
+import CartModal from "../components/CartModal";
 import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/ProductDetail.css";
 
 export default function ProductDetail(props) {
+  const dispatch = useDispatch();
+  const [show, setShow] = useState(false);
+  const reload = () => window.location.reload();
+  const handleClose = () => {
+    setShow(false);
+    reload();
+  };
+  const handleShow = () => setShow(true);
+
+  const cartGlobal = useSelector((state) => state.cart);
+
   const [image, setImage] = useState("");
   const [stock, setStock] = useState([]);
   // GLOBAL STATE //
@@ -20,7 +32,7 @@ export default function ProductDetail(props) {
   //PRODUCT DATA
   const [productDetail, setProductDetail] = useState([]);
   const [additionalInfo, setAdditionalInfo] = useState({
-    quantity: 1,
+    quantity: parseInt(1),
     productNotFound: false,
   });
 
@@ -51,9 +63,24 @@ export default function ProductDetail(props) {
       });
   };
 
+  const fetchCart = () => {
+    axios
+      .get(`${API_URL}/carts?idUser=${userGlobal.idUser}`)
+      .then((response) => {
+        dispatch({
+          type: "FILL_CART",
+          payload: response.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     fetchProducts();
     fetchStock();
+    fetchCart();
   }, []);
 
   const qtyButtonHandler = (action) => {
@@ -67,9 +94,46 @@ export default function ProductDetail(props) {
   const addToCartHandler = () => {
     // Check Login Condition
     if (idUser) {
-      alert(
-        `Anda Berhasil Add To Cart sebanyak ${additionalInfo.quantity} Barang `
-      );
+      axios
+        .get(
+          `${API_URL}/carts/${props.match.params.idProduct}?idUser=${userGlobal.idUser}`
+        )
+        .then((response) => {
+          console.log(response);
+          if (response.data.length) {
+            alert(
+              `${productDetail.productName} already exist in cart. You can change the quantity in your cart list`
+            );
+          } else {
+            axios
+              .post(`${API_URL}/carts`, {
+                idProduct: props.match.params.idProduct,
+                idUser: userGlobal.idUser,
+                quantity: additionalInfo.quantity,
+              })
+              .then(() => {
+                alert(
+                  `${additionalInfo.quantity} x ${productDetail.productName} added to the cart`
+                );
+
+                axios
+                  .get(`${API_URL}/carts/${userGlobal.idUser}`)
+                  .then((response) => {
+                    dispatch({
+                      type: "FILL_CART",
+                      payload: response.data,
+                    });
+                    reload();
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              })
+              .catch(() => {
+                alert(`Server error`);
+              });
+          }
+        });
     } else {
       alert(`Anda Belum SignIn, Silahkan SignIn Untuk Dapat Bertransaksi `);
       setRedirect("Reload This Page After SignIn !");
@@ -121,11 +185,11 @@ export default function ProductDetail(props) {
               <h1>Rp. {productDetail.price}</h1>
               <p>{productDetail.description}</p>
               <p style={{ marginBottom: -15 }}>
-                Ready Stock: {stock.sumQuantity} pcs
+                {/* Ready Stock: {stock.sumQuantity} pcs */}
               </p>
 
               <div className="d-flex flex-row align-items-center">
-                <span
+                {/* <span
                   style={{ marginTop: -30 }}
                   className="d-flex flex-row align-items-center"
                 >
@@ -142,14 +206,30 @@ export default function ProductDetail(props) {
                   >
                     +
                   </button>
-                </span>
-                <button className="button-cart" onClick={addToCartHandler}>
+                </span> */}
+                <button
+                  style={{ marginLeft: -4 }}
+                  className="button-cart"
+                  onClick={addToCartHandler}
+                >
                   Add to Cart
                 </button>
               </div>
               <h5 className="h5-light">{redirect}</h5>
             </div>
           </div>
+          <button
+            style={{ marginLeft: 1145, fontWeight: "bold" }}
+            className="btn btn-success col-lg-1 col-6 col-md-3 my-5 position-relative"
+            onClick={handleShow}
+          >
+            CART
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              {cartGlobal.cartList.length}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </button>
+          <CartModal show={show} handleClose={handleClose} stock={stock} />
         </div>
       )}
     </div>
