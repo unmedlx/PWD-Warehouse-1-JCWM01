@@ -37,6 +37,7 @@ module.exports = {
             const type = req.query.type || "all"
             const sortBy = req.query.sortBy;
             const filterStatus = parseInt(req.query.status);
+            const filterInvoice = req.query.invoice
 
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
@@ -72,7 +73,21 @@ module.exports = {
 
             //Filter Category
             const filteredResults = dataTransaction.filter((el) => {
-                if (filterStatus) {
+                console.log(filterInvoice);
+                console.log(filterStatus);
+                if (filterStatus && filterInvoice) {
+                    return (el.invoiceNumber
+                        .toLowerCase()
+                        .includes(filterInvoice.toLowerCase()) &&
+                        el.idStatus == filterStatus
+                    )
+                }
+                else if (filterInvoice) {
+                    return el.invoiceNumber
+                        .toLowerCase()
+                        .includes(filterInvoice.toLowerCase())
+                }
+                else if (filterStatus) {
                     return el.idStatus == filterStatus;
                 } else {
                     return dataTransaction;

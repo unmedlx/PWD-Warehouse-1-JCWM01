@@ -64,15 +64,15 @@ export const fetchTransactionById = (idTransaction) => {
     }
 }
 
-export const fetchTransaction = (idUser, page, sortBy, status) => {
+export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
     return async dispatch => {
         try {
             dispatch({
                 type: "FETCH_ONGOING_TRANSACTION"
             })
 
-            console.log(page);
-            const { data } = await axios.get(`${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&type=all&limit=5`)
+            // console.log(invoice);
+            const { data } = await axios.get(`${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}&type=all&limit=5`)
             dispatch({
                 type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
                 payload: data

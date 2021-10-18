@@ -21,12 +21,13 @@ const UserTransaction = () => {
 
     const [sort, setSort] = useState("");
     const [status, setStatus] = useState(1);
+    const [invoice, setInvoice] = useState("");
     console.log(data);
 
     const getTransaction = async () => {
         try {
             dispatch(
-                fetchTransaction(idUser, paging.currentPage, sort, status)
+                fetchTransaction(idUser, paging.currentPage, sort, status, invoice)
             )
 
             renderTransactions()
@@ -48,7 +49,7 @@ const UserTransaction = () => {
     useEffect(() => {
         getTransaction()
         renderTransactions()
-    }, [paging.currentPage, sort, status])
+    }, [paging.currentPage, sort, status, invoice])
 
     useEffect(() => {
         getTransaction()
@@ -66,10 +67,7 @@ const UserTransaction = () => {
         });
     };
 
-    const inputHandler = (event) => {
-        const value = event.target.value;
-        const name = event.target.name;
-    }
+
 
 
     return (
@@ -95,7 +93,7 @@ const UserTransaction = () => {
                                             placeholder="Search..."
                                             className="form-control box-shadow"
                                             name="byName"
-                                            onChange={inputHandler}
+                                            onChange={(e) => { setInvoice(e.target.value) }}
                                         />
                                     </div>
 
