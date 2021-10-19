@@ -5,6 +5,7 @@ const initialState = {
     email: "",
     idRole: "",
     isLogin: false,
+    idWarehouse: null,
   };
   
   const admins = (state = initialState, { type, payload }) => {
@@ -15,6 +16,8 @@ const initialState = {
       return {...state, ...payload, isLogin: true };
       case "ADMIN_LOGOUT":
         return { ...initialState, isLogin: false };
+      case "ADMIN_WAREHOUSE":
+        return {...state, idWarehouse:payload}
       default:
         return state;
     }

@@ -104,4 +104,7 @@ module.exports = {
   editData: (req, res) => {},
 
   deleteData: (req, res) => {},
+
+  
+  
 };

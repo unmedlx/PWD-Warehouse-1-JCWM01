@@ -80,7 +80,6 @@ export const AdminNonLoggedRoute = ({isLogin, component, ...rest}) => {
 }
 
 export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
-  console.log(isAdmin);
   let Component = component;
   return (
     <Route
@@ -100,3 +99,26 @@ export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
     />
   );
 };
+
+export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
+  let Component = component;
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        //Conditioning Role
+        if (isAdmin === 2) {
+          alert("Admin Tidak Bisa Masuk Ke User Page ")
+          return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
+        } else if (isAdmin === 1) {
+          alert("Admin Tidak Bisa Masuk Ke User Page ")
+
+          return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
+        }else{
+          return <Component />;
+        }
+      }}
+    />
+  );
+};
+

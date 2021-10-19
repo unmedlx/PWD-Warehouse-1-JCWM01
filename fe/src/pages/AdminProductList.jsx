@@ -11,7 +11,7 @@ import "../assets/styles/AdminDashboard.css";
 import AdminProductCard from "../components/AdminProductCard";
 
 export default function AdminProductList() {
-  const userGlobal = useSelector((state) => state.users);
+  const adminGlobal = useSelector((state) => state.admins);
   const [products, setProducts] = useState([]);
   const [warehouse, setWarehouse] = useState("");
 
@@ -31,10 +31,10 @@ export default function AdminProductList() {
 
   const fetchWarehouse = () => {
     axios
-      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
+      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
-        setWarehouse(response.data[0]);
-        console.log(response.data[0]);
+        setWarehouse(response.data[0].idWarehouse);
+        // console.log(response.data[0].idWarehouse);
       })
       .catch((err) => {
         alert(err);

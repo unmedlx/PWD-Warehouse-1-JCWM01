@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
@@ -9,7 +9,6 @@ import * as Yup from "yup";
 
 function Auth() {
   // Redux //
-  const userGlobal = useSelector((state) => state.users);
   const adminGlobal = useSelector((state) => state.admins);
   const dispatch = useDispatch();
   // State //
@@ -87,7 +86,7 @@ function Auth() {
         password,
       })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.success) {
           localStorage.setItem("token_shutter", res.data.token);
           dispatch({
@@ -117,50 +116,37 @@ function Auth() {
       .post(`${API_URL}/users/login`, { email, password })
       .then((res) => {
         if (res.data.success) {
-          console.log(res.data.dataUser);
-          localStorage.setItem("token_shutter", res.data.token);
-          if (res.data.dataUser.idRole == 1) {
-            window.location = "/admin";
-            dispatch({
-              type: "ADMIN_LOGIN",
-              payload: res.data.dataUser,
-            });
-            dispatch({
-              type: "USER_LOGOUT",
-            });
-          } else if (res.data.dataUser.idRole == 2) {
-            window.location = "/admin";
-            dispatch({
-              type: "ADMIN_LOGIN",
-              payload: res.data.dataUser,
-            });
-            dispatch({
-              type: "USER_LOGOUT",
-            });
-          } else {
-            dispatch({
-              type: "USER_LOGIN",
-              payload: res.data.dataUser,
-            });
-            dispatch({
-              type: "ADMIN_LOGOUT",
-            });
-          }
-          setMessage("Login Success ✔");
-          setMessage1("Happy Shopping ! :)");
-          // setState({ redirect: true })
-
-          // axios
-          //   .get(`${API_URL}/carts?idUser=${res.data.dataUser.idUser}`)
-          //   .then((response) => {
-          //     dispatch({
-          //       type: "FILL_CART",
-          //       payload: response.data,
-          //     });
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
+            console.log(res.data.dataUser);
+            localStorage.setItem("token_shutter", res.data.token);
+            if (res.data.dataUser.idRole == 1) {
+              window.location = "/admin";
+              dispatch({
+                type: "ADMIN_LOGIN",
+                payload: res.data.dataUser,
+              });
+              dispatch({
+                type: "USER_LOGOUT",
+              });
+            } else if (res.data.dataUser.idRole == 2) {
+              window.location = "/admin";
+              dispatch({
+                type: "ADMIN_LOGIN",
+                payload: res.data.dataUser,
+              });
+              dispatch({
+                type: "USER_LOGOUT",
+              });
+            } else {
+              dispatch({
+                type: "USER_LOGIN",
+                payload: res.data.dataUser,
+              });
+              dispatch({
+                type: "ADMIN_LOGOUT",
+              });
+            }
+            setMessage("Login Success ✔");
+            setMessage1("Happy Shopping ! :)");
         } else {
           setMessage(null);
           setMessage(res.data.message);
@@ -173,55 +159,27 @@ function Auth() {
       });
   };
 
-  // REDIRECT //
-  if (state.redirect) {
-    if (adminGlobal.idRole == 2) {
-      return <Redirect to="/admin" />;
-    } else if (adminGlobal.idRole == 1) {
-      return <Redirect to="/admin" />;
-      // }else {
-      //   return <Redirect to="/" />;
-    }
-  }
-
   // RENDER //
   return (
     /* Change Form */
     <div className="body">
-      <div
-        className={` auth-container ${
-          state.btnClick ? "" : "right-panel-active"
-        }`}
-      >
+      <div className={` auth-container ${ state.btnClick ? "" : "right-panel-active"}`} >
         {/* SIGN UP FORM */}
-        <Formik
-          initialValues={registerInitialValues}
-          onSubmit={register}
-          validationSchema={registerValidationSchema}
-        >
+        <Formik initialValues={registerInitialValues} onSubmit={register} validationSchema={registerValidationSchema} >
           <div className="form-container sign-up-container">
             <Form className="form">
               <h1 className="h1">Create Account</h1>
               <span className="span">
-                {" "}
                 Enter your personal details and start journey with us
               </span>
-              <ErrorMessage
-                name="fullName"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="fullName" component="span" className="error"/>
               <Field
                 name="fullName"
                 type="text"
                 placeholder="Full Name"
                 autoComplete="off"
               />
-              <ErrorMessage
-                name="username"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="username" component="span" className="error"/>
               <Field
                 name="username"
                 type="text"
@@ -235,22 +193,14 @@ function Auth() {
                 placeholder="Email"
                 autoComplete="off"
               />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="password" component="span" className="error"/>
               <Field
                 name="password"
                 type="password"
                 placeholder="Password"
                 autoComplete="off"
               />
-              <ErrorMessage
-                name="confirmPassword"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="confirmPassword" component="span" className="error"/>
               <Field
                 name="confirmPassword"
                 type="password"
@@ -267,11 +217,7 @@ function Auth() {
         </Formik>
 
         {/* SIGN IN FORM */}
-        <Formik
-          initialValues={loginInitialValues}
-          onSubmit={login}
-          validationSchema={loginValidationSchema}
-        >
+        <Formik initialValues={loginInitialValues} onSubmit={login} validationSchema={loginValidationSchema} >
           <div className="form-container sign-in-container">
             <Form className="form">
               <h1 className="h1">Sign in</h1>
@@ -283,11 +229,7 @@ function Auth() {
                 placeholder="Email"
                 autoComplete="off"
               />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="password" component="span" className="error"/>
               <Field
                 name="password"
                 type="password"
@@ -312,7 +254,6 @@ function Auth() {
             <div className="overlay-panel overlay-left">
               <h1 className="h1">Welcome Back!</h1>
               <p className="p">
-                {" "}
                 To keep connected with us please login with your personal info
               </p>
               <button onClick={signInPage} className="ghost button" id="signIn">
@@ -323,7 +264,6 @@ function Auth() {
             <div className="overlay-panel overlay-right">
               <h1 className="h1">Hello, Friend!</h1>
               <p className="p">
-                {" "}
                 Enter your personal details and start journey with us
               </p>
               <button onClick={signUpPage} className="ghost button" id="signUp">

@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 require("dotenv").config();
 const {
   productsRouter,
@@ -8,9 +8,10 @@ const {
   uploaderRouter,
   adminStocksRouter,
   userStocksRouter,
-  warehousesRouter,
   addressRouter,
   cityProvinceRouter,
+  warehousesRouter,
+  warehouseStockRouter,
   cartRouter,
   transactionRouter,
   checkoutRouter,
@@ -36,6 +37,7 @@ app.use("/products", productsRouter);
 app.use("/adminstocks", adminStocksRouter);
 app.use("/userstocks", userStocksRouter);
 app.use("/warehouses", warehousesRouter);
+app.use("/wh-stocks", warehouseStockRouter);
 app.use("/cart", cartRouter);
 app.use("/transaction", transactionRouter);
 app.use("/checkout", checkoutRouter);
