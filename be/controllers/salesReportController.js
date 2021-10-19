@@ -3,15 +3,17 @@ const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
 module.exports = {
-  getData: (req, res) => {},
+  getRevenueYear: (req, res) => {
+    res.status(200).send(console.log("halo"));
+  },
 
-  getDataById: (req, res) => {},
+  getRevenueMonth: (req, res) => {},
 
-  addData: (req, res) => {},
+  getRevenueDay: (req, res) => {},
 
-  editDataNoImage: (req, res) => {},
+  getTransactionStatus: (req, res) => {},
 
-  editData: (req, res) => {},
+  getDemographic: (req, res) => {},
 
-  deleteData: (req, res) => {},
+  getBestSelling: (req, res) => {},
 };
