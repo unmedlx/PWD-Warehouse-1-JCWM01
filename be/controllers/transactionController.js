@@ -3,6 +3,7 @@ const moment = require("moment")
 const { uploader } = require('../helper/uploader')
 const fs = require('fs')
 const nodemailer = require("../helper/nodemailer");
+const e = require("express");
 
 
 module.exports = {
@@ -201,9 +202,12 @@ module.exports = {
         }
         // return res.status(200).send({ message: 'Success fetch RajaOngkir API', results, success: true })
     },
+    //GetUser for admin 
     getUserTransaction: async (req, res) => {
         try {
             // const type = req.query.type || "all"//ini either all atau ongoing
+            const idRole = parseInt(req.query.idRole)
+            const idWarehouse = parseInt(req.query.idWarehouse);
             const sortBy = req.query.sortBy || "newest"
             const filterStatus = parseInt(req.query.status);
             const filterInvoice = req.query.invoice
@@ -214,22 +218,97 @@ module.exports = {
             const endIndex = page * limit;
             let nextPage;
             let previousPage;
+            let fixedDataTransaction;
 
 
-            const dataTransaction = await query(`SELECT * FROM transactions  as a
+            if (idRole === 2) {
+                const allDataTransaction = await query(`SELECT * FROM transactions  as a
+                    JOIN status as s
+                    ON a.idStatus=s.idStatus
+                    JOIN
+                    (SELECT t.idTransaction, COUNT(quantity) as sumquantity FROM transactions as t 
+                    JOIN checkouts as c 
+                    ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
+                    ON a.idTransaction=b.idTransaction 
+                    JOIN addresses as ad
+                    ON a.idAddress = ad.idAddress
+                    WHERE idWarehouse = ${db.escape(idWarehouse)}
+                    `)
+
+                // console.log(allDataTransaction);
+                if (allDataTransaction.length > 0) {
+                    for (let i = 0; i < allDataTransaction.length; i++) {
+                        const { idWarehouse, idTransaction, idStatus } = allDataTransaction[i]
+
+                        const dataCheckout = await query(`SELECT C.idCheckout, C.idProduct, C.quantity AS qtyCheckout, A.idWarehouse ,A.quantity AS qtyAdminStock
+                        FROM checkouts C
+                        JOIN transactions T ON T.idTransaction=C.idTransaction
+                        JOIN adminstocks A ON C.idProduct = A.idProduct 
+                        WHERE C.idTransaction=${db.escape(idTransaction)} && A.idWarehouse = ${db.escape(idWarehouse)} && T.idStatus=3`)
+                        // console.log(`Banyaknya data checkout warehouse ${idWarehouse} Transaksi ${idTransaction} adalah ${dataCheckout.length}`);
+
+                        let transactionKurang = false
+                        // iterasi mengecek checkout per transaksi
+                        for (let j = 0; j < dataCheckout.length; j++) {
+                            const { qtyCheckout, qtyAdminStock } = dataCheckout[j]
+                            if (qtyCheckout > qtyAdminStock) {
+                                transactionKurang = true
+                            }
+                        }
+
+                        console.log(`Transaksi dengan id ${idTransaction} kurangnya ${transactionKurang}`);
+                        if (transactionKurang === true) {
+                            // sampai sini
+                            console.log("diubah jadi 4");
+                            await query(`UPDATE transactions
+                            SET idStatus = 4
+                            WHERE idTransaction=${db.escape(idTransaction)};`)
+
+                        } else {
+                            // console.log("diubah jadi 6");
+                            await query(`UPDATE transactions
+                            SET idStatus = 6
+                            WHERE idTransaction=${db.escape(idTransaction)};`)
+                        }
+
+                    }
+                }
+
+            }
+
+
+
+            if (idRole === 1) {
+                fixedDataTransaction = await query(`SELECT * FROM transactions  as a
                 JOIN status as s
                 ON a.idStatus=s.idStatus
                 JOIN
                 (SELECT t.idTransaction, COUNT(quantity) as sumquantity FROM transactions as t 
                 JOIN checkouts as c 
                 ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
-                ON a.idTransaction=b.idTransaction
+                ON a.idTransaction=b.idTransaction 
+                JOIN addresses as ad
+                ON a.idAddress = ad.idAddress
                 `)
+            } else {
+                fixedDataTransaction = await query(`SELECT * FROM transactions  as a
+                    JOIN status as s
+                    ON a.idStatus=s.idStatus
+                    JOIN
+                    (SELECT t.idTransaction, COUNT(quantity) as sumquantity FROM transactions as t 
+                    JOIN checkouts as c 
+                    ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
+                    ON a.idTransaction=b.idTransaction 
+                    JOIN addresses as ad
+                    ON a.idAddress = ad.idAddress
+                    WHERE idWarehouse = ${db.escape(idWarehouse)}
+                    `)
+            }
 
 
-
+            console.log(filterStatus, filterInvoice);
             //Filter Category
-            const filteredResults = dataTransaction.filter((el) => {
+            const filteredResults = fixedDataTransaction.filter((el) => {
                 if (filterStatus && filterInvoice) {
                     return (el.invoiceNumber
                         .toLowerCase()
@@ -245,9 +324,10 @@ module.exports = {
                 else if (filterStatus) {
                     return el.idStatus == filterStatus;
                 } else {
-                    return dataTransaction;
+                    return fixedDataTransaction;
                 }
             });
+
 
 
             //Filter sort by (newest, oldest)
@@ -263,6 +343,106 @@ module.exports = {
                     break;
             }
 
+
+            // console.log(filteredResults);
+            let transactionsCount = filteredResults.length;
+            let maxPage = Math.ceil(transactionsCount / limit)
+
+            if (endIndex < transactionsCount) {
+                nextPage = page + 1;
+            }
+            if (startIndex > 0) {
+                previousPage = page - 1;
+            }
+            console.log(sortBy, filterStatus, filterInvoice, page, maxPage, startIndex, endIndex);
+            const paginatedResults = filteredResults.slice(startIndex, endIndex);
+
+            res.status(200).send({
+                message: `Berhasil mengambil data`,
+                data: paginatedResults,
+                next_page: nextPage,
+                previous_page: previousPage,
+                transactions_count: transactionsCount,
+                max_page: maxPage,
+            })
+
+        } catch (error) {
+            res.status(500).send(error)
+        }
+    },
+    // Get User super admin
+    getUserTransactionSuper: async (req, res) => {
+        try {
+            // const type = req.query.type || "all"//ini either all atau ongoing
+            const filterWarehouse = parseInt(req.query.idWarehouse);
+            const sortBy = req.query.sortBy || "newest"
+            const filterStatus = parseInt(req.query.status);
+            const filterInvoice = req.query.invoice
+
+            const page = parseInt(req.query.page) || 1;
+            const limit = parseInt(req.query.limit) || 10;
+            const startIndex = (page - 1) * limit;
+            const endIndex = page * limit;
+            let nextPage;
+            let previousPage;
+            let fixedDataTransaction;
+
+
+            fixedDataTransaction = await query(`SELECT * FROM transactions  as a
+                JOIN status as s
+                ON a.idStatus=s.idStatus
+                JOIN
+                (SELECT t.idTransaction, COUNT(quantity) as sumquantity FROM transactions as t 
+                JOIN checkouts as c 
+                ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
+                ON a.idTransaction=b.idTransaction 
+                JOIN addresses as ad
+                ON a.idAddress = ad.idAddress
+                `)
+
+
+            const warehouseFilter = fixedDataTransaction.filter((el) => {
+                if (filterWarehouse) {
+                    return el.idWarehouse == filterWarehouse;
+                }
+            })
+
+
+
+            console.log(filterStatus, filterInvoice);
+            //Filter Category
+            const filteredResults = warehouseFilter.filter((el) => {
+                if (filterStatus && filterInvoice) {
+                    return (el.invoiceNumber
+                        .toLowerCase()
+                        .includes(filterInvoice.toLowerCase()) &&
+                        el.idStatus == filterStatus
+                    )
+                }
+                else if (filterInvoice) {
+                    return el.invoiceNumber
+                        .toLowerCase()
+                        .includes(filterInvoice.toLowerCase())
+                }
+                else if (filterStatus) {
+                    return el.idStatus == filterStatus;
+                } else {
+                    return warehouseFilter;
+                }
+            });
+
+            //Filter sort by (newest, oldest)
+            switch (sortBy) {
+                case "oldest":
+                    filteredResults.sort((a, b) => a.transactionDate - b.transactionDate);
+                    break;
+                case "newest":
+                    filteredResults.sort((a, b) => b.transactionDate - a.transactionDate);
+                    break;
+                default:
+                    filteredResults;
+                    break;
+            }
 
             // console.log(filteredResults);
             let transactionsCount = filteredResults.length;

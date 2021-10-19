@@ -12,6 +12,7 @@ router.patch('/upload', authToken, transactionController.uploadPaymentProof)
 
 
 router.get("/admintransaction", transactionController.getUserTransaction)
+router.get("/super-admin-transaction", transactionController.getUserTransactionSuper)
 
 
 module.exports = router

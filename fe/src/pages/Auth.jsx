@@ -117,7 +117,7 @@ function Auth() {
       .post(`${API_URL}/users/login`, { email, password })
       .then((res) => {
         if (res.data.success) {
-          console.log(res.data.dataUser);
+          // console.log(res.data.dataUser);
           localStorage.setItem("token_shutter", res.data.token);
           if (res.data.dataUser.idRole == 1) {
             window.location = "/admin";
@@ -189,9 +189,8 @@ function Auth() {
     /* Change Form */
     <div className="body">
       <div
-        className={` auth-container ${
-          state.btnClick ? "" : "right-panel-active"
-        }`}
+        className={` auth-container ${state.btnClick ? "" : "right-panel-active"
+          }`}
       >
         {/* SIGN UP FORM */}
         <Formik

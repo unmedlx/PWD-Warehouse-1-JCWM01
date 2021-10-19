@@ -71,7 +71,9 @@ export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
                 type: "FETCH_ONGOING_TRANSACTION"
             })
 
-            // console.log(invoice);
+            console.log(invoice);
+            let getQuery = `${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}&type=all&limit=5`
+            console.log(getQuery);
             const { data } = await axios.get(`${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}&type=all&limit=5`)
             dispatch({
                 type: "FETCH_ONGOING_TRANSACTION_COMPLETE",

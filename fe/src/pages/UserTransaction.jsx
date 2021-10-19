@@ -20,9 +20,9 @@ const UserTransaction = () => {
     });
 
     const [sort, setSort] = useState("");
-    const [status, setStatus] = useState(1);
+    const [status, setStatus] = useState(0);
     const [invoice, setInvoice] = useState("");
-    console.log(data);
+    // console.log(data);
 
     const getTransaction = async () => {
         try {
