@@ -235,40 +235,49 @@ module.exports = {
                     WHERE idWarehouse = ${db.escape(idWarehouse)}
                     `)
 
-                // console.log(allDataTransaction);
+                console.log(allDataTransaction);
                 if (allDataTransaction.length > 0) {
                     for (let i = 0; i < allDataTransaction.length; i++) {
                         const { idWarehouse, idTransaction, idStatus } = allDataTransaction[i]
 
-                        const dataCheckout = await query(`SELECT C.idCheckout, C.idProduct, C.quantity AS qtyCheckout, A.idWarehouse ,A.quantity AS qtyAdminStock
-                        FROM checkouts C
-                        JOIN transactions T ON T.idTransaction=C.idTransaction
-                        JOIN adminstocks A ON C.idProduct = A.idProduct 
-                        WHERE C.idTransaction=${db.escape(idTransaction)} && A.idWarehouse = ${db.escape(idWarehouse)} && T.idStatus=3`)
-                        // console.log(`Banyaknya data checkout warehouse ${idWarehouse} Transaksi ${idTransaction} adalah ${dataCheckout.length}`);
+                        if (idStatus === 3) {
+                            const dataCheckout = await query(`SELECT C.idCheckout, C.idProduct, C.quantity AS qtyCheckout, A.idWarehouse ,A.quantity AS qtyAdminStock
+                            FROM checkouts C
+                            JOIN transactions T ON T.idTransaction=C.idTransaction
+                            JOIN adminstocks A ON C.idProduct = A.idProduct 
+                            WHERE C.idTransaction=${db.escape(idTransaction)} && A.idWarehouse = ${db.escape(idWarehouse)} && T.idStatus=3`)
+                            // console.log(`Banyaknya data checkout warehouse ${idWarehouse} Transaksi ${idTransaction} adalah ${dataCheckout.length}`);
 
-                        let transactionKurang = false
-                        // iterasi mengecek checkout per transaksi
-                        for (let j = 0; j < dataCheckout.length; j++) {
-                            const { qtyCheckout, qtyAdminStock } = dataCheckout[j]
-                            if (qtyCheckout > qtyAdminStock) {
-                                transactionKurang = true
+                            let transactionKurang = 6
+                            // iterasi mengecek checkout per transaksi
+                            for (let j = 0; j < dataCheckout.length; j++) {
+                                const { qtyCheckout, qtyAdminStock } = dataCheckout[j]
+                                if (qtyCheckout > qtyAdminStock) {
+                                    transactionKurang = 4
+                                }
                             }
-                        }
 
-                        console.log(`Transaksi dengan id ${idTransaction} kurangnya ${transactionKurang}`);
-                        if (transactionKurang === true) {
-                            // sampai sini
-                            console.log("diubah jadi 4");
-                            await query(`UPDATE transactions
-                            SET idStatus = 4
-                            WHERE idTransaction=${db.escape(idTransaction)};`)
+                            const statusQuery = (`UPDATE transactions SET idStatus = ${transactionKurang} WHERE idTransaction=${db.escape(idTransaction)}`)
+                            console.log(`Transaksi dengan id ${idTransaction} kurangnya ${transactionKurang}`);
+                            console.log(statusQuery);
 
-                        } else {
-                            // console.log("diubah jadi 6");
-                            await query(`UPDATE transactions
-                            SET idStatus = 6
-                            WHERE idTransaction=${db.escape(idTransaction)};`)
+                            await query(statusQuery)
+
+
+                            if (transactionKurang === true) {
+                                // sampai sini
+
+                                console.log("diubah jadi 4");
+                                // await query(`UPDATE transactions
+                                // SET idStatus = 4
+                                // WHERE idTransaction=${db.escape(idTransaction)};`)
+
+                            } else if (transactionKurang === false) {
+                                console.log("diubah jadi 6");
+                                // await query(`UPDATE transactions
+                                // SET idStatus = 6
+                                // WHERE idTransaction=${db.escape(idTransaction)};`)
+                            }
                         }
 
                     }

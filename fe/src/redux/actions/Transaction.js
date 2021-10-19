@@ -89,3 +89,29 @@ export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
         }
     }
 }
+
+// get admin transaction data
+export const fetchAdminViewTransaction = (idWarehouse, page, status, sortBy, invoice) => {
+    return async dispatch => {
+        try {
+            console.log(idWarehouse, page, status, sortBy, invoice);
+            dispatch({
+                type: "FETCH_ONGOING_TRANSACTION"
+            })
+
+            const { data } = await axios.get(`${API_URL}/transaction/admintransaction?idRole=2&idWarehouse=${idWarehouse}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}`)
+            // console.log(data.data);
+            dispatch({
+                type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
+                payload: data
+            })
+            return data
+        } catch (error) {
+            dispatch({
+                type: "FETCH_ONGOING_TRANSACTION_FAILED",
+                payload: error
+            })
+
+        }
+    }
+}

@@ -34,8 +34,6 @@ function Admin() {
   };
 
 
-  // Dispatch data transaction all user ke dalam ongoingTransaction
-
 
   useEffect(() => {
     fetchWarehouse()

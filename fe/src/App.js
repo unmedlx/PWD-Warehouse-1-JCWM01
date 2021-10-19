@@ -35,6 +35,7 @@ import { CheckLogin } from "./redux/actions/users";
 import { CheckCart } from "./redux/actions/carts";
 import { CheckAddress } from "./redux/actions/addressUser";
 import UserTransaction from "./pages/UserTransaction";
+import AdminViewTransaction from "./pages/Admin/AdminViewTransaction";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -143,6 +144,11 @@ function App() {
       <AdminRoute
         path="/admin-warehouse"
         component={Warehouse}
+        isAdmin={adminGlobal.idRole}
+      />
+      <AdminRoute
+        path="/admin-transaction"
+        component={AdminViewTransaction}
         isAdmin={adminGlobal.idRole}
       />
     </BrowserRouter>
