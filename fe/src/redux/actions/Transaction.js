@@ -115,3 +115,19 @@ export const fetchAdminViewTransaction = (idWarehouse, page, status, sortBy, inv
         }
     }
 }
+
+
+// PaymentProof
+export const paymentAccepted = (idTransaction) => {
+    return async dispatch => {
+        console.log("AKU DIPANGGIl");
+        await axios.patch(`${API_URL}/transaction/admin-payment?paymentStatus=accepted&idTransaction=${idTransaction}`)
+
+    }
+}
+export const paymentDeclined = (idTransaction) => {
+    return async dispatch => {
+        await axios.patch(`${API_URL}/transaction/admin-payment?paymentStatus=declined&idTransaction=${idTransaction}`)
+
+    }
+}

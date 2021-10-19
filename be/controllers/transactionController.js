@@ -478,5 +478,22 @@ module.exports = {
         } catch (error) {
             res.status(500).send(error)
         }
+    },
+
+    // Payment
+    patchPaymentStatus: async (req, res) => {
+        const paymentStatus = req.query.paymentStatus
+        const idTransaction = parseInt(req.query.idTransaction)
+        console.log(req.query.idTransaction);
+        console.log(req.query.paymentStatus);
+        if (paymentStatus === "accepted") {
+            console.log("ditolak");
+            await query(`UPDATE transactions SET idStatus=3 WHERE idTransaction=${db.escape(idTransaction)}`)
+
+        } else if (paymentStatus === "declined") {
+            console.log("ditolak");
+            await query(`UPDATE transactions SET idStatus=2 WHERE idTransaction=${db.escape(idTransaction)}`)
+
+        }
     }
 }

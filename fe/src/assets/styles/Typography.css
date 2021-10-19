@@ -1,0 +1,25 @@
+    /* HR */
+    .ruler{
+        border-top: 3px solid #32b281;
+        color: rgba(255, 255, 255, 0);
+    }
+    
+    
+    .subtitle{
+    font-weight: 800;   
+    }
+    
+    .subtitle-600{
+    font-weight: 600;
+    }
+    
+    .subtitle-500{
+    font-weight: 500;
+    }
+
+    .text-smaller{
+    font-size: 0.8rem;
+    }
+    .text-small{
+    font-size: 0.9rem;
+    }

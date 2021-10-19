@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAdminViewTransaction } from '../../redux/actions/Transaction';
+import { Table } from 'react-bootstrap';
+import AdminViewTransactionList from '../../components/Admin/AdminViewTransactionList';
 
+// import '../assets/styles/Typography.css'
+import '../../assets/styles/Typography.css'
 
 const AdminTransaction = () => {
     const dispatch = useDispatch()
@@ -47,17 +51,20 @@ const AdminTransaction = () => {
     const renderTransactions = () => {
         return data.map((d) => {
             return (
-                <>
-                    <div>{d.invoiceNumber}</div>
-                    <div>{d.recipientName}</div>
-                </>
+                <AdminViewTransactionList data={d} />
             )
         })
     }
 
 
     return (
-        <>
+        <div style={{ padding: "60px", backgroundColor: "white" }} className="">
+            <div className="content-header">
+                <h2 className="content-title d-flex flex-row align-items-center">
+                    Transaction List
+                </h2>
+
+            </div>
             <div className="mb-4">
                 <header className="mt-3 p-3">
                     <div className="row gx-3">
@@ -103,6 +110,29 @@ const AdminTransaction = () => {
             </div>
 
             <div>
+                <div className="row transaction-card">
+                    <div className="col subtitle">
+                        Order
+                    </div>
+                    <div className="col subtitle">
+                        Contact Detail
+                    </div>
+                    <div className="col subtitle">
+                        Delivery
+                    </div>
+                    <div className="col-1 subtitle">
+                        Total
+                    </div>
+                    <div className="col-1 subtitle">
+                        Payment
+                    </div>
+                    <div className="col subtitle">
+                        Action
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div>
                 {renderTransactions()}
             </div>
 
@@ -127,7 +157,7 @@ const AdminTransaction = () => {
                     </button>
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 

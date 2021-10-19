@@ -5,6 +5,8 @@ import { Table, Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { API_URL } from '../../constants/API'
 
+import '../../assets/styles/Typography.css'
+
 
 import DataOngoingList from './DataOngoingList'
 

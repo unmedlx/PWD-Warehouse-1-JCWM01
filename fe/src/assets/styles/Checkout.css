@@ -87,9 +87,7 @@
         align-items: center;
         justify-content: center;
     }
-    .subtitle{
-        font-weight: 800;
-    }
+ 
     .btn-container{
         margin-top: 20px;
         display: flex;
