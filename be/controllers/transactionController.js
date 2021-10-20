@@ -58,7 +58,7 @@ module.exports = {
                 (SELECT t.idTransaction, COUNT(quantity) as sumquantity FROM transactions as t 
                 JOIN checkouts as c 
                 ON t.idTransaction=c.idTransaction group by t.idTransaction) as b
-                ON a.idTransaction=b.idTransaction WHERE a.idUser=${db.escape(idUser)} && a.idStatus>=1 && a.idStatus<=3`)
+                ON a.idTransaction=b.idTransaction WHERE a.idUser=${db.escape(idUser)} && a.idStatus>=1 && a.idStatus<=7`)
             } else if (type === "all") {
                 dataTransaction = await query(`SELECT * FROM transactions  as a
                 JOIN status as s
@@ -213,7 +213,7 @@ module.exports = {
             const filterInvoice = req.query.invoice
 
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 10;
+            const limit = parseInt(req.query.limit) || 2;
             const startIndex = (page - 1) * limit;
             const endIndex = page * limit;
             let nextPage;
@@ -483,18 +483,36 @@ module.exports = {
 
     // Payment
     patchPaymentStatus: async (req, res) => {
-        const paymentStatus = req.query.paymentStatus
-        const idTransaction = parseInt(req.query.idTransaction)
-        console.log(req.query.idTransaction);
-        console.log(req.query.paymentStatus);
-        if (paymentStatus === "accepted") {
-            console.log("ditolak");
-            await query(`UPDATE transactions SET idStatus=3 WHERE idTransaction=${db.escape(idTransaction)}`)
+        try {
+            const paymentStatus = req.query.paymentStatus
+            const idTransaction = parseInt(req.query.idTransaction)
+            console.log(req.query.idTransaction);
+            console.log(req.query.paymentStatus);
+            if (paymentStatus === "accepted") {
+                console.log("ditolak");
+                await query(`UPDATE transactions SET idStatus=3 WHERE idTransaction=${db.escape(idTransaction)}`)
 
-        } else if (paymentStatus === "declined") {
-            console.log("ditolak");
-            await query(`UPDATE transactions SET idStatus=2 WHERE idTransaction=${db.escape(idTransaction)}`)
+            } else if (paymentStatus === "declined") {
+                console.log("ditolak");
+                await query(`UPDATE transactions SET idStatus=2 WHERE idTransaction=${db.escape(idTransaction)}`)
 
+            }
+
+            res.status(200).send({ message: "Success change payment status" })
+        } catch (error) {
+            res.status(500).send(error)
+        }
+    },
+
+    //Change Status
+    patchTransactionStatus: async (req, res) => {
+        try {
+            const idTransaction = parseInt(req.query.idTransaction)
+            const idStatus = parseInt(req.query.idStatus)
+            const changeStatus = await query(`UPDATE transactions SET idStatus=${db.escape(idStatus)} WHERE idTransaction=${db.escape(idTransaction)}`)
+            res.status(200).send({ message: "Success Change Transaction Status", data: changeStatus })
+        } catch (error) {
+            res.status(500).send(error)
         }
     }
 }

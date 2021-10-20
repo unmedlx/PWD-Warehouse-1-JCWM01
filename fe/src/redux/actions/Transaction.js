@@ -130,3 +130,10 @@ export const paymentDeclined = (idTransaction) => {
 
     }
 }
+
+// Change Status to deliver (7)
+export const changeStatus = (idTransaction, idStatus) => {
+    return async dispatch => {
+        await axios.patch(`${API_URL}/transaction/transaction-status?idTransaction=${idTransaction}&idStatus=${idStatus}`)
+    }
+}

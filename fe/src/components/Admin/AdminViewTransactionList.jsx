@@ -6,8 +6,11 @@ import moment from "moment";
 import '../../assets/styles/Typography.css'
 
 import AdminPaymentReciept from '../Admin/AdminPaymentReciept';
+import { useDispatch } from 'react-redux';
+import { changeStatus, fetchAdminViewTransaction } from '../../redux/actions/Transaction';
 
-const AdminViewTransactionList = ({ data }) => {
+const AdminViewTransactionList = ({ data, currentPage }) => {
+    const dispatch = useDispatch()
     const [showProof, setShowProof] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
     const handleShowProof = () => setShowProof(true);
@@ -18,20 +21,39 @@ const AdminViewTransactionList = ({ data }) => {
         reload()
 
     }
+
+    const deliver = async () => {
+        dispatch(changeStatus(data.idTransaction, 7))
+        dispatch(fetchAdminViewTransaction(data.idWarehouse, currentPage, 0, "", ""))
+    }
+    const done = async () => {
+        dispatch(changeStatus(data.idTransaction, 8))
+        dispatch(fetchAdminViewTransaction(data.idWarehouse, currentPage, 0, "", ""))
+    }
+    const cancel = async () => {
+        dispatch(changeStatus(data.idTransaction, 9))
+        dispatch(fetchAdminViewTransaction(data.idWarehouse, currentPage, 0, "", ""))
+    }
+
+
     let badgeStatus;
     if (data.idStatus == 1) {
         badgeStatus = (
-            <Badge bg="warning">{data.status}</Badge>
+            <Badge bg="danger">{data.status}</Badge>
         );
     } else if (data.idStatus == 2) {
         badgeStatus = (
+            <Badge bg="secondary">{data.status}</Badge>
+        );
+    } else if (data.idStatus == 3) {
+        badgeStatus = (
             <Badge bg="primary">{data.status}</Badge>
         );
-    } else if (data.idStatus >= 3 || data.idStatus <= 7) {
+    } else if (data.idStatus >= 4 && data.idStatus <= 5) {
         badgeStatus = (
-            <Badge bg="info">{data.status}</Badge>
+            <Badge bg="warning">{data.status}</Badge>
         );
-    } else if (data.idStatus == 8) {
+    } else if (data.idStatus >= 6 && data.idStatus <= 8) {
         badgeStatus = (
             <Badge bg="success">{data.status}</Badge>
         );
@@ -107,16 +129,19 @@ const AdminViewTransactionList = ({ data }) => {
                     {paymentBadge}
                 </div>
                 <div className="col-2">
-                    <button>See</button>
-                    <button>Cancel</button>
-                    <button>Done</button>
-                    <button>Delivered</button>
-                    <button>tes</button>
+                    <button>
+                        <Link className="link-transaction" to={`/admin-transaction-detail/${data.idTransaction}`}>
+                            See
+                        </Link>
+                    </button>
+                    <button onClick={deliver}>Deliver</button>
+                    <button onClick={done}>Done</button>
+                    <button onClick={cancel}>Cancel</button>
                 </div>
             </div>
 
             <hr />
-            <AdminPaymentReciept show={showProof} handleClose={handleCloseProof} data={data} />
+            <AdminPaymentReciept show={showProof} handleClose={handleCloseProof} data={data} currentPage={currentPage} />
         </>
     )
 }

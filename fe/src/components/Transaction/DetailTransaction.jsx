@@ -89,25 +89,29 @@ const DetailTransaction = () => {
     }, [])
 
     let badgeStatus;
-    if (idStatus == 1) {
+    if (data.idStatus == 1) {
         badgeStatus = (
-            <Badge bg="warning">{status}</Badge>
+            <Badge bg="danger">{data.status}</Badge>
         );
-    } else if (idStatus == 2) {
+    } else if (data.idStatus == 2) {
         badgeStatus = (
-            <Badge bg="primary">{status}</Badge>
+            <Badge bg="secondary">{data.status}</Badge>
         );
-    } else if (idStatus >= 3 || idStatus <= 7) {
+    } else if (data.idStatus == 3) {
         badgeStatus = (
-            <Badge bg="info">{status}</Badge>
+            <Badge bg="primary">{data.status}</Badge>
         );
-    } else if (idStatus == 8) {
+    } else if (data.idStatus >= 4 && data.idStatus <= 5) {
         badgeStatus = (
-            <Badge bg="success">{status}</Badge>
+            <Badge bg="warning">{data.status}</Badge>
         );
-    } else if (idStatus == 9) {
+    } else if (data.idStatus >= 6 && data.idStatus <= 8) {
         badgeStatus = (
-            <Badge bg="danger">{status}</Badge>
+            <Badge bg="success">{data.status}</Badge>
+        );
+    } else if (data.idStatus == 9) {
+        badgeStatus = (
+            <Badge bg="danger">{data.status}</Badge>
         );
     }
     let history = useHistory();

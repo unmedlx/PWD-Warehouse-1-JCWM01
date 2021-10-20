@@ -13,6 +13,7 @@ router.patch('/upload', authToken, transactionController.uploadPaymentProof)
 
 router.get("/admintransaction", transactionController.getUserTransaction)
 router.patch("/admin-payment", transactionController.patchPaymentStatus)
+router.patch("/transaction-status", transactionController.patchTransactionStatus)
 router.get("/super-admin-transaction", transactionController.getUserTransactionSuper)
 
 

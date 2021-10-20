@@ -151,6 +151,10 @@ function App() {
         component={AdminViewTransaction}
         isAdmin={adminGlobal.idRole}
       />
+      <AdminRoute
+        path="/admin-transaction-detail/:idTransaction"
+        component={DetailTransaction}
+        isAdmin={adminGlobal.idRole} />
     </BrowserRouter>
   );
 }
