@@ -10,7 +10,7 @@ import '../../assets/styles/Typography.css'
 const AdminTransaction = () => {
     const dispatch = useDispatch()
     const adminGlobal = useSelector(state => state.admins)
-    const { loading, data, max_page } = useSelector(state => state.ongoingTransaction)
+    const { data, max_page, currentPage } = useSelector(state => state.ongoingTransaction)
 
     const [paging, setPaging] = useState({
         currentPage: 1,
@@ -44,14 +44,12 @@ const AdminTransaction = () => {
         // renderTransactions()
     }, [paging.currentPage, sort, status, invoice])
 
-    // useEffect(() => {
-    //     getUserTransaction()
-    // }, [dispatch])
+
 
     const renderTransactions = () => {
         return data.map((d) => {
             return (
-                <AdminViewTransactionList data={d} />
+                <AdminViewTransactionList data={d} currentPage={currentPage} />
             )
         })
     }
@@ -111,22 +109,22 @@ const AdminTransaction = () => {
 
             <div>
                 <div className="row transaction-card">
-                    <div className="col subtitle">
+                    <div className="col-3 subtitle">
                         Order
                     </div>
-                    <div className="col subtitle">
+                    <div className="col-2 subtitle">
                         Contact Detail
                     </div>
-                    <div className="col subtitle">
+                    <div className="col-2 subtitle">
                         Delivery
                     </div>
                     <div className="col-1 subtitle">
                         Total
                     </div>
-                    <div className="col-1 subtitle">
+                    <div className="col-2 subtitle">
                         Payment
                     </div>
-                    <div className="col subtitle">
+                    <div className="col-2 subtitle">
                         Action
                     </div>
                 </div>

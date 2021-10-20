@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { API_URL } from '../helper/index';
 import '../assets/styles/addressModals.css';
-import { EditAddress } from '../redux/actions/addressUser';
+import { EditAddress, CheckAddress } from '../redux/actions/addressUser';
 
 const AddressModal = ({ show, handleClose, address, provinces }) => {
     const dispatch = useDispatch()
@@ -53,6 +53,10 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
 
         dispatch(
             EditAddress(data, idUser, userLocalStorage)
+        )
+
+        dispatch(
+            CheckAddress(userLocalStorage)
         )
 
     }

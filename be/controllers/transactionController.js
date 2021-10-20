@@ -373,6 +373,7 @@ module.exports = {
                 previous_page: previousPage,
                 transactions_count: transactionsCount,
                 max_page: maxPage,
+                currentPage: page
             })
 
         } catch (error) {

@@ -11,10 +11,11 @@ const AdminViewTransactionList = ({ data }) => {
     const [showProof, setShowProof] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
     const handleShowProof = () => setShowProof(true);
-
+    const reload = () => { }
 
     const handleCloseProof = () => {
         setShowProof(false);
+        reload()
 
     }
     let badgeStatus;
@@ -39,15 +40,30 @@ const AdminViewTransactionList = ({ data }) => {
             <Badge bg="danger">{data.status}</Badge>
         );
     }
+
+    let paymentBadge;
+    if (data.buktiPembayaran && data.idStatus > 3) {
+        paymentBadge = (
+            <Badge bg="success">Confirmed</Badge>
+        )
+    } else if (data.idStatus === 2) {
+        paymentBadge = (
+            <Badge bg="secondary">Waiting for Verification</Badge>
+        )
+    } else if (data.idStatus === 1) {
+        paymentBadge = (
+            <Badge bg="danger">Waiting for Payment</Badge>
+        )
+    }
     return (
         <>
             <div className="row transaction-card">
-                <div className="col">
+                <div className="col-3">
                     <p className="subtitle-600 m-0">{data.invoiceNumber}</p>
                     <p className="subtitle-500 m-0">{moment(data.transactionDate).format('MMMM Do YYYY, h:mm:ss a')}</p>
                     {badgeStatus}
                 </div>
-                <div className="col">
+                <div className="col-2">
                     <div className="row">
                         <p className="m-0 p-0 text-small subtitle-600">
                             {data.recipientName}
@@ -63,7 +79,7 @@ const AdminViewTransactionList = ({ data }) => {
                         <p className="m-0 p-0 text-small subtitle-600">{data.provinsi}</p>
                     </div>
                 </div>
-                <div className="col">
+                <div className="col-2">
                     <div className="row">
                         <p className="p-0 m-0 text-small ">
                             {data.courier}
@@ -84,20 +100,23 @@ const AdminViewTransactionList = ({ data }) => {
                         </div>
                     </div>
                 </div>
-                <div className="col-1">
-                    <button onClick={handleShowProof}>Payment</button>
+                <div className="col-2">
+                    <div>
+                        <button onClick={handleShowProof}>Payment</button>
+                    </div>
+                    {paymentBadge}
                 </div>
-                <div className="col">
-                    <button>tes</button>
-                    <button>tes</button>
-                    <button>tes</button>
-                    <button>tes</button>
+                <div className="col-2">
+                    <button>See</button>
+                    <button>Cancel</button>
+                    <button>Done</button>
+                    <button>Delivered</button>
                     <button>tes</button>
                 </div>
             </div>
 
             <hr />
-            <AdminPaymentReciept show={showProof} handleClose={handleCloseProof} idStatus={data.idStatus} idTransaction={data.idTransaction} buktiPembayaran={data.buktiPembayaran} />
+            <AdminPaymentReciept show={showProof} handleClose={handleCloseProof} data={data} />
         </>
     )
 }

@@ -6,6 +6,7 @@ import { API_URL } from "../../constants/API";
 export const CheckAddress = (userLocalStorage) => {
     return async dispatch => {
         try {
+            console.log("saya checkAddress");
             const getDataAddress = await axios.post(`${API_URL}/address/`,
                 {},
                 {
@@ -14,7 +15,7 @@ export const CheckAddress = (userLocalStorage) => {
                     },
                 }
             )
-
+            console.log(getDataAddress.data);
             dispatch({
                 type: "GET_ADDRESS",
                 payload: getDataAddress.data,
@@ -29,14 +30,12 @@ export const CheckAddress = (userLocalStorage) => {
 export const EditAddress = (data, idUser, userLocalStorage) => {
     return async dispatch => {
         try {
-            // console.log(data, idUser, userLocalStorage);
 
             const editAddress = await axios.patch(`${API_URL}/address/${idUser}`, { data })
-
-            console.log(editAddress);
-            dispatch(CheckAddress(userLocalStorage))
+            // console.log("editAddress");
             // setSuccessUpload(editAddress.data.success)
             alert(editAddress.data.message)
+            CheckAddress(userLocalStorage)
 
 
         } catch (error) {
@@ -64,7 +63,6 @@ export const DeleteAddress = (idAddress, userLocalStorage) => {
     return async dispatch => {
         try {
             const deleteAddress = await axios.delete(`${API_URL}/address/${idAddress}`)
-            dispatch(CheckAddress(userLocalStorage))
             alert(deleteAddress.data.message)
         } catch (error) {
             console.log(error);

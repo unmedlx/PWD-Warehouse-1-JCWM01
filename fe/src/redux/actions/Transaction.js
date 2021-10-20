@@ -94,13 +94,12 @@ export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
 export const fetchAdminViewTransaction = (idWarehouse, page, status, sortBy, invoice) => {
     return async dispatch => {
         try {
-            console.log(idWarehouse, page, status, sortBy, invoice);
             dispatch({
                 type: "FETCH_ONGOING_TRANSACTION"
             })
 
             const { data } = await axios.get(`${API_URL}/transaction/admintransaction?idRole=2&idWarehouse=${idWarehouse}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}`)
-            // console.log(data.data);
+            console.log(data.data, "INI DATA BARU");
             dispatch({
                 type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
                 payload: data
@@ -120,8 +119,8 @@ export const fetchAdminViewTransaction = (idWarehouse, page, status, sortBy, inv
 // PaymentProof
 export const paymentAccepted = (idTransaction) => {
     return async dispatch => {
-        console.log("AKU DIPANGGIl");
         await axios.patch(`${API_URL}/transaction/admin-payment?paymentStatus=accepted&idTransaction=${idTransaction}`)
+
 
     }
 }

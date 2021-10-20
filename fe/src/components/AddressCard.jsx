@@ -5,7 +5,7 @@ import axios from 'axios';
 import '../assets/styles/ProfileAddress.css'
 import { Badge } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { DeleteAddress } from '../redux/actions/addressUser';
+import { DeleteAddress, CheckAddress } from '../redux/actions/addressUser';
 
 const AddressCard = ({ provinces, address }) => {
     const userLocalStorage = localStorage.getItem("token_shutter")
@@ -24,8 +24,7 @@ const AddressCard = ({ provinces, address }) => {
             dispatch(
                 DeleteAddress(address.idAddress, userLocalStorage)
             )
-
-
+            dispatch(CheckAddress(userLocalStorage))
         } catch (error) {
             console.log(error);
         }
