@@ -54,7 +54,6 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
         dispatch(
             EditAddress(data, idUser, userLocalStorage)
         )
-
         dispatch(
             CheckAddress(userLocalStorage)
         )
@@ -91,30 +90,6 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
 
                             <div className="profile-main-data">
                                 <div className="input-container">
-                                    <ErrorMessage name="recipientName" component="span" className="error-message" />
-                                    <Field type="text" autocomplete="off" className="input-field" name="recipientName" placeholder="Recipient Name" />
-                                </div>
-
-
-                                <div className="input-container">
-                                    <ErrorMessage name="phoneNumber" component="span" className="error-message" />
-                                    <Field type="text" autocomplete="off" className="input-field" name="phoneNumber" placeholder="Phone Number" />
-                                </div>
-
-
-                                <div className="input-container">
-                                    <ErrorMessage name="jalan" component="span" className="error-message" />
-                                    <Field type="text" autocomplete="off" className="input-field" name="jalan" placeholder="Street" />
-                                </div>
-
-
-                                <div className="input-container">
-                                    <ErrorMessage name="kecamatan" component="span" className="error-message" />
-                                    <Field type="text" autocomplete="off" className="input-field" name="kecamatan" placeholder="Subdivision" />
-                                </div>
-
-
-                                <div className="input-container">
                                     <label htmlFor="province" className="form-label">Province</label>
                                     <ErrorMessage name="province" component="span" className="error-message" />
                                     <Field as="select" className="input-field" name="province" value={province} onChange={(e) => setProvince(e.target.value)} >
@@ -134,18 +109,45 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
                                     </Field>
                                 </div>
 
+                                <div className="input-container">
+                                    <label htmlFor="recipientName" className="form-label">Recepient Name</label>
+                                    <ErrorMessage name="recipientName" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="recipientName" placeholder="Recipient Name" />
+                                </div>
+
 
                                 <div className="input-container">
+                                    <label htmlFor="phoneNumber" className="form-label">Phone Number</label>
+                                    <ErrorMessage name="phoneNumber" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="phoneNumber" placeholder="Phone Number" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="jalan" className="form-label">Street</label>
+                                    <ErrorMessage name="jalan" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="jalan" placeholder="Street" />
+                                </div>
+
+
+                                <div className="input-container">
+                                    <label htmlFor="kecamatan" className="form-label">District</label>
+                                    <ErrorMessage name="kecamatan" component="span" className="error-message" />
+                                    <Field type="text" autocomplete="off" className="input-field" name="kecamatan" placeholder="Subdivision" />
+                                </div>
+
+                                <div className="input-container">
+                                    <label htmlFor="zip" className="form-label">ZIP</label>
                                     <ErrorMessage name="zip" component="span" className="error-message" />
                                     <Field type="text" autocomplete="off" className="input-field" name="zip" placeholder="ZIP" />
                                 </div>
 
                                 <div className="input-container">
+                                    <label htmlFor="isDefault" className="form-label">Primary Address</label>
                                     <ErrorMessage name="isDefault" component="span" className="error-message" />
-                                    <label>
-                                        <Field type="checkbox" autocomplete="off" className="input-field" name="isDefault" />Default
-                                    </label>
-
+                                    <div>
+                                        <Field type="checkbox" autocomplete="off" className="form-check-input" name="isDefault" />
+                                    </div>
                                 </div>
                             </div>
                             {successUpload ?

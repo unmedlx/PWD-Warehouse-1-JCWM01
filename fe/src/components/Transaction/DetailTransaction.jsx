@@ -121,7 +121,7 @@ const DetailTransaction = () => {
             <div className="container-transaction-detail">
                 <div className="detail-header d-flex justify-content-between px-4 pt-4">
                     <p className="detail-header-text subtitle italic">{invoiceNumber}</p>
-                    <button class="close" onClick={() => history.goBack()}><FaTimes /></button>
+                    <button class="close mb-2" onClick={() => history.goBack()}><FaTimes /></button>
                 </div>
                 <hr className="m-0 mb-3" />
                 <div className="mx-5">
@@ -191,8 +191,6 @@ const DetailTransaction = () => {
                     </div >
 
                     <div className="btn-container">
-                        {/* <button className="button nav-button">Back to Cart</button>
-                        <button className="button nav-button" onClick>Next</button> */}
                     </div>
 
                 </div>

@@ -11,10 +11,11 @@ const AddressCard = ({ provinces, address }) => {
     const userLocalStorage = localStorage.getItem("token_shutter")
     const dispatch = useDispatch()
     const [show, setShow] = useState(false);
+    const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        // reload()
+        reload()
 
     }
     const handleShow = () => setShow(true);

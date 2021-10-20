@@ -119,13 +119,13 @@ const AdminTransaction = () => {
                     <div className="col-2 subtitle">
                         Delivery
                     </div>
-                    <div className="col-1 subtitle">
+                    <div className="col-2 subtitle">
                         Total
                     </div>
                     <div className="col-2 subtitle">
                         Payment
                     </div>
-                    <div className="col-2 subtitle">
+                    <div className="col-1 subtitle">
                         Action
                     </div>
                 </div>

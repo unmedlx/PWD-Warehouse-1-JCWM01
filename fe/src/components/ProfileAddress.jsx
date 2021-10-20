@@ -9,10 +9,8 @@ import '../assets/styles/ProfileAddress.css'
 const ProfileAddress = () => {
     // const userGlobal = useSelector((state) => state.users);
     const addressGlobal = useSelector((state) => state.addresses);
-    const userLocalStorage = localStorage.getItem("token_shutter");
     const [show, setShow] = useState(false);
     const [provinces, setProvinces] = useState([])
-    const [dataAddresses, setdataAddresses] = useState({})
 
 
     const handleClose = () => {

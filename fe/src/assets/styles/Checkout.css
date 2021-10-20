@@ -7,7 +7,7 @@
     align-items: center;
     flex-direction: column;
     font-family: "Montserrat", sans-serif;
-    height: 100vh;
+    height: 120vh;
     margin-top: 50px;
     margin-bottom: 50px;
   }
@@ -21,10 +21,10 @@
     overflow: hidden;
     min-width: 130vh;
     max-width: 100%;
-    min-height: 80vh;
+    min-height: 90vh;
     max-height: 100%;
-    overflow: scroll;
-    overflow-x: hidden;
+    /* overflow: scroll;
+    overflow-x: hidden; */
   }
 
   

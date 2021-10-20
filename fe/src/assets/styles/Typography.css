@@ -1,4 +1,13 @@
     /* HR */
+
+    .hr-line{
+        border: 2px solid #00be75;
+    }
+    .hr-line-2{
+        border:1px solid #000000;
+        /* color: rgba(255, 255, 255, 0); */
+    }
+    
     .ruler{
         border-top: 3px solid #32b281;
         color: rgba(255, 255, 255, 0);
@@ -7,6 +16,9 @@
     
     .subtitle{
     font-weight: 800;   
+    }
+    .subtitle-700{
+    font-weight: 700;
     }
     
     .subtitle-600{
@@ -17,9 +29,13 @@
     font-weight: 500;
     }
 
-    .text-smaller{
+    .text-smallest{
     font-size: 0.8rem;
     }
-    .text-small{
+    .text-smaller{
     font-size: 0.9rem;
+    }
+
+    .text-small{
+    font-size: 1rem;
     }

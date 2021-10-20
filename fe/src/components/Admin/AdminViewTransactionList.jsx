@@ -4,22 +4,20 @@ import { Link } from 'react-router-dom';
 import moment from "moment";
 
 import '../../assets/styles/Typography.css'
+import '../../assets/styles/AdminTransaction.css'
 
 import AdminPaymentReciept from '../Admin/AdminPaymentReciept';
 import { useDispatch } from 'react-redux';
-import { addUserStock, changeStatus, deleteAdminStock, fetchAdminViewTransaction, returnUserStock } from '../../redux/actions/Transaction';
+import { changeStatus, deleteAdminStock, fetchAdminViewTransaction, returnUserStock } from '../../redux/actions/Transaction';
+import { FaTimes, FaRegEye, FaRegThumbsUp, FaTruck, FaMoneyBillWave } from 'react-icons/fa'
 
 const AdminViewTransactionList = ({ data, currentPage }) => {
     const dispatch = useDispatch()
     const [showProof, setShowProof] = useState(false);
-    const [showDetail, setShowDetail] = useState(false);
     const handleShowProof = () => setShowProof(true);
-    const reload = () => { }
 
     const handleCloseProof = () => {
         setShowProof(false);
-        reload()
-
     }
 
     const deliver = async () => {
@@ -119,7 +117,7 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
                     </div>
 
                 </div>
-                <div className="col-1">
+                <div className="col-2">
                     <div className="row">
                         <div className="row">
                             <p className="m-0 p-0 text-small subtitle-500">{data.sumquantity} item(s)</p>
@@ -131,28 +129,59 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
                 </div>
                 <div className="col-2">
                     <div>
-                        <button onClick={handleShowProof}>Payment</button>
+                        <button onClick={handleShowProof} className="payment-button"><FaMoneyBillWave className="payment-svg" /> Payment</button>
                     </div>
                     {paymentBadge}
                 </div>
-                <div className="col-2">
-                    <button>
-                        <Link className="link-transaction" to={`/admin-transaction-detail/${data.idTransaction}`}>
-                            See
-                        </Link>
-                    </button>
-                    {data.idStatus >= 7 ?
-                        <button onClick={deliver} disabled>Deliver</button>
-                        : <button onClick={deliver}>Deliver</button>
-                    }
-                    {data.idStatus >= 8 ?
-                        <button onClick={done} disabled>Done</button>
-                        : <button onClick={done}>Done</button>
-                    }
-                    {data.idStatus >= 8 ?
-                        <button onClick={cancel} disabled>Cancel</button>
-                        : <button onClick={cancel}>Cancel</button>
-                    }
+                <div className="col-1">
+                    <div className="row">
+                        <div className="col">
+                            <button className="payment-action" >
+                                <Link className="link-transaction" to={`/admin-transaction-detail/${data.idTransaction}`}>
+                                    <FaRegEye className="payment-action-svg" />
+                                </Link>
+                            </button>
+                            {data.idStatus >= 7 || data.idStatus === 2 ?
+                                <button className="payment-action" onClick={deliver} disabled><FaTruck className="payment-action-svg" /></button>
+                                : <button className="payment-action" onClick={() => {
+                                    const isDeliver = window.confirm(
+                                        `Deliver transaction ${data.invoiceNumber} ?`
+                                    )
+                                    if (isDeliver === true) {
+                                        deliver()
+                                    }
+                                }}
+                                >
+                                    <FaTruck className="payment-action-svg" /></button>
+                            }
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col">
+                            {data.idStatus >= 8 || data.idStatus === 2 ?
+                                <button className="payment-action" onClick={done} disabled><FaRegThumbsUp className="payment-action-svg" /></button>
+                                : <button className="payment-action" onClick={() => {
+                                    const isDone = window.confirm(
+                                        `Finished transaction ${data.invoiceNumber} ?`
+                                    )
+                                    if (isDone === true) {
+                                        done()
+                                    }
+                                }}><FaRegThumbsUp className="payment-action-svg" /></button>
+                            }
+                            {data.idStatus >= 8 || data.idStatus === 2 ?
+                                <button className="payment-action" onClick={cancel} disabled><FaTimes className="payment-action-svg" /></button>
+                                : <button className="payment-action" onClick={() => {
+                                    const isCancel = window.confirm(
+                                        `Cancel transaction ${data.invoiceNumber} ?`
+                                    )
+                                    if (isCancel === true) {
+                                        cancel()
+                                    }
+                                }}><FaTimes className="payment-action-svg" /></button>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import moment from "moment";
+import { FaTimes, FaRegEye, FaRegThumbsUp, FaTruck, FaMoneyBillWave } from 'react-icons/fa'
 
 import '../../assets/styles/DetailTransaction.css'
-
+import '../../assets/styles/Typography.css'
 
 
 import PaymentReceiptModal from './PaymentReceiptModal'
 
 const DataOngoingList = ({ data }) => {
     const [showProof, setShowProof] = useState(false);
-    const [showDetail, setShowDetail] = useState(false);
     const handleShowProof = () => setShowProof(true);
 
 
@@ -52,22 +52,23 @@ const DataOngoingList = ({ data }) => {
 
 
     return (
-        <>
+        <div>
             <div className="row transaction-card">
                 <div className="col-4">
-                    <h5 className="subtitle-600 m-0">{data.invoiceNumber}</h5>
-                    <h6 className="subtitle-500 m-0">{moment(data.transactionDate).format('MMMM Do YYYY, h:mm:ss a')}</h6>
+                    <h5 className="subtitle-600 text-small m-0">{data.invoiceNumber}</h5>
+                    <h6 className="subtitle-500 text-smaller m-0">{moment(data.transactionDate).format('MMMM Do YYYY, h:mm:ss a')}</h6>
                     {badgeStatus}
                 </div>
 
                 <div className="col-3">
                     <div className="row">
-
-                        {data.courier}
+                        <p className="p-0 m-0 subtitle-600 text-smaller">
+                            {data.courier}
+                        </p>
 
                     </div>
                     <div className="row">
-                        <p className="m-0 p-0">{data.courierService}</p>
+                        <p className="m-0 p-0 text-smaller">{data.courierService}</p>
                     </div>
                 </div>
 
@@ -75,33 +76,37 @@ const DataOngoingList = ({ data }) => {
                     <div className="row">
                         <div className="row">
                             <div className="col">
-                                <p className="m-0">{data.sumquantity} item(s)</p>
+                                <p className="m-0 p-0 subtitle-500 text-smaller">{data.sumquantity} item(s)</p>
                             </div>
                             <div className="col">
-                                <p className="m-0 p-0">Rp. {data.subtotalPrice}</p>
-                            </div>
-                        </div>
-                        <div className="row">
-                            <div className="col">
-                                Delivery Cost
-                            </div>
-                            <div className="col">
-                                <p className="m-0 p-0">Rp. {data.deliveryCost}</p>
+                                <p className="m-0 p-0 text-smaller">Rp. {data.subtotalPrice}</p>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col">
-                                Total
+                                <p className="m-0 p-0 text-smaller">
+                                    Delivery Cost
+                                </p>
                             </div>
                             <div className="col">
-                                <p className="m-0 p-0">Rp. {data.deliveryCost + data.subtotalPrice}</p>
+                                <p className="m-0 p-0 text-smaller">Rp. {data.deliveryCost}</p>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col">
+                                <p className="m-0 p-0 subtitle-500 text-small">
+                                    Total
+                                </p>
+                            </div>
+                            <div className="col">
+                                <p className="m-0 p-0 subtitle-500 text-small">Rp. {data.deliveryCost + data.subtotalPrice}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div className="row mt-2">
+            <div className="row mt-2 mb-4">
                 <div className="col-7">
 
                 </div>
@@ -117,7 +122,7 @@ const DataOngoingList = ({ data }) => {
             </div>
             <hr />
             <PaymentReceiptModal show={showProof} handleClose={handleCloseProof} idTransaction={data.idTransaction} buktiPembayaran={data.buktiPembayaran} />
-        </>
+        </div>
     )
 }
 
