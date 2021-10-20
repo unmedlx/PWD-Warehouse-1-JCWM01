@@ -1,9 +1,9 @@
-const { db } = require("../database");
+const { db, query } = require("../database");
 const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
 module.exports = {
-  getData: (req, res) => {},
+  getData: (req, res) => { },
 
   getDataById: (req, res) => {
     let scriptQuery = `SELECT p.idProduct, productName, price, productImage, description, p.idCategory, category, idUser, warehouse, quantity 
@@ -83,4 +83,35 @@ module.exports = {
       res.status(200).send(results);
     });
   },
-};
+  // delete adminstock from transaction
+  deleteAdminStock: async (req, res) => {
+    try {
+      const idWarehouse = parseInt(req.query.idWarehouse)
+      const idTransaction = parseInt(req.query.idTransaction)
+      // console.log(idWarehouse, idTransaction);
+
+      let getQuery = `SELECT * FROM checkouts WHERE idTransaction = ${db.escape(idTransaction)}`
+      const getCheckoutData = await query(getQuery)
+      for (let i = 0; i < getCheckoutData.length; i++) {
+        let idProduct = getCheckoutData[i].idProduct
+        let quantity = getCheckoutData[i].quantity
+        // console.log(`idproduct ${idProduct} jumlah nya ${quantity}`);
+
+        let getAdminQuery = `SELECT * FROM adminstocks WHERE idProduct = ${idProduct} && idWarehouse = ${idWarehouse}`
+        let getAdminStock = await query(getAdminQuery)
+
+        let adminStockQuantity = getAdminStock[0].quantity
+        // console.log(`Quantity barang ${idProduct} ada ${adminStockQuantity}`);
+
+        let newStock = adminStockQuantity - quantity
+
+        let patchAdminQuery = `UPDATE adminstocks SET quantity=${db.escape(newStock)} WHERE idWarehouse=${db.escape(idWarehouse)} AND idProduct=${db.escape(idProduct)}`
+        console.log(patchAdminQuery);
+        await query(patchAdminQuery)
+      }
+      return res.status(200).send({ message: "success update adminstock" })
+    } catch (error) {
+      res.status(500).send(error)
+    }
+  }
+}

@@ -10,6 +10,6 @@ module.exports = {
       req.user = decode;
       next();
     });
-    console.log(req.body);
+    // console.log(req.body);
   },
 };

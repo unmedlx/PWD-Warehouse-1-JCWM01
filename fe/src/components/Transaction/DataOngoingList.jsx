@@ -20,27 +20,31 @@ const DataOngoingList = ({ data }) => {
 
     }
     let badgeStatus;
-    if (data.idStatus == 1) {
+    if (data.idStatus === 1) {
         badgeStatus = (
             <Badge bg="danger">{data.status}</Badge>
         );
-    } else if (data.idStatus == 2) {
+    } else if (data.idStatus === 2) {
         badgeStatus = (
             <Badge bg="secondary">{data.status}</Badge>
         );
-    } else if (data.idStatus == 3) {
+    } else if (data.idStatus === 3) {
         badgeStatus = (
-            <Badge bg="primary">{data.status}</Badge>
+            <Badge bg="info">{data.status}</Badge>
         );
     } else if (data.idStatus >= 4 && data.idStatus <= 5) {
         badgeStatus = (
             <Badge bg="warning">{data.status}</Badge>
         );
-    } else if (data.idStatus >= 6 && data.idStatus <= 8) {
+    } else if (data.idStatus >= 6 && data.idStatus <= 7) {
+        badgeStatus = (
+            <Badge bg="primary">{data.status}</Badge>
+        );
+    } else if (data.idStatus === 8) {
         badgeStatus = (
             <Badge bg="success">{data.status}</Badge>
         );
-    } else if (data.idStatus == 9) {
+    } else if (data.idStatus === 9) {
         badgeStatus = (
             <Badge bg="danger">{data.status}</Badge>
         );

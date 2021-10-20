@@ -7,7 +7,7 @@ import '../../assets/styles/Typography.css'
 
 import AdminPaymentReciept from '../Admin/AdminPaymentReciept';
 import { useDispatch } from 'react-redux';
-import { changeStatus, fetchAdminViewTransaction } from '../../redux/actions/Transaction';
+import { changeStatus, deleteAdminStock, fetchAdminViewTransaction } from '../../redux/actions/Transaction';
 
 const AdminViewTransactionList = ({ data, currentPage }) => {
     const dispatch = useDispatch()
@@ -24,6 +24,9 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
 
     const deliver = async () => {
         dispatch(changeStatus(data.idTransaction, 7))
+
+        // Delete data di adminStock
+        dispatch(deleteAdminStock(data.idWarehouse, data.idTransaction))
         dispatch(fetchAdminViewTransaction(data.idWarehouse, currentPage, 0, "", ""))
     }
     const done = async () => {
@@ -37,27 +40,31 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
 
 
     let badgeStatus;
-    if (data.idStatus == 1) {
+    if (data.idStatus === 1) {
         badgeStatus = (
             <Badge bg="danger">{data.status}</Badge>
         );
-    } else if (data.idStatus == 2) {
+    } else if (data.idStatus === 2) {
         badgeStatus = (
             <Badge bg="secondary">{data.status}</Badge>
         );
-    } else if (data.idStatus == 3) {
+    } else if (data.idStatus === 3) {
         badgeStatus = (
-            <Badge bg="primary">{data.status}</Badge>
+            <Badge bg="info">{data.status}</Badge>
         );
     } else if (data.idStatus >= 4 && data.idStatus <= 5) {
         badgeStatus = (
             <Badge bg="warning">{data.status}</Badge>
         );
-    } else if (data.idStatus >= 6 && data.idStatus <= 8) {
+    } else if (data.idStatus >= 6 && data.idStatus <= 7) {
+        badgeStatus = (
+            <Badge bg="primary">{data.status}</Badge>
+        );
+    } else if (data.idStatus === 8) {
         badgeStatus = (
             <Badge bg="success">{data.status}</Badge>
         );
-    } else if (data.idStatus == 9) {
+    } else if (data.idStatus === 9) {
         badgeStatus = (
             <Badge bg="danger">{data.status}</Badge>
         );
@@ -134,9 +141,18 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
                             See
                         </Link>
                     </button>
-                    <button onClick={deliver}>Deliver</button>
-                    <button onClick={done}>Done</button>
-                    <button onClick={cancel}>Cancel</button>
+                    {data.idStatus >= 7 ?
+                        <button onClick={deliver} disabled>Deliver</button>
+                        : <button onClick={deliver}>Deliver</button>
+                    }
+                    {data.idStatus >= 8 ?
+                        <button onClick={done} disabled>Done</button>
+                        : <button onClick={done}>Done</button>
+                    }
+                    {data.idStatus >= 8 ?
+                        <button onClick={cancel} disabled>Cancel</button>
+                        : <button onClick={cancel}>Cancel</button>
+                    }
                 </div>
             </div>
 

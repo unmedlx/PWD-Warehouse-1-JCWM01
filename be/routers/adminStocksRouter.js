@@ -8,4 +8,6 @@ router.post("/", adminStocksController.addData);
 router.patch("/:idProduct", adminStocksController.editData);
 router.delete("/:idProduct", adminStocksController.deleteData);
 
+router.post("/admin-stocks/", adminStocksController.deleteAdminStock)
+
 module.exports = router;

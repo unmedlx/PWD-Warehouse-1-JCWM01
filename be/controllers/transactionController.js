@@ -36,7 +36,7 @@ module.exports = {
 
 
             const type = req.query.type || "all"
-            const sortBy = req.query.sortBy;
+            const sortBy = req.query.sortBy || "newest";
             const filterStatus = parseInt(req.query.status);
             const filterInvoice = req.query.invoice
 
@@ -188,13 +188,13 @@ module.exports = {
         }
     },
     getDetailTransaction: async (req, res) => {
-        console.log(req.params.id + "WAWW");
+        // console.log(req.params.id + "WAWW");
         try {
             const dataDetailTransaction = await query(`SELECT * FROM transactions as t 
             JOIN status as s ON t.idStatus=s.idStatus
             JOIN addresses a ON t.idAddress = a.idAddress
             WHERE idTransaction=${req.params.id}`)
-            console.log(dataDetailTransaction);
+            // console.log(dataDetailTransaction);
 
             return res.status(200).send({ message: 'Fetch Data Detail Transaction', dataDetailTransaction, success: true })
         } catch (error) {
@@ -235,7 +235,7 @@ module.exports = {
                     WHERE idWarehouse = ${db.escape(idWarehouse)}
                     `)
 
-                console.log(allDataTransaction);
+                // console.log(allDataTransaction);
                 if (allDataTransaction.length > 0) {
                     for (let i = 0; i < allDataTransaction.length; i++) {
                         const { idWarehouse, idTransaction, idStatus } = allDataTransaction[i]
@@ -258,8 +258,8 @@ module.exports = {
                             }
 
                             const statusQuery = (`UPDATE transactions SET idStatus = ${transactionKurang} WHERE idTransaction=${db.escape(idTransaction)}`)
-                            console.log(`Transaksi dengan id ${idTransaction} kurangnya ${transactionKurang}`);
-                            console.log(statusQuery);
+                            // console.log(`Transaksi dengan id ${idTransaction} kurangnya ${transactionKurang}`);
+                            // console.log(statusQuery);
 
                             await query(statusQuery)
 
@@ -267,13 +267,13 @@ module.exports = {
                             if (transactionKurang === true) {
                                 // sampai sini
 
-                                console.log("diubah jadi 4");
+                                // console.log("diubah jadi 4");
                                 // await query(`UPDATE transactions
                                 // SET idStatus = 4
                                 // WHERE idTransaction=${db.escape(idTransaction)};`)
 
                             } else if (transactionKurang === false) {
-                                console.log("diubah jadi 6");
+                                // console.log("diubah jadi 6");
                                 // await query(`UPDATE transactions
                                 // SET idStatus = 6
                                 // WHERE idTransaction=${db.escape(idTransaction)};`)
@@ -315,7 +315,7 @@ module.exports = {
             }
 
 
-            console.log(filterStatus, filterInvoice);
+            // console.log(filterStatus, filterInvoice);
             //Filter Category
             const filteredResults = fixedDataTransaction.filter((el) => {
                 if (filterStatus && filterInvoice) {
@@ -363,7 +363,7 @@ module.exports = {
             if (startIndex > 0) {
                 previousPage = page - 1;
             }
-            console.log(sortBy, filterStatus, filterInvoice, page, maxPage, startIndex, endIndex);
+            // console.log(sortBy, filterStatus, filterInvoice, page, maxPage, startIndex, endIndex);
             const paginatedResults = filteredResults.slice(startIndex, endIndex);
 
             res.status(200).send({
@@ -419,7 +419,7 @@ module.exports = {
 
 
 
-            console.log(filterStatus, filterInvoice);
+            // console.log(filterStatus, filterInvoice);
             //Filter Category
             const filteredResults = warehouseFilter.filter((el) => {
                 if (filterStatus && filterInvoice) {
@@ -464,7 +464,7 @@ module.exports = {
             if (startIndex > 0) {
                 previousPage = page - 1;
             }
-            console.log(sortBy, filterStatus, filterInvoice, page, maxPage, startIndex, endIndex);
+            // console.log(sortBy, filterStatus, filterInvoice, page, maxPage, startIndex, endIndex);
             const paginatedResults = filteredResults.slice(startIndex, endIndex);
 
             res.status(200).send({
