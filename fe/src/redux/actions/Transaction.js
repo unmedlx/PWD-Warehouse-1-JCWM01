@@ -138,10 +138,16 @@ export const changeStatus = (idTransaction, idStatus) => {
     }
 }
 
-
 // delete adminstock
 export const deleteAdminStock = (idWarehouse, idTransaction) => {
     return async dispatch => {
         await axios.post(`${API_URL}/adminstocks/admin-stocks?idWarehouse=${idWarehouse}&idTransaction=${idTransaction}`)
+    }
+}
+
+
+export const returnUserStock = (idWarehouse, idTransaction) => {
+    return async dispatch => {
+        await axios.post(`${API_URL}/userstocks/user-stocks?idWarehouse=${idWarehouse}&idTransaction=${idTransaction}`)
     }
 }

@@ -213,7 +213,7 @@ module.exports = {
             const filterInvoice = req.query.invoice
 
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 2;
+            const limit = parseInt(req.query.limit) || 5;
             const startIndex = (page - 1) * limit;
             const endIndex = page * limit;
             let nextPage;

@@ -10,4 +10,5 @@ router.patch("/:idProduct", userStocksController.editData);
 router.delete("/:idProduct", userStocksController.deleteData);
 router.patch("/", userStockCheck, userStocksController.editUserStock);
 
+router.post("/user-stocks/", userStocksController.returnUserStock)
 module.exports = router;

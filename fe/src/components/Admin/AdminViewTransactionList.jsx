@@ -7,7 +7,7 @@ import '../../assets/styles/Typography.css'
 
 import AdminPaymentReciept from '../Admin/AdminPaymentReciept';
 import { useDispatch } from 'react-redux';
-import { changeStatus, deleteAdminStock, fetchAdminViewTransaction } from '../../redux/actions/Transaction';
+import { addUserStock, changeStatus, deleteAdminStock, fetchAdminViewTransaction, returnUserStock } from '../../redux/actions/Transaction';
 
 const AdminViewTransactionList = ({ data, currentPage }) => {
     const dispatch = useDispatch()
@@ -24,7 +24,6 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
 
     const deliver = async () => {
         dispatch(changeStatus(data.idTransaction, 7))
-
         // Delete data di adminStock
         dispatch(deleteAdminStock(data.idWarehouse, data.idTransaction))
         dispatch(fetchAdminViewTransaction(data.idWarehouse, currentPage, 0, "", ""))
@@ -35,6 +34,7 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
     }
     const cancel = async () => {
         dispatch(changeStatus(data.idTransaction, 9))
+        dispatch(returnUserStock(data.idWarehouse, data.idTransaction))
         dispatch(fetchAdminViewTransaction(data.idWarehouse, currentPage, 0, "", ""))
     }
 
