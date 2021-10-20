@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAdminViewTransaction } from '../../redux/actions/Transaction';
-import AdminViewTransactionList from '../../components/Admin/AdminViewTransactionList';
+import { fetchSuperAdminViewTransaction } from '../../redux/actions/Transaction';
+import SuperAdminViewTransactionList from '../../components/SuperAdmin/SuperAdminViewTransactionList';
 
 import '../../assets/styles/Typography.css'
+import { fetchDataWarehouse } from '../../redux/actions/addressWarehouse';
 
-const AdminTransaction = () => {
+
+const SuperAdminViewTransaction = () => {
     const dispatch = useDispatch()
     const adminGlobal = useSelector(state => state.admins)
     const { data, max_page, currentPage } = useSelector(state => state.ongoingTransaction)
+    const addressWarehouseGlobal = useSelector(state => state.addressWarehouse)
+    const dataWarehouse = addressWarehouseGlobal.data
 
     const [paging, setPaging] = useState({
         currentPage: 1,
@@ -18,11 +22,15 @@ const AdminTransaction = () => {
     const [sort, setSort] = useState("");
     const [status, setStatus] = useState(0);
     const [invoice, setInvoice] = useState("");
+    const [warehouse, setWarehouse] = useState(0);
 
 
     // Get Data Transaction
     const getUserTransaction = () => {
-        dispatch(fetchAdminViewTransaction(idWarehouse, paging.currentPage, status, sort, invoice))
+        dispatch(fetchSuperAdminViewTransaction(warehouse, paging.currentPage, status, sort, invoice))
+    }
+    const getWarehouse = () => {
+        dispatch(fetchDataWarehouse())
     }
 
     const nextPageHandler = () => {
@@ -39,20 +47,19 @@ const AdminTransaction = () => {
 
     useEffect(() => {
         getUserTransaction()
+        getWarehouse()
         // renderTransactions()
-    }, [paging.currentPage, sort, status, invoice])
+    }, [paging.currentPage, sort, status, invoice, warehouse])
 
 
 
     const renderTransactions = () => {
         return data.map((d) => {
             return (
-                <AdminViewTransactionList data={d} currentPage={currentPage} />
+                <SuperAdminViewTransactionList data={d} currentPage={currentPage} />
             )
         })
     }
-
-
     return (
         <div style={{ padding: "60px", backgroundColor: "white" }} className="">
             <div className="content-header">
@@ -72,6 +79,23 @@ const AdminTransaction = () => {
                                 name="byName"
                                 onChange={(e) => { setInvoice(e.target.value) }}
                             />
+                        </div>
+
+                        <div style={{ marginTop: 7 }} className="col-lg-2 col-6 col-md-3">
+                            <select
+                                name="byCategory"
+                                className="form-select box-shadow"
+                                onChange={(e) => setWarehouse(e.target.value)}
+                            >
+                                <option value="">Warehouse</option>
+                                {
+                                    dataWarehouse.map((warehouse) => {
+                                        return (
+                                            <option value={warehouse.idWarehouse}>{warehouse.warehouse}</option>
+                                        )
+                                    })
+                                }
+                            </select>
                         </div>
 
                         <div style={{ marginTop: 7 }} className="col-lg-2 col-6 col-md-3">
@@ -119,13 +143,13 @@ const AdminTransaction = () => {
                     <div className="col-2 subtitle">
                         Delivery
                     </div>
-                    <div className="col-1 subtitle">
+                    <div className="col-2 subtitle">
                         Total
                     </div>
                     <div className="col-2 subtitle">
                         Payment
                     </div>
-                    <div className="col-2 subtitle">
+                    <div className="col-1 subtitle">
                         Action
                     </div>
                 </div>
@@ -160,4 +184,4 @@ const AdminTransaction = () => {
     )
 }
 
-export default AdminTransaction
+export default SuperAdminViewTransaction

@@ -22,3 +22,24 @@ export const fetchWarehouseAction = (shippingInformation) => {
         }
     }
 }
+
+export const fetchDataWarehouse = () => {
+    return async dispatch => {
+        try {
+            dispatch({
+                type: "FETCH_ADDRESS"
+            })
+            console.log("AKU DIPANGGIL");
+            const { data } = await axios.get(`${API_URL}/warehouses/warehouseList`)
+            dispatch({
+                type: "FETCH_COMPLETE",
+                payload: data
+            })
+        } catch (error) {
+            dispatch({
+                type: "FETCH_FAILED",
+                payload: error
+            })
+        }
+    }
+}

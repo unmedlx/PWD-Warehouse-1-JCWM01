@@ -115,6 +115,31 @@ export const fetchAdminViewTransaction = (idWarehouse, page, status, sortBy, inv
     }
 }
 
+// get super admin transaction data
+export const fetchSuperAdminViewTransaction = (idWarehouse, page, status, sortBy, invoice) => {
+    return async dispatch => {
+        try {
+            dispatch({
+                type: "FETCH_ONGOING_TRANSACTION"
+            })
+
+            const { data } = await axios.get(`${API_URL}/transaction/super-admin-transaction?&idWarehouse=${idWarehouse}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}`)
+            console.log(data.data, "INI DATA BARU");
+            dispatch({
+                type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
+                payload: data
+            })
+            return data
+        } catch (error) {
+            dispatch({
+                type: "FETCH_ONGOING_TRANSACTION_FAILED",
+                payload: error
+            })
+
+        }
+    }
+}
+
 
 // PaymentProof
 export const paymentAccepted = (idTransaction) => {

@@ -390,7 +390,7 @@ module.exports = {
             const filterInvoice = req.query.invoice
 
             const page = parseInt(req.query.page) || 1;
-            const limit = parseInt(req.query.limit) || 10;
+            const limit = parseInt(req.query.limit) || 5;
             const startIndex = (page - 1) * limit;
             const endIndex = page * limit;
             let nextPage;
@@ -408,12 +408,16 @@ module.exports = {
                 ON a.idTransaction=b.idTransaction 
                 JOIN addresses as ad
                 ON a.idAddress = ad.idAddress
+                JOIN warehouses as wh
+                ON wh.idWarehouse = a.idWarehouse
                 `)
 
 
             const warehouseFilter = fixedDataTransaction.filter((el) => {
                 if (filterWarehouse) {
                     return el.idWarehouse == filterWarehouse;
+                } else {
+                    return fixedDataTransaction
                 }
             })
 

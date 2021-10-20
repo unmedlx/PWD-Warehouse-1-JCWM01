@@ -36,6 +36,7 @@ import { CheckCart } from "./redux/actions/carts";
 import { CheckAddress } from "./redux/actions/addressUser";
 import UserTransaction from "./pages/UserTransaction";
 import AdminViewTransaction from "./pages/Admin/AdminViewTransaction";
+import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransaction";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -85,6 +86,9 @@ function App() {
       <Route component={Checkout} path="/checkout" />
       <Route component={DetailTransaction} path="/transaction/detail/:idTransaction" />
       <Route component={UserTransaction} path="/transaction" />
+
+
+      <Route component={SuperAdminViewTransaction} path="/super-admin-transaction" />
       <Route component={Home} path="/" exact />
       {/* Protected Route */}
       <NonLoggedInRoute
