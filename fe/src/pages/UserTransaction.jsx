@@ -53,7 +53,7 @@ const UserTransaction = () => {
 
     useEffect(() => {
         getTransaction()
-    }, [dispatch])
+    }, [])
 
     const nextPageHandler = () => {
         setPaging({

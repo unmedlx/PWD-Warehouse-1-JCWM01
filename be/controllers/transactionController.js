@@ -33,12 +33,11 @@ module.exports = {
     getTransaction: async (req, res) => {
         try {
             const idUser = req.query.idUser;
-
-
             const type = req.query.type || "all"
             const sortBy = req.query.sortBy || "newest";
             const filterStatus = parseInt(req.query.status);
             const filterInvoice = req.query.invoice
+            // console.log(filterInvoice);
 
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
@@ -48,6 +47,7 @@ module.exports = {
             let previousPage;
             let dataTransaction;
 
+            // console.log(req.query);
 
             //Check apakah sedang untuk ongoing atau semua
             if (type === "ongoing") {
@@ -88,7 +88,7 @@ module.exports = {
                 }
                 else if (filterStatus) {
                     return el.idStatus == filterStatus;
-                } else {
+                }else{
                     return dataTransaction;
                 }
             });
