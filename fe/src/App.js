@@ -88,17 +88,12 @@ function App() {
       {/* <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/> */}
       {/* ADMIN */}
       <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin} />
-      <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/edit-product/:idProduct" component={AdminEditProduct} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />
-      <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin}/>
       <AdminRoute path="/admin" component={Admin} isAdmin={adminGlobal.idRole}/>
       <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole}/>
       <AdminRoute path="/edit-product/:idProduct" component={AdminEditProduct} isAdmin={adminGlobal.idRole}/>
-      <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole}/>
-      <AdminRoute path="/admin-warehouse" component={Warehouse} isAdmin={adminGlobal.idRole}/>
       <AdminRoute path="/admin-transaction" component={AdminViewTransaction} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/admin-transaction-detail/:idTransaction" component={DetailTransaction} isAdmin={adminGlobal.idRole} />
+      <AdminRoute path="/admin-transaction-detail/:idTransaction" component={DetailTransaction} isAdmin={adminGlobal.idRole} exact />
       <AdminRoute path="/admin-warehouse" component={WarehouseStock} isAdmin={adminGlobal.idRole}/>
       <AdminRoute path="/revenue" component={AdminRevenue} isAdmin={adminGlobal.idRole}/>
     </BrowserRouter>
