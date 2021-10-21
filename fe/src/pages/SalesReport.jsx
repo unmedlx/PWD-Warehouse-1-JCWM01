@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import OrderStatusCard from "../components/OrderStatusCard";
 import BestSellerCard from "../components/BestSellerCard";
+import DemographicCard from "../components/DemographicCard";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { API_URL } from "../constants/API";
@@ -12,6 +13,8 @@ import {
   Label,
   Pie,
   PieChart,
+  Sector,
+  Cell,
   BarChart,
   Bar,
   XAxis,
@@ -28,6 +31,8 @@ export default function SalesReport() {
   const [warehouse, setWarehouse] = useState(0);
   const [bestSeller, setBestSeller] = useState([]);
   const [demographic, setDemographic] = useState([]);
+
+  const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#800000"];
 
   const fetchStatus = () => {
     axios
@@ -95,16 +100,26 @@ export default function SalesReport() {
       );
     });
   };
+  const renderDemographic = () => {
+    return demographic.map((val) => {
+      return <DemographicCard kota={val.kota} revenueKota={val.revenueKota} />;
+    });
+  };
+
+  let renderLabel = (demographic) => {
+    return demographic.kota;
+  };
 
   useEffect(() => {
     fetchStatus();
   }, []);
   return (
     <div>
-      <h1 style={{ marginTop: 30, marginLeft: 68 }}>ONGOING ORDERS</h1>
-
-      <div className="d-flex flex-wrap justify-content-evenly p-4">
-        {renderOrder()}
+      <div>
+        <h1 style={{ marginTop: 30, marginLeft: 68 }}>ONGOING ORDERS</h1>
+        <div className="d-flex flex-wrap justify-content-evenly p-4">
+          {renderOrder()}
+        </div>
       </div>
 
       <div className="d-flex flex-column card card-body shades m-5 align-items-center">
@@ -133,7 +148,6 @@ export default function SalesReport() {
           </div>
 
           <div
-            //   className="card card-body shades mb-4 d-flex flex-column justify-content-evenly align-items-center"
             style={{ height: 500, marginTop: 30, marginLeft: 20, width: 500 }}
           >
             {renderBestSeller()}
@@ -141,29 +155,35 @@ export default function SalesReport() {
         </div>
       </div>
 
-      <div className="d-flex flex-column card card-body shades m-5 align-items-center">
-        <PieChart width={400} height={400}>
-          <Pie
-            dataKey="soldQuantity"
-            isAnimationActive={false}
-            data={bestSeller}
-            cx="50%"
-            cy="50%"
-            outerRadius={80}
-            fill="#8884d8"
-            label
-          />
-          <Pie
-            dataKey="soldQuantity"
-            data={bestSeller}
-            cx={500}
-            cy={200}
-            innerRadius={40}
-            outerRadius={80}
-            fill="#82ca9d"
-          />
-          <Tooltip />
-        </PieChart>
+      <div
+        style={{ height: 1000, width: 750 }}
+        className="d-flex flex-column card card-body shades m-5 align-items-center"
+      >
+        <h4 className="display-5 mt-4">Total Revenue by City</h4>
+        <div className="d-flex flex-column justify-content-between align-items-center p-4">
+          <PieChart width={750} height={500}>
+            <Pie
+              data={demographic}
+              cx="50%"
+              cy="50%"
+              innerRadius={100}
+              outerRadius={120}
+              fill="#8884d8"
+              paddingAngle={0}
+              dataKey="revenueKota"
+              label={renderLabel}
+            >
+              {demographic.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={colors[index % colors.length]}
+                />
+              ))}
+              <Tooltip />
+            </Pie>
+          </PieChart>
+          <div style={{ height: 500, width: 500 }}>{renderDemographic()}</div>
+        </div>
       </div>
 
       <div className="d-flex flex-column card card-body shades m-5 align-items-center">

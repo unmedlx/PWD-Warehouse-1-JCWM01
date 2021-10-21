@@ -99,7 +99,9 @@ module.exports = {
     JOIN users u ON t.idUser = u.idUser
     WHERE idWarehouse = ${db.escape(req.query.idWarehouse)}
     AND idStatus = 8
-    GROUP BY a.kota;`;
+    GROUP BY a.kota
+    ORDER BY revenueKota DESC
+    LIMIT 5;`;
     db.query(scriptQuery, (err, results) => {
       if (err) {
         return res
