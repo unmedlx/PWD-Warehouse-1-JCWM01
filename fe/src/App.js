@@ -38,6 +38,7 @@ import { CheckAddress } from "./redux/actions/addressUser";
 import UserTransaction from "./pages/UserTransaction";
 import AdminViewTransaction from "./pages/Admin/AdminViewTransaction";
 import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransaction";
+import Warehouse from "./pages/WarehouseStock"
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -70,14 +71,12 @@ function App() {
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
-      <HomePageUser component={Home} path="/" isAdmin={adminGlobal.idRole} exact />
       <Route component={Checkout} path="/checkout" />
       <Route component={DetailTransaction} path="/transaction/detail/:idTransaction" />
       <Route component={UserTransaction} path="/transaction" />
-
-
       <Route component={SuperAdminViewTransaction} path="/super-admin-transaction" />
-      <Route component={Home} path="/" exact />
+
+      <HomePageUser component={Home} path="/" isAdmin={adminGlobal.idRole} exact />
       {/* Protected Route */}
       <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin} />
       <LoggedInRoute path="/checkout" component={Checkout} isLogin={userGlobal.isLogin} />
@@ -89,7 +88,6 @@ function App() {
       {/* <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/> */}
       {/* ADMIN */}
       <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin} />
-      <AdminRoute path="/admin" component={Admin} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/edit-product/:idProduct" component={AdminEditProduct} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />

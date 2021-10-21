@@ -87,7 +87,7 @@ export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
       });
     }
   }
-},
+}
 
 
 // get admin transaction data
