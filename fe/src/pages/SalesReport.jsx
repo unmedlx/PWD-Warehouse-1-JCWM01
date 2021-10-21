@@ -61,10 +61,10 @@ export default function SalesReport() {
 
         axios
           .get(
-            `${API_URL}/salesReport/bestSelling?idWarehouse=${response.data[0].idWarehouse}`
+            `${API_URL}/salesReport/demographic?idWarehouse=${response.data[0].idWarehouse}`
           )
           .then((response) => {
-            setBestSeller(response.data.results);
+            setDemographic(response.data.results);
             console.log(response.data.results);
           })
           .catch((err) => {
