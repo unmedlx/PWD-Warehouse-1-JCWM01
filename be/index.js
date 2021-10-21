@@ -15,6 +15,7 @@ const {
   cartRouter,
   transactionRouter,
   checkoutRouter,
+  salesReportRouter,
 } = require("./routers");
 const bearerToken = require("express-bearer-token");
 const PORT = 3001;
@@ -42,6 +43,7 @@ app.use("/cart", cartRouter);
 app.use("/transaction", transactionRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/carts", cartRouter);
+app.use("/salesReport", salesReportRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is Listening on ${PORT}`);

@@ -13,7 +13,17 @@ export default function ProductDetail(props) {
   const reload = () => window.location.reload();
   const handleClose = () => {
     setShow(false);
-    reload();
+    return cartGlobal.cartList.map((val) => {
+      axios
+        .patch(`${API_URL}/carts/${val.idProduct}?idUser=${val.idUser}`, {
+          quantity: val.quantity,
+        })
+        .then(() => {})
+        .catch(() => {
+          alert(`Server error`);
+        });
+    });
+    // reload();
   };
   const handleShow = () => setShow(true);
 
@@ -163,7 +173,7 @@ export default function ProductDetail(props) {
         </div>
       ) : (
         <div>
-          <div className="card d-flex flex-row justify content evenly align-items-center">
+          <div className="card-product d-flex flex-row justify content evenly align-items-center">
             {/* <div className="d-flex align-self-start justify-content-start">
               <Link
                 style={{ textDecoration: "none", color: "#32b28080" }}
