@@ -173,7 +173,7 @@ export default function ProductDetail(props) {
         </div>
       ) : (
         <div>
-          <div className="card d-flex flex-row justify content evenly align-items-center">
+          <div className="card-product d-flex flex-row justify content evenly align-items-center">
             {/* <div className="d-flex align-self-start justify-content-start">
               <Link
                 style={{ textDecoration: "none", color: "#32b28080" }}

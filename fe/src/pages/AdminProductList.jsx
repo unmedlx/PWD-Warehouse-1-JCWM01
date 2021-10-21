@@ -12,6 +12,7 @@ import AdminProductCard from "../components/AdminProductCard";
 
 export default function AdminProductList() {
   const userGlobal = useSelector((state) => state.users);
+  const adminGlobal = useSelector((state) => state.admins);
   const [products, setProducts] = useState([]);
   const [warehouse, setWarehouse] = useState("");
 
@@ -31,7 +32,7 @@ export default function AdminProductList() {
 
   const fetchWarehouse = () => {
     axios
-      .get(`${API_URL}/warehouses?idUser=${userGlobal.idUser}`)
+      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         setWarehouse(response.data[0]);
         console.log(response.data[0]);
@@ -105,7 +106,7 @@ export default function AdminProductList() {
   };
 
   return (
-    <div style={{ padding: "60px", backgroundColor: "white" }} className="">
+    <div style={{ padding: "60px", backgroundColor: "white" }}>
       <div className="content-header">
         <h2 className="content-title d-flex flex-row align-items-center">
           {/* <span className="badge rounded-pill alert-success me-2">

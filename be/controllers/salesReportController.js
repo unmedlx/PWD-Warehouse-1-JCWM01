@@ -116,12 +116,12 @@ module.exports = {
   },
 
   getBestSelling: (req, res) => {
-    let scriptQuery = `SELECT p.productName, SUM(quantity) AS soldQuantity
+    let scriptQuery = `SELECT p.productImage, p.productName, SUM(quantity) AS soldQuantity
     FROM db_warehouse1.transactions t
     JOIN checkouts c ON c.idTransaction = t.idTransaction
     JOIN products p ON c.idProduct = p.idProduct
-    WHERE idWarehouse = 2
-    GROUP BY p.productName
+    WHERE idWarehouse = ${db.escape(req.query.idWarehouse)}
+    GROUP BY p.productName, p.productImage
     ORDER BY soldQuantity DESC
     LIMIT 5;`;
     db.query(scriptQuery, (err, results) => {
