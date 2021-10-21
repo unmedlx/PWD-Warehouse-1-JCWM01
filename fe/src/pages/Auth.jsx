@@ -116,37 +116,50 @@ function Auth() {
       .post(`${API_URL}/users/login`, { email, password })
       .then((res) => {
         if (res.data.success) {
-            console.log(res.data.dataUser);
-            localStorage.setItem("token_shutter", res.data.token);
-            if (res.data.dataUser.idRole == 1) {
-              window.location = "/admin";
-              dispatch({
-                type: "ADMIN_LOGIN",
-                payload: res.data.dataUser,
-              });
-              dispatch({
-                type: "USER_LOGOUT",
-              });
-            } else if (res.data.dataUser.idRole == 2) {
-              window.location = "/admin";
-              dispatch({
-                type: "ADMIN_LOGIN",
-                payload: res.data.dataUser,
-              });
-              dispatch({
-                type: "USER_LOGOUT",
-              });
-            } else {
-              dispatch({
-                type: "USER_LOGIN",
-                payload: res.data.dataUser,
-              });
-              dispatch({
-                type: "ADMIN_LOGOUT",
-              });
-            }
-            setMessage("Login Success ✔");
-            setMessage1("Happy Shopping ! :)");
+          // console.log(res.data.dataUser);
+          localStorage.setItem("token_shutter", res.data.token);
+          if (res.data.dataUser.idRole == 1) {
+            window.location = "/admin";
+            dispatch({
+              type: "ADMIN_LOGIN",
+              payload: res.data.dataUser,
+            });
+            dispatch({
+              type: "USER_LOGOUT",
+            });
+          } else if (res.data.dataUser.idRole == 2) {
+            window.location = "/admin";
+            dispatch({
+              type: "ADMIN_LOGIN",
+              payload: res.data.dataUser,
+            });
+            dispatch({
+              type: "USER_LOGOUT",
+            });
+          } else {
+            dispatch({
+              type: "USER_LOGIN",
+              payload: res.data.dataUser,
+            });
+            dispatch({
+              type: "ADMIN_LOGOUT",
+            });
+          }
+          setMessage("Login Success ✔");
+          setMessage1("Happy Shopping ! :)");
+          // setState({ redirect: true })
+
+          // axios
+          //   .get(`${API_URL}/carts?idUser=${res.data.dataUser.idUser}`)
+          //   .then((response) => {
+          //     dispatch({
+          //       type: "FILL_CART",
+          //       payload: response.data,
+          //     });
+          //   })
+          //   .catch((err) => {
+          //     console.log(err);
+          //   });
         } else {
           setMessage(null);
           setMessage(res.data.message);
@@ -163,7 +176,10 @@ function Auth() {
   return (
     /* Change Form */
     <div className="body">
-      <div className={` auth-container ${ state.btnClick ? "" : "right-panel-active"}`} >
+      <div
+        className={` auth-container ${state.btnClick ? "" : "right-panel-active"
+          }`}
+      >
         {/* SIGN UP FORM */}
         <Formik initialValues={registerInitialValues} onSubmit={register} validationSchema={registerValidationSchema} >
           <div className="form-container sign-up-container">
@@ -172,14 +188,14 @@ function Auth() {
               <span className="span">
                 Enter your personal details and start journey with us
               </span>
-              <ErrorMessage name="fullName" component="span" className="error"/>
+              <ErrorMessage name="fullName" component="span" className="error" />
               <Field
                 name="fullName"
                 type="text"
                 placeholder="Full Name"
                 autoComplete="off"
               />
-              <ErrorMessage name="username" component="span" className="error"/>
+              <ErrorMessage name="username" component="span" className="error" />
               <Field
                 name="username"
                 type="text"
@@ -193,14 +209,14 @@ function Auth() {
                 placeholder="Email"
                 autoComplete="off"
               />
-              <ErrorMessage name="password" component="span" className="error"/>
+              <ErrorMessage name="password" component="span" className="error" />
               <Field
                 name="password"
                 type="password"
                 placeholder="Password"
                 autoComplete="off"
               />
-              <ErrorMessage name="confirmPassword" component="span" className="error"/>
+              <ErrorMessage name="confirmPassword" component="span" className="error" />
               <Field
                 name="confirmPassword"
                 type="password"
@@ -229,7 +245,7 @@ function Auth() {
                 placeholder="Email"
                 autoComplete="off"
               />
-              <ErrorMessage name="password" component="span" className="error"/>
+              <ErrorMessage name="password" component="span" className="error" />
               <Field
                 name="password"
                 type="password"

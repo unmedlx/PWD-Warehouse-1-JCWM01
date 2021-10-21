@@ -92,6 +92,25 @@ const AddAddressModal = ({ show, handleClose, provinces }) => {
                         <div className="address-modals-container">
                             <div className="profile-main-data">
                                 <div className="input-container">
+                                    <label htmlFor="province" className="form-label">Province</label>
+                                    <ErrorMessage name="province" component="span" className="error-message" />
+                                    <Field as="select" className="input-field" name="province" value={province} onChange={(e) => setProvince(e.target.value)} >
+                                        {provinces.map((province) => {
+                                            return <option value={province.idProvince}>{province.provinceName}</option>
+                                        })}
+                                    </Field>
+                                </div>
+
+                                <div className="input-container">
+                                    <label htmlFor="city" className="form-label">City</label>
+                                    <ErrorMessage name="city" component="span" className="error-message" />
+                                    <Field as="select" className="input-field" name="city" value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} >
+                                        {city.map((c) => {
+                                            return <option value={c.cityName}>{c.cityName}</option>
+                                        })}
+                                    </Field>
+                                </div>
+                                <div className="input-container">
                                     <label htmlFor="recipientName" className="form-label">Recipient Name</label>
                                     <ErrorMessage name="recipientName" component="span" className="error-message" />
                                     <Field type="text" autocomplete="off" className="input-field" name="recipientName" placeholder="Recipient Name" />
@@ -118,25 +137,6 @@ const AddAddressModal = ({ show, handleClose, provinces }) => {
                                     <Field type="text" autocomplete="off" className="input-field" name="kecamatan" placeholder="District" />
                                 </div>
 
-                                <div className="input-container">
-                                    <label htmlFor="province" className="form-label">Province</label>
-                                    <ErrorMessage name="province" component="span" className="error-message" />
-                                    <Field as="select" className="input-field" name="province" value={province} onChange={(e) => setProvince(e.target.value)} >
-                                        {provinces.map((province) => {
-                                            return <option value={province.idProvince}>{province.provinceName}</option>
-                                        })}
-                                    </Field>
-                                </div>
-
-                                <div className="input-container">
-                                    <label htmlFor="city" className="form-label">City</label>
-                                    <ErrorMessage name="city" component="span" className="error-message" />
-                                    <Field as="select" className="input-field" name="city" value={selectedCity} onChange={(e) => setSelectedCity(e.target.value)} >
-                                        {city.map((c) => {
-                                            return <option value={c.cityName}>{c.cityName}</option>
-                                        })}
-                                    </Field>
-                                </div>
 
 
                                 <div className="input-container">

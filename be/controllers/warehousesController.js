@@ -57,7 +57,7 @@ module.exports = {
     });
   },
 
-  getDataById: (req, res) => {},
+  getDataById: (req, res) => { },
 
   addData: (req, res) => {
     const { warehouse, adminEmail, latitude, longitude, city, province } =
@@ -101,10 +101,15 @@ module.exports = {
     });
   },
 
-  editData: (req, res) => {},
+  editData: (req, res) => { },
 
-  deleteData: (req, res) => {},
+  deleteData: (req, res) => { },
 
-  
-  
+
+
+
+  deleteData: (req, res) => { },
+
+
+
 };

@@ -11,4 +11,5 @@ router.post("/", getCoor, warehousesController.addData);
 router.patch("/:idProduct", warehousesController.editData);
 router.delete("/:idProduct", warehousesController.deleteData);
 
+
 module.exports = router;

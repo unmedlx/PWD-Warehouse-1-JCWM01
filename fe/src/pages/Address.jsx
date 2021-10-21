@@ -34,11 +34,11 @@ const Address = () => {
                         <ProfileNavbar />
 
                         <div className="profile-main-detail">
-                            <h1><strong>Address</strong></h1>
+                            <h2 className="subtitle">Address</h2>
                             {/* <h6 className="subtitle-600">{email}</h6> */}
                             <hr className="hr-line" />
 
-                            <ProfileAddress addresses={addressGlobal} />
+                            <ProfileAddress addressGlobal={addressGlobal} />
                         </div>
                     </div>
 

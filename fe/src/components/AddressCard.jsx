@@ -3,18 +3,20 @@ import { API_URL } from '../helper';
 import AddressModal from './AddressModal';
 import axios from 'axios';
 import '../assets/styles/ProfileAddress.css'
+import '../assets/styles/Typography.css'
 import { Badge } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { DeleteAddress } from '../redux/actions/addressUser';
+import { DeleteAddress, CheckAddress } from '../redux/actions/addressUser';
 
 const AddressCard = ({ provinces, address }) => {
     const userLocalStorage = localStorage.getItem("token_shutter")
     const dispatch = useDispatch()
     const [show, setShow] = useState(false);
+    const reload = () => window.location.reload();
 
     const handleClose = () => {
         setShow(false);
-        // reload()
+        reload()
 
     }
     const handleShow = () => setShow(true);
@@ -24,8 +26,8 @@ const AddressCard = ({ provinces, address }) => {
             dispatch(
                 DeleteAddress(address.idAddress, userLocalStorage)
             )
-
-
+            dispatch(CheckAddress(userLocalStorage))
+            reload()
         } catch (error) {
             console.log(error);
         }
@@ -45,13 +47,13 @@ const AddressCard = ({ provinces, address }) => {
                             }
                         </div>
                         <div className="recipient">
-                            <h6>{address.recipientName}</h6>
+                            <h6 className="subtitle">{address.recipientName}</h6>
                         </div>
                         <p className="phoneNumber">{address.phoneNumber}</p>
                         <div className="address-location">
-                            <p>{address.jalan}</p>
-                            <p>{address.kecamatan}, {address.kota}, {address.provinsi}</p>
-                            <p>{address.zip}</p>
+                            <p className="m-0 p-0 subtitle-500">{address.jalan}</p>
+                            <p className="m-0 p-0">{address.kecamatan}, {address.kota}, {address.provinsi}</p>
+                            <p className="m-0 p-0">{address.zip}</p>
                         </div>
                     </div>
                     <a className="address-edit setting" onClick={handleShow}>Edit</a>

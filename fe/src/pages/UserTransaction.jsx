@@ -20,9 +20,9 @@ const UserTransaction = () => {
     });
 
     const [sort, setSort] = useState("");
-    const [status, setStatus] = useState(1);
+    const [status, setStatus] = useState(0);
     const [invoice, setInvoice] = useState("");
-    console.log(data);
+    // console.log(data);
 
     const getTransaction = async () => {
         try {
@@ -79,7 +79,7 @@ const UserTransaction = () => {
                     <ProfileNavbar />
 
                     <div className="profile-main-detail">
-                        <h1><strong>Transaction</strong></h1>
+                        <h2 className="subtitle">Transaction</h2>
                         <h6 className="substitle-600"></h6>
                         <hr className="hr-line" />
 
@@ -106,8 +106,11 @@ const UserTransaction = () => {
                                             <option value="">Status</option>
                                             <option value="1">Belum Bayar</option>
                                             <option value="2">Menunggu Verifikasi</option>
-                                            <option value="3">Status 3</option>
-                                            <option value="4">Status 4</option>
+                                            <option value="3">Pesanan Dibayar</option>
+                                            <option value="6">Barang Diproses</option>
+                                            <option value="7">Pesanan Dikirim</option>
+                                            <option value="8">Pesanan Selesai</option>
+                                            <option value="9">Pesanan Dibatalkan</option>
                                         </select>
                                     </div>
 

@@ -75,7 +75,8 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
                 <Modal.Body>
                     <div className="image-modals-proof-container">
                         <div className="image-modals-proof-preview-container">
-                            <img id="imgpreviewProof" src={"http://localhost:3001/" + buktiPembayaran} width="50%" />
+
+                            <img id="imgpreviewProof" src={"http://localhost:3001/" + buktiPembayaran} alt="Upload Bukti Pembayaran" width="50%" />
                             {/* <img id="imgpreviewProof" width="50%" /> */}
 
                         </div>
@@ -87,7 +88,7 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
                                 preview.src = URL.createObjectURL(file[0])
                             }} />
                         </form>
-                        {/* {successUpload ?
+                        {/* {buktiPembayaran ?
                             <button className="btn btn-success mt-2" disabled>Success</button>
                             : */}
                         <button className="button mt-2" onClick={send}>Send</button>
