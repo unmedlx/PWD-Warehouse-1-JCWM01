@@ -8,7 +8,7 @@ import '../../assets/styles/AdminTransaction.css'
 
 import AdminPaymentReciept from '../Admin/AdminPaymentReciept';
 import { useDispatch } from 'react-redux';
-import { changeStatus, deleteAdminStock, fetchAdminViewTransaction, returnUserStock } from '../../redux/actions/Transaction';
+import { changeStatus, deleteAdminStock, fetchAdminViewTransaction, returnUserStock } from '../../redux/actions/transaction';
 import { FaTimes, FaRegEye, FaRegThumbsUp, FaTruck, FaMoneyBillWave } from 'react-icons/fa'
 
 const AdminViewTransactionList = ({ data, currentPage }) => {

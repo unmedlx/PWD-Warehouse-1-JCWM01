@@ -5,7 +5,7 @@ import '../../assets/styles/ImageModals.css'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { API_URL } from '../../helper/index'
-import { fetchOngoingTransaction } from '../../redux/actions/Transaction'
+import { fetchOngoingTransaction } from '../../redux/actions/transaction'
 
 
 

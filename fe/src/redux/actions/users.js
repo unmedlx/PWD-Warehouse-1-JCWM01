@@ -86,4 +86,22 @@ export const editPhotoProfile = (idUser, userLocalStorage, data) => {
     }
 }
 
+export const userLogout = () => {
+    return async dispatch => {
+        try {
+            localStorage.removeItem("token_shutter");
+            dispatch({
+                type: "USER_LOGOUT",
+            });
+            dispatch({
+                type: "ADMIN_LOGOUT",
+            });
+            alert("logout success");
+            ;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
 

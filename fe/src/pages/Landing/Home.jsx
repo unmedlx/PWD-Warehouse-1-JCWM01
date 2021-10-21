@@ -1,22 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { userLogout } from "../../redux/actions/users";
+import UserNavbar from "../../components/Landing/UserNavbar";
 
 function Home() {
   const dispatch = useDispatch();
-  
+
   const logout = () => {
-    localStorage.removeItem("token_shutter");
-    dispatch({
-      type: "USER_LOGOUT",
-    });
-    dispatch({
-      type: "ADMIN_LOGOUT",
-    });
-    alert("logout success");
+    dispatch(userLogout())
   };
+
   return (
     <div>
+      <UserNavbar />
+
       <h1> ini Home Page Ecommerce WareHouse1</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit
@@ -34,14 +32,14 @@ function Home() {
       <Link to="/product-list">
         <button className="btn btn-success">Product List</button>
       </Link>
-      
+
       {/* Rendered Only For Admin */}
       {
         // this.props.role === "admin" && 
         <Link to="/add-product">
-        <button className="btn btn-success">Admin Add Product</button>
-        {/* <button className="btn btn-warning mx-4">Our Products</button> */}
-         </Link>
+          <button className="btn btn-success">Admin Add Product</button>
+          {/* <button className="btn btn-warning mx-4">Our Products</button> */}
+        </Link>
       }
 
       {/* <Link to="/cart">

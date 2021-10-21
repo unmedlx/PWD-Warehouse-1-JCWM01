@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAdminViewTransaction } from '../../redux/actions/Transaction';
+import { fetchAdminViewTransaction } from '../../redux/actions/transaction';
 import AdminViewTransactionList from '../../components/Admin/AdminViewTransactionList';
 
 import '../../assets/styles/Typography.css'

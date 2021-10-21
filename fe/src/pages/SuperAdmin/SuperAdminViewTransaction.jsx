@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSuperAdminViewTransaction } from '../../redux/actions/Transaction';
+import { fetchSuperAdminViewTransaction } from '../../redux/actions/transaction';
 import SuperAdminViewTransactionList from '../../components/SuperAdmin/SuperAdminViewTransactionList';
 
 import '../../assets/styles/Typography.css'

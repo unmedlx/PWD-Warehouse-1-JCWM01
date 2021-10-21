@@ -19,7 +19,7 @@ import AddProduct from "./pages/AddProduct";
 import AdminEditProduct from "./pages/AdminEditProduct";
 import WarehouseList from "./pages/WarehouseList";
 import AddWarehouse from "./pages/AddWarehouse";
-import Home from "./pages/Home";
+import Home from "./pages/Landing/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
 import Address from "./pages/Address";

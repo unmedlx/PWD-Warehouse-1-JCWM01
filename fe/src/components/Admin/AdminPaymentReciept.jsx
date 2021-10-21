@@ -5,7 +5,7 @@ import '../../assets/styles/ImageModals.css'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { API_URL } from '../../helper/index'
-import { paymentAccepted, paymentDeclined, fetchAdminViewTransaction } from '../../redux/actions/Transaction'
+import { paymentAccepted, paymentDeclined, fetchAdminViewTransaction } from '../../redux/actions/transaction'
 
 
 
