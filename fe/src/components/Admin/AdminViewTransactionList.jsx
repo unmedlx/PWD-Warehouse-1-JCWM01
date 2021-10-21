@@ -141,7 +141,7 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
                                     <FaRegEye className="payment-action-svg" />
                                 </Link>
                             </button>
-                            {data.idStatus >= 7 || data.idStatus === 2 ?
+                            {data.idStatus >= 7 || data.idStatus === 2 || data.idStatus === 4 ?
                                 <button className="payment-action" onClick={deliver} disabled><FaTruck className="payment-action-svg" /></button>
                                 : <button className="payment-action" onClick={() => {
                                     const isDeliver = window.confirm(
@@ -158,7 +158,7 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
                     </div>
                     <div className="row">
                         <div className="col">
-                            {data.idStatus >= 8 || data.idStatus === 2 ?
+                            {data.idStatus >= 8 || data.idStatus === 2 || data.idStatus === 4 ?
                                 <button className="payment-action" onClick={done} disabled><FaRegThumbsUp className="payment-action-svg" /></button>
                                 : <button className="payment-action" onClick={() => {
                                     const isDone = window.confirm(
@@ -169,7 +169,7 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
                                     }
                                 }}><FaRegThumbsUp className="payment-action-svg" /></button>
                             }
-                            {data.idStatus >= 8 || data.idStatus === 2 ?
+                            {data.idStatus >= 8 || data.idStatus === 2 || data.idStatus === 4 ?
                                 <button className="payment-action" onClick={cancel} disabled><FaTimes className="payment-action-svg" /></button>
                                 : <button className="payment-action" onClick={() => {
                                     const isCancel = window.confirm(

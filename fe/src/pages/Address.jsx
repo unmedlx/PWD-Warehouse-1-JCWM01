@@ -38,7 +38,7 @@ const Address = () => {
                             {/* <h6 className="subtitle-600">{email}</h6> */}
                             <hr className="hr-line" />
 
-                            <ProfileAddress />
+                            <ProfileAddress addressGlobal={addressGlobal} />
                         </div>
                     </div>
 
