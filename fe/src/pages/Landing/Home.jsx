@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../../redux/actions/users";
 import UserNavbar from "../../components/Landing/UserNavbar";
+import HeroSection from "../../components/Landing/HeroSection";
 
 function Home() {
   const dispatch = useDispatch();
@@ -14,6 +15,9 @@ function Home() {
   return (
     <div>
       <UserNavbar />
+
+      <HeroSection />
+
 
       <h1> ini Home Page Ecommerce WareHouse1</h1>
       <p>

@@ -39,3 +39,8 @@
     .text-small{
     font-size: 1rem;
     }
+
+    .text-heading{
+    font-weight: 800;
+    font-size: 3.5rem;
+    }
