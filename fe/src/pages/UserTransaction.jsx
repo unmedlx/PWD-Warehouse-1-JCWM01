@@ -20,7 +20,7 @@ const UserTransaction = () => {
     });
 
     const [sort, setSort] = useState("");
-    const [status, setStatus] = useState(1);
+    const [status, setStatus] = useState();
     const [invoice, setInvoice] = useState("");
     console.log(data);
 
@@ -53,7 +53,7 @@ const UserTransaction = () => {
 
     useEffect(() => {
         getTransaction()
-    }, [dispatch])
+    }, [])
 
     const nextPageHandler = () => {
         setPaging({

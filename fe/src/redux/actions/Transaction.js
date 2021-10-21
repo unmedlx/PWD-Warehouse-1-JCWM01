@@ -65,12 +65,17 @@ export const fetchTransactionById = (idTransaction) => {
 export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
   return async (dispatch) => {
     try {
+      // console.log(idUser, page, sortBy, status, invoice);
+      
       dispatch({
         type: "FETCH_ONGOING_TRANSACTION",
       });
 
       // console.log(invoice);
+      // const queryGet= `${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}&type=all&limit=5`
+      // console.log(queryGet);
       const { data } = await axios.get(`${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}&type=all&limit=5`);
+      console.log(data);
       dispatch({
         type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
         payload: data,
