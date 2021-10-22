@@ -5,7 +5,7 @@ import '../assets/styles/Profile.css'
 import '../assets/styles/Typography.css'
 
 
-import ProfileData from '../components/ProfileData';
+// import ProfileData from '../components/ProfileData';
 import ProfileNavbar from '../components/ProfileNavbar';
 import ProfileSidebar from '../components/ProfileSidebar';
 import OngoingTransaction from '../components/Transaction/OngoingTransaction';

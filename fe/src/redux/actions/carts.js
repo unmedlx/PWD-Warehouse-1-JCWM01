@@ -20,10 +20,6 @@ export const CheckCart = (userLocalStorage) => {
                 type: "GET_CART",
                 payload: getDataCart.data.results,
             });
-            dispatch({
-                type: "USER_CHECK_LOGIN",
-                payload: true,
-            });
 
 
 
