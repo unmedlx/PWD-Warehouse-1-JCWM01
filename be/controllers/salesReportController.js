@@ -1,4 +1,4 @@
-const { db } = require("../database");
+const { db, query } = require("../database");
 const { uploader } = require("../helper/uploader");
 const fs = require("fs");
 
@@ -47,21 +47,6 @@ module.exports = {
         success: true,
       });
     });
-  },
-
-  montRevenue:(req,res) => {
-    let query = `SELECT sum(subtotalPrice) AS revenueMonth FROM transactions 
-    WHERE idStatus = 8 
-    AND idWarehouse = ${req.query.idWarehouse} 
-    AND month(transactionDate)= ${req.query.monthNumber};`
-
-    db.query(query, (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send(err)
-      }
-      res.status(200).send(results[0])
-    })
   },
 
   getRevenueDay: (req, res) => {
@@ -156,4 +141,58 @@ module.exports = {
       });
     });
   },
+
+  currentRevenue: async (req,res) => {
+    const idWarehouse = req.query.idWarehouse
+    try {
+      const currentRevenue = []
+      //AllTime
+      const revenueAllTime = await query(`
+      SELECT sum(subtotalPrice) AS allRevenue FROM transactions 
+      WHERE idStatus = 8 AND idWarehouse = ${idWarehouse} ;
+      `)
+      currentRevenue.push(revenueAllTime[0].allRevenue)
+      //Month
+      const revenueThisMonth = await query(`
+      SELECT sum(subtotalPrice) AS monthRevenue FROM transactions 
+      WHERE idStatus = 8 
+      AND idWarehouse = ${idWarehouse}
+      AND month(transactionDate)= month(curdate());
+      `)
+      currentRevenue.push(revenueThisMonth[0].monthRevenue)
+      //Week
+      const revenueThisWeek = await query(`
+      SELECT sum(subtotalPrice) AS weekRevenue FROM transactions 
+      WHERE idStatus = 8 
+      AND idWarehouse = ${idWarehouse}
+      AND month(transactionDate)= month(curdate());
+      `)
+      currentRevenue.push(revenueThisWeek[0].weekRevenue)
+      //Response
+      res.status(200).send(currentRevenue)
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error)
+    }
+  }
 };
+
+
+
+/*
+    montRevenue:(req,res) => {
+    let query = `SELECT sum(subtotalPrice) AS revenueMonth FROM transactions 
+    WHERE idStatus = 8 
+    AND idWarehouse = ${req.query.idWarehouse} 
+    AND month(transactionDate)= ${req.query.monthNumber};`
+
+    db.query(query, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send(err)
+      }
+      res.status(200).send(results[0])
+    })
+  }, 
+ */

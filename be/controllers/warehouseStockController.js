@@ -31,7 +31,7 @@ module.exports = {
 
               } else if (qtyAStock - qtyCheckout < 0) {
                 let qtyNeeded = Math.abs(qtyAStock - qtyCheckout);
-                console.log( "KUDU REQUEST, Id product:", idProduct, ",Kurang : ", qtyNeeded );
+                console.log( "HARUS REQUEST, Id product:", idProduct, ",Kurang : ", qtyNeeded );
                 //Mencari Warehouse Dengan stock mumpuni lalu Send Data ke table request
                 const getSearchWH = await query(`
                   SELECT *

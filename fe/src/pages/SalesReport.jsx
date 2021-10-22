@@ -23,10 +23,10 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-import RevenueChart from "../components/RevenueChart";
+import TotalRevenueCard from "../components/TotalRevenue";
 
 export default function SalesReport() {
-  const userGlobal = useSelector((state) => state.users);
+  // const userGlobal = useSelector((state) => state.users);
   const adminGlobal = useSelector((state) => state.admins);
   const [jumlahOrder, setJumlahOrder] = useState([]);
   const [warehouse, setWarehouse] = useState(0);
@@ -41,7 +41,7 @@ export default function SalesReport() {
 
   const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#800000"];
 
-  const [month, setMonth] = useState()
+  const [curRevenue, setCurRevenue] = useState([])
 
 
   const fetchStatus = () => {
@@ -49,7 +49,7 @@ export default function SalesReport() {
       .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         setWarehouse(response.data[0].idWarehouse);
-        console.log(response.data[0].idWarehouse);
+        // console.log(response.data[0].idWarehouse);
         axios
           .get(
             `${API_URL}/salesReport/transactionStatus?idWarehouse=${response.data[0].idWarehouse}`
@@ -233,24 +233,31 @@ export default function SalesReport() {
     }
   };
 
-  const getRevenueMonthly = () => {
-    const monthRevenue = [] 
-    for (let i = 1; i <= 12; i++) {
-        axios.get(`${API_URL}/salesReport/monthRevenue?idWarehouse=${adminGlobal.idWarehouse}&monthNumber=${i}`)
-        .then((res) => {
-            console.log(res.data);
-            monthRevenue.push(res.data.revenueMonth)
-        })
-    }
+//   const getRevenueMonthly = () => {
+//     const monthRevenue = [] 
+//     for (let i = 1; i <= 12; i++) {
+//         axios.get(`${API_URL}/salesReport/monthRevenue?idWarehouse=${adminGlobal.idWarehouse}&monthNumber=${i}`)
+//         .then((res) => {
+//             console.log(res.data);
+//             monthRevenue.push(res.data.revenueMonth)
+//         })
+//     }
 
-    console.log(monthRevenue);
-    setMonth(monthRevenue)
-    // console.log(props.idWarehouse);
-}
+//     console.log(monthRevenue);
+//     setMonth(monthRevenue)
+//     // console.log(props.idWarehouse);
+// }
+  const currentRevenue = () => {
+    axios.get(`${API_URL}/salesReport/currentRevenue?idWarehouse=${adminGlobal.idWarehouse}`)
+    .then((res) => {
+      console.log(res.data);
+      setCurRevenue(res.data)
+    })
+  }
 
   useEffect(() => {
+    currentRevenue()
     fetchStatus();
-    getRevenueMonthly()
   }, []);
   
   return (
@@ -288,12 +295,15 @@ export default function SalesReport() {
           </div>
 
           <div
-            style={{ height: 500, marginTop: 30, marginLeft: 20, width: 500 }}
+            style={{ height: 600, marginTop: 30, marginLeft: 20, width: 500 }}
           >
             {renderBestSeller()}
           </div>
         </div>
       </div>
+
+      <TotalRevenueCard curRev={curRevenue} />
+
 
       <div className="d-flex flex-row">
         <div
@@ -421,6 +431,8 @@ export default function SalesReport() {
           </div>
         </div>
       </div>
+      {/* <TotalRevenueCard curRev={curRevenue} /> */}
+
     </div>
   );
 }
