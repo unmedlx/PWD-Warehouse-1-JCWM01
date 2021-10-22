@@ -4,7 +4,7 @@ const fs = require("fs");
 
 module.exports = {
   getRevenueYear: (req, res) => {
-    let scriptQuery = `SELECT YEAR(transactionDate) AS year, SUM(subtotalPrice) AS revenueOfTheYear
+    let scriptQuery = `SELECT YEAR(transactionDate) AS period, SUM(subtotalPrice) AS revenueOfThePeriod
     FROM db_warehouse1.transactions t
     JOIN addresses a ON t.idAddress = a.idAddress
     WHERE idWarehouse = ${db.escape(req.query.idWarehouse)}
@@ -26,7 +26,7 @@ module.exports = {
   },
 
   getRevenueMonth: (req, res) => {
-    let scriptQuery = `SELECT MONTH(transactionDate) AS month, SUM(subtotalPrice) AS revenueOfTheMonth
+    let scriptQuery = `SELECT MONTH(transactionDate) AS period, SUM(subtotalPrice) AS revenueOfThePeriod
     FROM db_warehouse1.transactions t
     JOIN addresses a ON t.idAddress = a.idAddress
     WHERE idWarehouse = ${db.escape(req.query.idWarehouse)}
@@ -65,7 +65,7 @@ module.exports = {
   },
 
   getRevenueDay: (req, res) => {
-    let scriptQuery = `SELECT DAY(transactionDate) AS date, SUM(subtotalPrice) AS revenueOfTheDate
+    let scriptQuery = `SELECT DAY(transactionDate) AS period, SUM(subtotalPrice) AS revenueOfThePeriod
     FROM db_warehouse1.transactions t
     JOIN addresses a ON t.idAddress = a.idAddress
     WHERE idWarehouse = ${db.escape(req.query.idWarehouse)}
@@ -115,7 +115,9 @@ module.exports = {
     JOIN users u ON t.idUser = u.idUser
     WHERE idWarehouse = ${db.escape(req.query.idWarehouse)}
     AND idStatus = 8
-    GROUP BY a.kota;`;
+    GROUP BY a.kota
+    ORDER BY revenueKota DESC
+    LIMIT 5;`;
     db.query(scriptQuery, (err, results) => {
       if (err) {
         return res
