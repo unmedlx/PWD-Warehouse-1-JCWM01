@@ -33,6 +33,7 @@ module.exports = {
     AND idStatus = 8
     AND YEAR(t.transactionDate) = ${db.escape(req.query.year)}
     GROUP BY MONTH(transactionDate);`;
+    console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         return res
@@ -46,6 +47,21 @@ module.exports = {
         success: true,
       });
     });
+  },
+
+  montRevenue:(req,res) => {
+    let query = `SELECT sum(subtotalPrice) AS revenueMonth FROM transactions 
+    WHERE idStatus = 8 
+    AND idWarehouse = ${req.query.idWarehouse} 
+    AND month(transactionDate)= ${req.query.monthNumber};`
+
+    db.query(query, (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send(err)
+      }
+      res.status(200).send(results[0])
+    })
   },
 
   getRevenueDay: (req, res) => {

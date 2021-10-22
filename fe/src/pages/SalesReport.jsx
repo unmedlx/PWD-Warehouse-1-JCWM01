@@ -20,6 +20,7 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
+import RevenueChart from "../components/RevenueChart";
 
 export default function SalesReport() {
   const userGlobal = useSelector((state) => state.users);
@@ -28,6 +29,9 @@ export default function SalesReport() {
   const [warehouse, setWarehouse] = useState(0);
   const [bestSeller, setBestSeller] = useState([]);
   const [demographic, setDemographic] = useState([]);
+
+  const [month, setMonth] = useState()
+
 
   const fetchStatus = () => {
     axios
@@ -96,9 +100,26 @@ export default function SalesReport() {
     });
   };
 
+  const getRevenueMonthly = () => {
+    const monthRevenue = [] 
+    for (let i = 1; i <= 12; i++) {
+        axios.get(`${API_URL}/salesReport/monthRevenue?idWarehouse=${adminGlobal.idWarehouse}&monthNumber=${i}`)
+        .then((res) => {
+            console.log(res.data);
+            monthRevenue.push(res.data.revenueMonth)
+        })
+    }
+
+    console.log(monthRevenue);
+    setMonth(monthRevenue)
+    // console.log(props.idWarehouse);
+}
+
   useEffect(() => {
     fetchStatus();
+    getRevenueMonthly()
   }, []);
+  
   return (
     <div>
       <h1 style={{ marginTop: 30, marginLeft: 68 }}>ONGOING ORDERS</h1>
@@ -166,8 +187,9 @@ export default function SalesReport() {
         </PieChart>
       </div>
 
-      <div className="d-flex flex-column card card-body shades m-5 align-items-center">
-        <LineChart
+      {/* <div className="d-flex flex-column card card-body shades m-5 align-items-center"> */}
+        <RevenueChart month={month} />
+        {/* <LineChart
           width={500}
           height={300}
           data={bestSeller}
@@ -190,8 +212,8 @@ export default function SalesReport() {
             activeDot={{ r: 8 }}
           />
           <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-        </LineChart>
-      </div>
+        </LineChart> */}
+      {/* </div> */}
     </div>
   );
 }
