@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import '../../assets/styles/Landing/HeroSection.css'
 import '../../assets/styles/Typography.css'
 
@@ -17,8 +18,9 @@ const HeroSection = () => {
                         <p>Join and Shop with us</p>
                     </div>
                     <div className="cta">
-                        <button className="cta-add">Products</button>
-
+                        <Link to="/product-list">
+                            <button className="cta-add">Products</button>
+                        </Link>
                     </div>
                 </div>
                 <div className="cover">

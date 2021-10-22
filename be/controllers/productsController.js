@@ -4,7 +4,8 @@ const fs = require("fs");
 
 module.exports = {
   getData: (req, res) => {
-    console.log(req.query.sortBy);
+    // console.log(req.query.newArrival);
+    const newArrival = req.query.newArrival
     const sortBy = req.query.sortBy;
 
     const filterProductName = req.query.productName;
@@ -25,6 +26,10 @@ module.exports = {
           success: false,
           err,
         });
+      }
+      if (newArrival) {
+        console.log(results.length);
+        return res.send(results.slice((results.length) - 5, results.length));
       }
 
       const filteredResults = results.filter((el) => {

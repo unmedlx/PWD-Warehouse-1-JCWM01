@@ -39,6 +39,8 @@ import UserTransaction from "./pages/UserTransaction";
 import AdminViewTransaction from "./pages/Admin/AdminViewTransaction";
 import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransaction";
 import Warehouse from "./pages/WarehouseStock"
+import { getNewArrival } from "./redux/actions/product";
+
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -57,8 +59,13 @@ function App() {
       dispatch(CheckAddress(userLocalStorage));
     }
   };
+  // const getArrival = () => {
+  //   dispatch(getNewArrival())
+  // }
+
 
   useEffect(() => {
+    // getArrival()
     keepLogin();
   }, []);
 
