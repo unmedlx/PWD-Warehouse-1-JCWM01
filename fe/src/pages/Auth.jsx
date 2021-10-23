@@ -164,9 +164,9 @@ function Auth() {
   // REDIRECT //
   if (state.redirect) {
     if (adminGlobal.idRole == 2) {
-      return <Redirect to="/admin" />;
+      return <Redirect to="/sales-report" />;
     } else if (adminGlobal.idRole == 1) {
-      return <Redirect to="/admin" />;
+      return <Redirect to="/warehouse" />;
       // }else {
       //   return <Redirect to="/" />;
     }

@@ -150,6 +150,7 @@ body.offcanvas-active {
   position: fixed;
   top: 0;
   bottom: 0;
+  transition: 350ms;
   width: 100%;
   overflow-y: auto;
   background-color: #fff;
@@ -172,6 +173,39 @@ body.offcanvas-active {
   height: 46px;
   width: auto;
   max-width: 200px;
+}
+
+.navbar-mini {
+  max-width: 50px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  align-items: flex-start;
+  top: 0;
+  bottom: 0;
+  transition: 350ms;
+  width: 100%;
+  overflow-y: auto;
+  background-color: #fff;
+  box-shadow: 0 0.1rem 0.25rem rgba(0, 0, 0, 0.075);
+  z-index: 10;
+  border-right: 1px solid rgba(108, 117, 125, 0.25);
+}
+.navbar-mini .aside-top {
+  padding: 1rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar-mini .aside-top .brand-wrap {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  display: none;
+}
+.navbar-mini .aside-top .logo {
+  height: 46px;
+  width: auto;
+  max-width: 0px;
 }
 
 .main-header {
@@ -278,7 +312,12 @@ body.aside-mini .menu-aside .menu-item.has-submenu .menu-link:after {
 .menu-aside {
   list-style: none;
   margin: 0.5rem;
+  margin-left: 2px;
   padding: 0;
+}
+.menu-aside:hover {
+  transition: 0.2s linear;
+  color: #32b280;
 }
 .menu-aside a {
   display: block;
@@ -288,18 +327,28 @@ body.aside-mini .menu-aside .menu-item.has-submenu .menu-link:after {
   margin-bottom: 5px;
 }
 .menu-aside .menu-item .icon {
-  color: #adb5bd;
   margin-right: 10px;
   font-size: 24px;
 }
 .menu-aside .menu-item.active .icon {
-  color: #3167eb;
+  color: #32b280;
 }
+.menu-aside .menu-item .icon-out {
+  color: red;
+  margin-right: 10px;
+  font-size: 24px;
+}
+.menu-aside .menu-item .icon-out:hover {
+  transition: 0.2s linear;
+  color: red;
+}
+
 .menu-aside .menu-item.active .menu-link {
   background-color: #ebf0fd;
 }
 .menu-aside .menu-link {
   padding: 10px;
+  width: inherit;
   color: #29335d;
   font-weight: bold;
   border-radius: 0.3rem;
@@ -313,7 +362,7 @@ body.aside-mini .menu-aside .menu-item.has-submenu .menu-link:after {
 }
 .menu-aside .menu-link:hover {
   transition: 0.2s linear;
-  background-color: #e9ecef;
+  color: #32b280;
 }
 .menu-aside .submenu {
   margin-left: 44px;
@@ -854,7 +903,8 @@ ul.row-sm {
   padding-right: 0.5em;
 }
 .btn-icon:hover {
-  background-color: rgba(108, 117, 125, 0.15);
+  background-color: #32b280;
+  color: white;
 }
 .btn-icon:focus {
   box-shadow: none;
@@ -1106,4 +1156,8 @@ textarea {
 .shades:hover {
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   border-bottom: 10px solid #32b280;
+}
+
+.admin {
+  padding-left: 60px;
 }
