@@ -233,20 +233,7 @@ export default function SalesReport() {
     }
   };
 
-//   const getRevenueMonthly = () => {
-//     const monthRevenue = [] 
-//     for (let i = 1; i <= 12; i++) {
-//         axios.get(`${API_URL}/salesReport/monthRevenue?idWarehouse=${adminGlobal.idWarehouse}&monthNumber=${i}`)
-//         .then((res) => {
-//             console.log(res.data);
-//             monthRevenue.push(res.data.revenueMonth)
-//         })
-//     }
 
-//     console.log(monthRevenue);
-//     setMonth(monthRevenue)
-//     // console.log(props.idWarehouse);
-// }
   const currentRevenue = () => {
     axios.get(`${API_URL}/salesReport/currentRevenue?idWarehouse=${adminGlobal.idWarehouse}`)
     .then((res) => {

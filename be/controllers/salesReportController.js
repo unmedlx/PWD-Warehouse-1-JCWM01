@@ -165,7 +165,7 @@ module.exports = {
       SELECT sum(subtotalPrice) AS weekRevenue FROM transactions 
       WHERE idStatus = 8 
       AND idWarehouse = ${idWarehouse}
-      AND month(transactionDate)= month(curdate());
+      AND week(transactionDate)= week(curdate());
       `)
       currentRevenue.push(revenueThisWeek[0].weekRevenue)
       //Response

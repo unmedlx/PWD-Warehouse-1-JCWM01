@@ -64,8 +64,7 @@ export default function WarehouseStock() {
   // ACCEPT REQUEST //
   const acceptRequest = (data) => {
     // console.log(data.idRequest, data.idTransaction, adminGlobal.idWarehouse);
-    axios
-      .post(`${API_URL}/wh-stocks/accept`, {
+    axios.post(`${API_URL}/wh-stocks/accept`, {
         idWarehouse: adminGlobal.idWarehouse,
         idRequest: data.idRequest,
         idTransaction: data.idTransaction,
@@ -81,13 +80,12 @@ export default function WarehouseStock() {
 
   // SEND REQUEST //
   const sendRequest = () => {
-    axios
-      .post(`${API_URL}/wh-stocks/request`, {
+    axios.post(`${API_URL}/wh-stocks/request`, {
         idWarehouse: adminGlobal.idWarehouse,
       })
       .then((res) => {
         alert(res.data.message);
-        renderRequests();
+        fetchRequests()
       })
       .catch((err) => {
         console.log(err);
@@ -145,7 +143,10 @@ export default function WarehouseStock() {
     <div style={{ padding: "60px" }} className="">
         {/* HEADER */}
         <div className="content-header">
-          <h2 className=" h1">Request List Warehouse {warehouse.warehouse}</h2>
+          <h2 className=" h1">
+            Request List  
+           <span className="badge rounded-pill alert-primary mx-3">{warehouse.warehouse}</span>
+          </h2>
         </div>
 
         <div className="mb-4">
