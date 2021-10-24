@@ -41,8 +41,6 @@ import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransact
 // import Warehouse from "./pages/WarehouseStock"
 import AdminRevenue from "./pages/AdminRevenue";
 import SalesReport from "./pages/SalesReport";
-import Warehouse from "./pages/WarehouseStock"
-import { getNewArrival } from "./redux/actions/product";
 import UserNavbar from "./components/Landing/UserNavbar";
 import Footer from "./components/Landing/Footer";
 
@@ -76,6 +74,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <UserNavbar />
       <Route component={SalesReport} path="/sales-report" />
       <Route component={WarehouseList} path="/warehouse-list" />
       <Route component={AddWarehouse} path="/add-warehouse" />
@@ -106,6 +105,7 @@ function App() {
       <AdminRoute path="/admin-transaction-detail/:idTransaction" component={DetailTransaction} isAdmin={adminGlobal.idRole} exact />
       <AdminRoute path="/admin-warehouse" component={WarehouseStock} isAdmin={adminGlobal.idRole}/>
       <AdminRoute path="/revenue" component={AdminRevenue} isAdmin={adminGlobal.idRole}/>
+      <Footer />
     </BrowserRouter>
   );
 }

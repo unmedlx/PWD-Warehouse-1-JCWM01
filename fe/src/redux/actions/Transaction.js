@@ -65,8 +65,6 @@ export const fetchTransactionById = (idTransaction) => {
 export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
   return async (dispatch) => {
     try {
-      // console.log(idUser, page, sortBy, status, invoice);
-      
       dispatch({
         type: "FETCH_ONGOING_TRANSACTION",
       });
