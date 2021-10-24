@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import * as Io from "react-icons/io5";
 import * as Cg from "react-icons/cg";
-import { Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
@@ -27,13 +26,13 @@ export const SidebarData = [
   },
   {
     title: "Orders",
-    path: "/",
+    path: "/admin-transaction",
     icons: <Io.IoCart className="icon" />,
     cName: "menu-item",
   },
   {
     title: "Requests",
-    path: "/",
+    path: "/wh-stocks",
     icons: <Cg.CgArrowsExchangeAltV className="icon" />,
     cName: "menu-item",
   },

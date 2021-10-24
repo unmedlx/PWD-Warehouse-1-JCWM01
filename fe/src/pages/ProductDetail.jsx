@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constants/API";
 import CartModal from "../components/CartModal";
@@ -93,14 +93,6 @@ export default function ProductDetail(props) {
     fetchCart();
   }, []);
 
-  const qtyButtonHandler = (action) => {
-    if (action === "increment" && additionalInfo.quantity < stock.sumQuantity) {
-      setAdditionalInfo({ quantity: additionalInfo.quantity + 1 });
-    } else if (action === "decrement" && additionalInfo.quantity > 1) {
-      setAdditionalInfo({ quantity: additionalInfo.quantity - 1 });
-    }
-  };
-
   const addToCartHandler = () => {
     // Check Login Condition
     if (idUser) {
@@ -174,15 +166,6 @@ export default function ProductDetail(props) {
       ) : (
         <div>
           <div className="card-product d-flex flex-row justify content evenly align-items-center">
-            {/* <div className="d-flex align-self-start justify-content-start">
-              <Link
-                style={{ textDecoration: "none", color: "#32b28080" }}
-                className="h2 mt-3 ms-4"
-                to="/product-list"
-              >
-                {"❮"}
-              </Link>
-            </div> */}
             <div class="photo">
               <img
                 src={image.includes("/images/IMG") ? API_URL + image : image}
@@ -194,29 +177,9 @@ export default function ProductDetail(props) {
               <h4>{productDetail.category}</h4>
               <h1>Rp. {productDetail.price}</h1>
               <p>{productDetail.description}</p>
-              <p style={{ marginBottom: -15 }}>
-                {/* Ready Stock: {stock.sumQuantity} pcs */}
-              </p>
+              <p style={{ marginBottom: -15 }}></p>
 
               <div className="d-flex flex-row align-items-center">
-                {/* <span
-                  style={{ marginTop: -30 }}
-                  className="d-flex flex-row align-items-center"
-                >
-                  <button
-                    onClick={() => qtyButtonHandler("decrement")}
-                    className="btn btn-outline-success me-4"
-                  >
-                    -
-                  </button>
-                  {additionalInfo.quantity}
-                  <button
-                    onClick={() => qtyButtonHandler("increment")}
-                    className="btn btn-outline-success ms-4"
-                  >
-                    +
-                  </button>
-                </span> */}
                 <button
                   style={{ marginLeft: -4 }}
                   className="button-cart"
@@ -229,8 +192,8 @@ export default function ProductDetail(props) {
             </div>
           </div>
           <button
-            style={{ marginLeft: 1145, fontWeight: "bold" }}
-            className="btn btn-success col-lg-1 col-6 col-md-3 my-5 position-relative"
+            style={{ marginLeft: 1000, fontWeight: "bold", marginBottom: 430 }}
+            className="btn btn-success col-lg-1 col-6 col-md-3 position-relative"
             onClick={handleShow}
           >
             CART

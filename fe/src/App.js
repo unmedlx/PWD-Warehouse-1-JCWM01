@@ -63,7 +63,6 @@ function App() {
   return (
     <BrowserRouter>
       <Route component={AddProduct} path="/add-product" />
-      <Route component={AdminEditProduct} path="/edit-product/:idProduct" />
       <Route component={AdminProductList} path="/admin-product-list" />
       <Route component={WarehouseList} path="/warehouse-list" />
       <Route component={AddWarehouse} path="/add-warehouse" />

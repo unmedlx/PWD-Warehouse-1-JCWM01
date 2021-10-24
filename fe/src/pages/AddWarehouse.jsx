@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Modal } from "react-bootstrap";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import axios from "axios";
 import { API_URL } from "../constants/API";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
 
@@ -24,15 +20,12 @@ export default function AddWarehouse() {
   const inputHandler = (event) => {
     const value = event.target.value;
     const name = event.target.name;
-    console.log(name);
-    console.log(value);
 
     setWarehouseData({ ...warehouseData, [name]: value });
   };
 
   const kotaHandler = (event) => {
     const value = event.target.value;
-    console.log(value);
 
     setKota(value);
   };
@@ -42,15 +35,13 @@ export default function AddWarehouse() {
 
     setProvinsi(value);
 
-    console.log(value);
     axios
       .get(`${API_URL}/cityprovince/city?province=${value}`)
       .then((res) => {
-        console.log(res.data.results);
         setCityList(res.data.results);
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   };
 
@@ -58,11 +49,10 @@ export default function AddWarehouse() {
     axios
       .get(`${API_URL}/cityprovince/province`)
       .then((res) => {
-        console.log(res.data.results);
         setProvinceLIst(res.data.results);
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   };
 
@@ -82,14 +72,13 @@ export default function AddWarehouse() {
     axios
       .post(`${API_URL}/warehouses`, { data })
       .then((res) => {
-        console.log(res);
         alert(
           `Successfuly added ${warehouseData.warehouse} into the warehouse list`
         );
         refreshPage();
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Link } from "react-router-dom";
@@ -12,10 +12,8 @@ import "../assets/styles/AdminDashboard.css";
 import AdminProductCard from "../components/AdminProductCard";
 
 export default function AdminProductList() {
-  const userGlobal = useSelector((state) => state.users);
-  const adminGlobal = useSelector((state) => state.admins);
+  const warehouseGlobal = useSelector((state) => state.warehouses);
   const [products, setProducts] = useState([]);
-  const [warehouseCode, setWarehouseCode] = useState("");
 
   const [paging, setPaging] = useState({
     previousPage: 0,
@@ -30,18 +28,6 @@ export default function AdminProductList() {
     byCategory: "",
     sort: "",
   });
-
-  const fetchWarehouse = () => {
-    axios
-      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
-      .then((response) => {
-        setWarehouseCode(response.data[0].warehouse);
-        console.log(response.data[0]);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
 
   const fetchProducts = () => {
     axios
@@ -84,7 +70,6 @@ export default function AdminProductList() {
   useEffect(() => {
     fetchProducts();
     renderProducts();
-    fetchWarehouse();
   }, [paging.currentPage, filtering]);
 
   const nextPageHandler = () => {
@@ -108,13 +93,13 @@ export default function AdminProductList() {
 
   return (
     <>
-      <AdminSidebar warehouse={warehouseCode} />
+      <AdminSidebar warehouse={warehouseGlobal.warehouse} />
       <div style={{ padding: "80px", backgroundColor: "white" }}>
         <div className="content-header">
           <h2 className="content-title d-flex flex-row align-items-center">
-            {/* <span className="badge rounded-pill alert-success me-2">
-            {warehouse.warehouse ? warehouse.warehouse : "lol"}
-          </span>{" "} */}
+            <span className="badge rounded-pill alert-success me-2">
+              {warehouseGlobal.warehouse}
+            </span>{" "}
             Products list{" "}
           </h2>
           <div>

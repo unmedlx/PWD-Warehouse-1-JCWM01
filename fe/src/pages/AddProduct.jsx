@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { API_URL } from "../constants/API";
 import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
 
 export default function AddProduct() {
-  const adminGlobal = useSelector((state) => state.admins);
+  const warehouseGlobal = useSelector((state) => state.warehouses);
   const [addProduct, setAddProduct] = useState({
     productName: "",
     price: parseInt(0),
@@ -17,10 +17,7 @@ export default function AddProduct() {
     quantity: parseInt(0),
   });
   const [file, setFile] = useState();
-  const [idProduct, setIdProduct] = useState(0);
-  const [idWarehouse, setIdWarehouse] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const [warehouseCode, setWarehouseCode] = useState("");
 
   const refreshPage = () => {
     window.location.reload();
@@ -29,49 +26,6 @@ export default function AddProduct() {
   const uploadHandler = (e) => {
     let uploaded = e.target.files[0];
     setFile(uploaded);
-  };
-
-  const fetchWarehouse = () => {
-    axios
-      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
-      .then((response) => {
-        setIdWarehouse(response.data[0].idWarehouse);
-        setWarehouseCode(response.data[0].warehouse);
-        console.log(response.data[0].idWarehouse);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-  const addToAdminStocks = () => {
-    axios
-      .post(`${API_URL}/adminstocks`, {
-        idProduct: parseInt(idProduct),
-        idWarehouse: parseInt(idWarehouse),
-        quantity: parseInt(quantity),
-      })
-      .then((response) => {
-        console.log(response.message);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-  };
-
-  const addToUserStocks = () => {
-    axios
-      .post(`${API_URL}/userstocks`, {
-        idProduct: parseInt(idProduct),
-        idWarehouse: parseInt(idWarehouse),
-        quantity: parseInt(quantity),
-      })
-      .then((response) => {
-        console.log(response.message);
-      })
-      .catch((err) => {
-        alert(err);
-      });
   };
 
   const saveButtonHandler = () => {
@@ -96,17 +50,14 @@ export default function AddProduct() {
           idCategory: parseInt(0),
         });
         setFile();
-        setIdProduct(response.data.insertId);
 
         axios
           .post(`${API_URL}/adminstocks`, {
             idProduct: parseInt(response.data.insertId),
-            idWarehouse: parseInt(idWarehouse),
+            idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {
-            console.log(`Added to userstocks`);
-          })
+          .then((response) => {})
           .catch((err) => {
             alert(err);
           });
@@ -114,17 +65,13 @@ export default function AddProduct() {
         axios
           .post(`${API_URL}/userstocks`, {
             idProduct: parseInt(response.data.insertId),
-            idWarehouse: parseInt(idWarehouse),
+            idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {
-            console.log(`Added to adminstocks`);
-          })
+          .then((response) => {})
           .catch((err) => {
             alert(err);
           });
-
-        console.log(response.data.insertId);
       })
       .catch((err) => {
         alert(err);
@@ -153,17 +100,14 @@ export default function AddProduct() {
           idCategory: parseInt(0),
         });
         setFile();
-        setIdProduct(response.data.insertId);
 
         axios
           .post(`${API_URL}/adminstocks`, {
             idProduct: parseInt(response.data.insertId),
-            idWarehouse: parseInt(idWarehouse),
+            idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {
-            console.log(`Added to userstocks`);
-          })
+          .then((response) => {})
           .catch((err) => {
             alert(err);
           });
@@ -171,17 +115,13 @@ export default function AddProduct() {
         axios
           .post(`${API_URL}/userstocks`, {
             idProduct: parseInt(response.data.insertId),
-            idWarehouse: parseInt(idWarehouse),
+            idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {
-            console.log(`Added to adminstocks`);
-          })
+          .then((response) => {})
           .catch((err) => {
             alert(err);
           });
-
-        console.log(response.data.insertId);
         refreshPage();
       })
       .catch((err) => {
@@ -200,13 +140,9 @@ export default function AddProduct() {
     setQuantity(event.target.value);
   };
 
-  useEffect(() => {
-    fetchWarehouse();
-  }, []);
-
   return (
     <>
-      <AdminSidebar warehouse={warehouseCode} />
+      <AdminSidebar warehouse={warehouseGlobal.warehouse} />
       <div
         style={{ height: "90%", width: "80%", marginLeft: 165 }}
         className="card mb-4 scroll"
@@ -214,7 +150,12 @@ export default function AddProduct() {
         <div className="card-body p-5 ">
           <div className="content-main " style={{ maxWidth: "920px" }}>
             <div className="content-header">
-              <h2 className="content-title">Add product</h2>
+              <h2 className="content-title d-flex flex-row align-items-center">
+                <span className="badge rounded-pill alert-success me-2">
+                  {warehouseGlobal.warehouse}
+                </span>{" "}
+                Add product{" "}
+              </h2>
             </div>
 
             <hr className="my-4" />
@@ -395,7 +336,6 @@ export default function AddProduct() {
                       quantity
                     )
                   }
-                  // onClick={combinedClick}
                   onClick={saveButtonHandler}
                 >
                   Save

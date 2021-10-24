@@ -10,11 +10,9 @@ import { API_URL } from "../constants/API";
 import {
   LineChart,
   Line,
-  ResponsiveContainer,
   Label,
   Pie,
   PieChart,
-  Sector,
   Cell,
   BarChart,
   Bar,
@@ -22,11 +20,9 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
 } from "recharts";
 
 export default function SalesReport() {
-  const userGlobal = useSelector((state) => state.users);
   const adminGlobal = useSelector((state) => state.admins);
   const [jumlahOrder, setJumlahOrder] = useState([]);
   const [warehouse, setWarehouse] = useState(0);
@@ -40,6 +36,7 @@ export default function SalesReport() {
   });
   const [revenue, setRevenue] = useState([]);
 
+  const dispatch = useDispatch();
   const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#800000"];
 
   const fetchStatus = () => {
@@ -48,14 +45,16 @@ export default function SalesReport() {
       .then((response) => {
         setWarehouse(response.data[0].idWarehouse);
         setWarehouseCode(response.data[0].warehouse);
-        console.log(response.data[0].idWarehouse);
+        dispatch({
+          type: "GET_IDWAREHOUSE",
+          payload: response.data[0],
+        });
         axios
           .get(
             `${API_URL}/salesReport/transactionStatus?idWarehouse=${response.data[0].idWarehouse}`
           )
           .then((response) => {
             setJumlahOrder(response.data.results);
-            console.log(response.data.results);
           })
           .catch((err) => {
             alert(err);
@@ -67,7 +66,6 @@ export default function SalesReport() {
           )
           .then((response) => {
             setBestSeller(response.data.results);
-            console.log(response.data.results);
           })
           .catch((err) => {
             alert(err);
@@ -79,7 +77,6 @@ export default function SalesReport() {
           )
           .then((response) => {
             setDemographic(response.data.results);
-            console.log(response.data.results);
           })
           .catch((err) => {
             alert(err);
@@ -92,7 +89,6 @@ export default function SalesReport() {
           .then((response) => {
             setRevenue(response.data.results);
             setYear(response.data.results);
-            console.log(response.data.results);
           })
           .catch((err) => {
             alert(err);
@@ -103,50 +99,6 @@ export default function SalesReport() {
       });
   };
 
-  //   const fetchMonth = (year) => {
-  //     if (year === "allYears") {
-  //       axios
-  //         .get(`${API_URL}/salesReport/yearRevenue?idWarehouse=${warehouse}`)
-  //         .then((response) => {
-  //           setRevenue(response.data.results);
-  //           setYear(response.data.results);
-  //           console.log(response.data.results);
-  //         })
-  //         .catch((err) => {
-  //           alert(err);
-  //         });
-  //     } else {
-  //       axios
-  //         .get(
-  //           `${API_URL}/salesReport/monthRevenue?idWarehouse=${warehouse}&year=${year}`
-  //         )
-  //         .then((response) => {
-  //           setRevenue(response.data.results);
-  //           setMonth(response.data.results);
-  //           setCurrentYear(year);
-  //           console.log(response.data.results);
-  //         })
-  //         .catch((err) => {
-  //           alert(err);
-  //         });
-  //     }
-  //   };
-
-  //   const fetchDay = (month) => {
-  //     axios
-  //       .get(
-  //         `${API_URL}/salesReport/dayRevenue?idWarehouse=${warehouse}&year=${currentYear}&month=${month}}`
-  //       )
-  //       .then((response) => {
-  //         setRevenue(response.data.results);
-  //         setCurrentMonth(month);
-  //         console.log(response.data.results);
-  //       })
-  //       .catch((err) => {
-  //         alert(err);
-  //       });
-  //   };
-
   const applyButtonHandler = () => {
     if (!currentPeriod.year && !currentPeriod.month) {
       axios
@@ -154,7 +106,6 @@ export default function SalesReport() {
         .then((response) => {
           setRevenue(response.data.results);
           setYear(response.data.results);
-          console.log(response.data.results);
         })
         .catch((err) => {
           alert(err);
@@ -166,7 +117,6 @@ export default function SalesReport() {
         )
         .then((response) => {
           setRevenue(response.data.results);
-          console.log(response.data.results);
         })
         .catch((err) => {
           alert(err);
@@ -178,7 +128,6 @@ export default function SalesReport() {
         )
         .then((response) => {
           setRevenue(response.data.results);
-          console.log(response.data.results);
         })
         .catch((err) => {
           alert(err);
@@ -216,9 +165,6 @@ export default function SalesReport() {
     const value = event.target.value;
     const name = event.target.name;
 
-    console.log(name);
-    console.log(value);
-
     setCurrentPeriod({ ...currentPeriod, [name]: parseInt(value) });
   };
 
@@ -241,13 +187,21 @@ export default function SalesReport() {
       <AdminSidebar warehouse={warehouseCode} />
       <div className="admin">
         <div>
-          <h1 style={{ marginTop: 30, marginLeft: 68 }}>ONGOING ORDERS</h1>
+          <h2
+            style={{ marginTop: 30, marginLeft: 68 }}
+            className="content-title d-flex flex-row align-items-center"
+          >
+            <span className="badge rounded-pill alert-success me-2">
+              {warehouseCode}
+            </span>{" "}
+            Ongoing orders{" "}
+          </h2>
           <div className="d-flex flex-wrap justify-content-evenly p-4">
             {renderOrder()}
           </div>
         </div>
 
-        <div className="d-flex flex-column card card-body shades my-2 align-items-center">
+        <div className="d-flex flex-column card card-body shades my-2 mx-5 align-items-center">
           <h4 className="display-5 mt-4">Best Selling Items</h4>
 
           <div className="d-flex flex-row justify-content-between p-4">
@@ -267,7 +221,6 @@ export default function SalesReport() {
                 <XAxis className="m-4" dataKey="productName"></XAxis>
                 <YAxis dataKey="soldQuantity" />
                 <Tooltip />
-                {/* <Legend /> */}
                 <Bar dataKey="soldQuantity" fill="#32b280" />
               </BarChart>
             </div>
@@ -280,10 +233,10 @@ export default function SalesReport() {
           </div>
         </div>
 
-        <div className="d-flex flex-row">
+        <div className="d-flex flex-row mx-4">
           <div
             style={{ height: 800, width: 600 }}
-            className="d-flex flex-column card card-body mx-2 shades align-items-center"
+            className="d-flex flex-column card card-body mx-2 shades align-items-center px-3"
           >
             <h4 className="display-5 mt-4">Total Revenue by City</h4>
             <div className="d-flex flex-column justify-content-between align-items-center p-4">
@@ -372,7 +325,7 @@ export default function SalesReport() {
 
             <div className="">
               <LineChart
-                width={750}
+                width={650}
                 height={550}
                 data={revenue}
                 margin={{

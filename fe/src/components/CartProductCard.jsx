@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../constants/API";
 import axios from "axios";
-import { Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -51,7 +50,6 @@ export default function CartProductCard(props) {
       .get(`${API_URL}/userstocks/${props.idProduct}`)
       .then((response) => {
         setStock(response.data[0]);
-        console.log(response.data[0]);
       })
       .catch((err) => {
         alert(err);
@@ -86,13 +84,6 @@ export default function CartProductCard(props) {
         },
       });
     }
-  };
-
-  const inputHandler = (event) => {
-    const value = event.target.value;
-    const name = event.target.name;
-
-    setCartData({ ...cartData, [name]: value });
   };
 
   useEffect(() => {

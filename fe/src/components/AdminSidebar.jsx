@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Io from "react-icons/io5";
 import * as Cg from "react-icons/cg";
+import * as Fa from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 
@@ -28,9 +29,9 @@ export default function AdminSidebar(props) {
 
   const superAdminCheck = () => {
     if (adminGlobal.idRole === 1) {
-      return;
+      return "SUPER";
     } else if (adminGlobal.idRole === 2) {
-      return;
+      return props.warehouse;
     }
   };
 
@@ -47,7 +48,7 @@ export default function AdminSidebar(props) {
             to="/sales-report"
             className="brand-wrap display-6"
           >
-            Ulify
+            Brange
           </Link>
           <div onClick={showSidebar}>
             <button className="btn btn-icon btn-aside-minimize">
@@ -82,13 +83,13 @@ export default function AdminSidebar(props) {
                 Warehouse:{" "}
                 {
                   <span className="menu-item badge rounded-pill bg-success">
-                    {props.warehouse}
+                    {superAdminCheck()}
                   </span>
                 }
               </span>
             ) : (
               <li key={98} className="menu-item badge rounded-pill bg-success">
-                {props.warehouse}
+                {superAdminCheck()}
               </li>
             )}
 
