@@ -31,7 +31,7 @@ const Address = () => {
                     <ProfileSidebar />
 
                     <div className="profile-main">
-                        <ProfileNavbar />
+                        {/* <ProfileNavbar /> */}
 
                         <div className="profile-main-detail">
                             <h2 className="subtitle">Address</h2>

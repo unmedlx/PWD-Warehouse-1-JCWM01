@@ -76,7 +76,7 @@ const UserTransaction = () => {
                 <ProfileSidebar />
 
                 <div className="profile-main">
-                    <ProfileNavbar />
+                    {/* <ProfileNavbar /> */}
 
                     <div className="profile-main-detail">
                         <h2 className="subtitle">Transaction</h2>

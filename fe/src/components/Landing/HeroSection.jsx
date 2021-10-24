@@ -14,10 +14,12 @@ const HeroSection = () => {
             <div className="presentation">
                 <div className="introduction">
                     <div className="intro-text">
-                        <h1 className="text-heading">It's not about brand it's about style</h1>
-                        <p>Join and Shop with us</p>
+                        <h1 className="text-heading-brange">Brange.</h1>
+                        {/* <h1 className="text-headings subtitle-600">It's not about brand it's about style</h1> */}
+                        <h1 className="text-heading subtitle-600">It's not about brand it's about style</h1>
+                        {/* <h6 className="subtitle-500">Join and Shop with us</h6> */}
                     </div>
-                    <div className="cta">
+                    <div className="cta mt-5">
                         <Link to="/product-list">
                             <button className="cta-add">Products</button>
                         </Link>

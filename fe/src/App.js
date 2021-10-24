@@ -40,6 +40,7 @@ import AdminViewTransaction from "./pages/Admin/AdminViewTransaction";
 import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransaction";
 import Warehouse from "./pages/WarehouseStock"
 import { getNewArrival } from "./redux/actions/product";
+import UserNavbar from "./components/Landing/UserNavbar";
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <UserNavbar />
       <Route component={WarehouseList} path="/warehouse-list" />
       <Route component={AddWarehouse} path="/add-warehouse" />
       <Route component={ProductsList} path="/product-list" />

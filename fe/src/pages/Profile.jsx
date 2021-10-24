@@ -56,7 +56,7 @@ const Profile = () => {
                     <ProfileSidebar />
 
                     <div className="profile-main">
-                        <ProfileNavbar />
+                        {/* <ProfileNavbar /> */}
                         <div className="profile-main-detail">
                             <h1 className="subtitle">Hello, {fullName}</h1>
                             <h6 className="subtitle-600">{email}</h6>

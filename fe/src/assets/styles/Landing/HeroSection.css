@@ -1,23 +1,38 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 .presentation{
     padding-bottom: 60px;
     display:flex;
     width: 90%;
     margin:auto;
-    min-height: 90vh;
+    min-height: 100vh;
     align-items: center;
 }
-.text-heading{
+.intro-text{
+    /* max-width: 75%; */
+}
+
+
+.text-heading-brange{
+    font-family: 'Libre Baskerville';
+    transition: 0.5s;
+    font-weight: 500;
+}
+
+.text-headings{
     /* animation: drop 1.5s ease; */
+    font-size: 3.5rem;
     transition: 0.5s;
 }
 
 .cover img{
+    /* margin-top: 18%; */
     height: 60vh;
     animation: drop 1.5s ease;
     transition: 0.5s;
     /* filter: drop-shadow(5px 0px 3px var(--color-primary)); */
 }
-.cover img:hover, .text-heading:hover{
+.cover img:hover, .text-headings:hover, .text-headng-brange:hover{
 transform: scale(1.1);
 }
 
@@ -36,6 +51,7 @@ transform: scale(1.1);
     z-index: -1;
     opacity: 1;
 }
+
 
 
 .cta-select{

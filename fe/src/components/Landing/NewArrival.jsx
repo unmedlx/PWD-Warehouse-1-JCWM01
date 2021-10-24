@@ -19,15 +19,15 @@ const NewArrival = () => {
                             <img className="arrival-img" src={`${API_URL}/${arrival.productImage}`} alt="" />
                         </div>
                         <div className="new-description">
-                            <h3 className="subtitle-600">
+                            <h3 className="subtitle-500">
                                 {arrival.productName}
                             </h3>
-                            <p className="subtitle-600">
+                            <p className="subtitle-500">
                                 {arrival.description}
                             </p>
-                            <h5 className="subtitle-600">
-                                Rp. {arrival.price}
-                            </h5>
+                            <h4 className="subtitle-600 text">
+                                Rp. {arrival.price.toLocaleString()}
+                            </h4>
                         </div>
                     </div>
                 </Carousel.Item>
@@ -37,9 +37,9 @@ const NewArrival = () => {
 
     return (
         <>
-            <div>
-                <div className="new-arrival-container">
-                    <h4>New Arrival</h4>
+            <div className="new-arrival-container">
+                <div className="new-arrival">
+                    <h4 className="new-arrival-title subtitle-600">NEW ARRIVAL</h4>
                     <div className="new-arrival-cards">
                         <Carousel>
                             {renderNewArrival()}
