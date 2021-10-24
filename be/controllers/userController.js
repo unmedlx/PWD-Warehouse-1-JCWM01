@@ -33,8 +33,6 @@ module.exports = {
                 (null, ${db.escape(fullName)}, ${db.escape(username)}, ${db.escape(email)}, ${db.escape(password)},3, "/images/profile-default.png", 0, 3, null  );`)
 
                 if (registerQuery) {
-                    console.log("ini register query");
-                    console.log(registerQuery);
                     //Get User Data in DB
                     const getUserData = await query(`SELECT * FROM users WHERE idUser = ${registerQuery.insertId};`)
                       // Create Token
@@ -72,7 +70,6 @@ module.exports = {
             error: error
           });
     }
-
   },
 
   // ACCOUNT VERIFICATION //
@@ -127,14 +124,12 @@ module.exports = {
     } catch (error) {
       console.log(error);
       res.status(500).send(error);
-
     }
   },
 
   // CHECK LOGIN//
   getDataUser: (req, res) => {
     let scriptQuery = `SELECT * FROM users WHERE idUser=${req.user.idUser};`;
-    // console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res
@@ -146,7 +141,6 @@ module.exports = {
         results = { ...results[0], dateOfBirth: parsed };
         return res.status(200).send(results);
       }
-      // console.log(results[0]);
       delete results[0].password;
       if (results[0].dateOfBirth == null) {
         return res.status(200).send(results[0]);
@@ -160,14 +154,12 @@ module.exports = {
   //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
-    // console.log(idUser);
     let { fullName, username, email, gender, dateOfBirth } = req.body;
     if (dateOfBirth === '') {
       dateOfBirth = null
     } else {
       dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD"); // ubah format jadi YYYY/MM/DD
     }
-    // console.log(dateOfBirth);
     let scriptQuery = `UPDATE users SET
      fullName=${db.escape(fullName)},
      username=${db.escape(username)},
@@ -175,7 +167,6 @@ module.exports = {
      gender=${db.escape(gender)},
      dateOfBirth=${db.escape(dateOfBirth)}
      WHERE idUser=${db.escape(idUser)} ;`;
-    // console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res.status(500).send({
@@ -194,7 +185,6 @@ module.exports = {
             });
             return;
           }
-          console.log(results);
           return res.status(200).send(results);
         })
       }
@@ -233,7 +223,6 @@ module.exports = {
               return console.log(error);
             } else {
               password = hash;
-              console.log(password);
               //update password
               let updateQuery = `UPDATE users SET password = "${password}" WHERE idUser = ${req.user.idUser};`;
               db.query(updateQuery, (err, results) => {
