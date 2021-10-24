@@ -1,14 +1,20 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { NavDropdown } from 'react-bootstrap'
 import { FaUserAlt, FaBook, FaBuilding, FaUser, FaCartArrowDown, FaSignOutAlt } from 'react-icons/fa'
 
 import '../../assets/styles/Landing/UserNavbar.css'
+import { userLogout } from '../../redux/actions/users'
 
 
 const UserNavbar = () => {
+    const dispatch = useDispatch()
     const userGlobal = useSelector(state => state.users)
+
+    const logout = () => {
+        dispatch(userLogout())
+    };
 
     return (
         <div className="navbar-container">
@@ -31,7 +37,7 @@ const UserNavbar = () => {
                                 <NavDropdown.Item href="/cart" className="navbar-items"><FaCartArrowDown className="me-2 drop-icon" />Cart</NavDropdown.Item>
                                 <NavDropdown.Item href="/transaction" className="navbar-items"><FaBook className="me-2 drop-icon" />Transaction</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4"><FaSignOutAlt className="me-2 drop-icon" />Logout</NavDropdown.Item>
+                                <NavDropdown.Item onClick={() => logout()}><FaSignOutAlt className="me-2 drop-icon" />Logout</NavDropdown.Item>
                             </NavDropdown>
                             :
                             <Link to="/authentication" className="auth-link">

@@ -6,7 +6,6 @@
     margin:5% auto;
     min-height: 90vh;
     align-items: center;
-    /* background-color: red; */
 }
 
 .intro{
@@ -30,7 +29,6 @@ align-items: center;
     height: 75vh;
     animation: drop 1.5s ease;
     transition: 0.5s;
-    /* filter: drop-shadow(5px 0px 3px var(--color-primary)); */
 }
 .cover-intro img:hover, .intro-texts:hover{
 transform: scale(1.1);

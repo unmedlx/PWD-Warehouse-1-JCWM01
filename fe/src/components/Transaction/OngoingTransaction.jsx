@@ -72,7 +72,7 @@ const OngoingTransaction = () => {
         <>
             <hr className="hr-line" />
             <header
-                style={{ width: 1122, backgroundColor: "#f7f7f7" }}
+                style={{ backgroundColor: "#f7f7f7" }}
                 className="mt-3"
             >
                 <div className="row gx-3">

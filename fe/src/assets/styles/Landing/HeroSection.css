@@ -8,9 +8,6 @@
     min-height: 100vh;
     align-items: center;
 }
-.intro-text{
-    /* max-width: 75%; */
-}
 
 
 .text-heading-brange{
@@ -20,18 +17,16 @@
 }
 
 .text-headings{
-    /* animation: drop 1.5s ease; */
     font-size: 3.5rem;
     transition: 0.5s;
 }
 
 .cover img{
-    /* margin-top: 18%; */
     height: 60vh;
     animation: drop 1.5s ease;
     transition: 0.5s;
-    /* filter: drop-shadow(5px 0px 3px var(--color-primary)); */
 }
+
 .cover img:hover, .text-headings:hover, .text-headng-brange:hover{
 transform: scale(1.1);
 }
@@ -73,7 +68,7 @@ transform: scale(1.1);
   .cta-select:hover {
     background-color: white;
     color: var(--color-primary);
-    border: 1px solid #32b280;
+    border: 1px solid var(--color-primary);
   }
   
 
@@ -96,7 +91,7 @@ transform: scale(1.1);
   .cta-add:hover {
     background-color: white;
     color: var(--color-primary);
-    border: 3px solid #32b280;
+    border: 3px solid var(--color-primary);
   }
   
   .cta-add:focus {

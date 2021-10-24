@@ -14,7 +14,7 @@ const AdminTransaction = () => {
         currentPage: 1,
     });
 
-    const { idRole, idWarehouse } = adminGlobal
+    const { idWarehouse } = adminGlobal
     const [sort, setSort] = useState("");
     const [status, setStatus] = useState(0);
     const [invoice, setInvoice] = useState("");

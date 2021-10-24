@@ -1,7 +1,16 @@
+:root {
+    --color-primary: #32b280;
+    --color-secondary:#2b5bf7
+  }
+     
+    
     /* HR */
 
+
+
     .hr-line{
-        border: 2px solid #00be75;
+        border-top: 3px solid #00be75;
+        color: transparent;
     }
     .hr-line-2{
         border:1px solid #000000;

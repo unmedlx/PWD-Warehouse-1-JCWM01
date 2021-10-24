@@ -1,10 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 
 
-:root {
-    --color-primary: #32b280;
-    --color-secondary:#2b2b2b
-  }
+
 
 .logo-name{
   font-family: "Libre Baskerville";
@@ -13,13 +10,10 @@
 .navbar-container{
     border-top: 4px var(--color-primary) solid;
     display: flex;
-    /* background-color: blue; */
-    /* width: 90%; */
     margin: auto;
     padding: 20px 40px;
     align-items: center;
     height: 10vh;
-    /* -webkit-box-shadow: 1px 1px 1px rgba(133, 133, 133, 0.6); */
 }
 
 .logo-container{
@@ -40,7 +34,6 @@
 }
 
 .nav-link-cta{
-    /* margin: 0 50px; */
     color:var(--color-primary);
     text-decoration: none;
 }

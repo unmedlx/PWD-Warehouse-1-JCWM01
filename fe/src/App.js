@@ -41,6 +41,7 @@ import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransact
 import Warehouse from "./pages/WarehouseStock"
 import { getNewArrival } from "./redux/actions/product";
 import UserNavbar from "./components/Landing/UserNavbar";
+import Footer from "./components/Landing/Footer";
 
 
 function App() {
@@ -140,6 +141,8 @@ function App() {
         path="/admin-transaction-detail/:idTransaction"
         component={DetailTransaction}
         isAdmin={adminGlobal.idRole} />
+
+      <Footer />
     </BrowserRouter>
   );
 }

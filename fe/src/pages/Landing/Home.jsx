@@ -7,25 +7,13 @@ import { API_URL } from "../../constants/API";
 
 
 
-import UserNavbar from "../../components/Landing/UserNavbar";
 import HeroSection from "../../components/Landing/HeroSection";
 import NewArrival from "../../components/Landing/NewArrival";
 import Footer from "../../components/Landing/Footer";
 import IntroToBrange from "../../components/Landing/IntroToBrange";
-// import { getNewArrival } from "../../redux/actions/product";
 
 function Home() {
   const dispatch = useDispatch();
-  // const { newArrival } = useSelector(state => state.product)
-  // console.log(newArrival);
-  const logout = () => {
-    dispatch(userLogout())
-  };
-
-  // const getArrival = () => {
-  //   dispatch(getNewArrival())
-  // }
-
 
   const getArrival = async () => {
     try {
@@ -48,12 +36,9 @@ function Home() {
 
   return (
     <div>
-      {/* <UserNavbar /> */}
-
       <HeroSection />
       <NewArrival />
       <IntroToBrange />
-      <Footer />
     </div>
   );
 }
