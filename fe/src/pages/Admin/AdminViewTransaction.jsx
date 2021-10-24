@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchAdminViewTransaction } from '../../redux/actions/Transaction';
+import { fetchAdminViewTransaction } from '../../redux/actions/transaction';
 import AdminViewTransactionList from '../../components/Admin/AdminViewTransactionList';
 
 import '../../assets/styles/Typography.css'
@@ -14,7 +14,7 @@ const AdminTransaction = () => {
         currentPage: 1,
     });
 
-    const { idRole, idWarehouse } = adminGlobal
+    const { idWarehouse } = adminGlobal
     const [sort, setSort] = useState("");
     const [status, setStatus] = useState(0);
     const [invoice, setInvoice] = useState("");

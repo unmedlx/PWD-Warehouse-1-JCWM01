@@ -2,6 +2,7 @@
 
 .profile-tab{
     display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
 
     /* border: 1px solid #d3d3d3;
@@ -11,7 +12,7 @@
 }
 
 .profile-tab a{
-    margin:0 20px 0 0;
+    margin:15px 20px 0 0;
     text-decoration: none;
     font-weight: 800;
     font-family: 'Montserrat';
@@ -27,5 +28,6 @@
     display: flex;
     align-items: flex-start;
 }
+
 
 

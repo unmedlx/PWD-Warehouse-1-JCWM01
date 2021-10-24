@@ -5,7 +5,7 @@ import { API_URL } from '../../helper';
 import '../../assets/styles/Checkout.css'
 import '../../assets/styles/DetailTransaction.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDetailTransaction, fetchTransactionById } from '../../redux/actions/Transaction';
+import { fetchDetailTransaction, fetchTransactionById } from '../../redux/actions/transaction';
 import moment from "moment";
 import { Badge } from 'react-bootstrap'
 import { FaTimes } from 'react-icons/fa'

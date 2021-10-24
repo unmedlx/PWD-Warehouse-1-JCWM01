@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 import '../assets/styles/Typography.css'
 import ImageModals from '../components/ImageModals';
+import ProfileNavbar from './ProfileNavbar';
 
 const ProfileSidebar = () => {
     const userGlobal = useSelector((state) => state.users);
@@ -27,7 +28,8 @@ const ProfileSidebar = () => {
                 <div className="profile-picture-container">
                     <img src={`${API_URL}` + userImage} alt="Trulli" className="profilePicture" />
                 </div>
-                <button className="button-profile mt-3" onClick={handleShow}>Change Photo Profile</button>
+                <ProfileNavbar />
+                <button className="button-profile" onClick={handleShow}>Change Photo Profile</button>
                 <button className="button-profile mt-3"  >
                     <Link to="/change-password" style={{ textDecoration: 'none', color: 'white' }}>
                         Change Password

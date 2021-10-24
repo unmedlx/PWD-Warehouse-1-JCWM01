@@ -44,7 +44,11 @@ export default function CartModal(props) {
         </div>
         {renderCart()}
         {/* <div className>Total price (before shipping fee)</div> */}
-        {/* <button onClick={saveButtonHandler}>Save changes</button> */}
+        <div className="d-flex justify-content-end">
+          <Link to="/checkout">
+            <button className="button">Checkout</button>
+          </Link>
+        </div>
       </Modal.Body>
     </Modal>
   );

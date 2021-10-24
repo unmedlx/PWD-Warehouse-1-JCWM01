@@ -19,7 +19,7 @@ import AddProduct from "./pages/AddProduct";
 import AdminEditProduct from "./pages/AdminEditProduct";
 import WarehouseList from "./pages/WarehouseList";
 import AddWarehouse from "./pages/AddWarehouse";
-import Home from "./pages/Home";
+import Home from "./pages/Landing/Home";
 import Auth from "./pages/Auth";
 import Verification from "./pages/Verification";
 import Address from "./pages/Address";
@@ -41,6 +41,11 @@ import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransact
 // import Warehouse from "./pages/WarehouseStock"
 import AdminRevenue from "./pages/AdminRevenue";
 import SalesReport from "./pages/SalesReport";
+import Warehouse from "./pages/WarehouseStock"
+import { getNewArrival } from "./redux/actions/product";
+import UserNavbar from "./components/Landing/UserNavbar";
+import Footer from "./components/Landing/Footer";
+
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -59,8 +64,13 @@ function App() {
       dispatch(CheckAddress(userLocalStorage));
     }
   };
+  // const getArrival = () => {
+  //   dispatch(getNewArrival())
+  // }
+
 
   useEffect(() => {
+    // getArrival()
     keepLogin();
   }, []);
 

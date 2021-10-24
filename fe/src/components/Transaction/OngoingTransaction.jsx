@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchOngoingTransaction } from '../../redux/actions/Transaction'
+import { fetchOngoingTransaction } from '../../redux/actions/transaction'
 import { Table, Spinner } from 'react-bootstrap'
 import axios from 'axios'
 import { API_URL } from '../../constants/API'
@@ -72,7 +72,7 @@ const OngoingTransaction = () => {
         <>
             <hr className="hr-line" />
             <header
-                style={{ width: 1122, backgroundColor: "#f7f7f7" }}
+                style={{ backgroundColor: "#f7f7f7" }}
                 className="mt-3"
             >
                 <div className="row gx-3">
