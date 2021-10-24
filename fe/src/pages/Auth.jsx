@@ -6,6 +6,7 @@ import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {Spinner} from "react-bootstrap"
 
 function Auth() {
   // Redux //
@@ -16,7 +17,7 @@ function Auth() {
     btnClick: true,
     redirect: false,
   });
-  const [message, setMessage] = useState(null);
+  const [message, setMessage] = useState(false);
   const [message1, setMessage1] = useState(null);
 
   // FORMIK REGISTER //
@@ -73,8 +74,8 @@ function Auth() {
 
   // REGISTER //
   const register = (data) => {
-    console.log(data);
-    setMessage("Loading...");
+    // console.log(data);
+    setMessage(true);
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
@@ -88,27 +89,29 @@ function Auth() {
       .then((res) => {
         // console.log(res.data);
         if (res.data.success) {
-          localStorage.setItem("token_shutter", res.data.token);
-          dispatch({
-            type: "USER_LOGIN",
-            payload: res.data.dataUser,
-          });
+          // localStorage.setItem("token_shutter", res.data.token);
+          // dispatch({
+          //   type: "USER_LOGIN",
+          //   payload: res.data.dataUser,
+          // });
+          setMessage(false);
           alert(res.data.message);
-          setTimeout(() => setState({ redirect: true }), 3000);
+          window.location = "/";
+          // setTimeout(() => setState({ redirect: true }), 3000);
         } else {
-          setMessage(res.data.message);
-          setMessage1(res.data.message1);
+          setMessage(false);
+          setMessage1(res.data.message);
         }
       })
       .catch((err) => {
-        setMessage(null);
+        setMessage(false);
         console.log(err);
       });
   };
 
   // LOGIN //
   const login = (data) => {
-    setMessage("Loading...");
+    setMessage(true);
     //Data Login
     let { email, password } = data;
     //Execute Login
@@ -145,12 +148,12 @@ function Auth() {
               type: "ADMIN_LOGOUT",
             });
           }
-          setMessage("Login Success ✔");
+          setMessage(false);
           setMessage1("Happy Shopping ! :)");
           // setState({ redirect: true })
         } else {
-          setMessage(null);
-          setMessage(res.data.message);
+          setMessage(false);
+          setMessage1(res.data.message);
           // alert(res.data.message);
         }
       })
@@ -214,6 +217,9 @@ function Auth() {
               <button className="button" type="submit">
                 Sign Up
               </button>
+              { message && 
+                <Spinner animation="border" className="mt-3" />
+              }
               <h5 className="h5">{message}</h5>
               <h5 className="h5-light">{message1}</h5>
             </Form>
@@ -246,7 +252,9 @@ function Auth() {
               <button className="button" type="submit">
                 Sign In
               </button>
-              <h5 className="h5">{message}</h5>
+              { message && 
+                <Spinner animation="border" className="mt-3" />
+              }
               <h5 className="h5-light">{message1}</h5>
             </Form>
           </div>
