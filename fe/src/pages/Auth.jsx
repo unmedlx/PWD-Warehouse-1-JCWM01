@@ -17,7 +17,7 @@ function Auth() {
     btnClick: true,
     redirect: false,
   });
-  const [message, setMessage] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [message1, setMessage1] = useState(null);
 
   // FORMIK REGISTER //
@@ -61,21 +61,19 @@ function Auth() {
   // Change Form //
   const signInPage = () => {
     setState({ btnClick: true });
-    console.log(state.btnClick);
-    setMessage(null);
+    setLoading(false);
     setMessage1(null);
   };
   const signUpPage = () => {
     setState({ btnClick: false });
-    console.log(state.btnClick);
-    setMessage(null);
+    setLoading(false);
     setMessage1(null);
   };
 
   // REGISTER //
   const register = (data) => {
     // console.log(data);
-    setMessage(true);
+    setLoading(true);
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
@@ -87,31 +85,24 @@ function Auth() {
         password,
       })
       .then((res) => {
-        // console.log(res.data);
         if (res.data.success) {
-          // localStorage.setItem("token_shutter", res.data.token);
-          // dispatch({
-          //   type: "USER_LOGIN",
-          //   payload: res.data.dataUser,
-          // });
-          setMessage(false);
+          setLoading(false);
           alert(res.data.message);
           window.location = "/";
-          // setTimeout(() => setState({ redirect: true }), 3000);
         } else {
-          setMessage(false);
+          setLoading(false);
           setMessage1(res.data.message);
         }
       })
       .catch((err) => {
-        setMessage(false);
+        setLoading(false);
         console.log(err);
       });
   };
 
   // LOGIN //
   const login = (data) => {
-    setMessage(true);
+    setLoading(true);
     //Data Login
     let { email, password } = data;
     //Execute Login
@@ -119,7 +110,6 @@ function Auth() {
       .post(`${API_URL}/auth/login`, { email, password })
       .then((res) => {
         if (res.data.success) {
-          // console.log(res.data.dataUser);
           localStorage.setItem("token_shutter", res.data.token);
           if (res.data.dataUser.idRole == 1) {
             window.location = "/admin";
@@ -148,17 +138,15 @@ function Auth() {
               type: "ADMIN_LOGOUT",
             });
           }
-          setMessage(false);
+          setLoading(false);
           setMessage1("Happy Shopping ! :)");
-          // setState({ redirect: true })
         } else {
-          setMessage(false);
+          setLoading(false);
           setMessage1(res.data.message);
-          // alert(res.data.message);
         }
       })
       .catch((err) => {
-        setMessage(null);
+        setLoading(false);
         console.log(err);
       });
   };
@@ -217,11 +205,10 @@ function Auth() {
               <button className="button" type="submit">
                 Sign Up
               </button>
-              { message && 
+              { loading && 
                 <Spinner animation="border" className="mt-3" />
               }
-              <h5 className="h5">{message}</h5>
-              <h5 className="h5-light">{message1}</h5>
+              <h5 className="h5-light mt-3">{message1}</h5>
             </Form>
           </div>
         </Formik>
@@ -252,10 +239,10 @@ function Auth() {
               <button className="button" type="submit">
                 Sign In
               </button>
-              { message && 
+              { loading && 
                 <Spinner animation="border" className="mt-3" />
               }
-              <h5 className="h5-light">{message1}</h5>
+              <h5 className="h5-light mt-3">{message1}</h5>
             </Form>
           </div>
         </Formik>
