@@ -44,7 +44,6 @@ import UserNavbar from "./components/Landing/UserNavbar";
 import Footer from "./components/Landing/Footer";
 
 // import AdminRevenue from "./pages/AdminRevenue";
-// import SalesReport from "./pages/SalesReport";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -63,10 +62,6 @@ function App() {
       dispatch(CheckAddress(userLocalStorage));
     }
   };
-  // const getArrival = () => {
-  //   dispatch(getNewArrival())
-  // }
-
 
   useEffect(() => {
     // getArrival()
@@ -75,6 +70,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <UserNavbar />
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
@@ -89,6 +85,7 @@ function App() {
       <LoggedInRoute path="/address" component={Address} isLogin={userGlobal.isLogin} exact />
       <LoggedInRoute path="/change-password" component={ChangePassword} isLogin={userGlobal.isLogin} exact />
       <LoggedInRoute path="/profile" component={Profile} isLogin={userGlobal.isLogin} exact />
+      <Footer />
       {/* ADMIN */}
       <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin} />
       <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />
