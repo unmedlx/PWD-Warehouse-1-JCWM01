@@ -1,4 +1,4 @@
-const { db } = require("../database/index"); //mysql
+const { db, query } = require("../database/index"); //mysql
 const moment = require("moment"); // ubah format tanggal
 const Crypto = require("crypto"); // for encrypt
 //Hashing
@@ -11,189 +11,124 @@ const nodemailer = require("../helper/nodemailer");
 
 module.exports = {
   // REGISTER //
-  register: (req, res) => {
+  Register: async (req, res) => {
     //User Data Input//
     let { fullName, username, email, password } = req.body;
-    //Check Is Email Exist//
-    const checkEmailQuery = `SELECT * FROM users WHERE email = ${db.escape(
-      email
-    )} ;`;
-    db.query(checkEmailQuery, (err, results) => {
-      if (results.length > 0) {
-        console.log(results.length);
-        console.log(results);
-        res.send({
-          message: "This Email Already Registered",
-          message1: "Try Again With Different Email",
-          success: false,
-        });
-        return;
-      } else {
-        // console.log(results.length);
-        // Hash Pass
-        bcrypt.hash(password, saltRounds, (err, hash) => {
-          if (err) {
-            console.log(err);
-          } else {
-            password = hash;
-            // Insert Data User To DB
-            let registerQuery = `INSERT INTO users VALUES (
-              null,
-              ${db.escape(fullName)},
-              ${db.escape(username)},
-              ${db.escape(email)},
-              ${db.escape(password)},
-              3,
-              "/images/profile-default.png",
-              0,
-              3,
-              null 
-              );
-              `;
-            db.query(registerQuery, (err, results) => {
-              if (err) {
-                console.log(err);
-                res.status(500).send(err);
-              }
-              //If Data Inserted In DB
-              if (results) {
-                //get user data
-                let newUserQuery = `SELECT * FROM users WHERE idUser = ${results.insertId} ;`;
-                db.query(newUserQuery, (err1, results1) => {
-                  if (err1) {
-                    console.log(err);
-                    res.status(500).send(err);
-                  }
-                  // Create Token
-                  delete results1[0].password;
-                  let {
-                    idUser,
-                    fullName,
-                    username,
-                    email,
-                    idRole,
-                    isVerified,
-                  } = results1[0];
-                  let Token = createToken({
-                    idUser,
-                    fullName,
-                    username,
-                    email,
-                    idRole,
-                    isVerified,
-                  });
-                  // Send Verify Email
-                  let mail = {
-                    from: `Admin <ayyasluthfi@gmail.com>`,
-                    to: `${email}`,
-                    subject: `Acount Verification`,
-                    html: `<a href="http://localhost:3000/verification/${Token}"> Hello ${username}, Click here to verify your account</a>`,
-                  };
-                  nodemailer.sendMail(mail, (errMail, restMail) => {
-                    if (errMail) {
-                      console.log(errMail);
-                      res.status(500).send({
-                        message: "Registration failed",
-                        success: false,
-                      });
-                    } else {
+    try {
+        //Check Email
+        const checkEmail = await query(`SELECT * FROM users WHERE email = ${db.escape(email)} ;`)
+          if (checkEmail.length > 0) {
+                res.send({
+                  message: "This Email Already Registered",
+                  message1: "Try Again With Different Email",
+                  success: false,
+                });
+                return;
+          }else{
+                //Hash Password
+                const hashPassword = await bcrypt.hash(password, saltRounds)
+                password = hashPassword
+                //Insert User Data To DB 
+                const registerQuery = await query(`INSERT INTO users VALUES 
+                (null, ${db.escape(fullName)}, ${db.escape(username)}, ${db.escape(email)}, ${db.escape(password)},3, "/images/profile-default.png", 0, 3, null  );`)
+
+                if (registerQuery) {
+                    console.log("ini register query");
+                    console.log(registerQuery);
+                    //Get User Data in DB
+                    const getUserData = await query(`SELECT * FROM users WHERE idUser = ${registerQuery.insertId};`)
+                      // Create Token
+                      delete getUserData[0].password;
+                      let { idUser, fullName, username, email, idRole, isVerified,} = getUserData[0];
+                      let Token = createToken({ idUser, fullName, username, email, idRole, isVerified,});
+                      // Send Verify Email
+                      let mail = {
+                        from: `Admin <ayyasluthfi@gmail.com>`,
+                        to: `${email}`,
+                        subject: `Acount Verification`,
+                        html: `<a href="http://localhost:3000/verification/${Token}"> Hello ${username}, Click here to verify your account</a>`,
+                      };
+                      await nodemailer.sendMail(mail)
+                      //Response
                       res.status(200).send({
                         message:
-                          "Registration And Login Success, check your email to verify account",
+                          "Registration And Login Success ✔, Check your email to verify your account!",
                         success: true,
                         token: Token,
-                        dataUser: results1[0],
+                        dataUser: getUserData[0],
                       });
-                    }
-                  });
-                });
-              }
-            });
+                }else{
+                    res.status(500).send({
+                      message: "Registration failed",
+                      success: false,
+                    });
+                  }
           }
-        });
-      }
-    });
+    } catch (error) {
+          console.log(error);
+          res.status(500).send({
+            message: "Registration failed",
+            success: false,
+            error: error
+          });
+    }
+
   },
 
   // ACCOUNT VERIFICATION //
-  verification: (req, res) => {
-    //update isverified: 1
-    let verifyQuery = `UPDATE users SET isVerified = 1 WHERE idUser = ${req.user.idUser};`;
-    db.query(verifyQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send({ message: "acount unverified", success: false });
-      }
-      res.status(200).send({ message: "acount verified", success: true });
-    });
+  verification: async (req, res) => {
+    //update isVerified
+    try {
+        await query(`UPDATE users SET isVerified = 1 WHERE idUser = ${req.user.idUser};`)
+        res.status(200).send({ message: "account verified", success: true });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: "account unverified", success: false });
+    }
   },
 
   // LOGIN //
-  login: (req, res) => {
-    //Query
-    let loginQuery = `SELECT * FROM users WHERE email=${db.escape(
-      req.body.email
-    )};`;
-    //inject Query
-    db.query(loginQuery, (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send(err);
-      }
-      //Checking User Data
-      if (results[0]) {
-        //user data
-        let {
-          idUser,
-          fullName,
-          username,
-          email,
-          password,
-          idRole,
-          isVerified,
-        } = results[0];
-        //Compare Password
-        bcrypt.compare(req.body.password, password, (error, response) => {
-          //  console.log(response);
-          if (error) {
-            console.log(error);
-            return;
+  Login: async (req,res)=>{
+    try {
+          const loginQuery = await query(`SELECT * FROM users WHERE email=${db.escape(req.body.email)};`)
+          //checking user
+          if (loginQuery[0]) {
+               //user data  
+                let { idUser, fullName, username, email, password, idRole, isVerified,} = loginQuery[0];
+               //hash Password 
+                const bCryptCompare = await bcrypt.compare(req.body.password, password)
+                if (bCryptCompare) {
+                    delete loginQuery[0].password;
+                    //check isVerified
+                    if (isVerified != 1) {
+                      res.send({ message: "Account Is Not Verified", success: false });
+                      return;
+                    } else {
+                      //Create Token
+                      let Token = createToken({ idUser, fullName, username, email, idRole, isVerified,});
+                      res.status(200).send({
+                        message: "Login Success",
+                        success: true,
+                        token: Token,
+                        dataUser: loginQuery[0],
+                      });
+                      return;
+                    }
+                } else {
+                  res.send({
+                    message: "Email And Password Doesn't Match",
+                    success: false,
+                  });
+                }
+          }else {
+            res.send({ message: "Account Is Not Registered", success: false });
           }
-          if (response) {
-            delete results[0].password;
-            //check isVerified
-            if (isVerified != 1) {
-              res.send({ message: "Account Is Not Verified", success: false });
-              return;
-            } else {
-              //Create Token
-              let Token = createToken({
-                idUser,
-                fullName,
-                username,
-                email,
-                idRole,
-                isVerified,
-              });
-              res.status(200).send({
-                message: "Login Success",
-                success: true,
-                token: Token,
-                dataUser: results[0],
-              });
-              return;
-            }
-          } else {
-            res.send({
-              message: "Email And Password Doesn't Match",
-              success: false,
-            });
-          }
-        });
-      } else {
-        res.send({ message: "Account Is Not Registered", success: false });
-      }
-    });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+
+    }
   },
 
   // CHECK LOGIN//
@@ -280,7 +215,6 @@ module.exports = {
           .status(500)
           .send({ message: "Data Tidak Ditemukan", success: false, err });
       }
-
       bcrypt.compare(oldPassword, results[0].password, function (err, isMatch) {
         if (err) {
           return res
@@ -323,80 +257,54 @@ module.exports = {
   },
 
   // FORGOT PASSWORD //
-  forgotPassword: (req, res) => {
-    //Query
-    let selectQuery = `SELECT * FROM users WHERE email =${db.escape(
-      req.body.email
-    )} ;`;
-    db.query(selectQuery, (err, results) => {
-      if (err) {
-        res.status(500).send({ message: err, success: false });
-        return;
-      }
-      // Check Data User
-      if (results.length === 0) {
-        res.send({ message: "Email Is Not Registered", success: false });
-        return;
-      }
-      //If User Data Exist
-      if (results) {
-        //Create Token
-        let { idUser, fullName, username, email, idRole, isVerified } =
-          results[0];
-        let Token = createTokenF({
-          idUser,
-          fullName,
-          username,
-          email,
-          idRole,
-          isVerified,
-        });
-        //Send Verify Email
-        let mail = {
-          from: `Admin <ayyasluthfi@gmail.com>`,
-          to: `${email}`,
-          subject: `Acount Verification`,
-          html: `<a href="http://localhost:3000/reset-password/${idUser}/${Token}"> Hai ${username}, Click here to Reset your password, this link valid for only 1 hour</a>`,
-        };
-        //nodemailer
-        nodemailer.sendMail(mail, (errMail, restMail) => {
-          if (errMail) {
-            console.log(errMail);
-            res
-              .status(500)
-              .send({ message: "req forgot password failed", success: false });
+  ForgotPassword: async (req,res) => {
+    try {
+          const selectUser = await query(`SELECT * FROM users WHERE email =${db.escape(req.body.email)} ;`)
+          if (selectUser.length > 0) {
+                //Create Token
+                let { idUser, fullName, username, email, idRole, isVerified } = selectUser[0];
+                let Token = createTokenF({ idUser, fullName, username, email, idRole, isVerified,});
+                //Send Verify Email
+                let mail = {
+                  from: `Admin <ayyasluthfi@gmail.com>`,
+                  to: `${email}`,
+                  subject: `Acount Verification`,
+                  html: `<a href="http://localhost:3000/reset-password/${idUser}/${Token}"> Hai ${username}, Click here to Reset your password, this link valid for only 1 hour</a>`,
+                };
+                //nodemailer
+                await nodemailer.sendMail(mail)
+                //Response
+                res.status(200).send({
+                  message: "Request Forgot Password Success  ✔",
+                  success: true,
+                });
+          }else{
+                res.send({ message: "Email Is Not Registered", success: false });
+                return;
           }
-          res.status(200).send({
-            message: "Request Forgot Password Success  ✔",
-            success: true,
-          });
-        });
-      }
-    });
+
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error);
+    }
   },
 
-  // VERIFICATION AND UPDATE FORGOT //
-  verificationF: (req, res) => {
-    let newPassword = req.body.newPassword;
-    bcrypt.hash(newPassword, saltRounds, (error, hash) => {
-      if (error) {
-        return console.log(error);
-      } else {
-        newPassword = hash;
-        //update password
-        let updateQuery = `UPDATE users SET password = "${newPassword}" WHERE idUser = ${req.user.idUser};`;
-        db.query(updateQuery, (err, results) => {
-          if (err) {
-            console.log(err);
-            res
-              .status(500)
-              .send({ message: "update password failed", success: false });
-          }
-          res
-            .status(200)
-            .send({ message: "update password success ✔", success: true });
-        });
-      }
-    });
+  // VERIFICATION AND UPDATE FORGOT PASSWORD //
+  verificationF: async (req, res) => {
+    try {
+        //New Password
+        let newPassword = req.body.newPassword;
+        //Hash Password
+        const hashPassword = await bcrypt.hash(newPassword, saltRounds)
+        newPassword = hashPassword
+        //Update Data User in DB
+        await query(`UPDATE users SET password = "${newPassword}" WHERE idUser = ${req.user.idUser};`)
+        //Response
+        res.status(200).send({ message: "update password success ✔", success: true });
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: "update password failed", success: false , error});
+    }
   },
 };
