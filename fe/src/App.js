@@ -61,9 +61,7 @@ function App() {
       dispatch(CheckAddress(userLocalStorage));
     }
   };
-  // const getArrival = () => {
-  //   dispatch(getNewArrival())
-  // }
+
 
 
   useEffect(() => {
@@ -95,6 +93,7 @@ function App() {
       <LoggedInRoute path="/address" component={Address} isLogin={userGlobal.isLogin} exact />
       <LoggedInRoute path="/change-password" component={ChangePassword} isLogin={userGlobal.isLogin} exact />
       <LoggedInRoute path="/profile" component={Profile} isLogin={userGlobal.isLogin} exact />
+      <Footer />
       {/* <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/> */}
       {/* ADMIN */}
       <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin} />
@@ -142,7 +141,6 @@ function App() {
         component={DetailTransaction}
         isAdmin={adminGlobal.idRole} />
 
-      <Footer />
     </BrowserRouter>
   );
 }

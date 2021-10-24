@@ -152,7 +152,6 @@ export const paymentAccepted = (idTransaction) => {
 export const paymentDeclined = (idTransaction) => {
   return async dispatch => {
     await axios.patch(`${API_URL}/transaction/admin-payment?paymentStatus=declined&idTransaction=${idTransaction}`)
-
   }
 }
 
