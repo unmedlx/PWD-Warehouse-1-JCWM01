@@ -122,3 +122,23 @@ export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
   );
 };
 
+export const SuperAdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
+  let Component = component;
+  return (
+    <Route
+      {...rest}
+      render={(props) => {
+        //Conditioning Role
+        if (isAdmin == 1) {
+          return <Component />;
+        }else{
+          alert("Only Super Admin Allowed")
+          return (
+            <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
+          );
+        }
+      }}
+    />
+  );
+};
+

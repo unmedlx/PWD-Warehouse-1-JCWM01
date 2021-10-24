@@ -9,6 +9,7 @@ import {
   AdminRoute,
   AdminNonLoggedRoute,
   HomePageUser,
+  SuperAdminRoute
 } from "./helper/ProtectedRoute";
 
 // PAGES //
@@ -28,7 +29,6 @@ import AdminProductList from "./pages/AdminProductList";
 import ChangePassword from "./pages/ChangePassword";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
-// import Cart from "./pages/Cart";
 import WarehouseStock from "./pages/WarehouseStock";
 import Checkout from "./pages/Checkout";
 import DetailTransaction from "./components/Transaction/DetailTransaction";
@@ -39,11 +39,12 @@ import UserTransaction from "./pages/UserTransaction";
 import AdminViewTransaction from "./pages/Admin/AdminViewTransaction";
 import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransaction";
 // import Warehouse from "./pages/WarehouseStock"
-import AdminRevenue from "./pages/AdminRevenue";
 import SalesReport from "./pages/SalesReport";
 import UserNavbar from "./components/Landing/UserNavbar";
 import Footer from "./components/Landing/Footer";
 
+// import AdminRevenue from "./pages/AdminRevenue";
+// import SalesReport from "./pages/SalesReport";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -74,20 +75,13 @@ function App() {
 
   return (
     <BrowserRouter>
-      <UserNavbar />
-      <Route component={SalesReport} path="/sales-report" />
-      <Route component={WarehouseList} path="/warehouse-list" />
-      <Route component={AddWarehouse} path="/add-warehouse" />
-      <Route component={ChangePassword} path="/change-password" />
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
-      <Route component={DetailTransaction} path="/transaction/detail/:idTransaction" />
-      <Route component={SuperAdminViewTransaction} path="/super-admin-transaction" />
       <HomePageUser component={Home} path="/" isAdmin={adminGlobal.idRole} exact />
-      {/* Protected Route */}
+      {/* USER */}
       <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin} />
       <LoggedInRoute path="/checkout" component={Checkout} isLogin={userGlobal.isLogin} />
       <LoggedInRoute path="/transaction/detail/:idTransaction" component={DetailTransaction} isLogin={userGlobal.isLogin} exact />
@@ -104,8 +98,11 @@ function App() {
       <AdminRoute path="/admin-transaction" component={AdminViewTransaction} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/admin-transaction-detail/:idTransaction" component={DetailTransaction} isAdmin={adminGlobal.idRole} exact />
       <AdminRoute path="/admin-warehouse" component={WarehouseStock} isAdmin={adminGlobal.idRole}/>
-      <AdminRoute path="/revenue" component={AdminRevenue} isAdmin={adminGlobal.idRole}/>
-      <Footer />
+      <AdminRoute path="/sales-report" component={SalesReport} isAdmin={adminGlobal.idRole} />
+      {/* SUPER ADMIN */}
+      <SuperAdminRoute path="/super-admin-transaction" component={SuperAdminViewTransaction} isAdmin={adminGlobal.idRole} />
+      <SuperAdminRoute path="/add-warehouse" component={AddWarehouse} isAdmin={adminGlobal.idRole} />
+      <SuperAdminRoute path="/warehouse-list" component={WarehouseList} isAdmin={adminGlobal.idRole} />
     </BrowserRouter>
   );
 }
