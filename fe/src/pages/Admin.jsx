@@ -18,10 +18,12 @@ function Admin() {
     });
     alert("logout success");
   };
+
   const fetchWarehouse = () => {
     axios.get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         console.log(response.data[0].idWarehouse);
+        
         dispatch({
           type: "ADMIN_WAREHOUSE",
           payload: response.data[0].idWarehouse

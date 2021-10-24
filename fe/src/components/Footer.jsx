@@ -1,8 +1,6 @@
 import React from 'react'
 import "../assets/styles/Footer.css"
 import {AiOutlineGithub, AiFillTwitterCircle, AiFillFacebook, AiOutlineInstagram, AiFillInstagram } from "react-icons/ai"
-import { GrInstagram} from "react-icons/gr"
-import { BsFacebook} from "react-icons/bs"
 import moment from "moment"
 
 function Footer() {

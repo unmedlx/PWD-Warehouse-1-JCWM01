@@ -30,7 +30,8 @@ app.use(express.static("public"));
 //http://localhost:3001/images/IMG1633323280976.png
 app.use(express.static("public"));
 
-app.use("/users", userRouter);
+app.use("/auth", userRouter);
+
 app.use("/profile", uploaderRouter);
 app.use("/cityprovince", cityProvinceRouter);
 app.use("/address", addressRouter);
@@ -38,11 +39,14 @@ app.use("/products", productsRouter);
 app.use("/adminstocks", adminStocksRouter);
 app.use("/userstocks", userStocksRouter);
 app.use("/warehouses", warehousesRouter);
+
 app.use("/wh-stocks", warehouseStockRouter);
+
 app.use("/cart", cartRouter);
 app.use("/transaction", transactionRouter);
 app.use("/checkout", checkoutRouter);
 app.use("/carts", cartRouter);
+
 app.use("/salesReport", salesReportRouter);
 
 app.listen(PORT, () => {

@@ -70,15 +70,12 @@ function App() {
       <Route component={WarehouseList} path="/warehouse-list" />
       <Route component={AddWarehouse} path="/add-warehouse" />
       <Route component={ChangePassword} path="/change-password" />
-      {/* <Route component={Address} path="/address" /> */}
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
-      {/* <Route component={Checkout} path="/checkout" /> */}
       <Route component={DetailTransaction} path="/transaction/detail/:idTransaction" />
-      {/* <Route component={UserTransaction} path="/transaction" /> */}
       <Route component={SuperAdminViewTransaction} path="/super-admin-transaction" />
       <HomePageUser component={Home} path="/" isAdmin={adminGlobal.idRole} exact />
       {/* Protected Route */}
@@ -89,7 +86,6 @@ function App() {
       <LoggedInRoute path="/address" component={Address} isLogin={userGlobal.isLogin} exact />
       <LoggedInRoute path="/change-password" component={ChangePassword} isLogin={userGlobal.isLogin} exact />
       <LoggedInRoute path="/profile" component={Profile} isLogin={userGlobal.isLogin} exact />
-      {/* <LoggedInRoute path="/cart" component={Cart} isLogin={userGlobal.isLogin}/> */}
       {/* ADMIN */}
       <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin} />
       <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />

@@ -79,7 +79,7 @@ function Auth() {
     let { fullName, username, email, password } = data;
     //Execute register
     axios
-      .post(API_URL + "/users/register", {
+      .post(`${API_URL}/auth/register`, {
         fullName,
         username,
         email,
@@ -113,7 +113,7 @@ function Auth() {
     let { email, password } = data;
     //Execute Login
     axios
-      .post(`${API_URL}/users/login`, { email, password })
+      .post(`${API_URL}/auth/login`, { email, password })
       .then((res) => {
         if (res.data.success) {
           // console.log(res.data.dataUser);

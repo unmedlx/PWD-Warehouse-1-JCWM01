@@ -6,7 +6,7 @@ import { API_URL } from "../../constants/API";
 export const CheckLogin = (userLocalStorage) => {
     return async dispatch => {
         try {
-            const getDataLogin = await axios.post(`${API_URL}/users/`,
+            const getDataLogin = await axios.post(`${API_URL}/auth/`,
                 {},
                 {
                     headers: {
@@ -44,7 +44,7 @@ export const CheckLogin = (userLocalStorage) => {
 export const EditDataProfile = (data, userLocalStorage) => {
     return async dispatch => {
         try {
-            const editDataProfile = await axios.patch(`${API_URL}/users/edit`,
+            const editDataProfile = await axios.patch(`${API_URL}/auth/edit`,
                 data,
                 {
                     headers: {
