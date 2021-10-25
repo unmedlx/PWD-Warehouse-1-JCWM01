@@ -12,8 +12,8 @@ router.post("/login", userController.Login);
 router.patch("/edit", authToken, userController.editDataUser);
 router.patch("/change-password", authToken, userController.changePasswordUser);
 
-// router.post("/", authToken, userController.getDataUser);
-router.patch("/", authToken, userController.getDataUser);
+router.post("/", authToken, userController.getDataUser);
+// router.patch("/", authToken, userController.getDataUser);
 router.patch("/tes", authToken, userController.editDataUser);
 
 router.post("/forgot-password", userController.ForgotPassword);
