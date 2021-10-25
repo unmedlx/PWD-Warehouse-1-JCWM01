@@ -5,6 +5,7 @@ import * as Cg from "react-icons/cg";
 import * as Fa from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
+import { SidebarDataSuper } from "./SidebarDataSuper";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
@@ -27,9 +28,35 @@ export default function AdminSidebar(props) {
     alert("logout success");
   };
 
+  const superAdminSidebar = (params) => {
+    if (adminGlobal.idRole === 1) {
+      return SidebarDataSuper.map((item, index) => {
+        return (
+          <li key={index} className={item.cName}>
+            <Link className="menu-link" to={item.path}>
+              {<i className="icon">{item.icons}</i>}
+              {sidebar ? <span className="text">{item.title}</span> : ""}
+            </Link>
+          </li>
+        );
+      });
+    } else if (adminGlobal.idRole === 2) {
+      return SidebarData.map((item, index) => {
+        return (
+          <li key={index} className={item.cName}>
+            <Link className="menu-link" to={item.path}>
+              {<i className="icon">{item.icons}</i>}
+              {sidebar ? <span className="text">{item.title}</span> : ""}
+            </Link>
+          </li>
+        );
+      });
+    }
+  };
+
   const superAdminCheck = () => {
     if (adminGlobal.idRole === 1) {
-      return "SUPER";
+      return "SPR";
     } else if (adminGlobal.idRole === 2) {
       return props.warehouse;
     }
@@ -61,18 +88,7 @@ export default function AdminSidebar(props) {
         </div>
 
         <nav>
-          <ul className="menu-aside">
-            {SidebarData.map((item, index) => {
-              return (
-                <li key={index} className={item.cName}>
-                  <Link className="menu-link" to={item.path}>
-                    {<i className="icon">{item.icons}</i>}
-                    {sidebar ? <span className="text">{item.title}</span> : ""}
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+          <ul className="menu-aside">{superAdminSidebar()}</ul>
           <hr />
           <ul className="menu-aside mt-auto">
             {sidebar ? (

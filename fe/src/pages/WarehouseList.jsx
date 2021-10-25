@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Link } from "react-router-dom";
+import AdminSidebar from "../components/AdminSidebar";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -11,6 +13,7 @@ import WarehouseCard from "../components/WarehouseCard";
 
 export default function WarehouseList() {
   const [warehouseData, setWarehouseData] = useState([]);
+  const warehouseGlobal = useSelector((state) => state.warehouses);
 
   const fetchWarehouseData = () => {
     axios
@@ -45,22 +48,25 @@ export default function WarehouseList() {
     renderWarehouseData();
   }, []);
   return (
-    <div style={{ padding: "60px" }} className="">
-      <div className="content-header">
-        <h2 className="content-title d-flex flex-row align-items-center">
-          Warehouse list
-        </h2>
-        <div>
-          <Link to={`/add-warehouse`} class="p-name button-cart">
-            <i className="material-icons md-plus"></i> Add new warehouse
-          </Link>
+    <>
+      <AdminSidebar warehouse={warehouseGlobal.warehouse} />
+      <div style={{ padding: "60px", marginLeft: 9 }}>
+        <div className="content-header">
+          <h2 className="content-title d-flex flex-row align-items-center">
+            Warehouse list
+          </h2>
+          <div>
+            <Link to={`/add-warehouse`} class="p-name button-cart">
+              <i className="material-icons md-plus"></i> Add new warehouse
+            </Link>
+          </div>
+        </div>
+        <div className="col-12 d-flex">
+          <div className="d-flex flex-wrap flex-row justify-content-evenly mb-1">
+            {renderWarehouseData()}
+          </div>
         </div>
       </div>
-      <div className="col-12 d-flex">
-        <div className="d-flex flex-wrap flex-row justify-content-evenly mb-1">
-          {renderWarehouseData()}
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
