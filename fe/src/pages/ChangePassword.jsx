@@ -33,8 +33,7 @@ const ChangePassword = () => {
 
     const submitPassword = (data) => {
         const userLocalStorage = localStorage.getItem("token_shutter");
-        console.log(data);
-        axios.patch(`${API_URL}/users/change-password`,
+        axios.patch(`${API_URL}/auth/change-password`,
             { data },
             {
                 headers: {
@@ -43,14 +42,12 @@ const ChangePassword = () => {
             }
         )
             .then((res) => {
-                console.log(res);
                 alert(res.data.message)
                 setRedirect(true)
             })
             .catch((err) => {
                 console.log(err);
             })
-
     }
     if (redirect) {
         return <Redirect to="/profile" />

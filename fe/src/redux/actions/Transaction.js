@@ -9,13 +9,11 @@ export const fetchOngoingTransaction = (idUser, page, sortBy) => {
         type: "FETCH_ONGOING_TRANSACTION",
       });
 
-      console.log(page, idUser, sortBy);
       const { data } = await axios.get(`${API_URL}/transaction?idUser=${idUser}&page=${page}&status=&sortBy=${sortBy}&type=ongoing&limit=3`);
       dispatch({
         type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
         payload: data,
       });
-      console.log(data);
       return data;
     } catch (error) {
       dispatch({

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../assets/styles/Checkout.css";
+import {API_URL} from "../../constants/API"
 
 const CheckoutDetails = ({ nextStep, handleChange }) => {
   const cartsGlobal = useSelector((state) => state.carts);
@@ -27,7 +28,8 @@ const CheckoutDetails = ({ nextStep, handleChange }) => {
               <div className="col-1 me-5">
                 <img
                   className="img-fluid"
-                  src={cart.productImage}
+                  src={cart.productImage.includes("/images/IMG") ? API_URL + cart.productImage : cart.productImage}
+                  // src={cart.productImage}
                   alt="product"
                 />
               </div>
