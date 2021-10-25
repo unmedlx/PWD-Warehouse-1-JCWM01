@@ -12,6 +12,9 @@ import {
   SuperAdminRoute
 } from "./helper/ProtectedRoute";
 
+import { CheckLogin } from "./redux/actions/users";
+import { CheckCart } from "./redux/actions/carts";
+import { CheckAddress } from "./redux/actions/addressUser";
 // PAGES //
 import Admin from "./pages/Admin";
 import ProductsList from "./pages/ProductsList";
@@ -32,9 +35,6 @@ import ResetPassword from "./pages/ResetPassword";
 import WarehouseStock from "./pages/WarehouseStock";
 import Checkout from "./pages/Checkout";
 import DetailTransaction from "./components/Transaction/DetailTransaction";
-import { CheckLogin } from "./redux/actions/users";
-import { CheckCart } from "./redux/actions/carts";
-import { CheckAddress } from "./redux/actions/addressUser";
 import UserTransaction from "./pages/UserTransaction";
 import AdminViewTransaction from "./pages/Admin/AdminViewTransaction";
 import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransaction";
@@ -42,6 +42,8 @@ import SuperAdminViewTransaction from "./pages/SuperAdmin/SuperAdminViewTransact
 import SalesReport from "./pages/SalesReport";
 import UserNavbar from "./components/Landing/UserNavbar";
 import Footer from "./components/Landing/Footer";
+
+import { routes, LoggedInRoute as LoggedIn, AdminRoute as isAdminRoute, SuperAdminRoute as isSuperAdminRoute } from './helper/routes'
 
 // import AdminRevenue from "./pages/AdminRevenue";
 
@@ -70,36 +72,51 @@ function App() {
 
   return (
     <BrowserRouter>
-      <UserNavbar />
-      <Route component={ProductsList} path="/product-list" />
-      <Route component={ProductDetail} path="/product-detail/:idProduct" />
-      <Route component={Verification} path="/verification/:token" />
-      <Route component={ForgotPassword} path="/forgot-password" />
-      <Route component={ResetPassword} path="/reset-password/:id/:token" />
+
+      {adminGlobal.idRole ?
+        null :
+        <UserNavbar />
+      }
+
+
+      {
+        routes.map(({ component, path }) => {
+          return <Route component={component} path={path} />
+        })
+      }
+
       <HomePageUser component={Home} path="/" isAdmin={adminGlobal.idRole} exact />
-      {/* USER */}
       <NonLoggedInRoute path="/authentication" component={Auth} isLogin={userGlobal.isLogin} />
-      <LoggedInRoute path="/checkout" component={Checkout} isLogin={userGlobal.isLogin} />
-      <LoggedInRoute path="/transaction/detail/:idTransaction" component={DetailTransaction} isLogin={userGlobal.isLogin} exact />
-      <LoggedInRoute path="/transaction" component={UserTransaction} isLogin={userGlobal.isLogin} exact />
-      <LoggedInRoute path="/address" component={Address} isLogin={userGlobal.isLogin} exact />
-      <LoggedInRoute path="/change-password" component={ChangePassword} isLogin={userGlobal.isLogin} exact />
-      <LoggedInRoute path="/profile" component={Profile} isLogin={userGlobal.isLogin} exact />
-      <Footer />
+
+      {
+        LoggedIn.map(({ component, path, exact }) => {
+          return <LoggedInRoute component={component} path={path} exact={exact} isLogin={userGlobal.isLogin} />
+        })
+      }
+
+
+      {adminGlobal.idRole ?
+        null :
+        <Footer />
+      }
+
+
       {/* ADMIN */}
       <AdminNonLoggedRoute path="/auth-admin" component={Auth} isLogin={adminGlobal.isLogin} />
-      <AdminRoute path="/admin-product-list" component={AdminProductList} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/admin" component={Admin} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/add-product" component={AddProduct} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/edit-product/:idProduct" component={AdminEditProduct} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/admin-transaction" component={AdminViewTransaction} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/admin-transaction-detail/:idTransaction" component={DetailTransaction} isAdmin={adminGlobal.idRole} exact />
-      <AdminRoute path="/admin-warehouse" component={WarehouseStock} isAdmin={adminGlobal.idRole} />
-      <AdminRoute path="/sales-report" component={SalesReport} isAdmin={adminGlobal.idRole} />
-      {/* SUPER ADMIN */}
-      <SuperAdminRoute path="/super-admin-transaction" component={SuperAdminViewTransaction} isAdmin={adminGlobal.idRole} />
-      <SuperAdminRoute path="/add-warehouse" component={AddWarehouse} isAdmin={adminGlobal.idRole} />
-      <SuperAdminRoute path="/warehouse-list" component={WarehouseList} isAdmin={adminGlobal.idRole} />
+
+      {
+        isAdminRoute.map(({ component, path, exact }) => {
+          return <AdminRoute component={component} path={path} exact={exact} isAdmin={adminGlobal.idRole} />
+        })
+      }
+
+      {
+        isSuperAdminRoute.map(({ component, path, exact }) => {
+          return <SuperAdminRoute component={component} path={path} exact={exact} isAdmin={adminGlobal.idRole} />
+        })
+      }
+
+
     </BrowserRouter>
   );
 }

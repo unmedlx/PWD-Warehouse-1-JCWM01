@@ -34,7 +34,7 @@ const UserNavbar = () => {
                         userGlobal.idUser > 0 ?
                             <NavDropdown title={`Hello, ${userGlobal.username}`} id="" className="subtitle-600">
                                 <NavDropdown.Item href="/profile" className="navbar-items"> <FaUserAlt className="me-2 drop-icon" />Profile</NavDropdown.Item>
-                                <NavDropdown.Item href="/cart" className="navbar-items"><FaCartArrowDown className="me-2 drop-icon" />Cart</NavDropdown.Item>
+                                {/* <NavDropdown.Item href="/cart" className="navbar-items"><FaCartArrowDown className="me-2 drop-icon" />Cart</NavDropdown.Item> */}
                                 <NavDropdown.Item href="/transaction" className="navbar-items"><FaBook className="me-2 drop-icon" />Transaction</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item onClick={() => logout()}><FaSignOutAlt className="me-2 drop-icon" />Logout</NavDropdown.Item>

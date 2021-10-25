@@ -22,7 +22,7 @@ const UserTransaction = () => {
   });
 
   const [sort, setSort] = useState("");
-  const [status, setStatus] = useState(1);
+  const [status, setStatus] = useState("");
   const [invoice, setInvoice] = useState("");
   console.log(data);
 
@@ -107,8 +107,13 @@ const UserTransaction = () => {
                       <option value="">Status</option>
                       <option value="1">Belum Bayar</option>
                       <option value="2">Menunggu Verifikasi</option>
-                      <option value="3">Status 3</option>
-                      <option value="4">Status 4</option>
+                      <option value="3">Pesanan Dibayar</option>
+                      <option value="4">Stock Barang Kurang</option>
+                      <option value="5">Mengambil Stock</option>
+                      <option value="6">Barang Diproses</option>
+                      <option value="7">Pesanan Dikirim</option>
+                      <option value="8">Pesanan Selesai</option>
+                      <option value="9">Pesanan Dibatalkan</option>
                     </select>
                   </div>
 

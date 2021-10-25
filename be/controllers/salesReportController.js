@@ -97,7 +97,6 @@ module.exports = {
     let scriptQuery = `SELECT a.kota, SUM(subtotalPrice) AS revenueKota
     FROM db_warehouse1.transactions t
     JOIN addresses a ON t.idAddress = a.idAddress
-    JOIN users u ON t.idUser = u.idUser
     WHERE idWarehouse = ${db.escape(req.query.idWarehouse)}
     AND idStatus = 8
     GROUP BY a.kota
@@ -142,7 +141,7 @@ module.exports = {
     });
   },
 
-  currentRevenue: async (req,res) => {
+  currentRevenue: async (req, res) => {
     const idWarehouse = req.query.idWarehouse
     try {
       const currentRevenue = []
@@ -182,9 +181,9 @@ module.exports = {
 
 /*
     montRevenue:(req,res) => {
-    let query = `SELECT sum(subtotalPrice) AS revenueMonth FROM transactions 
-    WHERE idStatus = 8 
-    AND idWarehouse = ${req.query.idWarehouse} 
+    let query = `SELECT sum(subtotalPrice) AS revenueMonth FROM transactions
+    WHERE idStatus = 8
+    AND idWarehouse = ${req.query.idWarehouse}
     AND month(transactionDate)= ${req.query.monthNumber};`
 
     db.query(query, (err, results) => {
@@ -194,5 +193,5 @@ module.exports = {
       }
       res.status(200).send(results[0])
     })
-  }, 
+  },
  */

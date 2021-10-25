@@ -33,7 +33,7 @@ export const LoggedInRoute = ({ isLogin, component, ...rest }) => {
      ...rest : berisi object path yang menentukan tujuan page kita
  */
 
-export const NonLoggedInRoute = ({isLogin, component, ...rest}) => {
+export const NonLoggedInRoute = ({ isLogin, component, ...rest }) => {
   let Component = component;
   return (
     <Route
@@ -56,7 +56,7 @@ export const NonLoggedInRoute = ({isLogin, component, ...rest}) => {
   );
 }
 
-export const AdminNonLoggedRoute = ({isLogin, component, ...rest}) => {
+export const AdminNonLoggedRoute = ({ isLogin, component, ...rest }) => {
   let Component = component;
   return (
     <Route
@@ -90,9 +90,9 @@ export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
           return <Component />;
         } else if (isAdmin === 1) {
           return <Component />;
-        }else{
+        } else {
           return (
-            <Redirect to={{pathname: "/",state: { from: props.location }, }} />
+            <Redirect to={{ pathname: "/", state: { from: props.location }, }} />
           );
         }
       }}
@@ -109,12 +109,12 @@ export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
         //Conditioning Role
         if (isAdmin === 2) {
           alert("Admin Tidak Bisa Masuk Ke User Page ")
-          return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
+          return <Redirect to={{ pathname: "/sales-report", state: { from: props.location }, }} />
         } else if (isAdmin === 1) {
           alert("Admin Tidak Bisa Masuk Ke User Page ")
 
-          return <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
-        }else{
+          return <Redirect to={{ pathname: "/sales-report", state: { from: props.location }, }} />
+        } else {
           return <Component />;
         }
       }}
@@ -131,10 +131,10 @@ export const SuperAdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
         //Conditioning Role
         if (isAdmin == 1) {
           return <Component />;
-        }else{
+        } else {
           alert("Only Super Admin Allowed")
           return (
-            <Redirect to={{pathname: "/admin",state: { from: props.location }, }} />
+            <Redirect to={{ pathname: "/admin", state: { from: props.location }, }} />
           );
         }
       }}

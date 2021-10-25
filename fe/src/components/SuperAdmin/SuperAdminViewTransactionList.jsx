@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import moment from "moment";
 
 import '../../assets/styles/Typography.css'
 
+import AdminSidebar from '../AdminSidebar';
 import AdminPaymentReciept from '../Admin/AdminPaymentReciept';
 import { useDispatch } from 'react-redux';
 
 const SuperAdminViewTransactionList = ({ data, currentPage }) => {
+    const warehouseGlobal = useSelector((state) => state.warehouses);
     const dispatch = useDispatch()
     const [showProof, setShowProof] = useState(false);
     const [showDetail, setShowDetail] = useState(false);
@@ -70,6 +73,9 @@ const SuperAdminViewTransactionList = ({ data, currentPage }) => {
     }
     return (
         <>
+            <div style={{ marginLeft: -60 }}>
+                <AdminSidebar warehouse={warehouseGlobal.warehouse} />
+            </div>
             <div className="row transaction-card">
                 <div className="col-3">
                     <p className="subtitle-600 m-0">{data.invoiceNumber}</p>

@@ -32,7 +32,7 @@ export const SidebarData = [
   },
   {
     title: "Requests",
-    path: "/wh-stocks",
+    path: "/admin-warehouse",
     icons: <Cg.CgArrowsExchangeAltV className="icon" />,
     cName: "menu-item",
   },

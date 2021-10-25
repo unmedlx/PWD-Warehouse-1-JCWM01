@@ -12,6 +12,7 @@ import PreviewOrder from '../components/Checkout/PreviewOrder'
 import PaymentConfirmation from '../components/Checkout/PaymentConfirmation'
 
 const Checkout = () => {
+    const addressGlobal = useSelector(state => state.addresses)
     const cartsGlobal = useSelector((state) => state.carts);
     const steps = ['Checkout Details', 'Shipping Information', 'Order Summary', 'Payment Confirmation']
     const [total, settotal] = useState()
@@ -19,6 +20,9 @@ const Checkout = () => {
     const [previewOrder, setpreviewOrder] = useState()
     const [paymentConfirmation, setpaymentConfirmation] = useState()
     const [step, setStep] = useState(0)
+
+    // const addressLength = addressGlobal.length
+    // console.log(addressLength);
 
     const useStyles = makeStyles(() => ({
         root: {
@@ -62,23 +66,31 @@ const Checkout = () => {
                     : null)
 
 
+    // if (addressLength === 0) {
+    //     alert("Please enter address at profile page")
+    //     window.location = "/address"
+    //     // console.log("aku gak boleh masuk gapunya rumah"); 
+    // } else {
+
     return (
-        <div className="body-checkout">
-            {(Object.keys(cartsGlobal).length === 0 && cartsGlobal.constructor === Object) ?
-                <div>Tidak ada cart</div>
-                :
-                <div className="checkout-container p-5 mt-5">
-                    <Stepper className={c.root} activeStep={step} alternativeLabel>
-                        {steps.map((label) => (
-                            <Step key={label}>
-                                <StepLabel>{label}</StepLabel>
-                            </Step>
-                        ))}
-                    </Stepper>
-                    <Form />
-                </div>
-            }
-        </div>
+        <>
+            <div className="body-checkout">
+                {(Object.keys(cartsGlobal).length === 0 && cartsGlobal.constructor === Object) ?
+                    <div>Tidak ada cart</div>
+                    :
+                    <div className="checkout-container p-5 mt-5">
+                        <Stepper className={c.root} activeStep={step} alternativeLabel>
+                            {steps.map((label) => (
+                                <Step key={label}>
+                                    <StepLabel>{label}</StepLabel>
+                                </Step>
+                            ))}
+                        </Stepper>
+                        <Form />
+                    </div>
+                }
+            </div>
+        </>
     )
 
 

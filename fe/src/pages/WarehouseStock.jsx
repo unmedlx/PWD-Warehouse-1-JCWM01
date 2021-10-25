@@ -7,8 +7,10 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "../assets/styles/AdminDashboard.css";
 
 import RequestCard from "../components/WHRequestCard";
+import AdminSidebar from "../components/AdminSidebar";
 
 export default function WarehouseStock() {
+  const warehouseGlobal = useSelector((state) => state.warehouses);
   const adminGlobal = useSelector((state) => state.admins);
   const [requests, setRequests] = useState([]);
   const [warehouse, setWarehouse] = useState({});
@@ -140,93 +142,98 @@ export default function WarehouseStock() {
 
   // RENDER //
   return (
-    <div style={{ padding: "60px" }} className="">
-      {/* HEADER */}
-      <div className="content-header">
-        <h2 className=" h1">
-          Request List
-          <span className="badge rounded-pill alert-primary mx-3">{warehouse.warehouse}</span>
-        </h2>
+    <>
+      <div >
+        <AdminSidebar warehouse={warehouseGlobal.warehouse} />
       </div>
-
-      <div className="mb-4">
-        <header className="mt-3 p-3">
-          <div className="row gx-3">
-            <div className="col-lg-4 col-md-6 me-auto">
-              <button className="button rounded-pill" onClick={sendRequest}>
-                Send Request
-              </button>
-            </div>
-
-            <div style={{ marginTop: 7 }} className="col-lg-2 col-6 col-md-3">
-              <select
-                name="byStatus"
-                className="form-select box-shadow"
-                onChange={inputHandler}
-              >
-                <option value="">All Status</option>
-                <option value="requesting-stock">Requesting</option>
-                <option value="incoming-request">Incoming Request</option>
-                <option value="accepted">Accepted</option>
-              </select>
-            </div>
-
-            <div style={{ marginTop: 7 }} className="col-lg-2 col-6 col-md-3">
-              <select
-                name="sort"
-                className="form-select box-shadow"
-                onChange={inputHandler}
-              >
-                <option value="">Sort by</option>
-                <option value="goingin">Going In</option>
-                <option value="goingout">Going Out</option>
-                <option value="newest">Newest</option>
-                <option value="oldest">Oldest</option>
-              </select>
-            </div>
-          </div>
-        </header>
-      </div>
-
-      {/* TABLE HEADER */}
-      <div className="table-responsive">
-        <table className="table ">
-          <thead>
-            <tr>
-              <th>Request</th>
-              <th>Transaction</th>
-              <th>Requester</th>
-              <th>Stock Sender</th>
-              <th>Product</th>
-              <th>Quantity</th>
-              <th>Date</th>
-              <th>Status/Action</th>
-            </tr>
-          </thead>
-          <tbody>{renderRequests()}</tbody>
-        </table>
-      </div>
-
-      {/* FOOTER */}
-      <div className="d-flex flex-row justify-content-center align-items-center">
-        <button
-          onClick={prevPageHandler}
-          className="btn btn-success "
-          disabled={paging.currentPage === 1}
-        >
-          {"<"}
-        </button>
-        <div className="text-center px-4">
-          Page {paging.currentPage} of {paging.maxPage}
+      <div style={{ padding: "60px" }} className="">
+        {/* HEADER */}
+        <div className="content-header">
+          <h2 className=" h1">
+            Request List
+            <span className="badge rounded-pill alert-primary mx-3">{warehouse.warehouse}</span>
+          </h2>
         </div>
-        <button
-          onClick={nextPageHandler}
-          className="btn btn-success "
-          disabled={paging.currentPage === paging.maxPage}
-        >
-          {">"}
-        </button>
+
+        <div className="mb-4">
+          <header className="mt-3 p-3">
+            <div className="row gx-3">
+              <div className="col-lg-4 col-md-6 me-auto">
+                <button className="button rounded-pill" onClick={sendRequest}>
+                  Send Request
+                </button>
+              </div>
+
+              <div style={{ marginTop: 7 }} className="col-lg-2 col-6 col-md-3">
+                <select
+                  name="byStatus"
+                  className="form-select box-shadow"
+                  onChange={inputHandler}
+                >
+                  <option value="">All Status</option>
+                  <option value="requesting-stock">Requesting</option>
+                  <option value="incoming-request">Incoming Request</option>
+                  <option value="accepted">Accepted</option>
+                </select>
+              </div>
+
+              <div style={{ marginTop: 7 }} className="col-lg-2 col-6 col-md-3">
+                <select
+                  name="sort"
+                  className="form-select box-shadow"
+                  onChange={inputHandler}
+                >
+                  <option value="">Sort by</option>
+                  <option value="goingin">Going In</option>
+                  <option value="goingout">Going Out</option>
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                </select>
+              </div>
+            </div>
+          </header>
+        </div>
+
+        {/* TABLE HEADER */}
+        <div className="table-responsive">
+          <table className="table ">
+            <thead>
+              <tr>
+                <th>Request</th>
+                <th>Transaction</th>
+                <th>Requester</th>
+                <th>Stock Sender</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Date</th>
+                <th>Status/Action</th>
+              </tr>
+            </thead>
+            <tbody>{renderRequests()}</tbody>
+          </table>
+        </div>
+
+        {/* FOOTER */}
+        <div className="d-flex flex-row justify-content-center align-items-center">
+          <button
+            onClick={prevPageHandler}
+            className="btn btn-success "
+            disabled={paging.currentPage === 1}
+          >
+            {"<"}
+          </button>
+          <div className="text-center px-4">
+            Page {paging.currentPage} of {paging.maxPage}
+          </div>
+          <button
+            onClick={nextPageHandler}
+            className="btn btn-success "
+            disabled={paging.currentPage === paging.maxPage}
+          >
+            {">"}
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

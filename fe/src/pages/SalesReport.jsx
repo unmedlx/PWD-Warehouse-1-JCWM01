@@ -7,6 +7,7 @@ import AdminSidebar from "../components/AdminSidebar";
 import "bootstrap/dist/css/bootstrap.css";
 import axios from "axios";
 import { API_URL } from "../constants/API";
+import TotalRevenueCard from "../components/TotalRevenue"
 import {
   LineChart,
   Line,
@@ -21,10 +22,8 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import TotalRevenueCard from "../components/TotalRevenue";
 
 export default function SalesReport() {
-  // const userGlobal = useSelector((state) => state.users);
   const adminGlobal = useSelector((state) => state.admins);
   const [jumlahOrder, setJumlahOrder] = useState([]);
   const [warehouse, setWarehouse] = useState(0);
@@ -32,6 +31,7 @@ export default function SalesReport() {
   const [bestSeller, setBestSeller] = useState([]);
   const [demographic, setDemographic] = useState([]);
   const [year, setYear] = useState([]);
+  const [curRevenue, setCurRevenue] = useState([])
   const [currentPeriod, setCurrentPeriod] = useState({
     year: 0,
     month: 0,
@@ -41,15 +41,18 @@ export default function SalesReport() {
   const dispatch = useDispatch();
   const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#800000"];
 
-  const [curRevenue, setCurRevenue] = useState([])
-
+  console.log(demographic);
 
   const fetchStatus = () => {
     axios
       .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         setWarehouse(response.data[0].idWarehouse);
-        // console.log(response.data[0].idWarehouse);
+        setWarehouseCode(response.data[0].warehouse);
+        dispatch({
+          type: "GET_IDWAREHOUSE",
+          payload: response.data[0],
+        });
         axios
           .get(
             `${API_URL}/salesReport/transactionStatus?idWarehouse=${response.data[0].idWarehouse}`
@@ -75,6 +78,7 @@ export default function SalesReport() {
         axios
           .get(
             `${API_URL}/salesReport/demographic?idWarehouse=${response.data[0].idWarehouse}`
+            // `${API_URL}/salesReport/demographic?idWarehouse=2`
           )
           .then((response) => {
             setDemographic(response.data.results);
@@ -179,6 +183,21 @@ export default function SalesReport() {
     }
   };
 
+  const fetchWarehouse = () => {
+    axios.get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
+      .then((response) => {
+        console.log(response.data[0].idWarehouse);
+
+        dispatch({
+          type: "ADMIN_WAREHOUSE",
+          payload: response.data[0].idWarehouse
+        })
+
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const currentRevenue = () => {
     axios.get(`${API_URL}/salesReport/currentRevenue?idWarehouse=${adminGlobal.idWarehouse}`)
@@ -188,11 +207,16 @@ export default function SalesReport() {
       })
   }
 
-  useEffect(() => {
-    currentRevenue()
-    fetchStatus();
-  }, []);
 
+
+  useEffect(() => {
+    currentRevenue();
+    fetchWarehouse();
+    fetchStatus();
+  }, [])
+
+  useEffect(() => {
+  }, []);
 
   return (
     <div>
@@ -238,18 +262,22 @@ export default function SalesReport() {
             </div>
 
             <div
-              style={{ height: 500, marginTop: 30, marginLeft: 20, width: 500 }}
+              style={{ height: 600, marginTop: 30, marginLeft: 20, width: 500 }}
             >
               {renderBestSeller()}
             </div>
           </div>
         </div>
 
+        <div className="p-4 me-1">
+          <TotalRevenueCard curRev={curRevenue} />
+        </div>
+
+
         <div className="d-flex flex-row mx-4">
           <div
-            // style={{ height: 800, width: 600 }}
+            style={{ height: 800, width: 600 }}
             className="d-flex flex-column card card-body mx-2 shades align-items-center px-3"
-            style={{ height: 600, marginTop: 30, marginLeft: 20, width: 500 }}
           >
             <h4 className="display-5 mt-4">Total Revenue by City</h4>
             <div className="d-flex flex-column justify-content-between align-items-center p-4">
@@ -280,7 +308,7 @@ export default function SalesReport() {
               </div>
             </div>
           </div>
-
+          {/* <TotalRevenueCard curRev={curRevenue} /> */}
           <div
             style={{ width: 800, height: 800 }}
             className="d-flex flex-column card card-body shades mx-2 justify-content-center align-items-center"
@@ -324,95 +352,57 @@ export default function SalesReport() {
                   })}
                 </select>
               </div>
-              <TotalRevenueCard curRev={curRevenue} />
 
-
-              <div className="d-flex flex-row">
-                <div
-                  style={{ height: 800, width: 600 }}
-                  className="d-flex flex-column card card-body mx-2 shades align-items-center"
+              <div>
+                <button
+                  className="btn btn-success"
+                  disabled={!currentPeriod.year && currentPeriod.month}
+                  onClick={applyButtonHandler}
                 >
-                  <h4 className="display-5 mt-4">Total Revenue by City</h4>
-                  <div className="d-flex flex-column justify-content-between align-items-center p-4">
-                    <PieChart width={850} height={350}>
-                      <Pie
-                        data={demographic}
-                        isAnimationActive={false}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={100}
-                        outerRadius={120}
-                        fill="#8884d8"
-                        paddingAngle={0}
-                        dataKey="revenueKota"
-                        label={(entry) => entry.kota}
-                      >
-                        {demographic.map((entry, index) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            fill={colors[index % colors.length]}
-                          />
-                        ))}
-                        <Tooltip />
-                      </Pie>
-                    </PieChart>
-                    <div style={{ height: 500, width: 500 }}>{renderDemographic()}</div>
-                  </div>
-                </div>
-
-                <div>
-                  <button
-                    className="btn btn-success"
-                    disabled={!currentPeriod.year && currentPeriod.month}
-                    onClick={applyButtonHandler}
-                  >
-                    Apply
-                  </button>
-                </div>
-              </div>
-
-              <div className="">
-                <LineChart
-                  width={650}
-                  height={550}
-                  data={revenue}
-                  margin={{
-                    top: 40,
-                    bottom: 30,
-                    left: 60,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="period">
-                    <Label
-                      value={labelingCondition()}
-                      offset={-15}
-                      position="insideBottom"
-                    />
-                  </XAxis>
-                  <YAxis
-                    label={{
-                      value: "Revenue of the period",
-                      angle: -90,
-                      position: "insideLeft",
-                      offset: -40,
-                    }}
-                  />
-                  <Tooltip />
-
-                  <Line
-                    type="monotone"
-                    dataKey="revenueOfThePeriod"
-                    stroke="#82ca9d"
-                  />
-                </LineChart>
+                  Apply
+                </button>
               </div>
             </div>
-          </div>
-        </div >
-        {/* <TotalRevenueCard curRev={curRevenue} /> */}
 
-      </div >
-    </div >
+            <div className="">
+              <LineChart
+                width={650}
+                height={550}
+                data={revenue}
+                margin={{
+                  top: 40,
+                  bottom: 30,
+                  left: 60,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="period">
+                  <Label
+                    value={labelingCondition()}
+                    offset={-15}
+                    position="insideBottom"
+                  />
+                </XAxis>
+                <YAxis
+                  label={{
+                    value: "Revenue of the period",
+                    angle: -90,
+                    position: "insideLeft",
+                    offset: -40,
+                  }}
+                />
+                <Tooltip />
+
+                <Line
+                  type="monotone"
+                  dataKey="revenueOfThePeriod"
+                  stroke="#82ca9d"
+                />
+              </LineChart>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

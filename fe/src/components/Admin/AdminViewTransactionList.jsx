@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Badge } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import moment from "moment";
@@ -7,11 +8,13 @@ import '../../assets/styles/Typography.css'
 import '../../assets/styles/AdminTransaction.css'
 
 import AdminPaymentReciept from '../Admin/AdminPaymentReciept';
+import AdminSidebar from '../AdminSidebar';
 import { useDispatch } from 'react-redux';
 import { changeStatus, deleteAdminStock, fetchAdminViewTransaction, returnUserStock } from '../../redux/actions/transaction';
 import { FaTimes, FaRegEye, FaRegThumbsUp, FaTruck, FaMoneyBillWave } from 'react-icons/fa'
 
 const AdminViewTransactionList = ({ data, currentPage }) => {
+    const warehouseGlobal = useSelector((state) => state.warehouses);
     const dispatch = useDispatch()
     const [showProof, setShowProof] = useState(false);
     const handleShowProof = () => setShowProof(true);
@@ -84,6 +87,9 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
     }
     return (
         <>
+            <div style={{ marginLeft: -60 }}>
+                <AdminSidebar warehouse={warehouseGlobal.warehouse} />
+            </div>
             <div className="row transaction-card">
                 <div className="col-3">
                     <p className="subtitle-600 m-0">{data.invoiceNumber}</p>

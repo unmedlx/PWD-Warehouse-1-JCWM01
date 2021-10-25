@@ -6,7 +6,7 @@ import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import {Spinner} from "react-bootstrap"
+import { Spinner } from "react-bootstrap"
 
 function Auth() {
   // Redux //
@@ -76,15 +76,15 @@ function Auth() {
     let { fullName, username, email, password } = data;
     //Execute register
     axios.post(`${API_URL}/auth/register`, {
-        fullName,
-        username,
-        email,
-        password,
-      })
+      fullName,
+      username,
+      email,
+      password,
+    })
       .then((res) => {
         if (res.data.success) {
           setMessage1(res.data.message);
-          setTimeout(() => window.location = "/" , 4500);
+          setTimeout(() => window.location = "/", 4500);
         } else {
           setLoading(false);
           setMessage1(res.data.message);
@@ -104,58 +104,47 @@ function Auth() {
     //Execute Login
     axios.post(`${API_URL}/auth/login`, { email, password })
       .then((res) => {
-          if (res.data.success) {
-                localStorage.setItem("token_shutter", res.data.token);
-                if (res.data.dataUser.idRole == 1) {
-                    dispatch({
-                      type: "USER_LOGOUT",
-                    });
-                    dispatch({
-                      type: "ADMIN_LOGIN",
-                      payload: res.data.dataUser,
-                    });
-                    window.location = "/warehouse-list";
-                } else if (res.data.dataUser.idRole == 2) {
-                    dispatch({
-                      type: "USER_LOGOUT",
-                    });
-                    dispatch({
-                      type: "ADMIN_LOGIN",
-                      payload: res.data.dataUser,
-                    });
-                    window.location = "/admin";
-                } else {
-                    dispatch({
-                      type: "ADMIN_LOGOUT",
-                    });
-                    dispatch({
-                      type: "USER_LOGIN",
-                      payload: res.data.dataUser,
-                    });
-                }
-              setLoading(false);
-              setMessage1("Happy Shopping ! :)");
+        if (res.data.success) {
+          localStorage.setItem("token_shutter", res.data.token);
+          if (res.data.dataUser.idRole == 1) {
+            dispatch({
+              type: "USER_LOGOUT",
+            });
+            dispatch({
+              type: "ADMIN_LOGIN",
+              payload: res.data.dataUser,
+            });
+            window.location = "/warehouse-list";
+          } else if (res.data.dataUser.idRole == 2) {
+            dispatch({
+              type: "USER_LOGOUT",
+            });
+            dispatch({
+              type: "ADMIN_LOGIN",
+              payload: res.data.dataUser,
+            });
+            window.location = "/sales-report";
           } else {
-            setLoading(false);
-            setMessage1(res.data.message);
+            dispatch({
+              type: "ADMIN_LOGOUT",
+            });
+            dispatch({
+              type: "USER_LOGIN",
+              payload: res.data.dataUser,
+            });
           }
+          setLoading(false);
+          setMessage1("Happy Shopping ! :)");
+        } else {
+          setLoading(false);
+          setMessage1(res.data.message);
+        }
       })
       .catch((err) => {
         setLoading(false);
         console.log(err);
       });
   };
-
-  // REDIRECT //
-  if (state.redirect) {
-    if (adminGlobal.idRole === 2) {
-      return <Redirect to="/sales-report" />;
-    } else if (adminGlobal.idRole === 1) {
-      return <Redirect to="/warehouse-list" />;
-      // }else {
-      //   return <Redirect to="/" />;
-    }
-  }
 
   // RENDER //
   return (
@@ -212,7 +201,7 @@ function Auth() {
                 Sign Up
               </button>
               <h5 className="h5-light mt-3">{message1}</h5>
-              { loading && 
+              {loading &&
                 <Spinner animation="border" className="mt-3" />
               }
             </Form>
@@ -246,7 +235,7 @@ function Auth() {
                 Sign In
               </button>
               <h5 className="h5-light mt-3">{message1}</h5>
-              { loading && 
+              {loading &&
                 <Spinner animation="border" className="mt-3" />
               }
             </Form>

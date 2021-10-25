@@ -57,7 +57,7 @@ export default function AddProduct() {
             idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {})
+          .then((response) => { })
           .catch((err) => {
             alert(err);
           });
@@ -68,7 +68,7 @@ export default function AddProduct() {
             idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {})
+          .then((response) => { })
           .catch((err) => {
             alert(err);
           });
@@ -107,7 +107,7 @@ export default function AddProduct() {
             idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {})
+          .then((response) => { })
           .catch((err) => {
             alert(err);
           });
@@ -118,7 +118,7 @@ export default function AddProduct() {
             idWarehouse: parseInt(warehouseGlobal.idWarehouse),
             quantity: parseInt(quantity),
           })
-          .then((response) => {})
+          .then((response) => { })
           .catch((err) => {
             alert(err);
           });
