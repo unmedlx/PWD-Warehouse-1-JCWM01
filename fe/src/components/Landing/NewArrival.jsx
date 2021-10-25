@@ -7,8 +7,6 @@ import { API_URL } from "../../constants/API";
 
 const NewArrival = () => {
   const { newArrival } = useSelector((state) => state.product);
-  console.log(newArrival);
-  // const newArrival = [1, 2]
   //Price Formatter
   const formatter = new Intl.NumberFormat("id-ID");
   const renderNewArrival = () => {

@@ -53,6 +53,11 @@ export default function SalesReport() {
           type: "GET_IDWAREHOUSE",
           payload: response.data[0],
         });
+        dispatch({
+          type: "ADMIN_WAREHOUSE",
+          payload: response.data[0].idWarehouse,
+        });
+
         axios
           .get(
             `${API_URL}/salesReport/transactionStatus?idWarehouse=${response.data[0].idWarehouse}`
@@ -206,8 +211,6 @@ export default function SalesReport() {
         setCurRevenue(res.data)
       })
   }
-
-
 
   useEffect(() => {
     currentRevenue();

@@ -151,11 +151,11 @@ export default function WarehouseStock() {
       <div style={{ padding: "60px" }}>
         {/* HEADER */}
         <div className="content-header">
-          <h2 className=" h1">
-            Request List
+          <h2 className=" content-title d-flex flex-row align-items-center">
             <span className="badge rounded-pill alert-primary mx-3">
               {warehouse.warehouse}
             </span>
+            Request List
           </h2>
         </div>
 

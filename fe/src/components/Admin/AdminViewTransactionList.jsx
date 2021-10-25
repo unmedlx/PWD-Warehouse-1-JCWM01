@@ -55,7 +55,18 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
         );
     } else if (data.idStatus >= 4 && data.idStatus <= 5) {
         badgeStatus = (
-            <Badge bg="warning">{data.status}</Badge>
+            <div className="d-flex flex-column justify-content-center">
+                <div>
+                      <Badge bg="warning">{data.status}</Badge>
+
+                </div>
+                <div>
+                    <Link to="/admin-warehouse"> 
+                    <button className="badge rounded-pill alert-warning mt-2">Go To Request</button>  
+                    </Link>
+
+                </div>
+            </div>
         );
     } else if (data.idStatus >= 6 && data.idStatus <= 7) {
         badgeStatus = (
