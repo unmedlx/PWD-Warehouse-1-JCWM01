@@ -51,7 +51,7 @@ function ResetPassword() {
         }
       )
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         setMessage(res.data.message);
         setSuccess(true);
         setTimeout(() => setRedirect(true), 3000);
@@ -59,7 +59,7 @@ function ResetPassword() {
       .catch((err) => {
         setLoading(false);
         console.log(err);
-        alert(err.message);
+        alert(`${err.message}, Token Expired`);
         setRedirect(true);
       });
   };
