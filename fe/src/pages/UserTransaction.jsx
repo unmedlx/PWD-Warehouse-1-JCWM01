@@ -6,7 +6,7 @@ import { Badge } from "react-bootstrap";
 import ProfileNavbar from "../components/ProfileNavbar";
 import ProfileSidebar from "../components/ProfileSidebar";
 import DataOngoingList from "../components/Transaction/DataOngoingList";
-import { fetchTransaction } from "../redux/actions/Transaction";
+import { fetchTransaction } from "../redux/actions/transaction";
 
 import "../assets/styles/UserTransaction.css";
 

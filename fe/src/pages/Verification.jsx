@@ -3,6 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import {API_URL} from "../constants/API"
 
 function Verification() {
   // STATE //
@@ -16,10 +17,7 @@ function Verification() {
 
   // VERIFICATION //
   const verify = () => {
-    console.log(params.token);
-    axios
-      .patch(
-        `http://localhost:3001/users/verification`,
+    axios.patch(`${API_URL}/auth/verification`,
         {},
         {
           headers: {
@@ -29,7 +27,7 @@ function Verification() {
       )
       .then((res) => {
         setTimeout(() => setMessage("Your Account Verified ✔"), 1500);
-        setTimeout(() => setMessage("redirecting to home page.."), 2500);
+        setTimeout(() => setMessage("Redirecting..."), 2500);
         setTimeout(() => setRedirect(true), 3000);
       })
       .catch((err) => {
@@ -43,13 +41,13 @@ function Verification() {
 
   // REDIRECT //
   if (redirect) {
-    return <Redirect to="/" />;
+    return <Redirect to="/authentication" />;
   }
 
   // RENDER //
   return (
     <div className="body">
-      <h1 className="h1">{message}</h1>
+        <h1 className="h1">{message}</h1>
     </div>
   );
 }

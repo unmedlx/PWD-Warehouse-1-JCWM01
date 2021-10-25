@@ -10,6 +10,8 @@ const NewArrival = () => {
     const { newArrival } = useSelector(state => state.product)
     console.log(newArrival);
     // const newArrival = [1, 2]
+    //Price Formatter
+    const formatter = new Intl.NumberFormat('id-ID');
     const renderNewArrival = () => {
         return newArrival.map((arrival) => {
             return (
@@ -26,7 +28,7 @@ const NewArrival = () => {
                                 {arrival.description}
                             </p>
                             <h4 className="subtitle-600 text">
-                                Rp. {arrival.price.toLocaleString()}
+                               Rp {formatter.format(arrival.price)}
                             </h4>
                         </div>
                     </div>

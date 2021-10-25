@@ -16,41 +16,38 @@ module.exports = {
       if (requestMaterial.length > 0) {
         for (let i = 0; i < requestMaterial.length; i++) {
           const { idWarehouse, idProduct, idTransaction, qtyCheckout, qtyAStock, } = requestMaterial[i];
+          // console.log( "ID Product: ", idProduct, "Checkout Qty: ", qtyCheckout, "AdminStock: ", qtyAStock );
 
-          //Check Stock admin Warehouse Sendiri
-          if (qtyAStock - qtyCheckout == 0) {
-            let sisaStok = qtyAStock - qtyCheckout;
-
-          } else if (qtyAStock - qtyCheckout >= 0) {
-            let sisaStok = qtyAStock - qtyCheckout;
-
-          } else if (qtyAStock - qtyCheckout < 0) {
+          //Check if adminStock Warehouse Kurang
+          if (qtyAStock - qtyCheckout < 0) {
+            //Qty Produk Yang Dibutuhkan
             let qtyNeeded = Math.abs(qtyAStock - qtyCheckout);
+            console.log("HARUS REQUEST, Id product:", idProduct, ",Kurang : ", qtyNeeded);
             //Mencari Warehouse Dengan stock mumpuni lalu Send Data ke table request
             const getSearchWH = await query(`
-                  SELECT *
-                  FROM warehouses W
-                  JOIN adminstocks A ON A.idWarehouse = W.idWarehouse
-                  WHERE A.idProduct = ${db.escape(idProduct)} AND A.quantity != 0 AND W.idWarehouse != ${db.escape(idWarehouse)}; 
-                  `);
-            //loop checking needed qty and send request data
+                          SELECT *
+                          FROM warehouses W
+                          JOIN adminstocks A ON A.idWarehouse = W.idWarehouse
+                          WHERE A.idProduct = ${db.escape(idProduct)} AND A.quantity != 0 AND W.idWarehouse != ${db.escape(idWarehouse)}; 
+                          `);
+            // CHECKING NEEDED QTY LOOP AND SEND REQUEST //
             for (let j = 0; j < getSearchWH.length; j++) {
               const idOtherWH = getSearchWH[j].idWarehouse;
               const qtyOtherWH = getSearchWH[j].quantity;
               if (qtyNeeded > 0) {
                 //Date Time
                 const transactionDate = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-                //tentuin request qty nya berapa
+                //Menentukan qty requestnya berapa
                 let qtyRequest = 0;
                 if (qtyNeeded >= qtyOtherWH) {
                   qtyRequest = qtyOtherWH;
                 } else {
                   qtyRequest = qtyNeeded;
                 }
-                // MEMBUAT REQUEST //
+                // SEND REQUEST //
                 await query(`INSERT INTO requests VALUES
-                        (null, ${db.escape(idWarehouse)}, ${db.escape(idOtherWH)}, ${db.escape(idProduct)}, 
-                        ${db.escape(qtyRequest)}, ${db.escape(transactionDate)}, "Requesting Stock", ${db.escape(idTransaction)});`);
+                                    (null, ${db.escape(idWarehouse)}, ${db.escape(idOtherWH)}, ${db.escape(idProduct)}, 
+                                    ${db.escape(qtyRequest)}, ${db.escape(transactionDate)}, "Requesting Stock", ${db.escape(idTransaction)});`);
                 //Update Qty Needed
                 qtyNeeded = qtyNeeded - qtyRequest;
               } else {
@@ -58,11 +55,14 @@ module.exports = {
                 qtyNeeded = 0;
               }
             }
+          } else {
+            console.log(`Stock idProduct : ${idProduct} Cukup`);
           }
+          //Update Status Transaction
           await query(`UPDATE transactions SET idStatus = 5 WHERE idTransaction = ${db.escape(idTransaction)} AND idWarehouse = ${db.escape(req.body.idWarehouse)} ; `);
         }
         res.status(200).send({
-          message: "Berhasil Request Stock !",
+          message: "Berhasil Request Stock ✔",
           success: true,
         });
       } else {
@@ -71,6 +71,7 @@ module.exports = {
           success: false,
         });
       }
+
     } catch (error) {
       res.status(500).send(error);
     }

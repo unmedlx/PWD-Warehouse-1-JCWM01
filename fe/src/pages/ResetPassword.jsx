@@ -4,12 +4,16 @@ import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {Spinner} from "react-bootstrap"
+
 
 function ResetPassword() {
   //STATE//
   const [success, setSuccess] = useState(false);
   const [message, setMessage] = useState("");
   const [redirect, setRedirect] = useState(false);
+  const [loading, setLoading] = useState(false);
+
 
   // FORMIK PASSWORD //
   const passwordInitialValues = {
@@ -32,10 +36,11 @@ function ResetPassword() {
 
  // SUBMIT NEW PASSWORD //
   const submitPassword = (data) => {
+    setLoading(true);
     //Token
     const Token = params.token;
     //Send To API
-    axios.patch(`${API_URL}/users/reset-password`,
+    axios.patch(`${API_URL}/auth/reset-password`,
         {
           newPassword: data.password,
         },
@@ -49,11 +54,12 @@ function ResetPassword() {
         console.log(res.data);
         setMessage(res.data.message);
         setSuccess(true);
-        setTimeout(() => setRedirect(true), 4000);
+        setTimeout(() => setRedirect(true), 3000);
       })
       .catch((err) => {
-        alert(err.message);
+        setLoading(false);
         console.log(err);
+        alert(`${err.message}, Token Expired`);
         setRedirect(true);
       });
   };
@@ -66,38 +72,44 @@ function ResetPassword() {
   //RENDER//
   return (
     <div className="body">
-      {success ? (
-        <div>
-          <h1 className="h1">{message}</h1>
-          <h4>Now You Can Login With Your New Password</h4>
-        </div>
-      ) : (
-        <Formik initialValues={passwordInitialValues} onSubmit={submitPassword} validationSchema={passwordValidationSchema}>
-          <div className="forgot-container">
-            <Form className="form">
-              <h1 className="h1">Submit Your New Password</h1>
-              <span className="span">new password for your account</span>
-              <ErrorMessage name="password" component="span" className="error"/>
-              <Field
-                name="password"
-                type="password"
-                placeholder="new password"
-                autoComplete="off"
-              />
-              <ErrorMessage name="confirmPassword" component="span" className="error" />
-              <Field
-                name="confirmPassword"
-                type="password"
-                placeholder="Confirm Password"
-                autoComplete="off"
-              />
-              <button className="button" type="submit">
-                Submit
-              </button>
-            </Form>
+        {success ? (
+          <div className="d-flex flex-column justify-content-center align-items-center">
+              <h1 className="h1">{message}</h1>
+              <h4>Now You Can Login With Your New Password</h4>
+              { loading && 
+                    <Spinner animation="border" className="my-1" />
+              }
           </div>
-        </Formik>
-      )}
+        ) : (
+          <Formik initialValues={passwordInitialValues} onSubmit={submitPassword} validationSchema={passwordValidationSchema}>
+              <div className="forgot-container">
+                  <Form className="form">
+                      <h1 className="h1">Submit Your New Password</h1>
+                      <span className="span">new password for your account</span>
+                      <ErrorMessage name="password" component="span" className="error"/>
+                      <Field
+                        name="password"
+                        type="password"
+                        placeholder="new password"
+                        autoComplete="off"
+                      />
+                      <ErrorMessage name="confirmPassword" component="span" className="error" />
+                      <Field
+                        name="confirmPassword"
+                        type="password"
+                        placeholder="Confirm Password"
+                        autoComplete="off"
+                      />
+                      <button className="button" type="submit">
+                        Submit
+                      </button>
+                      { loading && 
+                        <Spinner animation="border" className="my-1" />
+                      }
+                  </Form>
+              </div>
+          </Formik>
+        )}
     </div>
   );
 }

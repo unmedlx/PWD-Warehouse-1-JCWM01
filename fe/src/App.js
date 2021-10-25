@@ -97,9 +97,9 @@ function App() {
       <AdminRoute path="/admin-warehouse" component={WarehouseStock} isAdmin={adminGlobal.idRole} />
       <AdminRoute path="/sales-report" component={SalesReport} isAdmin={adminGlobal.idRole} />
       {/* SUPER ADMIN */}
-      {/* <SuperAdminRoute path="/super-admin-transaction" component={SuperAdminViewTransaction} isAdmin={adminGlobal.idRole} />
+      <SuperAdminRoute path="/super-admin-transaction" component={SuperAdminViewTransaction} isAdmin={adminGlobal.idRole} />
       <SuperAdminRoute path="/add-warehouse" component={AddWarehouse} isAdmin={adminGlobal.idRole} />
-      <SuperAdminRoute path="/warehouse-list" component={WarehouseList} isAdmin={adminGlobal.idRole} /> */}
+      <SuperAdminRoute path="/warehouse-list" component={WarehouseList} isAdmin={adminGlobal.idRole} />
     </BrowserRouter>
   );
 }

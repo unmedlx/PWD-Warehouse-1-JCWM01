@@ -21,8 +21,10 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
+import TotalRevenueCard from "../components/TotalRevenue";
 
 export default function SalesReport() {
+  // const userGlobal = useSelector((state) => state.users);
   const adminGlobal = useSelector((state) => state.admins);
   const [jumlahOrder, setJumlahOrder] = useState([]);
   const [warehouse, setWarehouse] = useState(0);
@@ -39,16 +41,15 @@ export default function SalesReport() {
   const dispatch = useDispatch();
   const colors = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#800000"];
 
+  const [curRevenue, setCurRevenue] = useState([])
+
+
   const fetchStatus = () => {
     axios
       .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         setWarehouse(response.data[0].idWarehouse);
-        setWarehouseCode(response.data[0].warehouse);
-        dispatch({
-          type: "GET_IDWAREHOUSE",
-          payload: response.data[0],
-        });
+        // console.log(response.data[0].idWarehouse);
         axios
           .get(
             `${API_URL}/salesReport/transactionStatus?idWarehouse=${response.data[0].idWarehouse}`
@@ -178,9 +179,20 @@ export default function SalesReport() {
     }
   };
 
+
+  const currentRevenue = () => {
+    axios.get(`${API_URL}/salesReport/currentRevenue?idWarehouse=${adminGlobal.idWarehouse}`)
+      .then((res) => {
+        console.log(res.data);
+        setCurRevenue(res.data)
+      })
+  }
+
   useEffect(() => {
+    currentRevenue()
     fetchStatus();
   }, []);
+
 
   return (
     <div>
@@ -235,8 +247,9 @@ export default function SalesReport() {
 
         <div className="d-flex flex-row mx-4">
           <div
-            style={{ height: 800, width: 600 }}
+            // style={{ height: 800, width: 600 }}
             className="d-flex flex-column card card-body mx-2 shades align-items-center px-3"
+            style={{ height: 600, marginTop: 30, marginLeft: 20, width: 500 }}
           >
             <h4 className="display-5 mt-4">Total Revenue by City</h4>
             <div className="d-flex flex-column justify-content-between align-items-center p-4">
@@ -311,57 +324,95 @@ export default function SalesReport() {
                   })}
                 </select>
               </div>
+              <TotalRevenueCard curRev={curRevenue} />
 
-              <div>
-                <button
-                  className="btn btn-success"
-                  disabled={!currentPeriod.year && currentPeriod.month}
-                  onClick={applyButtonHandler}
+
+              <div className="d-flex flex-row">
+                <div
+                  style={{ height: 800, width: 600 }}
+                  className="d-flex flex-column card card-body mx-2 shades align-items-center"
                 >
-                  Apply
-                </button>
+                  <h4 className="display-5 mt-4">Total Revenue by City</h4>
+                  <div className="d-flex flex-column justify-content-between align-items-center p-4">
+                    <PieChart width={850} height={350}>
+                      <Pie
+                        data={demographic}
+                        isAnimationActive={false}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={100}
+                        outerRadius={120}
+                        fill="#8884d8"
+                        paddingAngle={0}
+                        dataKey="revenueKota"
+                        label={(entry) => entry.kota}
+                      >
+                        {demographic.map((entry, index) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={colors[index % colors.length]}
+                          />
+                        ))}
+                        <Tooltip />
+                      </Pie>
+                    </PieChart>
+                    <div style={{ height: 500, width: 500 }}>{renderDemographic()}</div>
+                  </div>
+                </div>
+
+                <div>
+                  <button
+                    className="btn btn-success"
+                    disabled={!currentPeriod.year && currentPeriod.month}
+                    onClick={applyButtonHandler}
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+
+              <div className="">
+                <LineChart
+                  width={650}
+                  height={550}
+                  data={revenue}
+                  margin={{
+                    top: 40,
+                    bottom: 30,
+                    left: 60,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="period">
+                    <Label
+                      value={labelingCondition()}
+                      offset={-15}
+                      position="insideBottom"
+                    />
+                  </XAxis>
+                  <YAxis
+                    label={{
+                      value: "Revenue of the period",
+                      angle: -90,
+                      position: "insideLeft",
+                      offset: -40,
+                    }}
+                  />
+                  <Tooltip />
+
+                  <Line
+                    type="monotone"
+                    dataKey="revenueOfThePeriod"
+                    stroke="#82ca9d"
+                  />
+                </LineChart>
               </div>
             </div>
-
-            <div className="">
-              <LineChart
-                width={650}
-                height={550}
-                data={revenue}
-                margin={{
-                  top: 40,
-                  bottom: 30,
-                  left: 60,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="period">
-                  <Label
-                    value={labelingCondition()}
-                    offset={-15}
-                    position="insideBottom"
-                  />
-                </XAxis>
-                <YAxis
-                  label={{
-                    value: "Revenue of the period",
-                    angle: -90,
-                    position: "insideLeft",
-                    offset: -40,
-                  }}
-                />
-                <Tooltip />
-
-                <Line
-                  type="monotone"
-                  dataKey="revenueOfThePeriod"
-                  stroke="#82ca9d"
-                />
-              </LineChart>
-            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </div >
+        {/* <TotalRevenueCard curRev={curRevenue} /> */}
+
+      </div >
+    </div >
   );
 }

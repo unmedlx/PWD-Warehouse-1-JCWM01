@@ -6,17 +6,17 @@ import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import {Spinner} from "react-bootstrap"
 
 function Auth() {
   // Redux //
-  const adminGlobal = useSelector((state) => state.admins);
   const dispatch = useDispatch();
   // State //
   const [state, setState] = useState({
     btnClick: true,
     redirect: false,
   });
-  const [message, setMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [message1, setMessage1] = useState(null);
 
   // FORMIK REGISTER //
@@ -60,102 +60,88 @@ function Auth() {
   // Change Form //
   const signInPage = () => {
     setState({ btnClick: true });
-    console.log(state.btnClick);
-    setMessage(null);
+    setLoading(false);
     setMessage1(null);
   };
   const signUpPage = () => {
     setState({ btnClick: false });
-    console.log(state.btnClick);
-    setMessage(null);
+    setLoading(false);
     setMessage1(null);
   };
 
   // REGISTER //
   const register = (data) => {
-    console.log(data);
-    setMessage("Loading...");
+    setLoading(true);
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
-    axios
-      .post(API_URL + "/users/register", {
+    axios.post(`${API_URL}/auth/register`, {
         fullName,
         username,
         email,
         password,
       })
       .then((res) => {
-        // console.log(res.data);
         if (res.data.success) {
-          localStorage.setItem("token_shutter", res.data.token);
-          dispatch({
-            type: "USER_LOGIN",
-            payload: res.data.dataUser,
-          });
-          alert(res.data.message);
-          setTimeout(() => setState({ redirect: true }), 3000);
+          setMessage1(res.data.message);
+          setTimeout(() => window.location = "/" , 4500);
         } else {
-          setMessage(res.data.message);
-          setMessage1(res.data.message1);
+          setLoading(false);
+          setMessage1(res.data.message);
         }
       })
       .catch((err) => {
-        setMessage(null);
+        setLoading(false);
         console.log(err);
       });
   };
 
   // LOGIN //
   const login = (data) => {
-    setMessage("Loading...");
+    setLoading(true);
     //Data Login
     let { email, password } = data;
     //Execute Login
-    axios
-      .post(`${API_URL}/users/login`, { email, password })
+    axios.post(`${API_URL}/auth/login`, { email, password })
       .then((res) => {
-        if (res.data.success) {
-          // console.log(res.data.dataUser);
-          localStorage.setItem("token_shutter", res.data.token);
-          if (res.data.dataUser.idRole == 1) {
-            window.location = "/admin";
-            dispatch({
-              type: "ADMIN_LOGIN",
-              payload: res.data.dataUser,
-            });
-            dispatch({
-              type: "USER_LOGOUT",
-            });
-          } else if (res.data.dataUser.idRole == 2) {
-            window.location = "/admin";
-            dispatch({
-              type: "ADMIN_LOGIN",
-              payload: res.data.dataUser,
-            });
-            dispatch({
-              type: "USER_LOGOUT",
-            });
+          if (res.data.success) {
+                localStorage.setItem("token_shutter", res.data.token);
+                if (res.data.dataUser.idRole == 1) {
+                    dispatch({
+                      type: "USER_LOGOUT",
+                    });
+                    dispatch({
+                      type: "ADMIN_LOGIN",
+                      payload: res.data.dataUser,
+                    });
+                    window.location = "/warehouse-list";
+                } else if (res.data.dataUser.idRole == 2) {
+                    dispatch({
+                      type: "USER_LOGOUT",
+                    });
+                    dispatch({
+                      type: "ADMIN_LOGIN",
+                      payload: res.data.dataUser,
+                    });
+                    window.location = "/admin";
+                } else {
+                    dispatch({
+                      type: "ADMIN_LOGOUT",
+                    });
+                    dispatch({
+                      type: "USER_LOGIN",
+                      payload: res.data.dataUser,
+                    });
+                }
+              setLoading(false);
+              setMessage1("Happy Shopping ! :)");
           } else {
-            dispatch({
-              type: "USER_LOGIN",
-              payload: res.data.dataUser,
-            });
-            dispatch({
-              type: "ADMIN_LOGOUT",
-            });
+            setLoading(false);
+            setMessage1(res.data.message);
           }
-          setMessage("Login Success ✔");
-          setMessage1("Happy Shopping ! :)");
-          // setState({ redirect: true })
-        } else {
-          setMessage(null);
-          setMessage(res.data.message);
-          // alert(res.data.message);
-        }
       })
       .catch((err) => {
-        setMessage(null);
+        setLoading(false);
         console.log(err);
       });
   };
@@ -225,8 +211,10 @@ function Auth() {
               <button className="button" type="submit">
                 Sign Up
               </button>
-              <h5 className="h5">{message}</h5>
-              <h5 className="h5-light">{message1}</h5>
+              <h5 className="h5-light mt-3">{message1}</h5>
+              { loading && 
+                <Spinner animation="border" className="mt-3" />
+              }
             </Form>
           </div>
         </Formik>
@@ -257,8 +245,10 @@ function Auth() {
               <button className="button" type="submit">
                 Sign In
               </button>
-              <h5 className="h5">{message}</h5>
-              <h5 className="h5-light">{message1}</h5>
+              <h5 className="h5-light mt-3">{message1}</h5>
+              { loading && 
+                <Spinner animation="border" className="mt-3" />
+              }
             </Form>
           </div>
         </Formik>
