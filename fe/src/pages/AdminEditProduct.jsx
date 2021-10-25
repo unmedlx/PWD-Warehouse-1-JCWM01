@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { API_URL } from "../constants/API";
 import axios from "axios";
@@ -66,7 +66,7 @@ export default function AdminEditProduct(props) {
               quantity: parseInt(currentProduct.quantity),
             }
           )
-          .then((response) => { })
+          .then((response) => {})
           .catch((err) => {
             alert(err);
           });
@@ -114,7 +114,7 @@ export default function AdminEditProduct(props) {
               quantity: parseInt(currentProduct.quantity),
             }
           )
-          .then((response) => { })
+          .then((response) => {})
           .catch((err) => {
             alert(err);
           });
@@ -152,7 +152,7 @@ export default function AdminEditProduct(props) {
             .delete(
               `${API_URL}/adminstocks/${currentProduct.idProduct}?idWarehouse=${warehouseGlobal.idWarehouse}`
             )
-            .then(() => { })
+            .then(() => {})
             .catch(() => {
               alert(`Server error`);
             });
@@ -179,7 +179,7 @@ export default function AdminEditProduct(props) {
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  });
 
   const inputHandler = (event) => {
     const value = event.target.value;

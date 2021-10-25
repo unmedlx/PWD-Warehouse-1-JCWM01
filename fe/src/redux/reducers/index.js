@@ -8,8 +8,8 @@ import ongoingTransactionReducer from "./ongoingTransaction";
 import detailTransactionReducer from "./detailTransaction";
 import userstocksReducer from "./userstocks";
 import cartReducer from "./cart";
-import productReducer from "./products"
-import warehousesReducer from "./warehouses"
+import productReducer from "./products";
+import warehousesReducer from "./warehouses";
 
 export default combineReducers({
   users: usersReducer,
@@ -22,6 +22,5 @@ export default combineReducers({
   detailTransaction: detailTransactionReducer,
   cart: cartReducer,
   userstocks: userstocksReducer,
-  product: productReducer,
-  warehouses: warehousesReducer
+  warehouses: warehousesReducer,
 });

@@ -12,7 +12,7 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
     const dispatch = useDispatch()
     const { idUser } = useSelector((state) => state.users);
     const userLocalStorage = localStorage.getItem("token_shutter")
-    const [successUpload, setSuccessUpload] = useState(false)
+    const [successUpload] = useState(false)
     const [province, setProvince] = useState("Choose Province")
     const [city, setCity] = useState([])
     const [selectedCity, setSelectedCity] = useState()
@@ -43,9 +43,9 @@ const AddressModal = ({ show, handleClose, address, provinces }) => {
     })
 
     const onSubmit = (data) => {
-        if (data.isDefault[0] == '0') {
+        if (data.isDefault[0] === '0') {
             data = { ...data, isDefault: 1 }
-        } else if (data.isDefault == false) {
+        } else if (data.isDefault === false) {
             data = { ...data, isDefault: 0 }
         }
 

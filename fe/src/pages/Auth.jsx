@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import "../assets/styles/Auth.css";
 import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Spinner } from "react-bootstrap"
+import { Spinner } from "react-bootstrap";
 
 function Auth() {
   // Redux //
@@ -75,16 +75,17 @@ function Auth() {
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
-    axios.post(`${API_URL}/auth/register`, {
-      fullName,
-      username,
-      email,
-      password,
-    })
+    axios
+      .post(`${API_URL}/auth/register`, {
+        fullName,
+        username,
+        email,
+        password,
+      })
       .then((res) => {
         if (res.data.success) {
           setMessage1(res.data.message);
-          setTimeout(() => window.location = "/", 4500);
+          setTimeout(() => (window.location = "/"), 4500);
         } else {
           setLoading(false);
           setMessage1(res.data.message);
@@ -102,11 +103,12 @@ function Auth() {
     //Data Login
     let { email, password } = data;
     //Execute Login
-    axios.post(`${API_URL}/auth/login`, { email, password })
+    axios
+      .post(`${API_URL}/auth/login`, { email, password })
       .then((res) => {
         if (res.data.success) {
           localStorage.setItem("token_shutter", res.data.token);
-          if (res.data.dataUser.idRole == 1) {
+          if (res.data.dataUser.idRole === 1) {
             dispatch({
               type: "USER_LOGOUT",
             });
@@ -115,7 +117,7 @@ function Auth() {
               payload: res.data.dataUser,
             });
             window.location = "/warehouse-list";
-          } else if (res.data.dataUser.idRole == 2) {
+          } else if (res.data.dataUser.idRole === 2) {
             dispatch({
               type: "USER_LOGOUT",
             });
@@ -151,25 +153,38 @@ function Auth() {
     /* Change Form */
     <div className="body">
       <div
-        className={` auth-container ${state.btnClick ? "" : "right-panel-active"
-          }`}
+        className={` auth-container ${
+          state.btnClick ? "" : "right-panel-active"
+        }`}
       >
         {/* SIGN UP FORM */}
-        <Formik initialValues={registerInitialValues} onSubmit={register} validationSchema={registerValidationSchema} >
+        <Formik
+          initialValues={registerInitialValues}
+          onSubmit={register}
+          validationSchema={registerValidationSchema}
+        >
           <div className="form-container sign-up-container">
             <Form className="form">
               <h1 className="h1">Create Account</h1>
               <span className="span">
                 Enter your personal details and start journey with us
               </span>
-              <ErrorMessage name="fullName" component="span" className="error" />
+              <ErrorMessage
+                name="fullName"
+                component="span"
+                className="error"
+              />
               <Field
                 name="fullName"
                 type="text"
                 placeholder="Full Name"
                 autoComplete="off"
               />
-              <ErrorMessage name="username" component="span" className="error" />
+              <ErrorMessage
+                name="username"
+                component="span"
+                className="error"
+              />
               <Field
                 name="username"
                 type="text"
@@ -183,14 +198,22 @@ function Auth() {
                 placeholder="Email"
                 autoComplete="off"
               />
-              <ErrorMessage name="password" component="span" className="error" />
+              <ErrorMessage
+                name="password"
+                component="span"
+                className="error"
+              />
               <Field
                 name="password"
                 type="password"
                 placeholder="Password"
                 autoComplete="off"
               />
-              <ErrorMessage name="confirmPassword" component="span" className="error" />
+              <ErrorMessage
+                name="confirmPassword"
+                component="span"
+                className="error"
+              />
               <Field
                 name="confirmPassword"
                 type="password"
@@ -201,15 +224,17 @@ function Auth() {
                 Sign Up
               </button>
               <h5 className="h5-light mt-3">{message1}</h5>
-              {loading &&
-                <Spinner animation="border" className="mt-3" />
-              }
+              {loading && <Spinner animation="border" className="mt-3" />}
             </Form>
           </div>
         </Formik>
 
         {/* SIGN IN FORM */}
-        <Formik initialValues={loginInitialValues} onSubmit={login} validationSchema={loginValidationSchema} >
+        <Formik
+          initialValues={loginInitialValues}
+          onSubmit={login}
+          validationSchema={loginValidationSchema}
+        >
           <div className="form-container sign-in-container">
             <Form className="form">
               <h1 className="h1">Sign in</h1>
@@ -221,7 +246,11 @@ function Auth() {
                 placeholder="Email"
                 autoComplete="off"
               />
-              <ErrorMessage name="password" component="span" className="error" />
+              <ErrorMessage
+                name="password"
+                component="span"
+                className="error"
+              />
               <Field
                 name="password"
                 type="password"
@@ -235,9 +264,7 @@ function Auth() {
                 Sign In
               </button>
               <h5 className="h5-light mt-3">{message1}</h5>
-              {loading &&
-                <Spinner animation="border" className="mt-3" />
-              }
+              {loading && <Spinner animation="border" className="mt-3" />}
             </Form>
           </div>
         </Formik>

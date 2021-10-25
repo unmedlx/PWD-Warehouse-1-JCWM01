@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSuperAdminViewTransaction } from '../../redux/actions/transaction';
+import AdminSidebar from '../../components/AdminSidebar';
 import SuperAdminViewTransactionList from '../../components/SuperAdmin/SuperAdminViewTransactionList';
 
 import '../../assets/styles/Typography.css'
@@ -9,7 +10,7 @@ import { fetchDataWarehouse } from '../../redux/actions/addressWarehouse';
 
 const SuperAdminViewTransaction = () => {
     const dispatch = useDispatch()
-    const adminGlobal = useSelector(state => state.admins)
+    const warehouseGlobal = useSelector(state => state.warehouses)
     const { data, max_page, currentPage } = useSelector(state => state.ongoingTransaction)
     const addressWarehouseGlobal = useSelector(state => state.addressWarehouse)
     const dataWarehouse = addressWarehouseGlobal.data
@@ -59,6 +60,8 @@ const SuperAdminViewTransaction = () => {
         })
     }
     return (
+        <>
+        <AdminSidebar warehouse={warehouseGlobal.warehouse} />
         <div style={{ padding: "60px", backgroundColor: "white" }} className="">
             <div className="content-header">
                 <h2 className="content-title d-flex flex-row align-items-center">
@@ -179,6 +182,7 @@ const SuperAdminViewTransaction = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

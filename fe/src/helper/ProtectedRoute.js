@@ -54,7 +54,7 @@ export const NonLoggedInRoute = ({ isLogin, component, ...rest }) => {
       }}
     />
   );
-}
+};
 
 export const AdminNonLoggedRoute = ({ isLogin, component, ...rest }) => {
   let Component = component;
@@ -77,9 +77,9 @@ export const AdminNonLoggedRoute = ({ isLogin, component, ...rest }) => {
       }}
     />
   );
-}
+};
 
-export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
+export const AdminRoute = ({ isAdmin, component, ...rest }) => {
   let Component = component;
   return (
     <Route
@@ -92,7 +92,7 @@ export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
           return <Component />;
         } else {
           return (
-            <Redirect to={{ pathname: "/", state: { from: props.location }, }} />
+            <Redirect to={{ pathname: "/", state: { from: props.location } }} />
           );
         }
       }}
@@ -100,7 +100,7 @@ export const AdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
   );
 };
 
-export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
+export const HomePageUser = ({ isAdmin, component, ...rest }) => {
   let Component = component;
   return (
     <Route
@@ -108,12 +108,26 @@ export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
       render={(props) => {
         //Conditioning Role
         if (isAdmin === 2) {
-          alert("Admin Tidak Bisa Masuk Ke User Page ")
-          return <Redirect to={{ pathname: "/sales-report", state: { from: props.location }, }} />
+          alert("Admin Tidak Bisa Masuk Ke User Page ");
+          return (
+            <Redirect
+              to={{
+                pathname: "/sales-report",
+                state: { from: props.location },
+              }}
+            />
+          );
         } else if (isAdmin === 1) {
-          alert("Admin Tidak Bisa Masuk Ke User Page ")
+          alert("Admin Tidak Bisa Masuk Ke User Page ");
 
-          return <Redirect to={{ pathname: "/sales-report", state: { from: props.location }, }} />
+          return (
+            <Redirect
+              to={{
+                pathname: "/sales-report",
+                state: { from: props.location },
+              }}
+            />
+          );
         } else {
           return <Component />;
         }
@@ -122,23 +136,24 @@ export const HomePageUser = ({ isAdmin: isAdmin, component, ...rest }) => {
   );
 };
 
-export const SuperAdminRoute = ({ isAdmin: isAdmin, component, ...rest }) => {
+export const SuperAdminRoute = ({ isAdmin, component, ...rest }) => {
   let Component = component;
   return (
     <Route
       {...rest}
       render={(props) => {
         //Conditioning Role
-        if (isAdmin == 1) {
+        if (isAdmin === 1) {
           return <Component />;
         } else {
-          alert("Only Super Admin Allowed")
+          alert("Only Super Admin Allowed");
           return (
-            <Redirect to={{ pathname: "/admin", state: { from: props.location }, }} />
+            <Redirect
+              to={{ pathname: "/admin", state: { from: props.location } }}
+            />
           );
         }
       }}
     />
   );
 };
-

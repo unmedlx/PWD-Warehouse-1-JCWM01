@@ -34,7 +34,7 @@ export default function ProductDetail(props) {
   // GLOBAL STATE //
   const userGlobal = useSelector((state) => state.users);
   // const adminGlobal = useSelector((state) => state.admins);
-  const { idUser, isUpload } = userGlobal;
+  const { idUser } = userGlobal;
 
   //REDIRECT TRIGGER//
   const [redirect, setRedirect] = useState(null);
@@ -91,7 +91,7 @@ export default function ProductDetail(props) {
     fetchProducts();
     fetchStock();
     fetchCart();
-  }, []);
+  });
 
   const addToCartHandler = () => {
     // Check Login Condition

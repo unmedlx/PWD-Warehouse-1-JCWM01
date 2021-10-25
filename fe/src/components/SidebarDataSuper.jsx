@@ -1,6 +1,5 @@
 import React from "react";
 import * as Io from "react-icons/io5";
-import * as Cg from "react-icons/cg";
 import * as Fa from "react-icons/fa";
 import * as Md from "react-icons/md";
 

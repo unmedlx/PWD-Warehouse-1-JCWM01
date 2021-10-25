@@ -9,7 +9,7 @@ import "../assets/styles/AdminDashboard.css";
 
 export default function CartProductCard(props) {
   const userGlobal = useSelector((state) => state.users);
-  const [cartData, setCartData] = useState({
+  const [cartData] = useState({
     productImage: props.productImage,
     productName: props.productName,
     price: props.price,
@@ -88,7 +88,7 @@ export default function CartProductCard(props) {
 
   useEffect(() => {
     fetchStock();
-  }, []);
+  });
 
   return (
     <div className="card-body">

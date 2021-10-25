@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as Io from "react-icons/io5";
-import * as Cg from "react-icons/cg";
-import * as Fa from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { SidebarData } from "./SidebarData";
 import { SidebarDataSuper } from "./SidebarDataSuper";

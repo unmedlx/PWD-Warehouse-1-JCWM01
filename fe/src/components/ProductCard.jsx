@@ -9,7 +9,7 @@ import { API_URL } from "../constants/API";
 export default function ProductCard(props) {
   const userGlobal = useSelector((state) => state.users);
   const dispatch = useDispatch();
-  const [quantity, setQuantity] = useState(parseInt(1));
+  const [quantity] = useState(parseInt(1));
   const reload = () => window.location.reload();
 
   const fetchStock = () => {
@@ -28,7 +28,7 @@ export default function ProductCard(props) {
 
   useEffect(() => {
     fetchStock();
-  }, []);
+  });
 
   const addToCartHandler = () => {
     axios

@@ -58,10 +58,14 @@ export default function AdminProductCard(props) {
 
           <div className="col-lg-1 col-sm-2 col-4 col-action">
             <div className="dropdown float-end">
-              <a href="#" data-bs-toggle="dropdown" className="btn btn-light">
+              <button
+                href="#"
+                data-bs-toggle="dropdown"
+                className="btn btn-light"
+              >
                 {"• • •"}
                 <i className="material-icons md-more_horiz"></i>{" "}
-              </a>
+              </button>
               <div className="dropdown-menu">
                 <Link
                   to={`/edit-product/${props.idProduct}`}

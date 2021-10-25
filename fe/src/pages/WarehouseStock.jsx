@@ -66,11 +66,12 @@ export default function WarehouseStock() {
   // ACCEPT REQUEST //
   const acceptRequest = (data) => {
     // console.log(data.idRequest, data.idTransaction, adminGlobal.idWarehouse);
-    axios.post(`${API_URL}/wh-stocks/accept`, {
-      idWarehouse: adminGlobal.idWarehouse,
-      idRequest: data.idRequest,
-      idTransaction: data.idTransaction,
-    })
+    axios
+      .post(`${API_URL}/wh-stocks/accept`, {
+        idWarehouse: adminGlobal.idWarehouse,
+        idRequest: data.idRequest,
+        idTransaction: data.idTransaction,
+      })
       .then((res) => {
         alert(res.data.message);
         fetchRequests();
@@ -82,12 +83,13 @@ export default function WarehouseStock() {
 
   // SEND REQUEST //
   const sendRequest = () => {
-    axios.post(`${API_URL}/wh-stocks/request`, {
-      idWarehouse: adminGlobal.idWarehouse,
-    })
+    axios
+      .post(`${API_URL}/wh-stocks/request`, {
+        idWarehouse: adminGlobal.idWarehouse,
+      })
       .then((res) => {
         alert(res.data.message);
-        fetchRequests()
+        fetchRequests();
       })
       .catch((err) => {
         console.log(err);
@@ -143,15 +145,17 @@ export default function WarehouseStock() {
   // RENDER //
   return (
     <>
-      <div >
+      <div>
         <AdminSidebar warehouse={warehouseGlobal.warehouse} />
       </div>
-      <div style={{ padding: "60px" }} className="">
+      <div style={{ padding: "60px" }}>
         {/* HEADER */}
         <div className="content-header">
           <h2 className=" h1">
             Request List
-            <span className="badge rounded-pill alert-primary mx-3">{warehouse.warehouse}</span>
+            <span className="badge rounded-pill alert-primary mx-3">
+              {warehouse.warehouse}
+            </span>
           </h2>
         </div>
 

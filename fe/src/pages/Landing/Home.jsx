@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import axios from "axios"
+import axios from "axios";
 import { API_URL } from "../../constants/API";
-
-
 
 import HeroSection from "../../components/Landing/HeroSection";
 import NewArrival from "../../components/Landing/NewArrival";
@@ -14,22 +12,19 @@ function Home() {
 
   const getArrival = async () => {
     try {
-      const newArrival = await axios.get(`${API_URL}/products?newArrival=new`)
+      const newArrival = await axios.get(`${API_URL}/products?newArrival=new`);
       dispatch({
         type: "NEW_ARRIVAL",
         payload: newArrival.data,
       });
-
     } catch (error) {
       alert(error);
     }
-  }
+  };
 
   useEffect(() => {
-    getArrival()
-  }, []);
-
-
+    getArrival();
+  });
 
   return (
     <div>

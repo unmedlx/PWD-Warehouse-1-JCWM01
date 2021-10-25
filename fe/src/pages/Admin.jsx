@@ -1,9 +1,8 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import axios from 'axios'
-import { API_URL } from '../helper/index'
-
+import axios from "axios";
+import { API_URL } from "../helper/index";
 
 function Admin() {
   const dispatch = useDispatch();
@@ -20,30 +19,24 @@ function Admin() {
   };
 
   const fetchWarehouse = () => {
-    axios.get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
+    axios
+      .get(`${API_URL}/warehouses?idUser=${adminGlobal.idUser}`)
       .then((response) => {
         console.log(response.data[0].idWarehouse);
-        
+
         dispatch({
           type: "ADMIN_WAREHOUSE",
-          payload: response.data[0].idWarehouse
-        })
-
+          payload: response.data[0].idWarehouse,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-
-
   useEffect(() => {
-    fetchWarehouse()
-  }, [])
-
-  useEffect(() => {
-    fetchWarehouse()
-  }, [])
+    fetchWarehouse();
+  });
 
   return (
     <div>
@@ -66,7 +59,7 @@ function Admin() {
       <button className="btn btn-danger" onClick={logout}>
         Logout
       </button>
-    </div >
+    </div>
   );
 }
 

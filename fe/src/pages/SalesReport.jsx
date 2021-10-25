@@ -213,7 +213,7 @@ export default function SalesReport() {
     currentRevenue();
     fetchWarehouse();
     fetchStatus();
-  }, [])
+  })
 
   useEffect(() => {
   }, []);
