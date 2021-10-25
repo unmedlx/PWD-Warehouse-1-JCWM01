@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Badge } from "react-bootstrap";
 import moment from "moment";
+import { FaTimes, FaRegEye, FaRegThumbsUp, FaTruck, FaMoneyBillWave } from 'react-icons/fa'
 
 import "../../assets/styles/Typography.css";
 
@@ -98,9 +99,9 @@ const SuperAdminViewTransactionList = ({ data, currentPage }) => {
           </div>
         </div>
         <div className="col-2">
-          <div>
-            <button onClick={handleShowProof}>Payment</button>
-          </div>
+        <div>
+             <button onClick={handleShowProof} className="payment-button"><FaMoneyBillWave className="payment-svg" /> Payment</button>
+         </div>
           {paymentBadge}
         </div>
         <div className="col-1">

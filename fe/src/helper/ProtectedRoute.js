@@ -68,7 +68,7 @@ export const AdminNonLoggedRoute = ({ isLogin, component, ...rest }) => {
           return (
             <Redirect
               to={{
-                pathname: "/admin",
+                pathname: "/sales-report",
                 state: { from: props.location },
               }}
             />
@@ -149,7 +149,7 @@ export const SuperAdminRoute = ({ isAdmin, component, ...rest }) => {
           alert("Only Super Admin Allowed");
           return (
             <Redirect
-              to={{ pathname: "/admin", state: { from: props.location } }}
+              to={{ pathname: "/sales-report", state: { from: props.location } }}
             />
           );
         }
