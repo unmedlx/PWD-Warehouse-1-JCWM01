@@ -105,7 +105,7 @@ const DetailTransaction = () => {
 
   useEffect(() => {
     fetchTransaction();
-  });
+  },[]);
 
   let badgeStatus;
   if (data.idStatus === 1) {

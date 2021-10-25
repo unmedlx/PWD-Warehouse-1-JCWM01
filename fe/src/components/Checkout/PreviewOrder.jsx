@@ -103,7 +103,7 @@ const PreviewOrder = ({
 
   useEffect(() => {
     getClosestWarehouse();
-  });
+  },[]);
 
   return (
     <div className="mt-5 ms-4">

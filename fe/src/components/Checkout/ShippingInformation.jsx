@@ -39,7 +39,7 @@ const ShippingInformation = ({ nextStep, prevStep, handleChange }) => {
 
   useEffect(() => {
     fetchPrimaryAddress();
-  });
+  },[]);
 
   return (
     <div className="mt-5 ms-4">

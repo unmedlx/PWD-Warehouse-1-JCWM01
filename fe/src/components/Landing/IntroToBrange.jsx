@@ -14,7 +14,6 @@ const IntroToBrange = () => {
             <img src={Intro} alt="hero" />
           </div>
           <div className="intro-texts">
-            {/* <h1 className="text-heading-brange">Brange.</h1> */}
             <h1 className="intro-head subtitle-600">Brange.</h1>
             <p>
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugiat
@@ -30,7 +29,6 @@ const IntroToBrange = () => {
       </div>
       <img className="mid-circle-intro-2" src={MidEclipse} alt="" />
       <img className="mid-circle-intro" src={MidEclipse} alt="" />
-      {/* <img className="small-circle" src={SmallEclipse} alt="" /> */}
     </>
   );
 };

@@ -36,7 +36,7 @@ function Admin() {
 
   useEffect(() => {
     fetchWarehouse();
-  });
+  },[]);
 
   return (
     <div>

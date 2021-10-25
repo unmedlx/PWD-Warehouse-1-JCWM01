@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../assets/styles/Auth.css";
+import "../assets/styles/Typography.css"
 import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -153,9 +154,7 @@ function Auth() {
     /* Change Form */
     <div className="body">
       <div
-        className={` auth-container ${
-          state.btnClick ? "" : "right-panel-active"
-        }`}
+        className={` auth-container ${state.btnClick ? "" : "right-panel-active"}`}
       >
         {/* SIGN UP FORM */}
         <Formik
@@ -165,31 +164,25 @@ function Auth() {
         >
           <div className="form-container sign-up-container">
             <Form className="form">
-              <h1 className="h1">Create Account</h1>
+              <h1 className="title ">Create Account</h1>
               <span className="span">
                 Enter your personal details and start journey with us
               </span>
-              <ErrorMessage
-                name="fullName"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="fullName" component="span" className="error"/>
               <Field
                 name="fullName"
                 type="text"
                 placeholder="Full Name"
                 autoComplete="off"
+                className="input"
               />
-              <ErrorMessage
-                name="username"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="username" component="span" className="error"/>
               <Field
                 name="username"
                 type="text"
                 placeholder="Username"
                 autoComplete="off"
+                className="input"
               />
               <ErrorMessage name="email" component="span" className="error" />
               <Field
@@ -197,28 +190,23 @@ function Auth() {
                 type="email"
                 placeholder="Email"
                 autoComplete="off"
+                className="input"
               />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="password" component="span" className="error"/>
               <Field
                 name="password"
                 type="password"
                 placeholder="Password"
                 autoComplete="off"
+                className="input"
               />
-              <ErrorMessage
-                name="confirmPassword"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="confirmPassword" component="span" className="error"/>
               <Field
                 name="confirmPassword"
                 type="password"
                 placeholder="Confirm Password"
                 autoComplete="off"
+                className="input"
               />
               <button className="button" type="submit">
                 Sign Up
@@ -237,7 +225,7 @@ function Auth() {
         >
           <div className="form-container sign-in-container">
             <Form className="form">
-              <h1 className="h1">Sign in</h1>
+              <h1 className="title subtitle">Sign in</h1>
               <span className="span">login with your account info</span>
               <ErrorMessage name="email" component="span" className="error" />
               <Field
@@ -245,17 +233,15 @@ function Auth() {
                 type="email"
                 placeholder="Email"
                 autoComplete="off"
+                className="input"
               />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className="error"
-              />
+              <ErrorMessage name="password" component="span" className="error"/>
               <Field
                 name="password"
                 type="password"
                 placeholder="Password"
                 autoComplete="off"
+                className="input"
               />
               <Link className="a" to="/forgot-password">
                 Forgot your password?
@@ -273,7 +259,7 @@ function Auth() {
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">
-              <h1 className="h1">Welcome Back!</h1>
+              <h1 className="title">Welcome Back!</h1>
               <p className="p">
                 To keep connected with us please login with your personal info
               </p>
@@ -283,7 +269,7 @@ function Auth() {
             </div>
 
             <div className="overlay-panel overlay-right">
-              <h1 className="h1">Hello, Friend!</h1>
+              <h1 className="title">Hello, Friend!</h1>
               <p className="p">
                 Enter your personal details and start journey with us
               </p>

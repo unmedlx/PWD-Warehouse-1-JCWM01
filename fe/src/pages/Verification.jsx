@@ -37,7 +37,7 @@ function Verification() {
 
   useEffect(() => {
     verify();
-  });
+  },[]);
 
   // REDIRECT //
   if (redirect) {
@@ -47,7 +47,7 @@ function Verification() {
   // RENDER //
   return (
     <div className="body">
-        <h1 className="h1">{message}</h1>
+        <h1 className="title">{message}</h1>
     </div>
   );
 }

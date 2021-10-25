@@ -1,19 +1,14 @@
 
 import { useSelector, useDispatch } from 'react-redux';
-
 import '../assets/styles/Profile.css'
 import '../assets/styles/Typography.css'
-
-
 import ProfileSidebar from '../components/ProfileSidebar';
 import OngoingTransaction from '../components/Transaction/OngoingTransaction';
 import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
-
 import { EditDataProfile } from '../redux/actions/users';
-
 
 
 const Profile = () => {
@@ -41,7 +36,6 @@ const Profile = () => {
     //Mauskkan data ke database
     const onSubmit = (data) => {
         const userLocalStorage = localStorage.getItem("token_shutter")
-
         dispatch(
             EditDataProfile(data, userLocalStorage)
         )

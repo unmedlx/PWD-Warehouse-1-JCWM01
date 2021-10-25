@@ -46,7 +46,8 @@ export default function WarehouseList() {
   useEffect(() => {
     fetchWarehouseData();
     renderWarehouseData();
-  });
+  },[]);
+  
   return (
     <>
       <AdminSidebar warehouse={warehouseGlobal.warehouse} />

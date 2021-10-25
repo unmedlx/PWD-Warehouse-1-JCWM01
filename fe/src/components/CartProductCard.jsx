@@ -88,7 +88,7 @@ export default function CartProductCard(props) {
 
   useEffect(() => {
     fetchStock();
-  });
+  },[]);
 
   return (
     <div className="card-body">

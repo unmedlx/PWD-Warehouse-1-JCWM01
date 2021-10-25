@@ -47,7 +47,7 @@ const UserTransaction = () => {
 
   useEffect(() => {
     getTransaction();
-  }, [dispatch]);
+  }, []);
 
   const nextPageHandler = () => {
     setPaging({
@@ -67,8 +67,6 @@ const UserTransaction = () => {
         <ProfileSidebar />
 
         <div className="profile-main">
-          <ProfileNavbar />
-
           <div className="profile-main-detail">
             <h1>
               <strong>Transaction</strong>

@@ -91,7 +91,7 @@ export default function ProductDetail(props) {
     fetchProducts();
     fetchStock();
     fetchCart();
-  });
+  },[]);
 
   const addToCartHandler = () => {
     // Check Login Condition
@@ -144,7 +144,7 @@ export default function ProductDetail(props) {
 
   // REDIRECT //
   if (redirect) {
-    window.open("http://localhost:3000/authentication");
+    window.open(`/authentication`);
   }
 
   return (

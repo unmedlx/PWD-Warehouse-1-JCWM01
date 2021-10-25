@@ -28,7 +28,7 @@ export default function ProductCard(props) {
 
   useEffect(() => {
     fetchStock();
-  });
+  },[]);
 
   const addToCartHandler = () => {
     axios

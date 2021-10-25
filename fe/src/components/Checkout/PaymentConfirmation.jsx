@@ -4,7 +4,7 @@ import axios from 'axios'
 import { API_URL } from '../../constants/API';
 import { Redirect } from 'react-router-dom'
 
-const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shippingInformation, previewOrder }) => {
+const PaymentConfirmation = ({ prevStep, total, shippingInformation, previewOrder }) => {
     console.log(previewOrder);
     const cartsGlobal = useSelector((state) => state.carts);
     const [isFinnished, setisFinnished] = useState(true)
@@ -20,7 +20,7 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
         let idTransaction = 0
         try {
             // update userStock based on cart
-            const changeUserStocksResponse = await axios.patch(`${API_URL}/userstocks`, {
+            await axios.patch(`${API_URL}/userstocks`, {
                 cartsGlobal
             })
 
@@ -37,7 +37,7 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
             idTransaction = addTransactionResponse.data.results.insertId
 
             //insert checkout item
-            const addCheckoutItem = await axios.post(`${API_URL}/checkout`, {
+            await axios.post(`${API_URL}/checkout`, {
                 cartsGlobal, idTransaction
             })
 
@@ -45,7 +45,7 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
                 {
                     data: cartsGlobal
                 })
-            console.log(deleteCartResponse);
+            // console.log(deleteCartResponse);
 
             setredirect(true)
 
@@ -54,7 +54,6 @@ const PaymentConfirmation = ({ nextStep, prevStep, handleChange, total, shipping
             console.log(error);//send error dari backend
             alert("Stock di warehouse tidak cukup");
         }
-
     }
 
     if (redirect) {

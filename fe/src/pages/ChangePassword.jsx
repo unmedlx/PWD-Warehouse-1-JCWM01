@@ -69,17 +69,17 @@ const ChangePassword = () => {
 
                 <div className="forgot-container p-4">
                     <Form className="form">
-                        <h1 className="h1">Submit Your New Password</h1>
+                        <h1 className="title">Submit Your New Password</h1>
                         <span className="span">New password for your account</span>
 
                         <ErrorMessage name="oldPassword" component="span" className="error" />
-                        <Field name="oldPassword" type="password" placeholder="Old password" autoComplete="off" />
+                        <Field name="oldPassword" type="password" placeholder="Old password" autoComplete="off" className="input" />
 
                         <ErrorMessage name="password" component="span" className="error" />
-                        <Field name="password" type="password" placeholder="New password" autoComplete="off" />
+                        <Field name="password" type="password" placeholder="New password" autoComplete="off" className="input"/>
 
                         <ErrorMessage name="confirmPassword" component="span" className="error" />
-                        <Field name="confirmPassword" type="password" placeholder="Confirm New Password" autoComplete="off" />
+                        <Field name="confirmPassword" type="password" placeholder="Confirm New Password" autoComplete="off" className="input"/>
 
                         <button className="button mt-2" type="submit">
                             Submit

@@ -51,7 +51,7 @@ function App() {
   useEffect(() => {
     // getArrival()
     keepLogin();
-  });
+  }, []);
 
   return (
     <BrowserRouter>

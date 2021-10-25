@@ -179,7 +179,7 @@ export default function AdminEditProduct(props) {
 
   useEffect(() => {
     fetchProducts();
-  });
+  },[]);
 
   const inputHandler = (event) => {
     const value = event.target.value;

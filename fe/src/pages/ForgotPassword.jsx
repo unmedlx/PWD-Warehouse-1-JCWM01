@@ -59,7 +59,7 @@ function ForgotPassword() {
         <Formik initialValues={emailInitialValues} onSubmit={submitEmail} validationSchema={emailValidationSchema}>
             <div className="forgot-container">
                 <Form className="form">
-                    <h1 className="h1">Submit Your Email</h1>
+                    <h1 className="title">Submit Your Email</h1>
                     <span className="span">Your Account Email</span>
                     <ErrorMessage name="email" component="span" className="error" />
                     <Field
@@ -67,6 +67,7 @@ function ForgotPassword() {
                       type="email"
                       placeholder="Email"
                       autoComplete="off"
+                      className="input"
                     />
                     <button disabled={disable} className="button" type="submit">
                       Submit

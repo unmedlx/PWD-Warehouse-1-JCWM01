@@ -24,7 +24,7 @@ function Home() {
 
   useEffect(() => {
     getArrival();
-  });
+  },[]);
 
   return (
     <div>

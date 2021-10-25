@@ -74,7 +74,7 @@ function ResetPassword() {
     <div className="body">
         {success ? (
           <div className="d-flex flex-column justify-content-center align-items-center">
-              <h1 className="h1">{message}</h1>
+              <h1 className="title">{message}</h1>
               <h4>Now You Can Login With Your New Password</h4>
               { loading && 
                     <Spinner animation="border" className="my-1" />
@@ -84,7 +84,7 @@ function ResetPassword() {
           <Formik initialValues={passwordInitialValues} onSubmit={submitPassword} validationSchema={passwordValidationSchema}>
               <div className="forgot-container">
                   <Form className="form">
-                      <h1 className="h1">Submit Your New Password</h1>
+                      <h1 className="title">Submit Your New Password</h1>
                       <span className="span">new password for your account</span>
                       <ErrorMessage name="password" component="span" className="error"/>
                       <Field
@@ -92,6 +92,7 @@ function ResetPassword() {
                         type="password"
                         placeholder="new password"
                         autoComplete="off"
+                        className="input"
                       />
                       <ErrorMessage name="confirmPassword" component="span" className="error" />
                       <Field
@@ -99,6 +100,7 @@ function ResetPassword() {
                         type="password"
                         placeholder="Confirm Password"
                         autoComplete="off"
+                        className="input"
                       />
                       <button className="button" type="submit">
                         Submit
