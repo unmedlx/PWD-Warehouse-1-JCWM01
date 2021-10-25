@@ -12,35 +12,28 @@ module.exports = ({
 
                 upload(req, res, (error) => {
                     if (error) {
-                        console.log(error)
                         res.status(500).send(error)
                     }
 
                     const { file } = req.files
                     const filepath = file ? path + '/' + file[0].filename : null
-                    console.log(filepath);
 
 
                     let data = JSON.parse(req.body.data)
                     data.userImage = filepath //dari FE tidak ada path yang dikirim maka untuk masukin path ke database kita tambahkan ke object data dengan data.image (image sesuai dengan db)
-                    console.log(data)
 
                     let sqlGetOldProfile = `SELECT userImage FROM users WHERE idUser = ${db.escape(data.idUser)}`
                     db.query(sqlGetOldProfile, (err, results) => {
                         if (results[0].userImage != '/images/profile-default.png') {
-                            console.log("ini tidak default");
                             fs.unlinkSync('./public' + results[0].userImage)
                         } else {
-                            console.log("Ini Default");
                         }
                     })
 
 
                     let sqlInsert = `UPDATE users SET userImage =${db.escape(data.userImage)} WHERE idUser = ${db.escape(data.idUser)}`
-                    console.log(sqlInsert);
                     db.query(sqlInsert, (err, results) => {
                         if (err) {
-                            console.log(err)
                             fs.unlinkSync('./public' + filepath)
                             return res.status(500).send(err)
                         }
@@ -49,7 +42,6 @@ module.exports = ({
                 })
 
             } catch (error) {
-                console.log(error)
                 return res.status(500).send(error)
             }
         } else {

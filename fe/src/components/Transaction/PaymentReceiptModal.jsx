@@ -1,4 +1,4 @@
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 import axios from 'axios'
 import '../../assets/styles/ImageModals.css'
 
@@ -16,7 +16,6 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
     const { idUser } = userGlobal
     const [successUpload, setSuccessUpload] = useState(false)
 
-    // console.log(idTransaction);
 
 
 
@@ -58,12 +57,6 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
             )
     }
 
-    useEffect(() => {
-        // console.log("Use Effect!")
-        return () => {
-            // console.log("Unmount")
-        }
-    })
 
 
     return (
@@ -77,7 +70,6 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
                         <div className="image-modals-proof-preview-container">
 
                             <img id="imgpreviewProof" src={"http://localhost:3001/" + buktiPembayaran} alt="Upload Bukti Pembayaran" width="50%" />
-                            {/* <img id="imgpreviewProof" width="50%" /> */}
 
                         </div>
                         <form action="">
@@ -88,11 +80,7 @@ const PaymentReceiptModal = ({ show, handleClose, idTransaction, buktiPembayaran
                                 preview.src = URL.createObjectURL(file[0])
                             }} />
                         </form>
-                        {/* {buktiPembayaran ?
-                            <button className="btn btn-success mt-2" disabled>Success</button>
-                            : */}
                         <button className="button mt-2" onClick={send}>Send</button>
-                        {/* } */}
                     </div>
 
                 </Modal.Body>

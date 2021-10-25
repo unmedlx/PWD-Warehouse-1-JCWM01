@@ -5,11 +5,9 @@ import '../assets/styles/Profile.css'
 import '../assets/styles/Typography.css'
 
 
-import ProfileData from '../components/ProfileData';
-import ProfileNavbar from '../components/ProfileNavbar';
 import ProfileSidebar from '../components/ProfileSidebar';
 import OngoingTransaction from '../components/Transaction/OngoingTransaction';
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
@@ -23,7 +21,6 @@ const Profile = () => {
     const userGlobal = useSelector((state) => state.users);
     const { fullName, username, email, gender, dateOfBirth } = userGlobal
 
-    console.log(dateOfBirth);
 
     const profileDataInitialValues = {
         //diisi dari redux

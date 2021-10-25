@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { addAddress } = require('../controllers/addressController');
 const { db, query } = require('../database');
 
 const accessToken = process.env.PW1J_MAPBOX;
@@ -30,7 +29,6 @@ module.exports = {
                                 }
                             })
                     )
-                    // console.log("masuk", distances);
                 }
                 Promise.all(promises).then(() => {
                     req.distances = distances

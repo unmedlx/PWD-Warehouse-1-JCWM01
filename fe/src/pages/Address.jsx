@@ -1,19 +1,16 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import '../assets/styles/Profile.css'
 import ImageModals from '../components/ImageModals';
 import ProfileAddress from '../components/ProfileAddress';
 import ProfileSidebar from '../components/ProfileSidebar';
-import { API_URL } from '../helper';
 
 
 const Address = () => {
     const userGlobal = useSelector((state) => state.users);
     const addressGlobal = useSelector((state) => state.addresses);
-    const { fullName, email, userImage, idUser } = userGlobal
+    const { userImage } = userGlobal
     const [show, setShow] = useState(false);
 
     const reload = () => window.location.reload();

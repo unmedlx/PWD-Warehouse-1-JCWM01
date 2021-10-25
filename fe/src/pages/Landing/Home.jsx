@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { userLogout } from "../../redux/actions/users";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import axios from "axios"
 import { API_URL } from "../../constants/API";
 
@@ -9,7 +7,6 @@ import { API_URL } from "../../constants/API";
 
 import HeroSection from "../../components/Landing/HeroSection";
 import NewArrival from "../../components/Landing/NewArrival";
-import Footer from "../../components/Landing/Footer";
 import IntroToBrange from "../../components/Landing/IntroToBrange";
 
 function Home() {
@@ -24,7 +21,7 @@ function Home() {
       });
 
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   }
 

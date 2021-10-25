@@ -4,7 +4,6 @@ module.exports = {
     userStockCheck: async (req, res, next) => {
         try {
             let cartsGlobal = Object.values(req.body.cartsGlobal)
-            // console.log(cartsGlobal);
 
             //cek data di userstock
             for (i = 0; i < cartsGlobal.length; i++) {

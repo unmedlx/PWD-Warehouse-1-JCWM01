@@ -2,7 +2,6 @@ const { db, query } = require("../database/index"); //mysql
 
 module.exports = {
   getDataCart: (req, res) => {
-    console.log(req.user);
     let { idUser } = req.user;
     let scriptQuery = `SELECT *,(c.quantity*p.price) as subtotal FROM carts c 
         JOIN products p ON p.idProduct=c.idProduct
@@ -26,7 +25,6 @@ module.exports = {
     let cartsGlobal = Object.values(req.body);
     try {
       for (i = 0; i < cartsGlobal.length; i++) {
-        console.log(cartsGlobal[i].idCart);
         const deleteDataCart = await query(
           `DELETE FROM carts WHERE idCart=${db.escape(cartsGlobal[i].idCart)}`
         );
@@ -81,9 +79,6 @@ module.exports = {
       req.body.idUser
     )}, ${db.escape(req.body.quantity)});`;
 
-    console.log(req.body.idProduct);
-    console.log(req.body.idWarehouse);
-    console.log(req.body.quantity);
 
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
@@ -98,7 +93,6 @@ module.exports = {
     for (let prop in req.body) {
       dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
     }
-    console.log(dataUpdate);
     let scriptQuery = `UPDATE db_warehouse1.carts SET ${dataUpdate} WHERE idProduct = ${db.escape(
       req.params.idProduct
     )} AND idUser = ${(db, escape(req.query.idUser))}`;

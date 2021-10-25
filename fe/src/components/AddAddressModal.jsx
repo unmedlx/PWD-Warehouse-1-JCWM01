@@ -46,9 +46,9 @@ const AddAddressModal = ({ show, handleClose, provinces }) => {
 
     const onSubmit = (data) => {
         console.log(data);
-        if (data.isDefault == true) {
+        if (data.isDefault === true) {
             data = { ...data, isDefault: 1 }
-        } else if (data.isDefault == false) {
+        } else if (data.isDefault === false) {
             data = { ...data, isDefault: 0 }
         }
         data = { ...data, idUser: idUser }
@@ -59,14 +59,12 @@ const AddAddressModal = ({ show, handleClose, provinces }) => {
     }
 
     const fetchCity = () => {
-        console.log(province);
         axios.get(`${API_URL}/cityprovince/city?province=${province}`)
             .then((res) => {
-                console.log(res.data.results);
                 setCity(res.data.results)
             })
             .catch((err) => {
-                console.log(err);
+                alert(err);
             })
 
     }

@@ -108,7 +108,6 @@ module.exports = {
             }
 
 
-            // console.log(filteredResults);
             let transactionsCount = filteredResults.length;
             let maxPage = Math.ceil(transactionsCount / limit)
 
@@ -135,7 +134,6 @@ module.exports = {
         }
     },
     uploadPaymentProof: (req, res) => {
-        // console.log(req.query.idUser, req.query.idTransaction);
         const idTransaction = parseInt(req.query.idTransaction)
         if (req.query.idUser == req.user.idUser) {
             try {
@@ -144,14 +142,12 @@ module.exports = {
 
                 upload(req, res, (error) => {
                     if (error) {
-                        console.log(error)
                         res.status(500).send(error)
                     }
 
                     // upload ke backend
                     const { file } = req.files
                     const filepath = file ? path + '/' + file[0].filename : null
-                    console.log(filepath);
 
 
                     let data = JSON.parse(req.body.data)
@@ -160,15 +156,12 @@ module.exports = {
 
                     let sqlCheckProof = `SELECT buktiPembayaran FROM transactions WHERE idUser = ${db.escape(data.idUser)} && idTransaction=${db.escape(idTransaction)}`
                     db.query(sqlCheckProof, (err, results) => {
-                        // console.log(results[0].buktiPembayaran);
                         if (results[0].buktiPembayaran) {
                             fs.unlinkSync('./public' + results[0].buktiPembayaran)
                         }
                         let sqlInsert = `UPDATE transactions SET buktiPembayaran =${db.escape(data.userImage)},idStatus=2 WHERE idUser = ${db.escape(data.idUser)} && idTransaction=${db.escape(idTransaction)}`
-                        console.log(sqlInsert);
                         db.query(sqlInsert, (err, results) => {
                             if (err) {
-                                console.log(err)
                                 fs.unlinkSync('./public' + filepath)
                                 return res.status(500).send(err)
                             }
@@ -180,7 +173,6 @@ module.exports = {
                 })
 
             } catch (error) {
-                console.log(error)
                 return res.status(500).send(error)
             }
         } else {
@@ -188,13 +180,11 @@ module.exports = {
         }
     },
     getDetailTransaction: async (req, res) => {
-        // console.log(req.params.id + "WAWW");
         try {
             const dataDetailTransaction = await query(`SELECT * FROM transactions as t 
             JOIN status as s ON t.idStatus=s.idStatus
             JOIN addresses a ON t.idAddress = a.idAddress
             WHERE idTransaction=${req.params.id}`)
-            // console.log(dataDetailTransaction);
 
             return res.status(200).send({ message: 'Fetch Data Detail Transaction', dataDetailTransaction, success: true })
         } catch (error) {
@@ -235,7 +225,6 @@ module.exports = {
                     WHERE idWarehouse = ${db.escape(idWarehouse)}
                     `)
 
-                // console.log(allDataTransaction);
                 if (allDataTransaction.length > 0) {
                     for (let i = 0; i < allDataTransaction.length; i++) {
                         const { idWarehouse, idTransaction, idStatus } = allDataTransaction[i]
@@ -246,7 +235,6 @@ module.exports = {
                             JOIN transactions T ON T.idTransaction=C.idTransaction
                             JOIN adminstocks A ON C.idProduct = A.idProduct 
                             WHERE C.idTransaction=${db.escape(idTransaction)} && A.idWarehouse = ${db.escape(idWarehouse)} && T.idStatus=3`)
-                            // console.log(`Banyaknya data checkout warehouse ${idWarehouse} Transaksi ${idTransaction} adalah ${dataCheckout.length}`);
 
                             let transactionKurang = 6
                             // iterasi mengecek checkout per transaksi
@@ -258,8 +246,6 @@ module.exports = {
                             }
 
                             const statusQuery = (`UPDATE transactions SET idStatus = ${transactionKurang} WHERE idTransaction=${db.escape(idTransaction)}`)
-                            // console.log(`Transaksi dengan id ${idTransaction} kurangnya ${transactionKurang}`);
-                            // console.log(statusQuery);
 
                             await query(statusQuery)
 
@@ -267,13 +253,11 @@ module.exports = {
                             if (transactionKurang === true) {
                                 // sampai sini
 
-                                // console.log("diubah jadi 4");
                                 // await query(`UPDATE transactions
                                 // SET idStatus = 4
                                 // WHERE idTransaction=${db.escape(idTransaction)};`)
 
                             } else if (transactionKurang === false) {
-                                // console.log("diubah jadi 6");
                                 // await query(`UPDATE transactions
                                 // SET idStatus = 6
                                 // WHERE idTransaction=${db.escape(idTransaction)};`)
@@ -315,7 +299,6 @@ module.exports = {
             }
 
 
-            // console.log(filterStatus, filterInvoice);
             //Filter Category
             const filteredResults = fixedDataTransaction.filter((el) => {
                 if (filterStatus && filterInvoice) {
@@ -353,7 +336,6 @@ module.exports = {
             }
 
 
-            // console.log(filteredResults);
             let transactionsCount = filteredResults.length;
             let maxPage = Math.ceil(transactionsCount / limit)
 
@@ -363,7 +345,6 @@ module.exports = {
             if (startIndex > 0) {
                 previousPage = page - 1;
             }
-            // console.log(sortBy, filterStatus, filterInvoice, page, maxPage, startIndex, endIndex);
             const paginatedResults = filteredResults.slice(startIndex, endIndex);
 
             res.status(200).send({
@@ -423,7 +404,6 @@ module.exports = {
 
 
 
-            // console.log(filterStatus, filterInvoice);
             //Filter Category
             const filteredResults = warehouseFilter.filter((el) => {
                 if (filterStatus && filterInvoice) {
@@ -458,7 +438,6 @@ module.exports = {
                     break;
             }
 
-            // console.log(filteredResults);
             let transactionsCount = filteredResults.length;
             let maxPage = Math.ceil(transactionsCount / limit)
 
@@ -468,7 +447,6 @@ module.exports = {
             if (startIndex > 0) {
                 previousPage = page - 1;
             }
-            // console.log(sortBy, filterStatus, filterInvoice, page, maxPage, startIndex, endIndex);
             const paginatedResults = filteredResults.slice(startIndex, endIndex);
 
             res.status(200).send({
@@ -490,14 +468,10 @@ module.exports = {
         try {
             const paymentStatus = req.query.paymentStatus
             const idTransaction = parseInt(req.query.idTransaction)
-            console.log(req.query.idTransaction);
-            console.log(req.query.paymentStatus);
             if (paymentStatus === "accepted") {
-                console.log("ditolak");
                 await query(`UPDATE transactions SET idStatus=3 WHERE idTransaction=${db.escape(idTransaction)}`)
 
             } else if (paymentStatus === "declined") {
-                console.log("ditolak");
                 await query(`UPDATE transactions SET idStatus=2 WHERE idTransaction=${db.escape(idTransaction)}`)
 
             }

@@ -1,5 +1,4 @@
 import axios from "axios"
-import { useDispatch } from "react-redux";
 import { API_URL } from "../../constants/API";
 
 
@@ -16,13 +15,13 @@ export const CheckLogin = (userLocalStorage) => {
             )
 
             delete getDataLogin.data.password;
-            if (getDataLogin.data.idRole == 1) {
+            if (getDataLogin.data.idRole === 1) {
                 dispatch({
                     type: "ADMIN_CHECK_LOGIN",
                     payload: getDataLogin.data,
                 });
                 return;
-            } else if (getDataLogin.data.idRole == 2) {
+            } else if (getDataLogin.data.idRole === 2) {
                 dispatch({
                     type: "ADMIN_CHECK_LOGIN",
                     payload: getDataLogin.data,
@@ -36,7 +35,7 @@ export const CheckLogin = (userLocalStorage) => {
             }
 
         } catch (error) {
-            console.log(error);
+            alert(error);
         }
     }
 }
@@ -60,7 +59,7 @@ export const EditDataProfile = (data, userLocalStorage) => {
             alert("Berhasil Update Data")
 
         } catch (error) {
-            console.log(error);
+            alert(error);
         }
     }
 }
@@ -81,7 +80,7 @@ export const editPhotoProfile = (idUser, userLocalStorage, data) => {
             alert(editPhoto.data.message)
 
         } catch (error) {
-            console.log(error);
+            alert(error);
         }
     }
 }
@@ -99,7 +98,7 @@ export const userLogout = () => {
             alert("logout success");
             ;
         } catch (error) {
-            console.log(error);
+            alert(error);
         }
     }
 }

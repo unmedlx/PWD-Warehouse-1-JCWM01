@@ -20,8 +20,6 @@ module.exports = {
     )} ;`;
     db.query(checkEmailQuery, (err, results) => {
       if (results.length > 0) {
-        console.log(results.length);
-        console.log(results);
         res.send({
           message: "This Email Already Registered",
           message1: "Try Again With Different Email",
@@ -29,11 +27,9 @@ module.exports = {
         });
         return;
       } else {
-        // console.log(results.length);
         // Hash Pass
         bcrypt.hash(password, saltRounds, (err, hash) => {
           if (err) {
-            console.log(err);
           } else {
             password = hash;
             // Insert Data User To DB
@@ -52,7 +48,6 @@ module.exports = {
               `;
             db.query(registerQuery, (err, results) => {
               if (err) {
-                console.log(err);
                 res.status(500).send(err);
               }
               //If Data Inserted In DB
@@ -61,7 +56,6 @@ module.exports = {
                 let newUserQuery = `SELECT * FROM users WHERE idUser = ${results.insertId} ;`;
                 db.query(newUserQuery, (err1, results1) => {
                   if (err1) {
-                    console.log(err);
                     res.status(500).send(err);
                   }
                   // Create Token
@@ -91,7 +85,6 @@ module.exports = {
                   };
                   nodemailer.sendMail(mail, (errMail, restMail) => {
                     if (errMail) {
-                      console.log(errMail);
                       res.status(500).send({
                         message: "Registration failed",
                         success: false,
@@ -121,7 +114,6 @@ module.exports = {
     let verifyQuery = `UPDATE users SET isVerified = 1 WHERE idUser = ${req.user.idUser};`;
     db.query(verifyQuery, (err, results) => {
       if (err) {
-        console.log(err);
         res.status(500).send({ message: "acount unverified", success: false });
       }
       res.status(200).send({ message: "acount verified", success: true });
@@ -137,7 +129,6 @@ module.exports = {
     //inject Query
     db.query(loginQuery, (err, results) => {
       if (err) {
-        console.log(err);
         res.status(500).send(err);
       }
       //Checking User Data
@@ -154,9 +145,7 @@ module.exports = {
         } = results[0];
         //Compare Password
         bcrypt.compare(req.body.password, password, (error, response) => {
-          //  console.log(response);
           if (error) {
-            console.log(error);
             return;
           }
           if (response) {
@@ -199,7 +188,6 @@ module.exports = {
   // CHECK LOGIN//
   getDataUser: (req, res) => {
     let scriptQuery = `SELECT * FROM users WHERE idUser=${req.user.idUser};`;
-    // console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res
@@ -211,7 +199,6 @@ module.exports = {
         results = { ...results[0], dateOfBirth: parsed };
         return res.status(200).send(results);
       }
-      // console.log(results[0]);
       delete results[0].password;
       if (results[0].dateOfBirth == null) {
         return res.status(200).send(results[0]);
@@ -225,14 +212,12 @@ module.exports = {
   //EDIT DATA USER PROFILE//
   editDataUser: (req, res) => {
     const idUser = req.user.idUser;
-    // console.log(idUser);
     let { fullName, username, email, gender, dateOfBirth } = req.body;
     if (dateOfBirth === '') {
       dateOfBirth = null
     } else {
       dateOfBirth = moment(dateOfBirth).format("YYYY-MM-DD"); // ubah format jadi YYYY/MM/DD
     }
-    // console.log(dateOfBirth);
     let scriptQuery = `UPDATE users SET
      fullName=${db.escape(fullName)},
      username=${db.escape(username)},
@@ -240,7 +225,6 @@ module.exports = {
      gender=${db.escape(gender)},
      dateOfBirth=${db.escape(dateOfBirth)}
      WHERE idUser=${db.escape(idUser)} ;`;
-    // console.log(scriptQuery);
     db.query(scriptQuery, (err, results) => {
       if (err) {
         res.status(500).send({
@@ -259,7 +243,6 @@ module.exports = {
             });
             return;
           }
-          console.log(results);
           return res.status(200).send(results);
         })
       }
@@ -296,15 +279,12 @@ module.exports = {
           let { password } = req.body.data;
           bcrypt.hash(password, saltRounds, (error, hash) => {
             if (error) {
-              return console.log(error);
             } else {
               password = hash;
-              console.log(password);
               //update password
               let updateQuery = `UPDATE users SET password = "${password}" WHERE idUser = ${req.user.idUser};`;
               db.query(updateQuery, (err, results) => {
                 if (err) {
-                  console.log(err);
                   res.status(500).send({
                     message: "update password failed",
                     success: false,
@@ -361,7 +341,6 @@ module.exports = {
         //nodemailer
         nodemailer.sendMail(mail, (errMail, restMail) => {
           if (errMail) {
-            console.log(errMail);
             res
               .status(500)
               .send({ message: "req forgot password failed", success: false });
@@ -380,14 +359,12 @@ module.exports = {
     let newPassword = req.body.newPassword;
     bcrypt.hash(newPassword, saltRounds, (error, hash) => {
       if (error) {
-        return console.log(error);
       } else {
         newPassword = hash;
         //update password
         let updateQuery = `UPDATE users SET password = "${newPassword}" WHERE idUser = ${req.user.idUser};`;
         db.query(updateQuery, (err, results) => {
           if (err) {
-            console.log(err);
             res
               .status(500)
               .send({ message: "update password failed", success: false });

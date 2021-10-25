@@ -31,9 +31,6 @@ module.exports = {
       req.body.idWarehouse
     )}, ${db.escape(req.body.quantity)});`;
 
-    console.log(req.body.idProduct);
-    console.log(req.body.idWarehouse);
-    console.log(req.body.quantity);
 
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
@@ -49,7 +46,6 @@ module.exports = {
       dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
     }
 
-    console.log(dataUpdate);
 
     let scriptQuery = `UPDATE db_warehouse1.userstocks SET ${dataUpdate} WHERE idProduct = ${req.params.idProduct} AND idWarehouse = ${req.query.idWarehouse}`;
 
@@ -86,7 +82,6 @@ module.exports = {
 
     try {
       let cartsGlobal = Object.values(req.body.cartsGlobal)
-      // console.log(cartsGlobal);
       for (i = 0; i < cartsGlobal.length; i++) {
         let cartQuantity = cartsGlobal[i].quantity
         const getUserStocks = await query(`SELECT * FROM userstocks WHERE idproduct=${db.escape(cartsGlobal[i].idProduct)}`)
@@ -119,7 +114,6 @@ module.exports = {
     try {
       const idWarehouse = parseInt(req.query.idWarehouse)
       const idTransaction = parseInt(req.query.idTransaction)
-      console.log(idWarehouse, idTransaction);
 
       // Ambil data dari checkout
       let getQuery = `SELECT * FROM checkouts WHERE idTransaction = ${db.escape(idTransaction)}`
@@ -127,18 +121,15 @@ module.exports = {
       for (let i = 0; i < getCheckoutData.length; i++) {
         let idProduct = getCheckoutData[i].idProduct
         let quantity = getCheckoutData[i].quantity
-        // console.log(`idproduct ${idProduct} jumlah nya ${quantity}`);
 
         let getUserQuery = `SELECT * FROM userstocks WHERE idProduct = ${idProduct} && idWarehouse = ${idWarehouse}`
         let getUserStock = await query(getUserQuery)
 
         let userStockQuantity = getUserStock[0].quantity
-        // console.log(`Quantity barang ${idProduct} ada ${adminStockQuantity}`);
 
         let newStock = userStockQuantity + quantity
 
         let patchUserQuery = `UPDATE userstocks SET quantity=${db.escape(newStock)} WHERE idWarehouse=${db.escape(idWarehouse)} AND idProduct=${db.escape(idProduct)}`
-        console.log(patchUserQuery);
         await query(patchUserQuery)
       }
       return res.status(200).send({ message: "success update adminstock" })

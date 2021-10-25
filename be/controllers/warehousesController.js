@@ -16,7 +16,6 @@ module.exports = {
         });
       }
       res.status(200).send(results);
-      // console.log(results);
     });
   },
 
@@ -34,7 +33,6 @@ module.exports = {
         });
       }
       res.status(200).send(results);
-      console.log(results);
     });
   },
 
@@ -53,7 +51,6 @@ module.exports = {
         });
       }
       res.status(200).send(results);
-      console.log(results);
     });
   },
 
@@ -63,14 +60,12 @@ module.exports = {
     const { warehouse, adminEmail, latitude, longitude, city, province } =
       req.addressData;
 
-    console.log(req.addressData);
 
     let scriptQuery = `SELECT idUser 
     FROM db_warehouse1.users u
     WHERE u.email = ${db.escape(adminEmail)};`;
 
     db.query(scriptQuery, (err, results) => {
-      console.log(results[0].idUser);
       if (err) {
         return res
           .status(500)

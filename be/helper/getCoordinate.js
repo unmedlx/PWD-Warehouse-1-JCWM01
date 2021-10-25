@@ -4,7 +4,6 @@ const accessToken = process.env.PW1J_MAPBOX;
 
 module.exports = {
     getCoor: (req, res, next) => {
-        console.log(req.body.data);
         const kecamatan = req.body.data.kecamatan;
         const kota = req.body.data.city;
         const provinsi = req.body.data.province;
@@ -24,7 +23,7 @@ module.exports = {
                 next()
             })
             .catch((error) => {
-                console.log(error);
+                return res.status(500).send(error)
             })
 
     }

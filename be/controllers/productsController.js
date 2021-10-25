@@ -4,7 +4,6 @@ const fs = require("fs");
 
 module.exports = {
   getData: (req, res) => {
-    // console.log(req.query.newArrival);
     const newArrival = req.query.newArrival
     const sortBy = req.query.sortBy;
 
@@ -28,7 +27,6 @@ module.exports = {
         });
       }
       if (newArrival) {
-        console.log(results.length);
         return res.send(results.slice((results.length) - 5, results.length));
       }
 
@@ -127,17 +125,14 @@ module.exports = {
 
       upload(req, res, (error) => {
         if (error) {
-          console.log(error);
           res.status(500).send(error);
         }
 
         const { file } = req.files;
         const filepath = file ? path + "/" + file[0].filename : null;
-        console.log(filepath);
 
         let data = JSON.parse(req.body.data);
         data.productImage = filepath;
-        console.log(data);
 
         let scriptQuery = `INSERT INTO db_warehouse1.products VALUES (${db.escape(
           null
@@ -168,13 +163,11 @@ module.exports = {
           //       message: `${data.productName} berhasil ditambahkan`,
           //       data: results2,
           //     });
-          //     console.log(results2);
           //   }
           // );
         });
       });
     } catch (error) {
-      console.log(error);
       res.status(500).send(error);
     }
   },
@@ -206,17 +199,14 @@ module.exports = {
 
       upload(req, res, (error) => {
         if (error) {
-          console.log(error);
           res.status(500).send(error);
         }
 
         const { file } = req.files;
         const filepath = file ? path + "/" + file[0].filename : null;
-        console.log(filepath);
 
         let data = JSON.parse(req.body.data);
         data.productImage = filepath;
-        console.log(data);
 
         let dataUpdate = [];
         for (let prop in data) {
@@ -238,7 +228,6 @@ module.exports = {
         });
       });
     } catch (error) {
-      console.log(error);
       res.status(500).send(error);
     }
   },

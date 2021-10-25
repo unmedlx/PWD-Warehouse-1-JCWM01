@@ -1,6 +1,5 @@
 const { db, query } = require("../database");
-const { uploader } = require("../helper/uploader");
-const fs = require("fs");
+
 
 module.exports = {
   getData: (req, res) => { },
@@ -33,9 +32,6 @@ module.exports = {
       req.body.idWarehouse
     )}, ${db.escape(req.body.quantity)});`;
 
-    console.log(req.body.idProduct);
-    console.log(req.body.idWarehouse);
-    console.log(req.body.quantity);
 
     db.query(scriptQuery, [], (err, results) => {
       if (err) {
@@ -51,7 +47,6 @@ module.exports = {
       dataUpdate.push(`${prop} = ${db.escape(req.body[prop])}`);
     }
 
-    console.log(dataUpdate);
 
     let scriptQuery = `UPDATE db_warehouse1.adminstocks SET ${dataUpdate} WHERE idProduct = ${req.params.idProduct} AND idWarehouse = ${req.query.idWarehouse}`;
 
@@ -88,25 +83,21 @@ module.exports = {
     try {
       const idWarehouse = parseInt(req.query.idWarehouse)
       const idTransaction = parseInt(req.query.idTransaction)
-      // console.log(idWarehouse, idTransaction);
 
       let getQuery = `SELECT * FROM checkouts WHERE idTransaction = ${db.escape(idTransaction)}`
       const getCheckoutData = await query(getQuery)
       for (let i = 0; i < getCheckoutData.length; i++) {
         let idProduct = getCheckoutData[i].idProduct
         let quantity = getCheckoutData[i].quantity
-        // console.log(`idproduct ${idProduct} jumlah nya ${quantity}`);
 
         let getAdminQuery = `SELECT * FROM adminstocks WHERE idProduct = ${idProduct} && idWarehouse = ${idWarehouse}`
         let getAdminStock = await query(getAdminQuery)
 
         let adminStockQuantity = getAdminStock[0].quantity
-        // console.log(`Quantity barang ${idProduct} ada ${adminStockQuantity}`);
 
         let newStock = adminStockQuantity - quantity
 
         let patchAdminQuery = `UPDATE adminstocks SET quantity=${db.escape(newStock)} WHERE idWarehouse=${db.escape(idWarehouse)} AND idProduct=${db.escape(idProduct)}`
-        console.log(patchAdminQuery);
         await query(patchAdminQuery)
       }
       return res.status(200).send({ message: "success update adminstock" })

@@ -18,7 +18,6 @@ const SuperAdminViewTransaction = () => {
         currentPage: 1,
     });
 
-    const { idRole, idWarehouse } = adminGlobal
     const [sort, setSort] = useState("");
     const [status, setStatus] = useState(0);
     const [invoice, setInvoice] = useState("");
@@ -48,7 +47,6 @@ const SuperAdminViewTransaction = () => {
     useEffect(() => {
         getUserTransaction()
         getWarehouse()
-        // renderTransactions()
     }, [paging.currentPage, sort, status, invoice, warehouse])
 
 

@@ -5,7 +5,6 @@ const accessToken = process.env.PW1J_RAJAONGKIR;
 
 module.exports = {
     deliveryRate: async (req, res, next) => {
-        console.log("masuk");
         try {
             const { originCity, destinationCity, courier } = req.body
             const getOriginId = await query(`SELECT idCity from city WHERE cityName=${db.escape(originCity)} `)
@@ -13,7 +12,6 @@ module.exports = {
 
             let origin = getOriginId[0].idCity;
             let destination = getDestinationId[0].idCity;
-            // console.log(origin, destination, courier);
 
             const getDeliveryRate = await axios.post(`https://api.rajaongkir.com/starter/cost`,
                 {

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Link } from "react-router-dom";
-import { Badge } from 'react-bootstrap';
 
-import ProfileNavbar from '../components/ProfileNavbar';
 import ProfileSidebar from '../components/ProfileSidebar';
 import DataOngoingList from '../components/Transaction/DataOngoingList';
 import { fetchTransaction } from '../redux/actions/transaction'
@@ -13,7 +10,7 @@ import '../assets/styles/UserTransaction.css'
 const UserTransaction = () => {
     const dispatch = useDispatch()
     const { idUser } = useSelector(state => state.users)
-    const { loading, data, max_page } = useSelector(state => state.ongoingTransaction)
+    const { data, max_page } = useSelector(state => state.ongoingTransaction)
 
     const [paging, setPaging] = useState({
         currentPage: 1,
@@ -80,7 +77,7 @@ const UserTransaction = () => {
 
                     <div className="profile-main-detail">
                         <h2 className="subtitle">Transaction</h2>
-                        <h6 className="substitle-600"></h6>
+                        <h6 className="subtitle-600"></h6>
                         <hr className="hr-line" />
 
 

@@ -1,6 +1,4 @@
 import axios from "axios"
-import { useDispatch } from "react-redux";
-import { API_URL } from "../../constants/API";
 
 
 export const CheckCart = (userLocalStorage) => {
@@ -15,7 +13,6 @@ export const CheckCart = (userLocalStorage) => {
                 }
             )
 
-            console.log(getDataCart.data.results);
             dispatch({
                 type: "GET_CART",
                 payload: getDataCart.data.results,
@@ -25,10 +22,8 @@ export const CheckCart = (userLocalStorage) => {
                 payload: true,
             });
 
-
-
         } catch (error) {
-            console.log(error);
+            alert(error);
         }
     }
 }

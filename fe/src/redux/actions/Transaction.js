@@ -36,9 +36,8 @@ export const fetchDetailTransaction = (idTransaction) => {
         type: "FETCH_DETAIL_TRANSACTION_COMPLETE",
         payload: getTransactionDetail.data,
       });
-      // console.log(getTransactionDetail.data.data);
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 };
@@ -50,14 +49,12 @@ export const fetchTransactionById = (idTransaction) => {
         type: "FETCH_DETAIL_TRANSACTION",
       });
       const getTransactionData = await axios.get(`${API_URL}/transaction/detail/${idTransaction}`);
-      console.log(getTransactionData.data);
       dispatch({
         type: "FETCH_DETAIL_TRANSACTION_COMPLETE",
         payload: getTransactionData.data.dataDetailTransaction[0],
       });
-      // console.log(getTransactionData.data.data);
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 };
@@ -69,10 +66,6 @@ export const fetchTransaction = (idUser, page, sortBy, status, invoice) => {
         type: "FETCH_ONGOING_TRANSACTION",
       });
 
-
-      console.log(invoice);
-      let getQuery = `${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}&type=all&limit=5`
-      console.log(getQuery);
       const { data } = await axios.get(`${API_URL}/transaction?idUser=${idUser}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}&type=all&limit=5`)
       dispatch({
         type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
@@ -99,7 +92,6 @@ export const fetchAdminViewTransaction = (idWarehouse, page, status, sortBy, inv
       })
 
       const { data } = await axios.get(`${API_URL}/transaction/admintransaction?idRole=2&idWarehouse=${idWarehouse}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}`)
-      console.log(data.data, "INI DATA BARU");
       dispatch({
         type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
         payload: data
@@ -124,7 +116,6 @@ export const fetchSuperAdminViewTransaction = (idWarehouse, page, status, sortBy
       })
 
       const { data } = await axios.get(`${API_URL}/transaction/super-admin-transaction?&idWarehouse=${idWarehouse}&page=${page}&status=${status}&sortBy=${sortBy}&invoice=${invoice}`)
-      console.log(data.data, "INI DATA BARU");
       dispatch({
         type: "FETCH_ONGOING_TRANSACTION_COMPLETE",
         payload: data
@@ -145,10 +136,9 @@ export const fetchSuperAdminViewTransaction = (idWarehouse, page, status, sortBy
 export const paymentAccepted = (idTransaction) => {
   return async dispatch => {
     await axios.patch(`${API_URL}/transaction/admin-payment?paymentStatus=accepted&idTransaction=${idTransaction}`)
-
-
   }
 }
+
 export const paymentDeclined = (idTransaction) => {
   return async dispatch => {
     await axios.patch(`${API_URL}/transaction/admin-payment?paymentStatus=declined&idTransaction=${idTransaction}`)
