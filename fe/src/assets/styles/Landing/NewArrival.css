@@ -1,5 +1,6 @@
 .new-arrival-container{
-    background-color: rgb(205, 252, 204);
+    /* background-color: rgb(205, 252, 204); */
+    background-color: white;
     margin-top: -150px;
     min-height: 60vh;
 }

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap%22");
 
 * {
   box-sizing: border-box;
@@ -9,8 +9,8 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 .card-product {
-  width: 1200px;
-  height: 700px;
+  width: 1000px;
+  height: 500px;
   position: absolute;
   background: white;
   margin: 0 auto;
@@ -31,8 +31,8 @@ body {
   float: left;
 }
 .card-product .photo img {
-  max-height: 540px;
-  max-width: 450px;
+  max-height: 340px;
+  max-width: 250px;
 }
 .card-product .description {
   padding: 30px;

@@ -14,13 +14,12 @@ const PaymentReceiptModal = ({
   buktiPembayaran,
 }) => {
   const dispatch = useDispatch();
-  const [file, setFile] = useState();
+  const [file, setFile] = useState({});
   const userGlobal = useSelector((state) => state.users);
   const { idUser } = userGlobal;
-  const [setSuccessUpload] = useState(false);
 
   const send = (event) => {
-    // console.log(file[0]);
+    console.log(file[0]);
 
     if (file[0].size > 5000000) {
       return alert("Photo must be under 5MB");
@@ -53,7 +52,6 @@ const PaymentReceiptModal = ({
       )
       .then((res) => {
         dispatch(fetchOngoingTransaction(idUser, 1, ""));
-        setSuccessUpload(res.data.success);
         alert(res.data.message);
       });
   };
@@ -82,6 +80,7 @@ const PaymentReceiptModal = ({
                 id="file"
                 onChange={(event) => {
                   const file = event.target.files;
+                  console.log(file[0]);
                   setFile(file);
                   let preview = document.getElementById("imgpreviewProof");
                   preview.src = URL.createObjectURL(file[0]);
