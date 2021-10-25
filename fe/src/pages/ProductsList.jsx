@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { API_URL } from "../constants/API";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -12,7 +11,6 @@ import CartModal from "../components/CartModal";
 
 export default function ProductsList() {
   const [show, setShow] = useState(false);
-  const reload = () => window.location.reload();
   const handleClose = () => {
     setShow(false);
     return cartGlobal.cartList.map((val) => {
@@ -25,7 +23,6 @@ export default function ProductsList() {
           alert(`Server error`);
         });
     });
-    // reload();
   };
   const handleShow = () => setShow(true);
 
@@ -56,7 +53,7 @@ export default function ProductsList() {
         });
       })
       .catch((err) => {
-        console.log(err);
+        alert(err);
       });
   };
 

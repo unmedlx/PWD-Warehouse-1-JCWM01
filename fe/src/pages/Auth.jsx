@@ -148,18 +148,6 @@ function Auth() {
           setMessage("Login Success ✔");
           setMessage1("Happy Shopping ! :)");
           // setState({ redirect: true })
-
-          // axios
-          //   .get(`${API_URL}/carts?idUser=${res.data.dataUser.idUser}`)
-          //   .then((response) => {
-          //     dispatch({
-          //       type: "FILL_CART",
-          //       payload: response.data,
-          //     });
-          //   })
-          //   .catch((err) => {
-          //     console.log(err);
-          //   });
         } else {
           setMessage(null);
           setMessage(res.data.message);
@@ -171,6 +159,17 @@ function Auth() {
         console.log(err);
       });
   };
+
+  // REDIRECT //
+  if (state.redirect) {
+    if (adminGlobal.idRole === 2) {
+      return <Redirect to="/sales-report" />;
+    } else if (adminGlobal.idRole === 1) {
+      return <Redirect to="/warehouse-list" />;
+      // }else {
+      //   return <Redirect to="/" />;
+    }
+  }
 
   // RENDER //
   return (

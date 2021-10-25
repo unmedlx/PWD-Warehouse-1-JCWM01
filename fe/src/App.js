@@ -30,6 +30,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 // import Cart from "./pages/Cart";
 import WarehouseStock from "./pages/WarehouseStock";
+import Warehouse from "./pages/Warehouse";
 import Checkout from "./pages/Checkout";
 import DetailTransaction from "./components/Transaction/DetailTransaction";
 import { CheckLogin } from "./redux/actions/users";
@@ -43,6 +44,7 @@ import { getNewArrival } from "./redux/actions/product";
 import UserNavbar from "./components/Landing/UserNavbar";
 import Footer from "./components/Landing/Footer";
 
+import SalesReport from "./pages/SalesReport";
 
 function App() {
   const userGlobal = useSelector((state) => state.users);
@@ -57,6 +59,7 @@ function App() {
       dispatch(CheckLogin(userLocalStorage));
       //GET CART Action Reducer
       dispatch(CheckCart(userLocalStorage));
+
       //GET ADDRESS Action Reducer
       dispatch(CheckAddress(userLocalStorage));
     }
@@ -72,15 +75,23 @@ function App() {
   return (
     <BrowserRouter>
       <UserNavbar />
+      <Route component={AddProduct} path="/add-product" />
+      <Route component={AdminProductList} path="/admin-product-list" />
       <Route component={WarehouseList} path="/warehouse-list" />
       <Route component={AddWarehouse} path="/add-warehouse" />
+      <Route component={SalesReport} path="/sales-report" />
+      <Route component={ChangePassword} path="/change-password" />
+      <Route component={Address} path="/address" />
       <Route component={ProductsList} path="/product-list" />
       <Route component={ProductDetail} path="/product-detail/:idProduct" />
       <Route component={Verification} path="/verification/:token" />
       <Route component={ForgotPassword} path="/forgot-password" />
       <Route component={ResetPassword} path="/reset-password/:id/:token" />
       <Route component={Checkout} path="/checkout" />
-      <Route component={DetailTransaction} path="/transaction/detail/:idTransaction" />
+      <Route
+        component={DetailTransaction}
+        path="/transaction/detail/:idTransaction"
+      />
       <Route component={UserTransaction} path="/transaction" />
       <Route component={SuperAdminViewTransaction} path="/super-admin-transaction" />
 

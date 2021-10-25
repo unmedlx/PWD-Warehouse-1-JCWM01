@@ -1,8 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import { API_URL } from "../constants/API";
-import { Link } from "react-router-dom";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -13,8 +10,6 @@ import CartProductCard from "./CartProductCard";
 
 export default function CartModal(props) {
   const cartGlobal = useSelector((state) => state.cart);
-  const [cartData, setCartData] = useState(cartGlobal.cartList);
-  const reload = () => window.location.reload();
 
   const renderCart = () => {
     return cartGlobal.cartList.map((val) => {

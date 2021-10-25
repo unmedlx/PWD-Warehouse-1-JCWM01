@@ -1,15 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import axios from "axios";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import "../assets/styles/AdminDashboard.css";
-import { API_URL } from "../constants/API";
 
 export default function WarehouseCard(props) {
   return (
     <div className="mx-3 d-flex flex-row flex-wrap">
-      {/* <Link style={{ textDecoration: "none" }}> */}
       <figure class="el-wrappers border-1">
         <div
           style={{
@@ -75,7 +70,6 @@ export default function WarehouseCard(props) {
           </h6>
         </figcaption>
       </figure>
-      {/* </Link> */}
     </div>
   );
 }

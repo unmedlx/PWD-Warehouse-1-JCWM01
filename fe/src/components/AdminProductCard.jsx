@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React from "react";
 import { API_URL } from "../constants/API";
-import axios from "axios";
 import { Link } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "../assets/styles/AdminDashboard.css";
 
 export default function AdminProductCard(props) {
   let badge;
-  if (props.category == "Baju") {
+  if (props.category === "Baju") {
     badge = (
       <span className="badge rounded-pill alert-success">{props.category}</span>
     );
-  } else if (props.category == "Celana") {
+  } else if (props.category === "Celana") {
     badge = (
       <span className="badge rounded-pill alert-primary">{props.category}</span>
     );
-  } else if (props.category == "Jaket") {
+  } else if (props.category === "Jaket") {
     badge = (
       <span className="badge rounded-pill alert-warning">{props.category}</span>
     );
-  } else if (props.category == "Topi") {
+  } else if (props.category === "Topi") {
     badge = (
       <span className="badge rounded-pill alert-danger">{props.category}</span>
     );
@@ -66,12 +63,6 @@ export default function AdminProductCard(props) {
                 <i className="material-icons md-more_horiz"></i>{" "}
               </a>
               <div className="dropdown-menu">
-                <Link
-                  to={`/product-detail/${props.idProduct}`}
-                  class="p-name dropdown-item"
-                >
-                  View product's detail page
-                </Link>
                 <Link
                   to={`/edit-product/${props.idProduct}`}
                   className="dropdown-item"

@@ -11,15 +11,11 @@ export default function ProductCard(props) {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(parseInt(1));
   const reload = () => window.location.reload();
-  const [stock, setStock] = useState([]);
 
   const fetchStock = () => {
     axios
       .get(`${API_URL}/userstocks/${props.idProduct}`)
       .then((response) => {
-        // setStock(response.data[0]);
-        console.log(props.idProduct);
-        console.log(response.data[0]);
         dispatch({
           type: "FILL_USERSTOCKS",
           payload: response.data[0],
@@ -38,7 +34,6 @@ export default function ProductCard(props) {
     axios
       .get(`${API_URL}/carts/${props.idProduct}?idUser=${userGlobal.idUser}`)
       .then((response) => {
-        console.log(response);
         if (response.data.length) {
           alert(
             `${props.productName} already exist in cart. You can change the quantity in your cart list`
@@ -63,7 +58,7 @@ export default function ProductCard(props) {
                   reload();
                 })
                 .catch((err) => {
-                  console.log(err);
+                  alert(err);
                 });
             })
             .catch(() => {
