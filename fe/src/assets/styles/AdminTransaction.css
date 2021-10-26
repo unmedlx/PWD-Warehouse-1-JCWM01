@@ -1,0 +1,56 @@
+/* Style for Admin Transaction Page */
+
+.payment-button{
+    background-color: #2b2b2b; /* Green */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.payment-svg{
+    font-size: 16px;
+}
+
+
+.payment-action{
+    margin:0px 5px;
+    background-color: #32b280; /* Green */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    transition: 0.2s;
+}
+.payment-action:hover{
+    background-color: #2b5bf7; /* Green */
+    color: white;
+}
+.payment-action:disabled{
+    background-color: #89dabb; /* Green */
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.payment-action-svg{
+    font-size: 16px;
+}

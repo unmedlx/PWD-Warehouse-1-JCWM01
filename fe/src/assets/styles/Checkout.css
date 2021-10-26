@@ -1,0 +1,230 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+.body-checkout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  /* height: 120vh; */
+  /* margin-top: 50px; */
+  margin-bottom: 50px;
+}
+
+.checkout-container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  position: relative;
+  overflow: hidden;
+  min-width: 130vh;
+  max-width: 100%;
+  min-height: 90vh;
+  max-height: 100%;
+  /* overflow: scroll;
+    overflow-x: hidden; */
+}
+
+.checkout-detail-transaction-container {
+  margin: auto;
+  height: 400px;
+  width: 1000px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+  display: block;
+  height: 10px;
+}
+
+::-webkit-scrollbar-button:vertical:increment {
+  background-color: #fff;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #eee;
+  -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  height: 50px;
+  background-color: #32b280;
+  -webkit-border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  width: 50px;
+  background-color: #32b280;
+  -webkit-border-radius: 3px;
+}
+
+/* Checkout Details */
+.checkout-detail-container {
+  margin: auto;
+  height: 400px;
+  width: 1000px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+.checkout-detail {
+  display: flex;
+  flex-direction: column;
+}
+.checkout-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+.nav-button {
+  margin: 0 20px;
+}
+
+.button {
+  border-radius: 20px;
+  border: 1px solid#32b280;
+  background-color: #32b280;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: 0.5s;
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+.button:hover {
+  background-color: #2b5bf7;
+  color: white;
+  border: 1px solid #2b5bf7;
+}
+
+.button:focus {
+  outline: none;
+}
+.button:disabled,
+.button[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+/* Shipping Information */
+.shipping-information-container {
+  margin: auto;
+  height: 400px;
+  width: 1000px;
+}
+.shipping-information-item {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: 1px black solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-select {
+  padding: 5px 10px;
+  border-radius: 10px;
+  border: 1px solid #32b280;
+}
+
+.custom-select:disabled,
+.custom-select[disabled] {
+  border: 1px solid #999999;
+  background-color: #cccccc;
+}
+
+.shipping-card {
+  margin-top: 20px;
+  border: 1px solid #32b280;
+  border-bottom: 4px solid #32b280;
+  border-radius: 10px;
+  padding: 20px;
+  /* background-image: linear-gradient(to right bottom, #32b280, #00b8a9, #00bccf, #00bcec, #4fb9fd); */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  align-items: flex-start;
+  transition: 0.2s;
+  /* background-color: violet; */
+}
+
+.shipping-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-bottom: 10px solid #32b280;
+}
+
+.address-field {
+  padding-left: 50px;
+  font-weight: 600;
+}
+.recipient-name {
+  font-weight: 800;
+}
+.phoneNumber {
+  font-size: 1.2rem;
+}
+
+.status .badge {
+  background-color: #32b280;
+}
+
+/* Shipping Information */
+.courier-card {
+  margin: 10px;
+  border: 2px solid #32b280;
+  border-radius: 10px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.2s;
+}
+.courier-card-notavail {
+  margin: 10px;
+  border: 2px solid red;
+  border-radius: 10px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.2s;
+}
+
+.courier-card-notavail:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-bottom: 8px solid red;
+  cursor: pointer;
+}
+.courier-card:hover {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+  border-bottom: 8px solid #32b280;
+  cursor: pointer;
+}
+
+.preview-order-left {
+  padding-right: 50px;
+}
+
+.preview-order-right {
+  border: #ccc 2px solid;
+  border-radius: 5px;
+  padding: 20px;
+}

@@ -1,0 +1,33 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+.profile-tab{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+
+    /* border: 1px solid #d3d3d3;
+    border-radius: 10px; */
+    padding: 20px;
+
+}
+
+.profile-tab a{
+    margin:15px 20px 0 0;
+    text-decoration: none;
+    font-weight: 800;
+    font-family: 'Montserrat';
+    color: #32b280;
+}
+
+.profile-tab a:hover{
+    cursor:pointer;
+    color:#2b5bf7;
+}
+
+.profile-container{
+    display: flex;
+    align-items: flex-start;
+}
+
+
+
