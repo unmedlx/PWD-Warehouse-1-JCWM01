@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import "../assets/styles/Checkout.css";
 import { Stepper, Step, StepLabel } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
@@ -23,14 +23,12 @@ const Checkout = () => {
   const [paymentConfirmation, setpaymentConfirmation] = useState();
   const [step, setStep] = useState(0);
 
-  // const addressLength = addressGlobal.length
-  // console.log(addressLength);
+
+
 
   const useStyles = makeStyles(() => ({
     root: {
-      "& .MuiStepIcon-active": { color: "yellow" },
-      "& .MuiStepIcon-completed": { color: "green" },
-      "& .Mui-disabled .MuiStepIcon-root": { color: "#32b280" },
+      "& .Mui-disabled .MuiStepIcon-root": { color: "#ccc" },
     },
   }));
   const c = useStyles();
@@ -87,17 +85,12 @@ const Checkout = () => {
       />
     ) : null;
 
-  // if (addressLength === 0) {
-  //     alert("Please enter address at profile page")
-  //     window.location = "/address"
-  //     // console.log("aku gak boleh masuk gapunya rumah");
-  // } else {
 
   return (
     <>
       <div className="body-checkout">
         {Object.keys(cartsGlobal).length === 0 &&
-        cartsGlobal.constructor === Object ? (
+          cartsGlobal.constructor === Object ? (
           <div>Tidak ada cart</div>
         ) : (
           <div className="checkout-container p-5 mt-5">
