@@ -24,6 +24,7 @@ export default function AdminSidebar(props) {
       type: "ADMIN_LOGOUT",
     });
     alert("logout success");
+    window.location = "/";
   };
 
   const superAdminSidebar = (params) => {

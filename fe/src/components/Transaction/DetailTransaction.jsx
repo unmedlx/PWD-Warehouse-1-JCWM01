@@ -11,8 +11,10 @@ import moment from "moment";
 import { Badge } from "react-bootstrap";
 import { FaTimes } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
+import AdminSidebar from "../AdminSidebar";
 
 const DetailTransaction = () => {
+  const warehouseGlobal = useSelector((state) => state.warehouses)
   const dispatch = useDispatch();
   const {
     data,
@@ -69,6 +71,9 @@ const DetailTransaction = () => {
       }
       return (
         <>
+          <div style={{ marginLeft: -455 }}>
+            <AdminSidebar warehouse={warehouseGlobal.warehouse} />
+          </div>
           <div className="checkout-detail">
             <div div className="checkout-item">
               <div className="col-1 me-5 text-center">
@@ -105,7 +110,7 @@ const DetailTransaction = () => {
 
   useEffect(() => {
     fetchTransaction();
-  },[]);
+  }, []);
 
   let badgeStatus;
   if (data.idStatus === 1) {
