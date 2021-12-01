@@ -2,6 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { API_URL } from "../constants/API";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.min.js";
@@ -11,6 +13,19 @@ import CartProductCard from "./CartProductCard";
 
 export default function CartModal(props) {
   const cartGlobal = useSelector((state) => state.cart);
+
+  const checkoutBtnHandler = () => {
+    return cartGlobal.cartList.map((val) => {
+      axios
+        .patch(`${API_URL}/carts/${val.idProduct}?idUser=${val.idUser}`, {
+          quantity: val.quantity,
+        })
+        .then(() => {})
+        .catch(() => {
+          alert(`Server error`);
+        });
+    });
+  };
 
   const renderCart = () => {
     return cartGlobal.cartList.map((val) => {
@@ -42,7 +57,9 @@ export default function CartModal(props) {
         {/* <div className>Total price (before shipping fee)</div> */}
         <div className="d-flex justify-content-end">
           <Link to="/checkout">
-            <button className="button">Checkout</button>
+            <button onClick={checkoutBtnHandler} className="button">
+              Checkout
+            </button>
           </Link>
         </div>
       </Modal.Body>
