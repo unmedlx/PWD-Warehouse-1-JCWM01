@@ -24,9 +24,8 @@ const ShippingInformation = ({ nextStep, prevStep, handleChange }) => {
     const selectedId = e.target.value;
     let arrAddress = Object.values(addressGlobal);
     const result = arrAddress.filter(
-      (address) => address.idAddress === parseInt(selectedId)
+      (address) => address.idAddress === selectedId
     );
-    console.log(selectedId, "tes");
     setchooseAddress(result[0]);
   };
 

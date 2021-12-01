@@ -57,12 +57,12 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
         badgeStatus = (
             <div className="d-flex flex-column justify-content-center">
                 <div>
-                    <Badge bg="warning">{data.status}</Badge>
+                      <Badge bg="warning">{data.status}</Badge>
 
                 </div>
                 <div>
-                    <Link to="/admin-warehouse">
-                        <button className="badge rounded-pill alert-warning mt-2">Go To Request</button>
+                    <Link to="/admin-warehouse"> 
+                    <button className="badge rounded-pill alert-warning mt-2">Go To Request</button>  
                     </Link>
 
                 </div>
@@ -98,7 +98,6 @@ const AdminViewTransactionList = ({ data, currentPage }) => {
     }
     return (
         <>
-
             <div style={{ marginLeft: -60 }}>
                 <AdminSidebar warehouse={warehouseGlobal.warehouse} />
             </div>
