@@ -20,6 +20,8 @@ const PreviewOrder = ({
   const [isLoading, setisLoading] = useState(true);
   const [selectedCourier, setselectedCourier] = useState();
 
+  console.log(shippingInformation);
+
   const Continue = () => {
     handleChange(selectedCourier);
     nextStep();
@@ -103,7 +105,7 @@ const PreviewOrder = ({
 
   useEffect(() => {
     getClosestWarehouse();
-  },[]);
+  }, []);
 
   return (
     <div className="mt-5 ms-4">
@@ -119,7 +121,7 @@ const PreviewOrder = ({
                 <label>Destination</label>
                 <p className="subtitle">
                   {" "}
-                  {shippingInformation.kota}, {shippingInformation.provinsi}
+                  {shippingInformation.jalan}, {shippingInformation.kota}, {shippingInformation.provinsi}
                 </p>
               </div>
 
