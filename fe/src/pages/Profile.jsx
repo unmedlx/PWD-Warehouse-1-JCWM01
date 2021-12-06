@@ -2,17 +2,25 @@
 import { useSelector, useDispatch } from 'react-redux';
 import '../assets/styles/Profile.css'
 import '../assets/styles/Typography.css'
-import ProfileSidebar from '../components/ProfileSidebar';
 import OngoingTransaction from '../components/Transaction/OngoingTransaction';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import moment from 'moment'
 import { EditDataProfile } from '../redux/actions/users';
 
 
+
+import styles from '../components/Profile/NewProfileSidebar/NewProfileSidebar.module.css'
+
+import ProfileNavbar from '../components/Profile/NewProfileNavbar/NewProfileNavbar';
+import ProfileSidebar from '../components/Profile/NewProfileSidebar/NewProfileSidebar';
+// import ProfileSidebar from '../components/ProfileSidebar';
+
+
 const Profile = () => {
     const dispatch = useDispatch()
+    const [activeComponent, setActiveComponent] = useState(0)
     const userGlobal = useSelector((state) => state.users);
     const { fullName, username, email, gender, dateOfBirth } = userGlobal
 
@@ -41,6 +49,10 @@ const Profile = () => {
         )
     }
 
+    useEffect(() => {
+        setActiveComponent(0)
+    }, [])
+
     return (
         <>
             <div className="container mt-5">
@@ -48,14 +60,13 @@ const Profile = () => {
                     <ProfileSidebar />
 
                     <div className="profile-main">
-                        {/* <ProfileNavbar /> */}
+                        <ProfileNavbar activeComponent={activeComponent} />
                         <div className="profile-main-detail">
-                            <h1 className="subtitle">Hello, {fullName}</h1>
-                            <h6 className="subtitle-600">{email}</h6>
+                            <h2 className="subtitle">Profile</h2>
                             <hr className="hr-line" />
 
 
-                            <p><strong>Biodata Diri</strong></p>
+                            <p><strong>Edit Profile</strong></p>
                             <Formik initialValues={profileDataInitialValues}
                                 onSubmit={onSubmit}
                                 validationSchema={profileDataValidationSchema}
@@ -89,7 +100,7 @@ const Profile = () => {
                                             <Field type="text" autocomplete="off" className="form-control box-shadow" name="fullName" placeholder="Fullname" />
                                         </div>
                                     </div>
-                                    <button type="submit" className="button">Edit Data</button>
+                                    <button type="submit" className={styles['button-edit-data']}>Edit Data</button>
                                 </Form>
                             </Formik>
 

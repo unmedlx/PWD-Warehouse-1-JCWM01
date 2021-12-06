@@ -17,8 +17,8 @@
 
 .address-card{
     margin-top: 20px;
-    border: 1px solid #32b280;
-    border-bottom: 4px solid #32b280;
+    border: 1px solid #ccc;
+    /* border-bottom: 4px solid #32b280; */
     border-radius: 10px;
     padding: 20px;
     /* background-image: linear-gradient(to right bottom, #32b280, #00b8a9, #00bccf, #00bcec, #4fb9fd); */
@@ -32,7 +32,7 @@
 
 .address-card:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    border-bottom: 10px solid #32b280;
+    /* border-bottom: 10px solid #32b280; */
   }
 
 .address-card .address-edit{

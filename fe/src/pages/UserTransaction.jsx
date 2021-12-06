@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import ProfileNavbar from "../components/ProfileNavbar";
-import ProfileSidebar from "../components/ProfileSidebar";
+// import ProfileNavbar from "../components/ProfileNavbar";
+// import ProfileSidebar from "../components/ProfileSidebar";
+import ProfileNavbar from '../components/Profile/NewProfileNavbar/NewProfileNavbar';
+import ProfileSidebar from '../components/Profile/NewProfileSidebar/NewProfileSidebar';
+
+
 import DataOngoingList from "../components/Transaction/DataOngoingList";
 import { fetchTransaction } from "../redux/actions/transaction";
 
 import "../assets/styles/UserTransaction.css";
 
 const UserTransaction = () => {
+  const [activeComponent, setActiveComponent] = useState(0)
   const dispatch = useDispatch();
   const { idUser } = useSelector((state) => state.users);
   const { data, max_page } = useSelector((state) => state.ongoingTransaction);
@@ -47,6 +52,7 @@ const UserTransaction = () => {
 
   useEffect(() => {
     getTransaction();
+    setActiveComponent(2)
   }, []);
 
   const nextPageHandler = () => {
@@ -67,10 +73,9 @@ const UserTransaction = () => {
         <ProfileSidebar />
 
         <div className="profile-main">
+          <ProfileNavbar activeComponent={activeComponent} />
           <div className="profile-main-detail">
-            <h1>
-              <strong>Transaction</strong>
-            </h1>
+            <h2 className="subtitle">Transaction</h2>
             <hr className="hr-line" />
 
             <div className="mb-4">

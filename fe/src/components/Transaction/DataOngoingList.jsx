@@ -5,6 +5,7 @@ import moment from "moment";
 
 import "../../assets/styles/DetailTransaction.css";
 import "../../assets/styles/Typography.css";
+import styles from "../../components/Profile/NewProfileSidebar/NewProfileSidebar.module.css"
 
 import PaymentReceiptModal from "./PaymentReceiptModal";
 
@@ -88,15 +89,15 @@ const DataOngoingList = ({ data }) => {
       <div className="row mt-2 mb-4">
         <div className="col-7"></div>
         <div className="col-5">
-          <button className="button-transaction" onClick={handleShowProof}>
+          <button className={styles["button-transaction"]} onClick={handleShowProof}>
             Payment Proof
           </button>
-          <button className="button-transaction">
+          <button className={styles["button-transaction"]}>
             <Link
               className="link-transaction"
               to={`/transaction/detail/${data.idTransaction}`}
             >
-              Transaction Details
+              Details
             </Link>
           </button>
         </div>
