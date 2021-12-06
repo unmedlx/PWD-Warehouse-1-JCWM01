@@ -27,8 +27,8 @@
 
 .checkout-detail-transaction-container {
   margin: auto;
-  height: 400px;
-  width: 1000px;
+  /* height: 25rem; */
+  width: 90rem;
   overflow: scroll;
   overflow-x: hidden;
 }

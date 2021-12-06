@@ -34,7 +34,7 @@ const DataOngoingList = ({ data }) => {
   }
 
   return (
-    <div>
+    <div className={styles['transaction-card-container']}>
       <div className="row transaction-card">
         <div className="col-4">
           <h5 className="subtitle-600 text-small m-0">{data.invoiceNumber}</h5>
@@ -102,7 +102,6 @@ const DataOngoingList = ({ data }) => {
           </button>
         </div>
       </div>
-      <hr />
       <PaymentReceiptModal
         show={showProof}
         handleClose={handleCloseProof}
