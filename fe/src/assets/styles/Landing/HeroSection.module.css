@@ -1,0 +1,32 @@
+.hero-container{
+display:flex;
+align-self: center;
+margin: 0 0 10rem 0 ;
+}
+
+.image{
+    width: 80rem;
+    align-self: center;
+}
+
+
+.image-replace:hover{
+    cursor :pointer;
+    opacity: 90%;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.image-replace{
+    width: 80rem;
+    height: 80vh;
+    background-size: cover;
+    background-position: center;
+    align-self: center;
+    background-image: url("https://images.pexels.com/photos/322207/pexels-photo-322207.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
+    transition: 1s;
+    display: flex;
+}

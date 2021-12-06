@@ -42,7 +42,7 @@
 
 
 .button-profile {
-    border-radius: 0.5rem;
+    border-radius: 2rem;
     border: 1px solid #32b280;
     background-color: #32b280;
     color: #ffffff ;
@@ -65,7 +65,7 @@
   }
 
   .button-edit-data {
-    border-radius: 0.5rem;
+    border-radius: 2rem;
     border: 1px solid #32b280;
     background-color: #32b280;
     color: #ffffff ;
@@ -87,7 +87,7 @@
   }
 
   .button-transaction{
-    border-radius: 0.5rem;
+    border-radius: 2rem;
     border: 1px solid #32b280;
     background-color: #32b280;
     color: #ffffff ;
