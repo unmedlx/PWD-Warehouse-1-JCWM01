@@ -23,17 +23,17 @@ const UserNavbar = () => {
       <nav className="nav-link-container">
         <ul className="nav-links m-0 p-0">
           <li>
-            <a href="/" className="nav-link-cta subtitle-600">
+            <a href="/" className="nav-link-cta ">
               Home
             </a>
           </li>
           <li>
-            <a href="/product-list" className="nav-link-cta subtitle-600">
+            <a href="/product-list" className="nav-link-cta ">
               Products
             </a>
           </li>
           <li>
-            <a href="" className="nav-link-cta subtitle-600">
+            <a href="" className="nav-link-cta ">
               About
             </a>
           </li>
@@ -45,7 +45,7 @@ const UserNavbar = () => {
             <NavDropdown
               title={`Hello, ${userGlobal.username}`}
               id=""
-              className="subtitle-600"
+              className="nav-link-cta"
             >
               <NavDropdown.Item href="/profile" className="navbar-items">
                 {" "}

@@ -3,8 +3,10 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../../constants/API";
 
-import HeroSection from "../../components/Landing/HeroSection";
-import NewArrival from "../../components/Landing/NewArrival";
+// import HeroSection from "../../components/Landing/HeroSection";
+// import NewArrival from "../../components/Landing/NewArrival";
+import HeroSection from "../../components/Landing/HeroSection-Revision";
+import NewArrival from "../../components/Landing/NewArrival-Revision";
 import IntroToBrange from "../../components/Landing/IntroToBrange";
 
 function Home() {
@@ -24,7 +26,7 @@ function Home() {
 
   useEffect(() => {
     getArrival();
-  },[]);
+  }, []);
 
   return (
     <div>

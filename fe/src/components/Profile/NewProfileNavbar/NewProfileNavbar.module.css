@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+
+.profile-tab{
+    display: flex;
+    margin-bottom: 20px;
+    /* border: 1px solid #d3d3d3;
+    border-radius: 10px; */
+    padding: 20px 0 0 0;
+    margin-left: 1.3rem;
+}
+
+.profile-tab-a{
+    margin:15px 50px 0 0;
+    text-decoration: none;
+    font-weight: 500;
+    font-family: 'Montserrat';
+    letter-spacing: 0.12rem;
+    color: #595959;
+}
+
+.profile-tab-a:hover{
+    cursor:pointer;
+    /* color:#2b5bf7; */
+}
+
+.profile-tab-a-active{
+    letter-spacing: 0.2rem;
+    margin:15px 50px 0 0;
+    text-decoration: none;
+    font-weight: 800;
+    font-family: 'Montserrat';
+    color: #32b280;
+}
+
+

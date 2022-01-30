@@ -79,12 +79,12 @@ const ShippingInformation = ({ nextStep, prevStep, handleChange }) => {
                 </div>
                 <div className="col-2 address-field">
                   <p>Street</p>
-                  <p>Province</p>
+                  <p className="mt-5">Province</p>
                   <p>ZIP</p>
                 </div>
                 <div className=" col-5">
                   <p>{chooseAddress.jalan}</p>
-                  <p>
+                  <p className="mt-4">
                     {chooseAddress.kecamatan}, {chooseAddress.kota},{" "}
                     {chooseAddress.provinsi}
                   </p>

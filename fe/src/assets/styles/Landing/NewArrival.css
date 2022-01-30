@@ -1,38 +1,54 @@
 .new-arrival-container{
     /* background-color: rgb(205, 252, 204); */
     background-color: white;
-    margin-top: -150px;
+    /* margin-top: -150px; */
     min-height: 60vh;
 }
 
 .arrival-img{
-    height: 40vh;
+    height: 35rem;
+    margin:0 5rem
 }
 
 .new-container{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     margin-bottom: 5%;
 }
 
-.new-description{
-    max-width: 30%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
 
 .new-arrival{
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .new-arrival-title{
-    margin: 4rem;
-    letter-spacing: 0.8rem;
-    color: rgba(105, 105, 105, 0.8);
+    /* margin: 4rem; */
+    font-style: normal;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 59px;
 }
+
+.new-arrival-subtitle{
+    font-family: Libre Baskerville;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.new-arrival-head{
+    margin: 5rem  0 5rem 20rem;
+    /* align-self: center; */
+}
+
+.hero-head{
+    margin: 3rem  0 2rem 20rem;
+    /* align-self: center; */
+}
+
 .carousel-control-next-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
 }
@@ -40,6 +56,8 @@
 .carousel-control-prev-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
 }
+
+
 
 
 
@@ -57,4 +75,43 @@
         margin-bottom: 5%;
         background-color: red;
     }
+}
+
+
+
+.new-description{
+    max-width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+
+.new-product-name{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 30px;
+    line-height: 37px;
+    text-transform: uppercase;
+    max-width: 60%;
+}
+.new-product-price{
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 37px;
+    text-transform: uppercase;
+    max-width: 60%;
+    opacity: 80%;
+}
+
+.new-product-description{
+    font-family: Libre Baskerville;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 15px;
+    max-width: 60%;
 }

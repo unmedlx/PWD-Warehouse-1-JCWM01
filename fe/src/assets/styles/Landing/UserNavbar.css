@@ -38,6 +38,10 @@
 .nav-link-cta{
     color:var(--color-primary);
     text-decoration: none;
+    font-weight: 500;
+    font-family: 'Montserrat';
+    letter-spacing: 0.12rem;
+    text-transform: uppercase;
 }
 
 .navbar-items{
@@ -72,7 +76,7 @@
 
 .auth-link{
     text-decoration: none;
-color: inherit;
+    color: inherit;
 }
 
 .button-auth{
