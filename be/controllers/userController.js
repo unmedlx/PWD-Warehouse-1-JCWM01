@@ -255,7 +255,7 @@ module.exports = {
         let mail = {
           from: `Admin <ayyasluthfi@gmail.com>`,
           to: `${email}`,
-          subject: `Acount Verification`,
+          subject: `Forgot Password`,
           html: `<a href="http://localhost:3000/reset-password/${idUser}/${Token}"> Hai ${username}, Click here to Reset your password, this link valid for only 1 hour</a>`,
         };
         //nodemailer
