@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../assets/styles/Auth.css";
-import "../assets/styles/Typography.css"
+import "../assets/styles/Typography.css";
 import axios from "axios";
 import { API_URL } from "../constants/API";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -76,6 +76,7 @@ function Auth() {
     //Data Register
     let { fullName, username, email, password } = data;
     //Execute register
+    console.log(fullName, username, email, password);
     axios
       .post(`${API_URL}/auth/register`, {
         fullName,
@@ -95,6 +96,7 @@ function Auth() {
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        // setMessage1(err);
       });
   };
 
@@ -154,7 +156,9 @@ function Auth() {
     /* Change Form */
     <div className="body">
       <div
-        className={` auth-container ${state.btnClick ? "" : "right-panel-active"}`}
+        className={` auth-container ${
+          state.btnClick ? "" : "right-panel-active"
+        }`}
       >
         {/* SIGN UP FORM */}
         <Formik
@@ -168,7 +172,6 @@ function Auth() {
               <span className="span">
                 Enter your personal details and start journey with us
               </span>
-              <ErrorMessage name="fullName" component="span" className="error"/>
               <Field
                 name="fullName"
                 type="text"
@@ -176,7 +179,11 @@ function Auth() {
                 autoComplete="off"
                 className="input"
               />
-              <ErrorMessage name="username" component="span" className="error"/>
+              <ErrorMessage
+                name="fullName"
+                component="span"
+                className="error"
+              />
               <Field
                 name="username"
                 type="text"
@@ -184,7 +191,11 @@ function Auth() {
                 autoComplete="off"
                 className="input"
               />
-              <ErrorMessage name="email" component="span" className="error" />
+              <ErrorMessage
+                name="username"
+                component="span"
+                className="error"
+              />
               <Field
                 name="email"
                 type="email"
@@ -192,7 +203,7 @@ function Auth() {
                 autoComplete="off"
                 className="input"
               />
-              <ErrorMessage name="password" component="span" className="error"/>
+              <ErrorMessage name="email" component="span" className="error" />
               <Field
                 name="password"
                 type="password"
@@ -200,13 +211,22 @@ function Auth() {
                 autoComplete="off"
                 className="input"
               />
-              <ErrorMessage name="confirmPassword" component="span" className="error"/>
+              <ErrorMessage
+                name="password"
+                component="span"
+                className="error"
+              />
               <Field
                 name="confirmPassword"
                 type="password"
                 placeholder="Confirm Password"
                 autoComplete="off"
                 className="input"
+              />
+              <ErrorMessage
+                name="confirmPassword"
+                component="span"
+                className="error"
               />
               <button className="button" type="submit">
                 Sign Up
@@ -227,7 +247,6 @@ function Auth() {
             <Form className="form">
               <h1 className="title subtitle">Sign in</h1>
               <span className="span">login with your account info</span>
-              <ErrorMessage name="email" component="span" className="error" />
               <Field
                 name="email"
                 type="email"
@@ -235,13 +254,18 @@ function Auth() {
                 autoComplete="off"
                 className="input"
               />
-              <ErrorMessage name="password" component="span" className="error"/>
+              <ErrorMessage name="email" component="span" className="error" />
               <Field
                 name="password"
                 type="password"
                 placeholder="Password"
                 autoComplete="off"
                 className="input"
+              />
+              <ErrorMessage
+                name="password"
+                component="span"
+                className="error"
               />
               <Link className="a" to="/forgot-password">
                 Forgot your password?
