@@ -48,7 +48,6 @@ const UserNavbar = () => {
               className="nav-link-cta"
             >
               <NavDropdown.Item href="/profile" className="navbar-items">
-                {" "}
                 <FaUserAlt className="me-2 drop-icon" />
                 Profile
               </NavDropdown.Item>
